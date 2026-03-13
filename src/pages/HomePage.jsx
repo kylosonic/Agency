@@ -20,7 +20,7 @@ export default function HomePage({ onDownloadClick }) {
                         </div>
                     </ScrollReveal>
                     
-                    <h1 className="gradient-text">
+                    <h1>
                         <StaggeredText text="Build better sites, faster" delay={0.2} />
                     </h1>
                     
