@@ -252,3 +252,134 @@ export const getMarketingAddons = async () => {
         }
     ];
 };
+
+export const getAppMarketingAddons = async () => {
+    await delay(SIMULATED_DELAY);
+    return [
+        {
+            id: 'launch',
+            icon: "🚀",
+            title: "App Launch & Visibility Setup",
+            fee: "8,000",
+            adSpend: "One-time setup + 3,000/mo management",
+            features: [
+                'App Store Optimization (ASO)',
+                'Keyword research & metadata optimization',
+                'Screenshot & preview video design',
+                'App description copywriting',
+                'Rating & review strategy',
+                'Initial launch campaign setup',
+            ]
+        },
+        {
+            id: 'growth',
+            icon: "📈",
+            title: "Growth & Acquisition",
+            featured: true,
+            fee: "12,000",
+            adSpend: "10,000–25,000",
+            features: [
+                'Everything in Launch & Visibility',
+                'Cost Per Install (CPI) campaigns',
+                'Google UAC & Meta App Install ads',
+                'Audience targeting & retargeting',
+                'Weekly performance reporting',
+                'A/B testing of creatives',
+            ]
+        },
+        {
+            id: 'scaling',
+            icon: "🏆",
+            title: "App Scaling & User Retention",
+            fee: "25,000",
+            adSpend: "30,000–60,000",
+            features: [
+                'Everything in Growth & Acquisition',
+                'Push notification campaigns',
+                'In-app engagement optimization',
+                'User retention & churn analysis',
+                'Referral program setup',
+                'Advanced analytics & cohort analysis',
+                'Dedicated app marketing strategist',
+            ]
+        }
+    ];
+};
+
+export const getAdditionalServices = async () => {
+    await delay(SIMULATED_DELAY);
+    return [
+        {
+            service: 'Domain Registration',
+            description: 'Annual .com, .et, or custom domain registration',
+            price: '1,500 – 5,000 ETB',
+            type: 'Annual',
+        },
+        {
+            service: 'Cloud Web Hosting',
+            description: 'Secure, fast SSD-based hosting with SSL & backups',
+            price: '5,000 – 15,000 ETB',
+            type: 'Annual',
+        },
+        {
+            service: 'Annual Web Maintenance',
+            description: 'Updates, security patches, backups, and uptime monitoring',
+            price: '8,000 – 20,000 ETB',
+            type: 'Annual',
+        },
+        {
+            service: 'App Store Developer Account (Apple)',
+            description: 'Apple Developer Program enrollment and submission',
+            price: '5,500 ETB',
+            type: 'Annual',
+        },
+        {
+            service: 'App Store Developer Account (Google)',
+            description: 'Google Play Console one-time registration',
+            price: '1,500 ETB',
+            type: 'One-Time',
+        },
+        {
+            service: 'Logo & Visual Identity Design',
+            description: 'Professional logo, color palette, typography, & brand guidelines',
+            price: '5,000 – 15,000 ETB',
+            type: 'One-Time',
+        },
+        {
+            service: 'Professional Copywriting',
+            description: 'Website copy, product descriptions, and marketing content',
+            price: '3,000 – 10,000 ETB',
+            type: 'Per Project',
+        },
+        {
+            service: 'Commercial Photography',
+            description: 'Product photography, office/team photos, lifestyle shoots',
+            price: '5,000 – 20,000 ETB',
+            type: 'Per Session',
+        },
+    ];
+};
+
+export const getFeaturedAddons = async () => {
+    await delay(SIMULATED_DELAY);
+    return [
+        {
+            icon: '🌐',
+            title: 'Domain & Hosting Bundle',
+            description: 'Get your domain registration and cloud hosting together at a discounted annual rate. Includes free SSL, daily backups, and 99.9% uptime SLA.',
+            price: 'Starting at 6,000 ETB/yr',
+        },
+        {
+            icon: '🎨',
+            title: 'Complete Brand Identity',
+            description: 'Professional logo design, color system, typography selection, and comprehensive brand guidelines document. Includes 3 revision rounds.',
+            price: 'Starting at 5,000 ETB',
+        },
+        {
+            icon: '📸',
+            title: 'Professional Photography',
+            description: 'High-quality commercial photography for your products, team, and workspace. Includes editing, retouching, and web-optimized deliverables.',
+            price: 'Starting at 5,000 ETB',
+        }
+    ];
+};
