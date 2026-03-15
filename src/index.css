@@ -1972,7 +1972,7 @@ h1 {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 100;
+  z-index: 9999;
   display: flex;
   justify-content: flex-end;
 }
@@ -1999,7 +1999,7 @@ h1 {
   height: 40px;
   border-radius: 50%;
   background: var(--bg-dark);
-  color: var(--text-primary);
+  color: var(--text-inverse);
   display: flex;
   align-items: center;
   justify-content: center;
