@@ -515,7 +515,10 @@ h1 {
 
 .mobile-nav .btn {
   margin-top: var(--space-sm);
-  width: 100%;
+  width: auto;
+  align-self: center;
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
 }
 
 /* ========== HERO ========== */
