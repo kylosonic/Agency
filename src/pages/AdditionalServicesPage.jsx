@@ -1,57 +1,31 @@
+import { useState, useEffect } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
+import { getAdditionalServices, getFeaturedAddons } from '../services/firebaseService';
 
 export default function AdditionalServicesPage({ onDownloadClick }) {
-    const services = [
-        {
-            service: 'Domain Registration',
-            description: 'Annual .com, .et, or custom domain registration',
-            price: '1,500 – 5,000 ETB',
-            type: 'Annual',
-        },
-        {
-            service: 'Cloud Web Hosting',
-            description: 'Secure, fast SSD-based hosting with SSL & backups',
-            price: '5,000 – 15,000 ETB',
-            type: 'Annual',
-        },
-        {
-            service: 'Annual Web Maintenance',
-            description: 'Updates, security patches, backups, and uptime monitoring',
-            price: '8,000 – 20,000 ETB',
-            type: 'Annual',
-        },
-        {
-            service: 'App Store Developer Account (Apple)',
-            description: 'Apple Developer Program enrollment and submission',
-            price: '5,500 ETB',
-            type: 'Annual',
-        },
-        {
-            service: 'App Store Developer Account (Google)',
-            description: 'Google Play Console one-time registration',
-            price: '1,500 ETB',
-            type: 'One-Time',
-        },
-        {
-            service: 'Logo & Visual Identity Design',
-            description: 'Professional logo, color palette, typography, & brand guidelines',
-            price: '5,000 – 15,000 ETB',
-            type: 'One-Time',
-        },
-        {
-            service: 'Professional Copywriting',
-            description: 'Website copy, product descriptions, and marketing content',
-            price: '3,000 – 10,000 ETB',
-            type: 'Per Project',
-        },
-        {
-            service: 'Commercial Photography',
-            description: 'Product photography, office/team photos, lifestyle shoots',
-            price: '5,000 – 20,000 ETB',
-            type: 'Per Session',
-        },
-    ];
+    const [services, setServices] = useState([]);
+    const [featuredAddons, setFeaturedAddons] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [servicesData, addonsData] = await Promise.all([
+                    getAdditionalServices(),
+                    getFeaturedAddons()
+                ]);
+                setServices(servicesData);
+                setFeaturedAddons(addonsData);
+            } catch (error) {
+                console.error("Failed to fetch Firebase additional services data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
 
     return (
         <>
@@ -86,27 +60,33 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {services.map((item, i) => (
-                                        <tr key={i}>
-                                            <td><strong>{item.service}</strong></td>
-                                            <td style={{ color: 'var(--text-secondary)' }}>{item.description}</td>
-                                            <td className="price-cell">{item.price}</td>
-                                            <td>
-                                                <span style={{
-                                                    display: 'inline-block',
-                                                    padding: '0.25rem 0.7rem',
-                                                    background: 'var(--bg-secondary)',
-                                                    border: '1px solid var(--glass-border)',
-                                                    borderRadius: 'var(--radius-full)',
-                                                    fontSize: '0.78rem',
-                                                    color: 'var(--text-secondary)',
-                                                    fontWeight: 500,
-                                                }}>
-                                                    {item.type}
-                                                </span>
-                                            </td>
+                                    {loading ? (
+                                        <tr>
+                                            <td colSpan="4" style={{ textAlign: 'center', padding: '2rem' }}>Loading Services...</td>
                                         </tr>
-                                    ))}
+                                    ) : (
+                                        services.map((item, i) => (
+                                            <tr key={i}>
+                                                <td><strong>{item.service}</strong></td>
+                                                <td style={{ color: 'var(--text-secondary)' }}>{item.description}</td>
+                                                <td className="price-cell">{item.price}</td>
+                                                <td>
+                                                    <span style={{
+                                                        display: 'inline-block',
+                                                        padding: '0.25rem 0.7rem',
+                                                        background: 'var(--bg-secondary)',
+                                                        border: '1px solid var(--glass-border)',
+                                                        borderRadius: 'var(--radius-full)',
+                                                        fontSize: '0.78rem',
+                                                        color: 'var(--text-secondary)',
+                                                        fontWeight: 500,
+                                                    }}>
+                                                        {item.type}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -126,34 +106,29 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                     </ScrollReveal>
 
                     <ScrollReveal stagger>
-                        <div className="services-grid">
-                            <div className="service-card">
-                                <div className="service-card-icon">🌐</div>
-                                <h3>Domain & Hosting Bundle</h3>
-                                <p>Get your domain registration and cloud hosting together at a discounted annual rate. Includes free SSL, daily backups, and 99.9% uptime SLA.</p>
-                                <div style={{ marginTop: 'var(--space-md)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.15rem' }}>
-                                    Starting at 6,000 ETB/yr
-                                </div>
+                        {loading ? (
+                            <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                                <p>Loading Featured Add-Ons...</p>
                             </div>
-
-                            <div className="service-card">
-                                <div className="service-card-icon">🎨</div>
-                                <h3>Complete Brand Identity</h3>
-                                <p>Professional logo design, color system, typography selection, and comprehensive brand guidelines document. Includes 3 revision rounds.</p>
-                                <div style={{ marginTop: 'var(--space-md)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.15rem' }}>
-                                    Starting at 5,000 ETB
-                                </div>
+                        ) : (
+                            <div className="services-grid">
+                                {featuredAddons.map((addon, i) => (
+                                    <div key={i} className="service-card">
+                                        <div className="service-card-icon">{addon.icon}</div>
+                                        <h3>{addon.title}</h3>
+                                        <p>{addon.description}</p>
+                                        <div style={{ 
+                                            marginTop: 'var(--space-md)', 
+                                            fontFamily: 'var(--font-heading)', 
+                                            fontWeight: 700, 
+                                            fontSize: '1.15rem' 
+                                        }}>
+                                            {addon.price}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-
-                            <div className="service-card">
-                                <div className="service-card-icon">📸</div>
-                                <h3>Professional Photography</h3>
-                                <p>High-quality commercial photography for your products, team, and workspace. Includes editing, retouching, and web-optimized deliverables.</p>
-                                <div style={{ marginTop: 'var(--space-md)', fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.15rem' }}>
-                                    Starting at 5,000 ETB
-                                </div>
-                            </div>
-                        </div>
+                        )}
                     </ScrollReveal>
                 </div>
             </section>

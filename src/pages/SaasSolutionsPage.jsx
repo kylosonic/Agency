@@ -1,83 +1,46 @@
+import { useState, useEffect } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import StaggeredText from '../components/StaggeredText';
 import MagneticButton from '../components/MagneticButton';
+import { getSaasPackages } from '../services/firebaseService';
 
 export default function SaasSolutionsPage({ onDownloadClick }) {
-    const systems = [
-        {
-            icon: '🎓',
-            name: 'Smart School Management System (SMS)',
-            tag: 'Education',
-            description: 'Complete school administration platform covering student management, grading, attendance, fees, timetabling, and parent communication.',
-            setup: '25,000 ETB',
-            monthly: '3,500 ETB',
-            annual: '35,000 ETB',
-            annualSave: 'Save 2 months',
-            modules: [
-                'Student Registration & Profiles',
-                'Attendance Tracking',
-                'Grade & Report Card Management',
-                'Fee Collection & Invoicing',
-                'Timetable Scheduler',
-                'Parent/Guardian Portal',
-                'Teacher Management',
-                'Library Management',
-                'Exam Management',
-                'SMS & Email Notifications',
-                'Analytics Dashboard',
-                'Multi-branch Support',
-            ],
-        },
-        {
-            icon: '🏥',
-            name: 'Hospital & Clinic Management System (HMS)',
-            tag: 'Healthcare',
-            description: 'End-to-end healthcare management system for clinics and hospitals — from patient registration to billing and lab results.',
-            setup: '35,000 ETB',
-            monthly: '5,000 ETB',
-            annual: '50,000 ETB',
-            annualSave: 'Save 2 months',
-            modules: [
-                'Patient Registration & Records (EMR)',
-                'Appointment Scheduling',
-                'Doctor & Staff Management',
-                'Prescription Management',
-                'Lab Results & Diagnostics',
-                'Pharmacy & Inventory',
-                'Billing & Insurance Claims',
-                'Bed/Ward Management',
-                'Telemedicine Integration',
-                'Reporting & Analytics',
-                'Multi-location Support',
-                'HIPAA-aligned Security',
-            ],
-        },
-        {
-            icon: '🏘️',
-            name: 'Real Estate / Property Management System (PMS)',
-            tag: 'Real Estate',
-            description: 'Manage properties, tenants, leases, rent collection, and maintenance — all from one centralized cloud dashboard.',
-            setup: '20,000 ETB',
-            monthly: '3,000 ETB',
-            annual: '30,000 ETB',
-            annualSave: 'Save 2 months',
-            modules: [
-                'Property Listing & Management',
-                'Tenant & Lease Tracking',
-                'Rent Collection & Receipts',
-                'Maintenance Request System',
-                'Document Storage',
-                'Financial Reporting',
-                'Vacancy Tracking',
-                'Owner Portal',
-                'Tenant Portal',
-                'Automated Reminders',
-                'Multi-property Support',
-                'Payment Integration',
-            ],
-        },
-    ];
+    const [systems, setSystems] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSaasPackages();
+                // Map the data into the structure expected by the component if needed.
+                // The current hardcoded data has different keys than the packages (setup/monthly vs price/period).
+                // Let's adapt the mocked firebase service data to the UI format.
+                const formattedSystems = data.map(item => ({
+                    icon: item.icon,
+                    name: item.title,
+                    tag: item.subtitle,
+                    description: item.title === 'School Management System' 
+                        ? 'Complete school administration platform covering student management, grading, attendance, fees, timetabling, and parent communication.'
+                        : item.title === 'Clinic/Hospital ERP'
+                        ? 'End-to-end healthcare management system for clinics and hospitals — from patient registration to billing and lab results.'
+                        : 'Manage properties, tenants, leases, rent collection, and maintenance — all from one centralized cloud dashboard.',
+                    setup: item.title === 'School Management System' ? '25,000 ETB' : item.title === 'Clinic/Hospital ERP' ? '35,000 ETB' : '20,000 ETB',
+                    monthly: `${item.price} ETB`,
+                    annual: item.title === 'School Management System' ? '35,000 ETB' : item.title === 'Clinic/Hospital ERP' ? '50,000 ETB' : '30,000 ETB',
+                    annualSave: 'Save 2 months',
+                    modules: item.features
+                }));
+                setSystems(formattedSystems);
+            } catch (error) {
+                console.error("Failed to fetch Firebase SaaS data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
 
     return (
         <>
@@ -102,52 +65,58 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                         />
                     </ScrollReveal>
 
-                    {systems.map((system, index) => (
-                        <ScrollReveal key={index}>
-                            <div className="saas-card">
-                                <div className="saas-card-header">
-                                    <div className="icon">{system.icon}</div>
-                                    <div style={{ flex: 1 }}>
-                                        <h3>{system.name}</h3>
-                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', marginTop: '0.35rem', lineHeight: 1.6 }}>
-                                            {system.description}
-                                        </p>
+                    {loading ? (
+                        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                            <p>Loading Cloud Platforms...</p>
+                        </div>
+                    ) : (
+                        systems.map((system, index) => (
+                            <ScrollReveal key={index}>
+                                <div className="saas-card">
+                                    <div className="saas-card-header">
+                                        <div className="icon">{system.icon}</div>
+                                        <div style={{ flex: 1 }}>
+                                            <h3>{system.name}</h3>
+                                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', marginTop: '0.35rem', lineHeight: 1.6 }}>
+                                                {system.description}
+                                            </p>
+                                        </div>
+                                        <div className="tag">{system.tag}</div>
                                     </div>
-                                    <div className="tag">{system.tag}</div>
-                                </div>
 
-                                <div className="saas-pricing-row">
-                                    <div className="saas-price-item">
-                                        <div className="label">One-Time Setup & Training</div>
-                                        <div className="value">{system.setup}</div>
-                                    </div>
-                                    <div className="saas-price-item">
-                                        <div className="label">Monthly Subscription</div>
-                                        <div className="value">{system.monthly}</div>
-                                    </div>
-                                    <div className="saas-price-item saas-price-item-highlight">
-                                        <div className="label">Annual Subscription</div>
-                                        <div className="value">{system.annual}</div>
-                                        <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.6)', marginTop: '0.25rem', fontWeight: 500 }}>
-                                            {system.annualSave}
+                                    <div className="saas-pricing-row">
+                                        <div className="saas-price-item">
+                                            <div className="label">One-Time Setup & Training</div>
+                                            <div className="value">{system.setup}</div>
+                                        </div>
+                                        <div className="saas-price-item">
+                                            <div className="label">Monthly Subscription</div>
+                                            <div className="value">{system.monthly}</div>
+                                        </div>
+                                        <div className="saas-price-item saas-price-item-highlight">
+                                            <div className="label">Annual Subscription</div>
+                                            <div className="value">{system.annual}</div>
+                                            <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.6)', marginTop: '0.25rem', fontWeight: 500 }}>
+                                                {system.annualSave}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <h4 style={{ marginBottom: 'var(--space-md)', color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600 }}>
-                                    Core Modules Included:
-                                </h4>
-                                <ul className="saas-modules">
-                                    {system.modules.map((mod, i) => (
-                                        <li key={i}>
-                                            <span className="check">✓</span>
-                                            {mod}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </ScrollReveal>
-                    ))}
+                                    <h4 style={{ marginBottom: 'var(--space-md)', color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600 }}>
+                                        Core Modules Included:
+                                    </h4>
+                                    <ul className="saas-modules">
+                                        {system.modules.map((mod, i) => (
+                                            <li key={i}>
+                                                <span className="check">✓</span>
+                                                {mod}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </ScrollReveal>
+                        ))
+                    )}
                 </div>
             </section>
 
