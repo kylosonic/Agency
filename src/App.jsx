@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LeadCaptureModal from './components/LeadCaptureModal';
 import FloatingCTA from './components/FloatingCTA';
+import ScrollToTopButton from './components/ScrollToTopButton';
 import HomePage from './pages/HomePage';
 import WebDevelopmentPage from './pages/WebDevelopmentPage';
 import MobileDevelopmentPage from './pages/MobileDevelopmentPage';
@@ -41,6 +42,7 @@ function AppContent() {
       </main>
       <Footer />
       <FloatingCTA onClick={openModal} />
+      <ScrollToTopButton />
       <LeadCaptureModal isOpen={modalOpen} onClose={closeModal} />
     </>
   );
