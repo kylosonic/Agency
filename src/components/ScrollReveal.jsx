@@ -9,11 +9,11 @@ export default function ScrollReveal({ children, className = '', stagger = false
     // For now, replacing the basic fade-up with a premium spring animation.
 
     const baseVariants = {
-        hidden: { opacity: 0, y: 40 },
+        hidden: { opacity: 0, y: 30 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { type: 'spring', damping: 20, stiffness: 100, delay },
+            transition: { type: 'spring', damping: 25, stiffness: 80, delay, mass: 0.8 },
         },
     };
 
@@ -22,7 +22,7 @@ export default function ScrollReveal({ children, className = '', stagger = false
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.15,
+                staggerChildren: 0.12,
                 delayChildren: delay,
             },
         },
@@ -40,7 +40,7 @@ export default function ScrollReveal({ children, className = '', stagger = false
                 initial="hidden"
                 whileInView="visible"
                 onViewportEnter={() => setInView(true)}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-50px" }}
                 className={`${className} stagger-children ${inView ? 'visible' : ''}`}
             >
                 {children}
@@ -54,7 +54,7 @@ export default function ScrollReveal({ children, className = '', stagger = false
             initial="hidden"
             whileInView="visible"
             onViewportEnter={() => setInView(true)}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             className={`${className} ${inView ? 'visible' : ''}`}
         >
             {children}
