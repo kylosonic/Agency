@@ -62,7 +62,11 @@ export default function Navbar({ onDownloadClick }) {
 
       <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
         {links.map((link) => (
-          <Link key={link.to} to={link.to}>
+          <Link 
+            key={link.to} 
+            to={link.to}
+            className={location.pathname === link.to ? 'active' : ''}
+          >
             {link.label}
           </Link>
         ))}
