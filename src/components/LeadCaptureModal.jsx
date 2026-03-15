@@ -17,7 +17,7 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
         setTimeout(() => {
             const link = document.createElement('a');
             link.href = '/pricing-guide.pdf';
-            link.download = 'NovaTech-2026-Service-Menu-Pricing-Guide.pdf';
+            link.download = 'ጣዉላtech-2026-Service-Menu-Pricing-Guide.pdf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

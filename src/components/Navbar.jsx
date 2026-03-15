@@ -31,7 +31,7 @@ export default function Navbar({ onDownloadClick }) {
         <div className="container navbar-inner">
           <Link to="/" className="navbar-logo">
             <span className="logo-icon">◆</span>
-            <span>NovaTech</span>
+            <span>ጣዉላtech</span>
           </Link>
 
           <div className="navbar-links">

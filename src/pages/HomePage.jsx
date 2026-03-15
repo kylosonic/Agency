@@ -172,7 +172,7 @@ export default function HomePage({ onDownloadClick }) {
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader
-                            tag="Why NovaTech"
+                            tag="Why ጣዉላtech"
                             title="Built Different. Delivered Better."
                             subtitle="We don't just build products — we build digital ecosystems that scale."
                         />
