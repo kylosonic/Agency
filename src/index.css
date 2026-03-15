@@ -1835,14 +1835,15 @@ h1 {
 }
 
 .cta-inner {
-  background: var(--bg-card);
-  border: 1px solid var(--glass-border);
+  background: var(--bg-dark);
+  border: 2px solid var(--green);
   border-radius: var(--radius-2xl);
   padding: var(--space-4xl) var(--space-2xl);
   text-align: center;
   position: relative;
   overflow: hidden;
-  color: var(--text-primary);
+  color: var(--text-inverse);
+  box-shadow: var(--shadow-xl);
 }
 
 .cta-inner::before {
@@ -1870,12 +1871,12 @@ h1 {
   font-size: clamp(2rem, 3.5vw, 2.75rem);
   margin-bottom: var(--space-md);
   position: relative;
-  color: var(--text-primary);
+  color: var(--text-inverse);
   letter-spacing: -0.035em;
 }
 
 .cta-inner p {
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   max-width: 480px;
   margin: 0 auto var(--space-xl);
   position: relative;
