@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import DarkModeToggle from './DarkModeToggle';
 
 export default function Navbar({ onDownloadClick }) {
   const [scrolled, setScrolled] = useState(false);
@@ -30,8 +31,8 @@ export default function Navbar({ onDownloadClick }) {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="container navbar-inner">
           <Link to="/" className="navbar-logo">
-            <span className="logo-icon">◆</span>
-            <span>ጣዉላtech</span>
+            <span className="logo-icon">N</span>
+            <span>NovaTech</span>
           </Link>
 
           <div className="navbar-links">
@@ -44,6 +45,7 @@ export default function Navbar({ onDownloadClick }) {
                 {link.label}
               </Link>
             ))}
+            <DarkModeToggle />
             <button className="btn btn-primary btn-sm navbar-cta" onClick={onDownloadClick}>
               Pricing Guide
             </button>
@@ -70,6 +72,7 @@ export default function Navbar({ onDownloadClick }) {
             {link.label}
           </Link>
         ))}
+        <DarkModeToggle />
         <button className="btn btn-primary" onClick={onDownloadClick}>
           Download Pricing Guide
         </button>

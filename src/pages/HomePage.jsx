@@ -20,7 +20,7 @@ export default function HomePage({ onDownloadClick }) {
                         </div>
                     </ScrollReveal>
                     
-                    <h1>
+                    <h1 className="gradient-text">
                         <StaggeredText text="Build better sites, faster" delay={0.2} />
                     </h1>
                     
@@ -167,38 +167,210 @@ export default function HomePage({ onDownloadClick }) {
                 </div>
             </section>
 
-            {/* ===== WHY CHOOSE US ===== */}
+            {/* ===== TESTIMONIALS ===== */}
             <section className="section">
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader
-                            tag="Why ጣዉላtech"
-                            title="Built Different. Delivered Better."
-                            subtitle="We don't just build products — we build digital ecosystems that scale."
+                            tag="Testimonials"
+                            title="What Our Clients Say"
+                            subtitle="Don't take our word for it — here's what businesses we've partnered with have to say."
                         />
                     </ScrollReveal>
 
                     <ScrollReveal stagger>
-                        <div className="services-grid">
-                            <div className="service-card">
-                                <div className="service-card-icon">⚡</div>
-                                <h3>Performance First</h3>
-                                <p>Every pixel is optimized for speed. Our solutions load fast even on 3G connections.</p>
+                        <div className="testimonials-grid">
+                            <div className="testimonial-card">
+                                <div className="testimonial-stars">★★★★★</div>
+                                <blockquote>
+                                    "NovaTech completely transformed our online presence. Our new website loads 3x faster and conversions increased by 40% in the first month."
+                                </blockquote>
+                                <div className="testimonial-author">
+                                    <div className="testimonial-avatar">AK</div>
+                                    <div className="testimonial-author-info">
+                                        <h4>Abel Kebede</h4>
+                                        <span>CEO, Habesha Brands</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="service-card">
-                                <div className="service-card-icon">🔒</div>
-                                <h3>Enterprise Security</h3>
-                                <p>Bank-grade encryption, regular audits, and compliance-ready architecture.</p>
+
+                            <div className="testimonial-card">
+                                <div className="testimonial-stars">★★★★★</div>
+                                <blockquote>
+                                    "The SaaS platform they built for our school has streamlined everything — from attendance to grade reports. Parents love the Telegram notifications."
+                                </blockquote>
+                                <div className="testimonial-author">
+                                    <div className="testimonial-avatar">ST</div>
+                                    <div className="testimonial-author-info">
+                                        <h4>Sara Tesfaye</h4>
+                                        <span>Director, Bright Future Academy</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="service-card">
-                                <div className="service-card-icon">🇪🇹</div>
-                                <h3>Ethiopian Market Expertise</h3>
-                                <p>Local payment integrations, telecom APIs, and bilingual support built in.</p>
+
+                            <div className="testimonial-card">
+                                <div className="testimonial-stars">★★★★★</div>
+                                <blockquote>
+                                    "Their mobile app with Telebirr integration has been a game-changer for our delivery service. Professional team with exceptional follow-through."
+                                </blockquote>
+                                <div className="testimonial-author">
+                                    <div className="testimonial-avatar">DM</div>
+                                    <div className="testimonial-author-info">
+                                        <h4>Daniel Mekonnen</h4>
+                                        <span>Founder, QuickDeliver ET</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="service-card">
-                                <div className="service-card-icon">📈</div>
-                                <h3>Growth-Driven Marketing</h3>
-                                <p>Optional digital marketing add-ons to reach the right audience at the right time.</p>
+                        </div>
+                    </ScrollReveal>
+                </div>
+            </section>
+
+            {/* ===== HOW WE WORK ===== */}
+            <section className="section">
+                <div className="container">
+                    <ScrollReveal>
+                        <SectionHeader
+                            tag="Our Process"
+                            title="How We Work"
+                            subtitle="A proven 4-step process that takes your project from idea to launch with transparency at every stage."
+                        />
+                    </ScrollReveal>
+
+                    <ScrollReveal stagger>
+                        <div className="process-grid">
+                            <div className="process-step">
+                                <div className="process-step-number">1</div>
+                                <div className="process-step-icon">🔍</div>
+                                <h3>Discovery</h3>
+                                <p>We learn your business, goals, audience, and competition to define the perfect strategy.</p>
+                            </div>
+                            <div className="process-step">
+                                <div className="process-step-number">2</div>
+                                <div className="process-step-icon">🎨</div>
+                                <h3>Design</h3>
+                                <p>Wireframes and high-fidelity mockups crafted for your brand — reviewed until perfect.</p>
+                            </div>
+                            <div className="process-step">
+                                <div className="process-step-number">3</div>
+                                <div className="process-step-icon">⚙️</div>
+                                <h3>Develop</h3>
+                                <p>Clean, scalable code built with modern frameworks. Rigorous testing at every milestone.</p>
+                            </div>
+                            <div className="process-step">
+                                <div className="process-step-number">4</div>
+                                <div className="process-step-icon">🚀</div>
+                                <h3>Deploy</h3>
+                                <p>Launch with confidence. We handle hosting, SEO, and provide ongoing support & training.</p>
+                            </div>
+                        </div>
+                    </ScrollReveal>
+                </div>
+            </section>
+
+            {/* ===== PORTFOLIO TEASER ===== */}
+            <section className="section">
+                <div className="container">
+                    <ScrollReveal>
+                        <SectionHeader
+                            tag="Our Work"
+                            title="Featured Projects"
+                            subtitle="A glimpse of the digital experiences we've crafted for businesses across Ethiopia and beyond."
+                        />
+                    </ScrollReveal>
+
+                    <ScrollReveal stagger>
+                        <div className="portfolio-grid">
+                            <div className="portfolio-card">
+                                <div className="portfolio-card-tag">Web Platform</div>
+                                <div className="portfolio-card-content">
+                                    <h3>E-Commerce Marketplace</h3>
+                                    <p>Multi-vendor platform with Chapa payment integration, real-time inventory, and Amharic support.</p>
+                                </div>
+                            </div>
+                            <div className="portfolio-card">
+                                <div className="portfolio-card-tag">Mobile App</div>
+                                <div className="portfolio-card-content">
+                                    <h3>Delivery Service App</h3>
+                                    <p>Cross-platform app with live tracking, Telebirr payments, and push notifications via Telegram.</p>
+                                </div>
+                            </div>
+                            <div className="portfolio-card">
+                                <div className="portfolio-card-tag">SaaS Platform</div>
+                                <div className="portfolio-card-content">
+                                    <h3>School Management System</h3>
+                                    <p>Cloud-based ERP serving 50+ schools with grading, attendance, fees, and parent portals.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="portfolio-coming-soon">
+                            🚧 Full portfolio page with detailed case studies coming soon — stay tuned!
+                        </div>
+                    </ScrollReveal>
+                </div>
+            </section>
+
+            {/* ===== CONTACT ===== */}
+            <section className="section" id="contact">
+                <div className="container">
+                    <ScrollReveal>
+                        <SectionHeader
+                            tag="Get In Touch"
+                            title="Let's Start Your Project"
+                            subtitle="Have a project in mind? Drop us a message and we'll get back to you within 24 hours."
+                        />
+                    </ScrollReveal>
+
+                    <ScrollReveal>
+                        <div className="contact-grid">
+                            <div className="contact-form-card">
+                                <h3>Send Us a Message</h3>
+                                <form className="contact-form" onSubmit={(e) => { e.preventDefault(); alert('Thank you! We will get back to you shortly.'); }}>
+                                    <div className="form-group">
+                                        <label htmlFor="contact-name">Full Name</label>
+                                        <input id="contact-name" type="text" placeholder="John Doe" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="contact-email">Email Address</label>
+                                        <input id="contact-email" type="email" placeholder="john@company.com" required />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="contact-message">Your Message</label>
+                                        <textarea id="contact-message" placeholder="Tell us about your project..." rows={5} required />
+                                    </div>
+                                    <button type="submit" className="btn btn-primary btn-lg">Send Message</button>
+                                </form>
+                            </div>
+
+                            <div className="contact-info-card">
+                                <div className="contact-info-item">
+                                    <div className="contact-info-icon">📧</div>
+                                    <div>
+                                        <h4>Email</h4>
+                                        <a href="mailto:hello@novatech.et">hello@novatech.et</a>
+                                    </div>
+                                </div>
+                                <div className="contact-info-item">
+                                    <div className="contact-info-icon">📞</div>
+                                    <div>
+                                        <h4>Phone</h4>
+                                        <a href="tel:+251911000000">+251 911 000 000</a>
+                                    </div>
+                                </div>
+                                <div className="contact-info-item">
+                                    <div className="contact-info-icon">💬</div>
+                                    <div>
+                                        <h4>Telegram</h4>
+                                        <a href="#">@NovaTechET</a>
+                                    </div>
+                                </div>
+                                <div className="contact-info-item">
+                                    <div className="contact-info-icon">📍</div>
+                                    <div>
+                                        <h4>Location</h4>
+                                        <p>Addis Ababa, Ethiopia 🇪🇹</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </ScrollReveal>

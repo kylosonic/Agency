@@ -7,8 +7,8 @@ export default function Footer() {
                 <div className="footer-grid">
                     <div className="footer-brand">
                         <Link to="/" className="navbar-logo">
-                            <span className="logo-icon">◆</span>
-                            <span>ጣዉላtech</span>
+                            <span className="logo-icon">N</span>
+                            <span>NovaTech</span>
                         </Link>
                         <p>
                             Your trusted partner for digital transformation. We craft innovative web, mobile, and SaaS solutions tailored for the Ethiopian market and beyond.
@@ -38,7 +38,7 @@ export default function Footer() {
                     <div>
                         <h4>Connect</h4>
                         <ul className="footer-links">
-                            <li><a href="mailto:hello@tawlatech.et">hello@tawlatech.et</a></li>
+                            <li><a href="mailto:hello@novatech.et">hello@novatech.et</a></li>
                             <li><a href="tel:+251911000000">+251 911 000 000</a></li>
                             <li><a href="#">LinkedIn</a></li>
                             <li><a href="#">Telegram</a></li>
@@ -47,7 +47,7 @@ export default function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    <span>© 2026 ጣዉላtech Digital Agency. All rights reserved.</span>
+                    <span>© 2026 NovaTech Digital Agency. All rights reserved.</span>
                     <span>Addis Ababa, Ethiopia 🇪🇹</span>
                 </div>
             </div>
