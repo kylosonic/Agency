@@ -644,6 +644,12 @@ h1 {
   margin-left: var(--space-sm);
 }
 
+.navbar-mobile-actions {
+  display: none;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
 .mobile-menu-toggle {
   display: none;
   flex-direction: column;
@@ -2753,6 +2759,10 @@ h1 {
 
   .navbar-links {
     display: none;
+  }
+
+  .navbar-mobile-actions {
+    display: flex;
   }
 
   .mobile-menu-toggle {

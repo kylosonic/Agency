@@ -51,13 +51,16 @@ export default function Navbar({ onDownloadClick }) {
             </button>
           </div>
 
-          <div
-            className={`mobile-menu-toggle ${mobileOpen ? 'open' : ''}`}
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
+          <div className="navbar-mobile-actions">
+            <DarkModeToggle />
+            <div
+              className={`mobile-menu-toggle ${mobileOpen ? 'open' : ''}`}
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
           </div>
         </div>
       </nav>
@@ -72,7 +75,6 @@ export default function Navbar({ onDownloadClick }) {
             {link.label}
           </Link>
         ))}
-        <DarkModeToggle />
         <button className="btn btn-primary" onClick={onDownloadClick}>
           Download Pricing Guide
         </button>
