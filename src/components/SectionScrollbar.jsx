@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 const DEFAULT_SECTIONS = [
   { id: 'hero', label: 'Home' },
@@ -14,15 +14,25 @@ export default function SectionScrollbar({ sections = DEFAULT_SECTIONS }) {
   const [activeSection, setActiveSection] = useState('');
   const [visible, setVisible] = useState(false);
   const [hoveredDot, setHoveredDot] = useState(null);
+  const [scrolling, setScrolling] = useState(false);
+  const scrollTimerRef = useRef(null);
 
-  // Show scrollbar after scrolling past hero
+  // Show scrollbar after scrolling past hero + track scroll activity for mobile
   useEffect(() => {
     const handleScroll = () => {
       setVisible(window.scrollY > 300);
+
+      // Mobile auto-hide: mark as scrolling, clear after 1.2s idle
+      setScrolling(true);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+      scrollTimerRef.current = setTimeout(() => setScrolling(false), 1200);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    };
   }, []);
 
   // Track active section with IntersectionObserver
@@ -66,7 +76,7 @@ export default function SectionScrollbar({ sections = DEFAULT_SECTIONS }) {
   const activeIndex = sections.findIndex((s) => s.id === activeSection);
 
   return (
-    <div className={`section-scrollbar ${visible ? 'visible' : ''}`}>
+    <div className={`section-scrollbar ${visible ? 'visible' : ''} ${scrolling ? 'scrolling' : ''}`}>
       <div className="section-scrollbar-track">
         {/* Progress line */}
         <div

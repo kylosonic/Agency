@@ -3095,7 +3095,37 @@ h1 {
 
 /* ========== SECTION SCROLLBAR — RESPONSIVE ========== */
 @media (max-width: 768px) {
+  /* On mobile: only visible while actively scrolling */
+  .section-scrollbar.visible {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .section-scrollbar.visible.scrolling {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .section-scrollbar {
+    right: 10px;
+  }
+
+  .section-scrollbar-dots {
+    gap: 14px;
+  }
+
+  .section-scrollbar-dot-inner {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Hide labels on mobile — they don't work well with touch */
+  .section-scrollbar-label {
     display: none;
+  }
+
+  .section-scrollbar-track {
+    right: 4px;
   }
 }
