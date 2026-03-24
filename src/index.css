@@ -2936,3 +2936,166 @@ h1 {
     font-size: 1.3rem;
   }
 }
+
+/* ========== SECTION SCROLLBAR ========== */
+.section-scrollbar {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transform: translateY(-50%) translateX(20px);
+}
+
+.section-scrollbar.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Track line */
+.section-scrollbar-track {
+  position: absolute;
+  right: 6px;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--glass-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.section-scrollbar-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--green) 0%, var(--blue-light) 100%);
+  border-radius: 2px;
+  transition: height 0.5s var(--ease-out);
+}
+
+/* Dots container */
+.section-scrollbar-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Individual dot button */
+.section-scrollbar-dot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.section-scrollbar-dot-inner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--glass-border-hover);
+  transition: all 0.35s var(--ease-spring);
+  position: relative;
+  z-index: 2;
+  box-shadow: var(--shadow-xs);
+  flex-shrink: 0;
+}
+
+.section-scrollbar-dot:hover .section-scrollbar-dot-inner {
+  border-color: var(--green);
+  background: var(--green-bg);
+  transform: scale(1.25);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+}
+
+.section-scrollbar-dot.active .section-scrollbar-dot-inner {
+  border-color: var(--green);
+  background: var(--green);
+  transform: scale(1.3);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4), 0 0 30px rgba(16, 185, 129, 0.15);
+}
+
+/* Label tooltip */
+.section-scrollbar-label {
+  position: absolute;
+  right: calc(100% + 8px);
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+  pointer-events: none;
+}
+
+.section-scrollbar-label.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Active dot also shows label faintly */
+.section-scrollbar-dot.active .section-scrollbar-label {
+  opacity: 0;
+}
+
+.section-scrollbar-dot.active:hover .section-scrollbar-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ========== SECTION SCROLLBAR — DARK MODE ========== */
+[data-theme='dark'] .section-scrollbar-dot-inner {
+  background: var(--bg-tertiary);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme='dark'] .section-scrollbar-dot:hover .section-scrollbar-dot-inner {
+  background: var(--green-bg);
+  border-color: var(--green);
+}
+
+[data-theme='dark'] .section-scrollbar-dot.active .section-scrollbar-dot-inner {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+[data-theme='dark'] .section-scrollbar-label {
+  background: rgba(21, 29, 46, 0.95);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme='dark'] .section-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ========== SECTION SCROLLBAR — RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .section-scrollbar {
+    display: none;
+  }
+}

@@ -11,7 +11,7 @@ export default function HomePage({ onDownloadClick }) {
     return (
         <>
             {/* ===== HERO ===== */}
-            <section className="hero">
+            <section className="hero" id="hero">
                 <div className="container hero-content">
                     <ScrollReveal delay={0.1}>
                         <div className="hero-badge">
@@ -123,7 +123,7 @@ export default function HomePage({ onDownloadClick }) {
             </section>
 
             {/* ===== SERVICES OVERVIEW ===== */}
-            <section className="section">
+            <section className="section" id="services">
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader
@@ -168,7 +168,7 @@ export default function HomePage({ onDownloadClick }) {
             </section>
 
             {/* ===== TESTIMONIALS ===== */}
-            <section className="section">
+            <section className="section" id="testimonials">
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader
@@ -227,7 +227,7 @@ export default function HomePage({ onDownloadClick }) {
             </section>
 
             {/* ===== HOW WE WORK ===== */}
-            <section className="section">
+            <section className="section" id="process">
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader
@@ -269,7 +269,7 @@ export default function HomePage({ onDownloadClick }) {
             </section>
 
             {/* ===== PORTFOLIO TEASER ===== */}
-            <section className="section">
+            <section className="section" id="portfolio">
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader

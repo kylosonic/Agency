@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import LeadCaptureModal from './components/LeadCaptureModal';
 import FloatingCTA from './components/FloatingCTA';
 import ScrollToTopButton from './components/ScrollToTopButton';
+import SectionScrollbar from './components/SectionScrollbar';
 import HomePage from './pages/HomePage';
 import WebDevelopmentPage from './pages/WebDevelopmentPage';
 import MobileDevelopmentPage from './pages/MobileDevelopmentPage';
@@ -22,6 +23,7 @@ function ScrollToTop() {
 
 function AppContent() {
   const [modalOpen, setModalOpen] = useState(false);
+  const location = useLocation();
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -43,6 +45,7 @@ function AppContent() {
       <Footer />
       <FloatingCTA onClick={openModal} />
       <ScrollToTopButton />
+      {location.pathname === '/' && <SectionScrollbar />}
       <LeadCaptureModal isOpen={modalOpen} onClose={closeModal} />
     </>
   );
