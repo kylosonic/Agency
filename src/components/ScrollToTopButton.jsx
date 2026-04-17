@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const MotionButton = motion.button;
+
 export default function ScrollToTopButton() {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -27,7 +29,7 @@ export default function ScrollToTopButton() {
     return (
         <AnimatePresence>
             {isVisible && (
-                <motion.button
+                <MotionButton
                     initial={{ opacity: 0, scale: 0.5, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.5, y: 20 }}
@@ -37,7 +39,7 @@ export default function ScrollToTopButton() {
                     aria-label="Scroll to top"
                 >
                     ↑
-                </motion.button>
+                </MotionButton>
             )}
         </AnimatePresence>
     );

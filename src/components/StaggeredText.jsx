@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion';
 
+const MotionDiv = motion.div;
+const MotionSpan = motion.span;
+
 export default function StaggeredText({ text, className = '', delay = 0 }) {
     // Split text into words to animate them individually
     const words = text.split(' ');
@@ -26,7 +29,7 @@ export default function StaggeredText({ text, className = '', delay = 0 }) {
     };
 
     return (
-        <motion.div
+        <MotionDiv
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -35,10 +38,10 @@ export default function StaggeredText({ text, className = '', delay = 0 }) {
             style={{ display: 'inline-flex', flexWrap: 'wrap', gap: '0.25em' }}
         >
             {words.map((word, index) => (
-                <motion.span key={index} variants={wordVariants} style={{ display: 'inline-block' }}>
+                <MotionSpan key={index} variants={wordVariants} style={{ display: 'inline-block' }}>
                     {word}
-                </motion.span>
+                </MotionSpan>
             ))}
-        </motion.div>
+        </MotionDiv>
     );
 }

@@ -1,5 +1,4 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 // Create a motion version of react-router's Link

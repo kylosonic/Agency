@@ -2,29 +2,54 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
 
+const NAV_LINKS = [
+  { to: '/', label: 'Home' },
+  { to: '/web-development', label: 'Web Dev' },
+  { to: '/mobile-development', label: 'Mobile Apps' },
+  { to: '/saas-solutions', label: 'SaaS' },
+  { to: '/additional-services', label: 'Services' },
+  { to: '/policy', label: 'Policy' },
+];
+
 export default function Navbar({ onDownloadClick }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
-  }, [location]);
+    if (!mobileOpen) {
+      return undefined;
+    }
 
-  const links = [
-    { to: '/', label: 'Home' },
-    { to: '/web-development', label: 'Web Dev' },
-    { to: '/mobile-development', label: 'Mobile Apps' },
-    { to: '/saas-solutions', label: 'SaaS' },
-    { to: '/additional-services', label: 'Services' },
-    { to: '/policy', label: 'Policy' },
-  ];
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setMobileOpen(false);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [mobileOpen]);
+
+  const closeMobileNav = () => setMobileOpen(false);
+
+  const handlePricingClick = (source) => {
+    closeMobileNav();
+    onDownloadClick(source);
+  };
 
   return (
     <>
@@ -36,7 +61,7 @@ export default function Navbar({ onDownloadClick }) {
           </Link>
 
           <div className="navbar-links">
-            {links.map((link) => (
+            {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
@@ -46,36 +71,43 @@ export default function Navbar({ onDownloadClick }) {
               </Link>
             ))}
             <DarkModeToggle />
-            <button className="btn btn-primary btn-sm navbar-cta" onClick={onDownloadClick}>
+            <button type="button" className="btn btn-primary btn-sm navbar-cta" onClick={() => handlePricingClick('navbar_desktop')}>
               Pricing Guide
             </button>
           </div>
 
           <div className="navbar-mobile-actions">
             <DarkModeToggle />
-            <div
+            <button
+              type="button"
               className={`mobile-menu-toggle ${mobileOpen ? 'open' : ''}`}
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => setMobileOpen((current) => !current)}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             >
               <span></span>
               <span></span>
               <span></span>
-            </div>
+            </button>
           </div>
         </div>
       </nav>
 
-      <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
-        {links.map((link) => (
+      <div className={`mobile-nav-backdrop ${mobileOpen ? 'open' : ''}`} onClick={closeMobileNav} aria-hidden="true" />
+
+      <div id="mobile-navigation" className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
+        {NAV_LINKS.map((link) => (
           <Link
             key={link.to}
             to={link.to}
             className={location.pathname === link.to ? 'active' : ''}
+            onClick={closeMobileNav}
           >
             {link.label}
           </Link>
         ))}
-        <button className="btn btn-primary" onClick={onDownloadClick}>
+        <button type="button" className="btn btn-primary" onClick={() => handlePricingClick('navbar_mobile')}>
           Download Pricing Guide
         </button>
       </div>

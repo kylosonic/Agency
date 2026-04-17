@@ -91,7 +91,7 @@ export default function SectionScrollbar({ sections = DEFAULT_SECTIONS }) {
       </div>
 
       <div className="section-scrollbar-dots">
-        {sections.map((section, i) => (
+        {sections.map((section) => (
           <button
             key={section.id}
             className={`section-scrollbar-dot ${

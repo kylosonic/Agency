@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+const MotionDiv = motion.div;
 
 export default function ScrollReveal({ children, className = '', stagger = false, delay = 0 }) {
     const [inView, setInView] = useState(false);
@@ -35,7 +37,7 @@ export default function ScrollReveal({ children, className = '', stagger = false
 
     if (stagger) {
         return (
-            <motion.div
+            <MotionDiv
                 variants={staggerVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -44,12 +46,12 @@ export default function ScrollReveal({ children, className = '', stagger = false
                 className={`${className} stagger-children ${inView ? 'visible' : ''}`}
             >
                 {children}
-            </motion.div>
+            </MotionDiv>
         );
     }
 
     return (
-        <motion.div
+        <MotionDiv
             variants={baseVariants}
             initial="hidden"
             whileInView="visible"
@@ -58,7 +60,7 @@ export default function ScrollReveal({ children, className = '', stagger = false
             className={`${className} ${inView ? 'visible' : ''}`}
         >
             {children}
-        </motion.div>
+        </MotionDiv>
     );
 }
 

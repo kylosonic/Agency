@@ -10,6 +10,7 @@ export default function PricingCard({
     recommended = false,
     badgeText = 'Recommended',
     ctaText = 'Get Started',
+    ctaSource,
     onCtaClick,
 }) {
     return (
@@ -43,7 +44,7 @@ export default function PricingCard({
                 ))}
             </ul>
 
-            <button className="btn btn-primary" onClick={onCtaClick}>
+            <button type="button" className="btn btn-primary" onClick={() => onCtaClick?.(ctaSource)}>
                 {ctaText}
             </button>
         </div>

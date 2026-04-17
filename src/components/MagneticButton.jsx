@@ -1,5 +1,7 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useRef } from 'react';
+
+const MotionButton = motion.button;
 
 export default function MagneticButton({ children, className = '', onClick, ...props }) {
     const ref = useRef(null);
@@ -24,7 +26,7 @@ export default function MagneticButton({ children, className = '', onClick, ...p
     };
 
     return (
-        <motion.button
+        <MotionButton
             ref={ref}
             style={{ x: mouseXSpring, y: mouseYSpring }}
             onMouseMove={handleMouseMove}
@@ -34,6 +36,6 @@ export default function MagneticButton({ children, className = '', onClick, ...p
             {...props}
         >
             {children}
-        </motion.button>
+        </MotionButton>
     );
 }

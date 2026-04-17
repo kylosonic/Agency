@@ -1,12 +1,67 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import StaggeredText from '../components/StaggeredText';
 import MagneticButton from '../components/MagneticButton';
 import TiltCard from '../components/TiltCard';
+import { SITE_CONTACT, DISCOVERY_CALL_MAILTO, buildProjectInquiryMailto } from '../config/siteConfig';
+import { submitContactInquiry } from '../services/contactService';
+import {
+    trackContactChannelClick,
+    trackContactFormAttempt,
+    trackContactFormOutcome,
+    trackDiscoveryCallClick,
+} from '../services/analyticsService';
+
+const INITIAL_CONTACT_FORM = {
+    name: '',
+    email: '',
+    message: '',
+};
 
 export default function HomePage({ onDownloadClick }) {
     const navigate = useNavigate();
+    const [contactForm, setContactForm] = useState(INITIAL_CONTACT_FORM);
+    const [contactStatus, setContactStatus] = useState('idle');
+
+    const handleContactChange = (event) => {
+        const { name, value } = event.target;
+        setContactForm((current) => ({
+            ...current,
+            [name]: value,
+        }));
+
+        if (contactStatus !== 'idle') {
+            setContactStatus('idle');
+        }
+    };
+
+    const handleContactSubmit = async (event) => {
+        event.preventDefault();
+        setContactStatus('sending');
+        trackContactFormAttempt('home_contact_form');
+
+        const submission = await submitContactInquiry(contactForm);
+
+        if (submission.ok) {
+            setContactStatus('sent');
+            setContactForm(INITIAL_CONTACT_FORM);
+            trackContactFormOutcome('submitted', 'home_contact_form');
+            return;
+        }
+
+        if (['unconfigured', 'request-failed', 'timeout', 'network-error'].includes(submission.type)) {
+            window.location.href = buildProjectInquiryMailto(submission.payload || contactForm);
+            setContactStatus('fallback');
+            setContactForm(INITIAL_CONTACT_FORM);
+            trackContactFormOutcome('fallback_mailto', 'home_contact_form', submission.type);
+            return;
+        }
+
+        setContactStatus('error');
+        trackContactFormOutcome('failed', 'home_contact_form', submission.type);
+    };
 
     return (
         <>
@@ -29,12 +84,17 @@ export default function HomePage({ onDownloadClick }) {
                             From stunning websites to enterprise SaaS — we deliver end-to-end digital solutions tailored for the Ethiopian market and beyond.
                         </p>
                         <div className="hero-actions">
-                            <MagneticButton className="btn btn-primary btn-lg" onClick={onDownloadClick}>
+                            <MagneticButton className="btn btn-primary btn-lg" onClick={() => onDownloadClick('home_hero_pricing')}>
                                 Get Pricing Guide
                             </MagneticButton>
                             <MagneticButton className="btn btn-secondary btn-lg" onClick={() => navigate('/web-development')}>
                                 Explore Services
                             </MagneticButton>
+                        </div>
+                        <div className="hero-trust-row" aria-label="Core trust points">
+                            <span className="trust-pill">Telebirr and Chapa Integration</span>
+                            <span className="trust-pill">Multilingual Product Teams</span>
+                            <span className="trust-pill">Launch Support Included</span>
                         </div>
                     </ScrollReveal>
 
@@ -325,20 +385,57 @@ export default function HomePage({ onDownloadClick }) {
                         <div className="contact-grid">
                             <div className="contact-form-card">
                                 <h3>Send Us a Message</h3>
-                                <form className="contact-form" onSubmit={(e) => { e.preventDefault(); alert('Thank you! We will get back to you shortly.'); }}>
+                                <form className="contact-form" onSubmit={handleContactSubmit}>
                                     <div className="form-group">
                                         <label htmlFor="contact-name">Full Name</label>
-                                        <input id="contact-name" type="text" placeholder="John Doe" required />
+                                        <input
+                                            id="contact-name"
+                                            type="text"
+                                            name="name"
+                                            value={contactForm.name}
+                                            onChange={handleContactChange}
+                                            placeholder="John Doe"
+                                            required
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="contact-email">Email Address</label>
-                                        <input id="contact-email" type="email" placeholder="john@company.com" required />
+                                        <input
+                                            id="contact-email"
+                                            type="email"
+                                            name="email"
+                                            value={contactForm.email}
+                                            onChange={handleContactChange}
+                                            placeholder="john@company.com"
+                                            required
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="contact-message">Your Message</label>
-                                        <textarea id="contact-message" placeholder="Tell us about your project..." rows={5} required />
+                                        <textarea
+                                            id="contact-message"
+                                            name="message"
+                                            value={contactForm.message}
+                                            onChange={handleContactChange}
+                                            placeholder="Tell us about your project..."
+                                            rows={5}
+                                            required
+                                        />
                                     </div>
-                                    <button type="submit" className="btn btn-primary btn-lg">Send Message</button>
+                                    <button type="submit" className="btn btn-primary btn-lg" disabled={contactStatus === 'sending'}>
+                                        {contactStatus === 'sending' ? 'Sending...' : 'Send Message'}
+                                    </button>
+                                    <p className={`form-feedback ${contactStatus}`} role="status" aria-live="polite">
+                                        {contactStatus === 'sent'
+                                            ? 'Thanks. Your message was submitted successfully and our team will respond within 24 hours.'
+                                            : contactStatus === 'fallback'
+                                            ? 'We could not reach our API endpoint, so we opened your email app to complete the request.'
+                                            : contactStatus === 'error'
+                                            ? 'Please verify your name, email, and message, then try again.'
+                                            : contactStatus === 'sending'
+                                            ? 'Sending your request through our secure contact API...'
+                                            : 'We usually respond in less than one business day.'}
+                                    </p>
                                 </form>
                             </div>
 
@@ -347,28 +444,46 @@ export default function HomePage({ onDownloadClick }) {
                                     <div className="contact-info-icon">📧</div>
                                     <div>
                                         <h4>Email</h4>
-                                        <a href="mailto:hello@novatech.et">hello@novatech.et</a>
+                                        <a href={`mailto:${SITE_CONTACT.email}`} onClick={() => trackContactChannelClick('email', 'home_contact_info')}>
+                                            {SITE_CONTACT.email}
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="contact-info-item">
                                     <div className="contact-info-icon">📞</div>
                                     <div>
                                         <h4>Phone</h4>
-                                        <a href="tel:+251911000000">+251 911 000 000</a>
+                                        <a href={SITE_CONTACT.phoneHref} onClick={() => trackContactChannelClick('phone', 'home_contact_info')}>
+                                            {SITE_CONTACT.phoneDisplay}
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="contact-info-item">
                                     <div className="contact-info-icon">💬</div>
                                     <div>
                                         <h4>Telegram</h4>
-                                        <a href="#">@NovaTechET</a>
+                                        <a
+                                            href={SITE_CONTACT.telegramUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            onClick={() => trackContactChannelClick('telegram', 'home_contact_info')}
+                                        >
+                                            {SITE_CONTACT.telegramHandle}
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="contact-info-item">
                                     <div className="contact-info-icon">📍</div>
                                     <div>
                                         <h4>Location</h4>
-                                        <p>Addis Ababa, Ethiopia 🇪🇹</p>
+                                        <a
+                                            href={SITE_CONTACT.mapsUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            onClick={() => trackContactChannelClick('maps', 'home_contact_info')}
+                                        >
+                                            {SITE_CONTACT.locationLabel} 🇪🇹
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -384,9 +499,14 @@ export default function HomePage({ onDownloadClick }) {
                         <div className="cta-inner">
                             <h2>Ready to Transform Your Business?</h2>
                             <p>Download our comprehensive 2026 Service Menu & Pricing Guide to find the perfect package.</p>
-                            <button className="btn btn-primary btn-lg" onClick={onDownloadClick}>
-                                Get Your Free Pricing Guide
-                            </button>
+                            <div className="cta-actions">
+                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('home_bottom_pricing')}>
+                                    Get Your Free Pricing Guide
+                                </button>
+                                <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('home_bottom_discovery')}>
+                                    Book Discovery Call
+                                </a>
+                            </div>
                         </div>
                     </ScrollReveal>
                 </div>

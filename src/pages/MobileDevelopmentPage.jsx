@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import PricingCard from '../components/PricingCard';
 import InteractivePricing from '../components/InteractivePricing';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
+import RouteProofStrip from '../components/RouteProofStrip';
+import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
+import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getMobilePackages, getAppMarketingAddons } from '../services/firebaseService';
 
 export default function MobileDevelopmentPage({ onDownloadClick }) {
@@ -35,8 +37,30 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                 <div className="container page-hero-content">
                     <h1>Mobile App<br />Development</h1>
                     <p>Cross-platform and native iOS & Android apps built with Flutter and React Native — designed for the Ethiopian market.</p>
+                    <div className="page-hero-meta" aria-label="Mobile delivery highlights">
+                        <span className="page-hero-chip">Store Submission Support</span>
+                        <span className="page-hero-chip">Offline-Ready Architecture</span>
+                        <span className="page-hero-chip">Telebirr and Chapa Integration</span>
+                    </div>
                 </div>
             </section>
+
+            <RouteProofStrip
+                items={[
+                    {
+                        title: 'User Flow First',
+                        text: 'Before coding, we align on key user journeys so every screen supports retention and conversion.',
+                    },
+                    {
+                        title: 'Testing On Real Devices',
+                        text: 'Each sprint includes practical QA on target Android and iOS device ranges.',
+                    },
+                    {
+                        title: 'Launch and Iterate',
+                        text: 'Post-launch analytics and backlog priorities are prepared before release day.',
+                    },
+                ]}
+            />
 
             {/* App Development Tiers */}
             <section className="section">
@@ -109,9 +133,14 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                         <div className="cta-inner">
                             <h2>Have an App Idea?</h2>
                             <p>Let's turn your vision into a market-ready mobile application. Download our full guide for detailed specs and pricing.</p>
-                            <button className="btn btn-primary btn-lg" onClick={onDownloadClick}>
-                                Download Full Pricing Guide
-                            </button>
+                            <div className="cta-actions">
+                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('mobile_page_cta_pricing')}>
+                                    Download Full Pricing Guide
+                                </button>
+                                <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('mobile_page_cta_discovery')}>
+                                    Schedule App Strategy Call
+                                </a>
+                            </div>
                         </div>
                     </ScrollReveal>
                 </div>

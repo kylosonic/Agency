@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { SITE_CONTACT } from '../config/siteConfig';
+import { trackContactChannelClick } from '../services/analyticsService';
 
 export default function Footer() {
     return (
@@ -29,26 +31,26 @@ export default function Footer() {
                         <h4>Company</h4>
                         <ul className="footer-links">
                             <li><Link to="/policy">Payment Policy</Link></li>
-                            <li><a href="#about">About Us</a></li>
-                            <li><a href="#careers">Careers</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="/#about">About Us</a></li>
+                            <li><a href="/#process">Our Process</a></li>
+                            <li><a href="/#contact">Contact</a></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4>Connect</h4>
                         <ul className="footer-links">
-                            <li><a href="mailto:hello@novatech.et">hello@novatech.et</a></li>
-                            <li><a href="tel:+251911000000">+251 911 000 000</a></li>
-                            <li><a href="#">LinkedIn</a></li>
-                            <li><a href="#">Telegram</a></li>
+                            <li><a href={`mailto:${SITE_CONTACT.email}`} onClick={() => trackContactChannelClick('email', 'footer')}>{SITE_CONTACT.email}</a></li>
+                            <li><a href={SITE_CONTACT.phoneHref} onClick={() => trackContactChannelClick('phone', 'footer')}>{SITE_CONTACT.phoneDisplay}</a></li>
+                            <li><a href={SITE_CONTACT.linkedinUrl} target="_blank" rel="noreferrer" onClick={() => trackContactChannelClick('linkedin', 'footer')}>LinkedIn</a></li>
+                            <li><a href={SITE_CONTACT.telegramUrl} target="_blank" rel="noreferrer" onClick={() => trackContactChannelClick('telegram', 'footer')}>Telegram</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div className="footer-bottom">
                     <span>© 2026 NovaTech Digital Agency. All rights reserved.</span>
-                    <span>Addis Ababa, Ethiopia 🇪🇹</span>
+                    <a href={SITE_CONTACT.mapsUrl} target="_blank" rel="noreferrer" onClick={() => trackContactChannelClick('maps', 'footer')}>{SITE_CONTACT.locationLabel} 🇪🇹</a>
                 </div>
             </div>
         </footer>

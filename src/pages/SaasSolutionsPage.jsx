@@ -3,6 +3,9 @@ import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import StaggeredText from '../components/StaggeredText';
 import MagneticButton from '../components/MagneticButton';
+import RouteProofStrip from '../components/RouteProofStrip';
+import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
+import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getSaasPackages } from '../services/firebaseService';
 
 export default function SaasSolutionsPage({ onDownloadClick }) {
@@ -51,8 +54,30 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                         <StaggeredText text="SaaS Cloud Solutions" delay={0.1} />
                     </h1>
                     <p>Rent-to-use cloud management systems — zero IT overhead, instant deployment, and full support. Pay monthly and scale at your pace.</p>
+                    <div className="page-hero-meta" aria-label="SaaS delivery highlights">
+                        <span className="page-hero-chip">Rapid Team Onboarding</span>
+                        <span className="page-hero-chip">Managed Backups and Security</span>
+                        <span className="page-hero-chip">Annual Plan Savings</span>
+                    </div>
                 </div>
             </section>
+
+            <RouteProofStrip
+                items={[
+                    {
+                        title: 'Fast Deployment Path',
+                        text: 'Most organizations complete setup and staff orientation in a short onboarding cycle.',
+                    },
+                    {
+                        title: 'Operational Visibility',
+                        text: 'Dashboards and reporting modules are configured around your daily workflows.',
+                    },
+                    {
+                        title: 'Continuous Improvements',
+                        text: 'Security updates and platform enhancements are rolled out without heavy IT overhead.',
+                    },
+                ]}
+            />
 
             {/* SaaS Catalog */}
             <section className="section">
@@ -127,9 +152,14 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                         <div className="cta-inner">
                             <h2>Ready to Modernize Your Operations?</h2>
                             <p>Get started with our cloud management systems. Download the full pricing guide for detailed feature comparisons.</p>
-                            <MagneticButton className="btn btn-primary btn-lg" onClick={onDownloadClick}>
-                                Download Full Pricing Guide
-                            </MagneticButton>
+                            <div className="cta-actions">
+                                <MagneticButton className="btn btn-primary btn-lg" onClick={() => onDownloadClick('saas_page_cta_pricing')}>
+                                    Download Full Pricing Guide
+                                </MagneticButton>
+                                <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('saas_page_cta_discovery')}>
+                                    Request SaaS Consultation
+                                </a>
+                            </div>
                         </div>
                     </ScrollReveal>
                 </div>

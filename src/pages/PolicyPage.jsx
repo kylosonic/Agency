@@ -1,7 +1,9 @@
-import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
+import RouteProofStrip from '../components/RouteProofStrip';
+import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
+import { trackDiscoveryCallClick } from '../services/analyticsService';
 
-export default function PolicyPage() {
+export default function PolicyPage({ onDownloadClick }) {
     return (
         <>
             {/* Page Hero */}
@@ -9,8 +11,30 @@ export default function PolicyPage() {
                 <div className="container page-hero-content">
                     <h1>Payment &<br />Operational Policy</h1>
                     <p>Transparent terms to ensure a smooth, trust-based working relationship from kickoff to launch.</p>
+                    <div className="page-hero-meta" aria-label="Policy highlights">
+                        <span className="page-hero-chip">Milestone-Based Billing</span>
+                        <span className="page-hero-chip">Client IP Ownership</span>
+                        <span className="page-hero-chip">Clear Support Commitments</span>
+                    </div>
                 </div>
             </section>
+
+            <RouteProofStrip
+                items={[
+                    {
+                        title: 'Clarity Before Commitments',
+                        text: 'Every engagement is structured around visible milestones and clear deliverables.',
+                    },
+                    {
+                        title: 'No Surprises In Billing',
+                        text: 'Payment checkpoints and service boundaries are communicated before kickoff begins.',
+                    },
+                    {
+                        title: 'Long-Term Operational Support',
+                        text: 'Ongoing support, updates, and reporting terms are documented up front for continuity.',
+                    },
+                ]}
+            />
 
             <section className="section">
                 <div className="container">
@@ -162,6 +186,25 @@ export default function PolicyPage() {
                                         Revision rounds are included as specified in each package. Additional revisions beyond the included scope are billed at an agreed hourly or per-revision rate.
                                     </span>
                                 </div>
+                            </div>
+                        </div>
+                    </ScrollReveal>
+                </div>
+            </section>
+
+            <section className="section-sm cta-section">
+                <div className="container">
+                    <ScrollReveal>
+                        <div className="cta-inner">
+                            <h2>Need Clarification Before You Start?</h2>
+                            <p>Review the full service guide or book a discovery call and we will walk through the policy details with your team.</p>
+                            <div className="cta-actions">
+                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('policy_page_cta_pricing')}>
+                                    Download Full Pricing Guide
+                                </button>
+                                <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('policy_page_cta_discovery')}>
+                                    Book Discovery Call
+                                </a>
                             </div>
                         </div>
                     </ScrollReveal>
