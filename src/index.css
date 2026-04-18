@@ -228,7 +228,7 @@ button:disabled {
   left: 1rem;
   z-index: 1400;
   background: var(--bg-dark);
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
   padding: 0.55rem 0.95rem;
   border-radius: var(--radius-md);
   transform: translateY(-140%);
@@ -377,7 +377,7 @@ h2 {
 }
 
 .btn-dark {
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
   background: var(--bg-dark);
 }
 
@@ -1025,7 +1025,7 @@ h2 {
 .pricing-card.recommended {
   background: linear-gradient(170deg, color-mix(in srgb, var(--green), black 16%) 0%, color-mix(in srgb, var(--green-dark), black 10%) 100%);
   border-color: color-mix(in srgb, var(--green), white 16%);
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
   box-shadow: var(--shadow-xl);
 }
 
@@ -1075,7 +1075,7 @@ h2 {
 .pricing-card.recommended .pricing-amount .currency,
 .pricing-card.recommended .pricing-amount .period,
 .pricing-card.recommended .pricing-timeline {
-  color: rgba(255, 255, 255, 0.78);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 22%);
 }
 
 .pricing-card.recommended .pricing-card-icon {
@@ -1169,17 +1169,17 @@ h2 {
 .addon-card-featured {
   background: linear-gradient(170deg, color-mix(in srgb, var(--blue), black 35%) 0%, color-mix(in srgb, var(--blue-dark), black 22%) 100%);
   border-color: color-mix(in srgb, var(--blue), white 10%);
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
 }
 
 .addon-card-featured h4,
 .addon-card-featured .price,
 .addon-card-featured ul li {
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
 }
 
 .addon-card-featured .price .detail {
-  color: rgba(248, 250, 252, 0.78);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 22%);
 }
 
 .addon-card-featured .check {
@@ -1285,13 +1285,13 @@ h2 {
 .saas-price-item-highlight {
   background: linear-gradient(130deg, var(--green) 0%, var(--green-dark) 100%);
   border-color: color-mix(in srgb, var(--green), white 18%);
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
   box-shadow: var(--shadow-green);
 }
 
 .saas-price-item-highlight .label,
 .saas-price-item-highlight .value {
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
 }
 
 .saas-modules {
@@ -2134,7 +2134,7 @@ h2 {
   margin-top: var(--space-3xl);
   border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
   background: linear-gradient(150deg, color-mix(in srgb, var(--bg-dark-soft), black 6%) 0%, color-mix(in srgb, var(--bg-dark), black 10%) 100%);
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
   padding: var(--space-3xl) 0 var(--space-xl);
   position: relative;
   overflow: hidden;
@@ -2165,7 +2165,7 @@ h2 {
 
 .footer-brand p {
   margin-top: 0.66rem;
-  color: rgba(248, 250, 252, 0.75);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 25%);
   max-width: 360px;
   font-size: 0.87rem;
 }
@@ -2175,7 +2175,7 @@ h2 {
   font-size: 0.73rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(248, 250, 252, 0.65);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 35%);
 }
 
 .footer-links li {
@@ -2183,7 +2183,7 @@ h2 {
 }
 
 .footer-links a {
-  color: rgba(248, 250, 252, 0.82);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 18%);
   font-size: 0.84rem;
 }
 
@@ -2192,12 +2192,12 @@ h2 {
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(248, 250, 252, 0.18);
+  border-top: 1px solid color-mix(in srgb, var(--text-on-dark), transparent 82%);
   padding-top: 0.9rem;
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
-  color: rgba(248, 250, 252, 0.7);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 30%);
   font-size: 0.76rem;
 }
 
@@ -2240,7 +2240,7 @@ h2 {
   border-radius: 15px;
   border: 1px solid var(--glass-border);
   background: var(--bg-dark);
-  color: var(--text-inverse);
+  color: var(--text-on-dark);
   z-index: 930;
   box-shadow: var(--shadow-md);
   display: inline-flex;
