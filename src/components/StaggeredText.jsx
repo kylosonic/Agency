@@ -34,11 +34,10 @@ export default function StaggeredText({ text, className = '', delay = 0 }) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
-            className={className}
-            style={{ display: 'inline-flex', flexWrap: 'wrap', gap: '0.25em' }}
+            className={`staggered-text ${className}`.trim()}
         >
             {words.map((word, index) => (
-                <MotionSpan key={index} variants={wordVariants} style={{ display: 'inline-block' }}>
+                <MotionSpan key={index} variants={wordVariants} className="staggered-text-word">
                     {word}
                 </MotionSpan>
             ))}
