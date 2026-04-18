@@ -300,26 +300,34 @@ export default function HomePage({ onDownloadClick }) {
                     <ScrollReveal stagger>
                         <div className="process-grid">
                             <div className="process-step">
-                                <div className="process-step-number">1</div>
-                                <div className="process-step-icon">🔍</div>
+                                <div className="process-step-emblem" aria-hidden="true">
+                                    <span className="process-step-emblem-number">01</span>
+                                    <span className="process-step-emblem-icon">🔍</span>
+                                </div>
                                 <h3>Discovery</h3>
                                 <p>We learn your business, goals, audience, and competition to define the perfect strategy.</p>
                             </div>
                             <div className="process-step">
-                                <div className="process-step-number">2</div>
-                                <div className="process-step-icon">🎨</div>
+                                <div className="process-step-emblem" aria-hidden="true">
+                                    <span className="process-step-emblem-number">02</span>
+                                    <span className="process-step-emblem-icon">🎨</span>
+                                </div>
                                 <h3>Design</h3>
                                 <p>Wireframes and high-fidelity mockups crafted for your brand — reviewed until perfect.</p>
                             </div>
                             <div className="process-step">
-                                <div className="process-step-number">3</div>
-                                <div className="process-step-icon">⚙️</div>
+                                <div className="process-step-emblem" aria-hidden="true">
+                                    <span className="process-step-emblem-number">03</span>
+                                    <span className="process-step-emblem-icon">⚙️</span>
+                                </div>
                                 <h3>Develop</h3>
                                 <p>Clean, scalable code built with modern frameworks. Rigorous testing at every milestone.</p>
                             </div>
                             <div className="process-step">
-                                <div className="process-step-number">4</div>
-                                <div className="process-step-icon">🚀</div>
+                                <div className="process-step-emblem" aria-hidden="true">
+                                    <span className="process-step-emblem-number">04</span>
+                                    <span className="process-step-emblem-icon">🚀</span>
+                                </div>
                                 <h3>Deploy</h3>
                                 <p>Launch with confidence. We handle hosting, SEO, and provide ongoing support & training.</p>
                             </div>
