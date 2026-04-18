@@ -23,6 +23,7 @@ export default function DarkModeToggle() {
 
     return (
         <button
+            type="button"
             className="dark-mode-toggle"
             onClick={() => setDark(!dark)}
             aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}

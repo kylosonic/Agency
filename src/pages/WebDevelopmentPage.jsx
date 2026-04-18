@@ -74,7 +74,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                     </ScrollReveal>
 
                     {loading ? (
-                        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                        <div className="loading-state">
                             <p>Loading Packages...</p>
                         </div>
                     ) : (
@@ -100,7 +100,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                     </ScrollReveal>
 
                     {loading ? (
-                        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                        <div className="loading-state">
                             <p>Loading Marketing Add-ons...</p>
                         </div>
                     ) : (
@@ -134,7 +134,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                             <h2>Need a Custom Quote?</h2>
                             <p>Download our full pricing guide for detailed breakdowns of every package, feature, and add-on.</p>
                             <div className="cta-actions">
-                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('web_page_cta_pricing')}>
+                                <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('web_page_cta_pricing')}>
                                     Download Full Pricing Guide
                                 </button>
                                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('web_page_cta_discovery')}>

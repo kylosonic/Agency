@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 // Create a motion version of react-router's Link
 const MotionLink = motion.create(Link);
@@ -7,12 +8,39 @@ const MotionLink = motion.create(Link);
 export default function TiltCard({ children, className = '', to, onClick }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
+    const [interactive, setInteractive] = useState(true);
 
     const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
     const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
 
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+            return undefined;
+        }
+
+        const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const handleMediaChange = () => {
+            const canHover = mediaQuery.matches;
+            setInteractive(canHover);
+            if (!canHover) {
+                x.set(0);
+                y.set(0);
+            }
+        };
+
+        handleMediaChange();
+
+        if (typeof mediaQuery.addEventListener === 'function') {
+            mediaQuery.addEventListener('change', handleMediaChange);
+            return () => mediaQuery.removeEventListener('change', handleMediaChange);
+        }
+
+        mediaQuery.addListener(handleMediaChange);
+        return () => mediaQuery.removeListener(handleMediaChange);
+    }, [x, y]);
 
     const handleMouseMove = (e) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -37,21 +65,30 @@ export default function TiltCard({ children, className = '', to, onClick }) {
 
     const MotionComponent = to ? MotionLink : motion.div;
     const props = to ? { to } : { onClick };
+    const cardMotionStyle = interactive
+        ? {
+            rotateX,
+            rotateY,
+            transformStyle: 'preserve-3d',
+            display: 'block',
+        }
+        : {
+            display: 'block',
+        };
+
+    const cardInnerStyle = interactive
+        ? { transform: 'translateZ(20px)', height: '100%' }
+        : { height: '100%' };
 
     return (
         <MotionComponent
-            style={{
-                rotateX,
-                rotateY,
-                transformStyle: "preserve-3d",
-                display: "block",
-            }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
+            style={cardMotionStyle}
+            onMouseMove={interactive ? handleMouseMove : undefined}
+            onMouseLeave={interactive ? handleMouseLeave : undefined}
             className={className}
             {...props}
         >
-            <div style={{ transform: "translateZ(20px)", height: "100%" }}>
+            <div style={cardInnerStyle}>
                 {children}
             </div>
         </MotionComponent>

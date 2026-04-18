@@ -87,25 +87,16 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                                 <tbody>
                                     {loading ? (
                                         <tr>
-                                            <td colSpan="4" style={{ textAlign: 'center', padding: '2rem' }}>Loading Services...</td>
+                                            <td colSpan="4" className="table-loading-cell">Loading Services...</td>
                                         </tr>
                                     ) : (
                                         services.map((item, i) => (
                                             <tr key={i}>
                                                 <td><strong>{item.service}</strong></td>
-                                                <td style={{ color: 'var(--text-secondary)' }}>{item.description}</td>
+                                                <td className="services-table-description">{item.description}</td>
                                                 <td className="price-cell">{item.price}</td>
                                                 <td>
-                                                    <span style={{
-                                                        display: 'inline-block',
-                                                        padding: '0.25rem 0.7rem',
-                                                        background: 'var(--bg-secondary)',
-                                                        border: '1px solid var(--glass-border)',
-                                                        borderRadius: 'var(--radius-full)',
-                                                        fontSize: '0.78rem',
-                                                        color: 'var(--text-secondary)',
-                                                        fontWeight: 500,
-                                                    }}>
+                                                    <span className="billing-chip">
                                                         {item.type}
                                                     </span>
                                                 </td>
@@ -132,7 +123,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
 
                     <ScrollReveal stagger>
                         {loading ? (
-                            <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                            <div className="loading-state">
                                 <p>Loading Featured Add-Ons...</p>
                             </div>
                         ) : (
@@ -142,12 +133,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                                         <div className="service-card-icon">{addon.icon}</div>
                                         <h3>{addon.title}</h3>
                                         <p>{addon.description}</p>
-                                        <div style={{ 
-                                            marginTop: 'var(--space-md)', 
-                                            fontFamily: 'var(--font-heading)', 
-                                            fontWeight: 700, 
-                                            fontSize: '1.15rem' 
-                                        }}>
+                                        <div className="featured-addon-price">
                                             {addon.price}
                                         </div>
                                     </div>
@@ -166,7 +152,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                             <h2>Need Something Custom?</h2>
                             <p>Contact us for custom quotes on any service. Download our full pricing guide for the complete breakdown.</p>
                             <div className="cta-actions">
-                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('additional_page_cta_pricing')}>
+                                <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('additional_page_cta_pricing')}>
                                     Download Full Pricing Guide
                                 </button>
                                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('additional_page_cta_discovery')}>

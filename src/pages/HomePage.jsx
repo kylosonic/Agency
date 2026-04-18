@@ -500,7 +500,7 @@ export default function HomePage({ onDownloadClick }) {
                             <h2>Ready to Transform Your Business?</h2>
                             <p>Download our comprehensive 2026 Service Menu & Pricing Guide to find the perfect package.</p>
                             <div className="cta-actions">
-                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('home_bottom_pricing')}>
+                                <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('home_bottom_pricing')}>
                                     Get Your Free Pricing Guide
                                 </button>
                                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('home_bottom_discovery')}>

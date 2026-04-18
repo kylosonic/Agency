@@ -131,8 +131,8 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                                 <p className="privacy-note">🔒 We respect your privacy. No spam, ever.</p>
                             </>
                         ) : (
-                            <div style={{ textAlign: 'center', padding: '2rem 0' }} role="status" aria-live="polite">
-                                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
+                            <div className="modal-success-state" role="status" aria-live="polite">
+                                <div className="modal-success-icon">✅</div>
                                 <h3>Thank You!</h3>
                                 <p className="modal-subtitle">Your guide is open in a new tab. You can also reopen it below.</p>
                                 <div className="modal-success-actions">

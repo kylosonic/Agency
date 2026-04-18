@@ -91,7 +91,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                     </ScrollReveal>
 
                     {loading ? (
-                        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                        <div className="loading-state">
                             <p>Loading Cloud Platforms...</p>
                         </div>
                     ) : (
@@ -100,9 +100,9 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                                 <div className="saas-card">
                                     <div className="saas-card-header">
                                         <div className="icon">{system.icon}</div>
-                                        <div style={{ flex: 1 }}>
+                                        <div className="saas-card-content">
                                             <h3>{system.name}</h3>
-                                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', marginTop: '0.35rem', lineHeight: 1.6 }}>
+                                            <p className="saas-card-description">
                                                 {system.description}
                                             </p>
                                         </div>
@@ -121,13 +121,13 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                                         <div className="saas-price-item saas-price-item-highlight">
                                             <div className="label">Annual Subscription</div>
                                             <div className="value">{system.annual}</div>
-                                            <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.6)', marginTop: '0.25rem', fontWeight: 500 }}>
+                                            <div className="saas-annual-save">
                                                 {system.annualSave}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <h4 style={{ marginBottom: 'var(--space-md)', color: 'var(--text-secondary)', fontSize: '0.85rem', fontWeight: 600 }}>
+                                    <h4 className="saas-modules-title">
                                         Core Modules Included:
                                     </h4>
                                     <ul className="saas-modules">

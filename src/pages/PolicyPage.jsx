@@ -42,7 +42,7 @@ export default function PolicyPage({ onDownloadClick }) {
                     <ScrollReveal>
                         <div className="policy-section">
                             <h3>💼 Development Payment Terms</h3>
-                            <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-xl)', lineHeight: 1.8 }}>
+                            <p className="policy-intro">
                                 All custom development projects (web, mobile, and SaaS customization) follow our milestone-based payment structure. This ensures clear checkpoints and mutual accountability at every stage.
                             </p>
 
@@ -88,11 +88,11 @@ export default function PolicyPage({ onDownloadClick }) {
                     <ScrollReveal>
                         <div className="policy-section">
                             <h3>📈 Digital Marketing Terms</h3>
-                            <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-xl)', lineHeight: 1.8 }}>
+                            <p className="policy-intro">
                                 All digital marketing packages operate on a prepaid monthly basis to ensure uninterrupted campaign delivery and optimal budget allocation.
                             </p>
 
-                            <div className="services-grid" style={{ marginBottom: 'var(--space-xl)' }}>
+                            <div className="services-grid policy-services-grid">
                                 <div className="service-card">
                                     <div className="service-card-icon">💳</div>
                                     <h3>Pre-Paid Monthly Billing</h3>
@@ -131,7 +131,7 @@ export default function PolicyPage({ onDownloadClick }) {
                     <ScrollReveal>
                         <div className="policy-section">
                             <h3>☁️ SaaS Subscription Terms</h3>
-                            <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-xl)', lineHeight: 1.8 }}>
+                            <p className="policy-intro">
                                 Our cloud management systems (SMS, HMS, PMS) are offered as a service with the following terms.
                             </p>
 
@@ -167,7 +167,7 @@ export default function PolicyPage({ onDownloadClick }) {
                     <ScrollReveal>
                         <div className="policy-section">
                             <h3>📋 General Terms</h3>
-                            <div style={{ display: 'grid', gap: 'var(--space-md)' }}>
+                            <div className="policy-note-stack">
                                 <div className="policy-note">
                                     <span className="icon">📌</span>
                                     <span>
@@ -199,7 +199,7 @@ export default function PolicyPage({ onDownloadClick }) {
                             <h2>Need Clarification Before You Start?</h2>
                             <p>Review the full service guide or book a discovery call and we will walk through the policy details with your team.</p>
                             <div className="cta-actions">
-                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('policy_page_cta_pricing')}>
+                                <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('policy_page_cta_pricing')}>
                                     Download Full Pricing Guide
                                 </button>
                                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('policy_page_cta_discovery')}>

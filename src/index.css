@@ -257,6 +257,11 @@ button:disabled {
   padding: var(--space-4xl) 0;
 }
 
+.hero[id],
+.section[id] {
+  scroll-margin-top: 102px;
+}
+
 .section-sm {
   padding: var(--space-3xl) 0;
 }
@@ -587,6 +592,10 @@ h2 {
   flex-direction: column;
   gap: 0.45rem;
   padding: 1.05rem;
+  padding-bottom: calc(1.05rem + env(safe-area-inset-bottom));
+  max-height: calc(100vh - 102px - env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
   transform: translateY(-10px) scale(0.98);
   opacity: 0;
   visibility: hidden;
@@ -951,6 +960,14 @@ h2 {
   gap: 0.55rem;
 }
 
+.service-card:focus-visible,
+.navbar-logo:focus-visible,
+.mobile-nav a:focus-visible,
+.footer-links a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--green), white 24%);
+  outline-offset: 3px;
+}
+
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1139,6 +1156,31 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.saas-card-content {
+  flex: 1;
+}
+
+.saas-card-description {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin-top: 0.35rem;
+  line-height: 1.6;
+}
+
+.saas-annual-save {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.saas-modules-title {
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 .saas-card-header {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -1252,6 +1294,7 @@ h2 {
 .services-table td {
   padding: 0.98rem 1rem;
   text-align: left;
+  vertical-align: top;
 }
 
 .services-table th {
@@ -1276,6 +1319,37 @@ h2 {
   color: var(--green-dark);
   font-family: var(--font-heading);
   font-weight: 800;
+}
+
+.services-table-description {
+  color: var(--text-secondary);
+}
+
+.table-loading-cell {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
+.billing-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.featured-addon-price {
+  margin-top: var(--space-md);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.15rem;
 }
 
 .policy-section {
@@ -1330,6 +1404,21 @@ h2 {
 .policy-note .icon {
   font-size: 1rem;
   margin-top: 1px;
+}
+
+.policy-intro {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xl);
+  line-height: 1.8;
+}
+
+.policy-services-grid {
+  margin-bottom: var(--space-xl);
+}
+
+.policy-note-stack {
+  display: grid;
+  gap: var(--space-md);
 }
 
 .testimonial-card {
@@ -1579,6 +1668,16 @@ h2 {
 
 .form-feedback.error {
   color: #dc2626;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.loading-state p {
+  color: var(--text-secondary);
+  font-weight: 700;
 }
 
 .contact-info-card {
@@ -1854,6 +1953,16 @@ h2 {
   margin-top: 0.9rem;
 }
 
+.modal-success-state {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.modal-success-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
 .footer {
   margin-top: var(--space-3xl);
   border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
@@ -1928,7 +2037,7 @@ h2 {
 .floating-cta-container {
   position: fixed;
   left: 50%;
-  bottom: 1.15rem;
+  bottom: max(1rem, calc(0.8rem + env(safe-area-inset-bottom)));
   transform: translateX(-50%);
   z-index: 920;
 }
@@ -1958,7 +2067,7 @@ h2 {
 .scroll-to-top-btn {
   position: fixed;
   right: 1rem;
-  bottom: 1rem;
+  bottom: max(1rem, calc(0.72rem + env(safe-area-inset-bottom)));
   width: 46px;
   height: 46px;
   border-radius: 15px;
@@ -2047,6 +2156,12 @@ h2 {
   transform: scale(1.17);
 }
 
+.section-scrollbar-dot:focus-visible .section-scrollbar-dot-inner {
+  border-color: var(--green);
+  background: var(--green);
+  transform: scale(1.17);
+}
+
 .section-scrollbar-label {
   position: absolute;
   right: calc(100% + 8px);
@@ -2065,6 +2180,11 @@ h2 {
 }
 
 .section-scrollbar-label.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.section-scrollbar-dot:focus-visible .section-scrollbar-label {
   opacity: 1;
   transform: translateX(0);
 }
@@ -2280,7 +2400,21 @@ h2 {
   }
 
   .services-table {
-    min-width: 620px;
+    min-width: 560px;
+  }
+
+  .services-table th,
+  .services-table td {
+    padding: 0.78rem 0.72rem;
+  }
+
+  .services-table td {
+    font-size: 0.84rem;
+  }
+
+  .billing-chip {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.56rem;
   }
 
   .footer-grid,
@@ -2320,7 +2454,7 @@ h2 {
 
   .scroll-to-top-btn {
     right: 0.72rem;
-    bottom: 4.2rem;
+    bottom: max(4.2rem, calc(3.9rem + env(safe-area-inset-bottom)));
   }
 }
 
@@ -2351,7 +2485,7 @@ h2 {
   }
 
   .floating-cta-container {
-    bottom: 0.65rem;
+    bottom: max(0.65rem, calc(0.35rem + env(safe-area-inset-bottom)));
   }
 
   .floating-cta-btn {

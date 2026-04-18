@@ -74,7 +74,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                     </ScrollReveal>
 
                     {loading ? (
-                        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                        <div className="loading-state">
                             <p>Loading Packages...</p>
                         </div>
                     ) : (
@@ -100,7 +100,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                     </ScrollReveal>
 
                     {loading ? (
-                        <div style={{ textAlign: 'center', padding: '4rem 0' }}>
+                        <div className="loading-state">
                             <p>Loading Marketing Add-ons...</p>
                         </div>
                     ) : (
@@ -134,7 +134,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                             <h2>Have an App Idea?</h2>
                             <p>Let's turn your vision into a market-ready mobile application. Download our full guide for detailed specs and pricing.</p>
                             <div className="cta-actions">
-                                <button className="btn btn-primary btn-lg" onClick={() => onDownloadClick('mobile_page_cta_pricing')}>
+                                <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('mobile_page_cta_pricing')}>
                                     Download Full Pricing Guide
                                 </button>
                                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('mobile_page_cta_discovery')}>

@@ -30,6 +30,7 @@ export default function ScrollToTopButton() {
         <AnimatePresence>
             {isVisible && (
                 <MotionButton
+                    type="button"
                     initial={{ opacity: 0, scale: 0.5, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.5, y: 20 }}

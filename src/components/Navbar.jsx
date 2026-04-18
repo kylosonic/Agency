@@ -96,7 +96,12 @@ export default function Navbar({ onDownloadClick }) {
 
       <div className={`mobile-nav-backdrop ${mobileOpen ? 'open' : ''}`} onClick={closeMobileNav} aria-hidden="true" />
 
-      <div id="mobile-navigation" className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
+      <nav
+        id="mobile-navigation"
+        className={`mobile-nav ${mobileOpen ? 'open' : ''}`}
+        aria-label="Mobile navigation"
+        aria-hidden={!mobileOpen}
+      >
         {NAV_LINKS.map((link) => (
           <Link
             key={link.to}
@@ -110,7 +115,7 @@ export default function Navbar({ onDownloadClick }) {
         <button type="button" className="btn btn-primary" onClick={() => handlePricingClick('navbar_mobile')}>
           Download Pricing Guide
         </button>
-      </div>
+      </nav>
     </>
   );
 }
