@@ -1571,39 +1571,19 @@ h2 {
   min-height: clamp(232px, 27vw, 290px);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.58rem;
+  justify-content: flex-start;
+  gap: 0.72rem;
   position: relative;
-  overflow: hidden;
-  padding: 1.12rem;
-  border-radius: var(--radius-xl);
-  border: 1px solid color-mix(in srgb, var(--blue), transparent 58%);
-  background: linear-gradient(165deg, color-mix(in srgb, var(--bg-dark), black 8%) 0%, color-mix(in srgb, var(--bg-dark-soft), black 16%) 100%);
-  color: var(--text-on-dark);
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  color: var(--text-primary);
 }
 
 .portfolio-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.25) 0%, transparent 42%),
-    radial-gradient(circle at 100% 100%, rgba(251, 146, 60, 0.24) 0%, transparent 38%);
-  opacity: 0.9;
-}
-
-.portfolio-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(6, 13, 28, 0.05) 18%, rgba(6, 13, 28, 0.8) 100%);
+  content: none;
 }
 
 .portfolio-card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--blue), white 18%);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+  border-color: var(--glass-border-hover);
 }
 
 .portfolio-card-tag,
@@ -1619,7 +1599,9 @@ h2 {
 
 .portfolio-card-tag {
   align-self: flex-start;
-  border: 1px solid rgba(248, 250, 252, 0.28);
+  border: 1px solid var(--glass-border);
+  background: color-mix(in srgb, var(--bg-tertiary), transparent 10%);
+  color: var(--text-secondary);
   border-radius: var(--radius-full);
   padding: 0.24rem 0.62rem;
   font-size: 0.69rem;
@@ -1633,51 +1615,25 @@ h2 {
   font-size: 1.1rem;
   line-height: 1.2;
   margin-bottom: 0.15rem;
-  text-shadow: 0 4px 18px rgba(2, 6, 23, 0.45);
 }
 
 .portfolio-card-content p {
-  color: rgba(248, 250, 252, 0.84);
+  color: var(--text-secondary);
   font-size: 0.84rem;
   line-height: 1.52;
-  text-wrap: pretty;
 }
 
 .portfolio-coming-soon {
   margin-top: 0.9rem;
   border-radius: var(--radius-md);
-  border: 1px solid var(--blue-border);
-  background: color-mix(in srgb, var(--blue-bg), transparent 8%);
-  color: var(--blue-dark);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-card);
+  color: var(--text-secondary);
   text-align: center;
   font-weight: 700;
   font-size: 0.87rem;
   line-height: 1.5;
   padding: 0.76rem;
-}
-
-[data-theme='dark'] .portfolio-card {
-  border-color: rgba(94, 234, 212, 0.24);
-  background: linear-gradient(165deg, #071126 0%, #0b1630 100%);
-}
-
-[data-theme='dark'] .portfolio-card::before {
-  background: radial-gradient(circle at 0% 0%, rgba(45, 212, 191, 0.24) 0%, transparent 44%),
-    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.22) 0%, transparent 40%);
-}
-
-[data-theme='dark'] .portfolio-card::after {
-  background: linear-gradient(180deg, rgba(7, 17, 38, 0.12) 16%, rgba(2, 8, 24, 0.86) 100%);
-}
-
-[data-theme='dark'] .portfolio-card:hover {
-  border-color: rgba(94, 234, 212, 0.44);
-}
-
-[data-theme='dark'] .portfolio-coming-soon {
-  background: rgba(15, 23, 42, 0.55);
-  border-color: rgba(94, 234, 212, 0.3);
-  color: #99f6e4;
 }
 
 .contact-grid {
@@ -2387,6 +2343,7 @@ h2 {
     .hero-stat,
     .about-card,
     .service-card,
+  .portfolio-card,
     .pricing-card,
     .addon-card,
     .feature-card,
@@ -2413,6 +2370,7 @@ h2 {
     .hero-stat,
     .about-card,
     .service-card,
+  .portfolio-card,
     .pricing-card,
     .addon-card,
     .feature-card,
@@ -2429,6 +2387,7 @@ h2 {
 .about-card,
 .service-card,
 .hero-feature-card,
+.portfolio-card,
 .testimonial-card,
 .feature-card,
 .pricing-card,
