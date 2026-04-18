@@ -916,6 +916,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  align-items: stretch;
 }
 
 .service-card {
@@ -1532,15 +1533,20 @@ h2 {
 }
 
 .portfolio-card {
-  min-height: 250px;
+  min-height: clamp(232px, 27vw, 290px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  gap: 0.58rem;
   position: relative;
   overflow: hidden;
+  padding: 1.12rem;
+  border-radius: var(--radius-xl);
   border: 1px solid color-mix(in srgb, var(--blue), transparent 58%);
   background: linear-gradient(165deg, color-mix(in srgb, var(--bg-dark), black 8%) 0%, color-mix(in srgb, var(--bg-dark-soft), black 16%) 100%);
   color: var(--text-inverse);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
 }
 
 .portfolio-card::before {
@@ -1552,10 +1558,28 @@ h2 {
   opacity: 0.9;
 }
 
+.portfolio-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 13, 28, 0.05) 18%, rgba(6, 13, 28, 0.8) 100%);
+}
+
+.portfolio-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--blue), white 18%);
+  box-shadow: var(--shadow-hover);
+}
+
 .portfolio-card-tag,
 .portfolio-card-content {
   position: relative;
   z-index: 1;
+}
+
+.portfolio-card-content {
+  display: grid;
+  gap: 0.18rem;
 }
 
 .portfolio-card-tag {
@@ -1572,12 +1596,14 @@ h2 {
 
 .portfolio-card-content h3 {
   font-size: 1.1rem;
-  margin-bottom: 0.2rem;
+  line-height: 1.2;
+  margin-bottom: 0.15rem;
 }
 
 .portfolio-card-content p {
   color: rgba(248, 250, 252, 0.84);
   font-size: 0.84rem;
+  line-height: 1.52;
 }
 
 .portfolio-coming-soon {
@@ -2496,6 +2522,11 @@ h2 {
   .page-hero-chip {
     font-size: 0.69rem;
     padding: 0.26rem 0.56rem;
+  }
+
+  .portfolio-card {
+    min-height: 220px;
+    padding: 1rem;
   }
 }
 
