@@ -30,7 +30,7 @@ export const getWebPackages = async () => {
     
     return [
         {
-            icon: "🚀",
+            icon: 'rocket',
             title: 'The "Digital Presence" Package',
             subtitle: "Starter",
             price: "20,000",
@@ -49,13 +49,13 @@ export const getWebPackages = async () => {
             ctaText: "Start Your Presence"
         },
         {
-            icon: "📈",
+            icon: 'chart',
             title: 'The "Growth & Conversion" Package',
             subtitle: "Recommended",
             price: "50,000 – 80,000",
             timeline: "3–5 Weeks Delivery",
             recommended: true,
-            badgeText: "★ Most Popular",
+            badgeText: 'Most Popular',
             features: [
                 'Up to 15 custom pages',
                 'Advanced UI/UX design',
@@ -71,7 +71,7 @@ export const getWebPackages = async () => {
             ctaText: "Accelerate Growth"
         },
         {
-            icon: "🏛️",
+            icon: 'building',
             title: 'The "Enterprise" Package',
             subtitle: "Custom",
             price: "150,000+",
@@ -98,7 +98,7 @@ export const getMobilePackages = async () => {
     await delay(SIMULATED_DELAY);
     return [
         {
-            icon: "📱",
+            icon: 'mobile',
             title: 'The "Essential App" Package',
             subtitle: "Starter",
             price: "80,000 – 120,000",
@@ -116,13 +116,13 @@ export const getMobilePackages = async () => {
             ctaText: "Launch Your App"
         },
         {
-            icon: "⚡",
+            icon: 'lightning',
             title: 'The "Full Scale Platform" Package',
             subtitle: "Recommended",
             price: "150,000 – 250,000",
             timeline: "8–12 Weeks Delivery",
             recommended: true,
-            badgeText: "★ Best Value",
+            badgeText: 'Best Value',
             features: [
                 'Everything in Essential App',
                 'Advanced state management',
@@ -144,7 +144,7 @@ export const getSaasPackages = async () => {
     await delay(SIMULATED_DELAY);
     return [
         {
-            icon: "📚",
+            icon: 'book',
             title: "School Management System",
             subtitle: "EduTech",
             price: "15,000",
@@ -162,13 +162,13 @@ export const getSaasPackages = async () => {
             ctaText: "Request Demo"
         },
         {
-            icon: "🏥",
+            icon: 'hospital',
             title: "Clinic/Hospital ERP",
             subtitle: "HealthTech",
             price: "25,000",
             period: "/ month",
             recommended: true,
-            badgeText: "★ High Demand",
+            badgeText: 'High Demand',
             features: [
                 'Patient electronic health records (EHR)',
                 'Appointment scheduling & reminders',
@@ -182,7 +182,7 @@ export const getSaasPackages = async () => {
             ctaText: "Request Demo"
         },
         {
-            icon: "🏢",
+            icon: 'building',
             title: "Real Estate CRM",
             subtitle: "PropTech",
             price: "10,000",
@@ -207,7 +207,7 @@ export const getMarketingAddons = async () => {
     return [
         {
             id: 'visibility',
-            icon: "🔍",
+            icon: 'search',
             title: "The Visibility Boost",
             fee: "5,000",
             adSpend: "3,000–5,000",
@@ -220,7 +220,7 @@ export const getMarketingAddons = async () => {
         },
         {
             id: 'lead',
-            icon: "🎯",
+            icon: 'target',
             title: "The Lead Generator",
             featured: true,
             fee: "10,000",
@@ -236,7 +236,7 @@ export const getMarketingAddons = async () => {
         },
         {
             id: 'dominator',
-            icon: "👑",
+            icon: 'crown',
             title: "The Market Dominator",
             fee: "20,000",
             adSpend: "20,000–50,000",
@@ -258,7 +258,7 @@ export const getAppMarketingAddons = async () => {
     return [
         {
             id: 'launch',
-            icon: "🚀",
+            icon: 'rocket',
             title: "App Launch & Visibility Setup",
             fee: "8,000",
             adSpend: "One-time setup + 3,000/mo management",
@@ -273,7 +273,7 @@ export const getAppMarketingAddons = async () => {
         },
         {
             id: 'growth',
-            icon: "📈",
+            icon: 'chart',
             title: "Growth & Acquisition",
             featured: true,
             fee: "12,000",
@@ -289,7 +289,7 @@ export const getAppMarketingAddons = async () => {
         },
         {
             id: 'scaling',
-            icon: "🏆",
+            icon: 'trophy',
             title: "App Scaling & User Retention",
             fee: "25,000",
             adSpend: "30,000–60,000",
@@ -364,19 +364,19 @@ export const getFeaturedAddons = async () => {
     await delay(SIMULATED_DELAY);
     return [
         {
-            icon: '🌐',
+            icon: 'globe',
             title: 'Domain & Hosting Bundle',
             description: 'Get your domain registration and cloud hosting together at a discounted annual rate. Includes free SSL, daily backups, and 99.9% uptime SLA.',
             price: 'Starting at 6,000 ETB/yr',
         },
         {
-            icon: '🎨',
+            icon: 'palette',
             title: 'Complete Brand Identity',
             description: 'Professional logo design, color system, typography selection, and comprehensive brand guidelines document. Includes 3 revision rounds.',
             price: 'Starting at 5,000 ETB',
         },
         {
-            icon: '📸',
+            icon: 'camera',
             title: 'Professional Photography',
             description: 'High-quality commercial photography for your products, team, and workspace. Includes editing, retouching, and web-optimized deliverables.',
             price: 'Starting at 5,000 ETB',

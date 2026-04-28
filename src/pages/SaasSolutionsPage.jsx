@@ -4,6 +4,7 @@ import ScrollReveal from '../components/ScrollReveal';
 import StaggeredText from '../components/StaggeredText';
 import MagneticButton from '../components/MagneticButton';
 import RouteProofStrip from '../components/RouteProofStrip';
+import IconGlyph from '../components/IconGlyph';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getSaasPackages } from '../services/firebaseService';
@@ -99,7 +100,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                             <ScrollReveal key={index}>
                                 <div className="saas-card">
                                     <div className="saas-card-header">
-                                        <div className="icon">{system.icon}</div>
+                                        <div className="icon" aria-hidden="true"><IconGlyph name={system.icon} size={22} /></div>
                                         <div className="saas-card-content">
                                             <h3>{system.name}</h3>
                                             <p className="saas-card-description">
@@ -133,7 +134,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                                     <ul className="saas-modules">
                                         {system.modules.map((mod, i) => (
                                             <li key={i}>
-                                                <span className="check">✓</span>
+                                                <span className="check" aria-hidden="true"><IconGlyph name="check" size={14} /></span>
                                                 {mod}
                                             </li>
                                         ))}

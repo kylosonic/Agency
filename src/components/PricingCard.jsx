@@ -1,3 +1,5 @@
+import IconGlyph from './IconGlyph';
+
 export default function PricingCard({
     icon,
     title,
@@ -18,7 +20,9 @@ export default function PricingCard({
             {recommended && <div className="pricing-badge">{badgeText}</div>}
 
             <div className="pricing-card-header">
-                <div className="pricing-card-icon">{icon}</div>
+                <div className="pricing-card-icon">
+                    <IconGlyph name={icon} size={20} className="pricing-card-icon-svg" />
+                </div>
                 <h3>{title}</h3>
                 {subtitle && <p className="subtitle">{subtitle}</p>}
             </div>
@@ -31,14 +35,17 @@ export default function PricingCard({
 
             {timeline && (
                 <div className="pricing-timeline">
-                    ⏱ {timeline}
+                    <IconGlyph name="clock" size={14} className="pricing-timeline-icon" />
+                    <span>{timeline}</span>
                 </div>
             )}
 
             <ul className="pricing-features">
                 {features.map((feature, i) => (
                     <li key={i}>
-                        <span className="check">✓</span>
+                        <span className="check" aria-hidden="true">
+                            <IconGlyph name="check" size={14} />
+                        </span>
                         <span>{feature}</span>
                     </li>
                 ))}

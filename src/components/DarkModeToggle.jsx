@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import IconGlyph from './IconGlyph';
 
 export default function DarkModeToggle() {
     const [dark, setDark] = useState(() => {
@@ -30,7 +31,7 @@ export default function DarkModeToggle() {
             title={dark ? 'Light mode' : 'Dark mode'}
         >
             <span className={`toggle-icon ${dark ? 'moon' : 'sun'}`}>
-                {dark ? '☀️' : '🌙'}
+                <IconGlyph name={dark ? 'sun' : 'moon'} size={16} />
             </span>
         </button>
     );

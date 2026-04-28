@@ -3,6 +3,7 @@ import InteractivePricing from '../components/InteractivePricing';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
+import IconGlyph from '../components/IconGlyph';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getMobilePackages, getAppMarketingAddons } from '../services/firebaseService';
@@ -108,14 +109,17 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                             <div className="addon-grid">
                                 {addons.map((addon) => (
                                     <div key={addon.id} className={`addon-card ${addon.featured ? 'addon-card-featured' : ''}`}>
-                                        <h4>{addon.icon} {addon.title}</h4>
+                                        <h4>
+                                            <span className="addon-card-icon" aria-hidden="true"><IconGlyph name={addon.icon} size={16} /></span>
+                                            {addon.title}
+                                        </h4>
                                         <div className="price">
                                             {addon.fee} ETB<span className="detail">{addon.id === 'launch' ? addon.adSpend : `Management Fee /month`}</span>
                                             {addon.id !== 'launch' && <span className="detail">+ {addon.adSpend} ETB {addon.id === 'growth' ? 'CPI ' : ''}Ad Spend</span>}
                                         </div>
                                         <ul>
                                             {addon.features.map((feature, i) => (
-                                                <li key={i}><span className="check">✓</span> {feature}</li>
+                                                <li key={i}><span className="check" aria-hidden="true"><IconGlyph name="check" size={14} /></span> {feature}</li>
                                             ))}
                                         </ul>
                                     </div>

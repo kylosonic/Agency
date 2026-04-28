@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
+import IconGlyph from '../components/IconGlyph';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getAdditionalServices, getFeaturedAddons } from '../services/firebaseService';
@@ -130,7 +131,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                             <div className="services-grid">
                                 {featuredAddons.map((addon, i) => (
                                     <div key={i} className="service-card">
-                                        <div className="service-card-icon">{addon.icon}</div>
+                                        <div className="service-card-icon" aria-hidden="true"><IconGlyph name={addon.icon} size={21} /></div>
                                         <h3>{addon.title}</h3>
                                         <p>{addon.description}</p>
                                         <div className="featured-addon-price">

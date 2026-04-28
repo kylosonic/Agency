@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import IconGlyph from './IconGlyph';
 
 const MotionDiv = motion.div;
 
@@ -36,7 +37,10 @@ export default function FloatingCTA({ onClick }) {
                     className="floating-cta-container"
                 >
                     <button type="button" className="floating-cta-btn" onClick={() => onClick('floating_cta')}>
-                        <span className="icon">📄</span> Get Pricing Guide
+                        <span className="icon" aria-hidden="true">
+                            <IconGlyph name="download" size={16} />
+                        </span>
+                        Get Pricing Guide
                     </button>
                 </MotionDiv>
             )}

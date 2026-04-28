@@ -50,7 +50,7 @@ export default function Footer() {
 
                 <div className="footer-bottom">
                     <span>© 2026 NovaTech Digital Agency. All rights reserved.</span>
-                    <a href={SITE_CONTACT.mapsUrl} target="_blank" rel="noreferrer" onClick={() => trackContactChannelClick('maps', 'footer')}>{SITE_CONTACT.locationLabel} 🇪🇹</a>
+                    <a href={SITE_CONTACT.mapsUrl} target="_blank" rel="noreferrer" onClick={() => trackContactChannelClick('maps', 'footer')}>{SITE_CONTACT.locationLabel}</a>
                 </div>
             </div>
         </footer>

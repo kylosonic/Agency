@@ -1,9 +1,16 @@
+import IconGlyph from './IconGlyph';
+
 export default function SectionHeader({ tag, title, subtitle, gradient = false, align = 'center' }) {
     const alignmentClass = align === 'left' ? '' : 'center';
 
     return (
         <div className={`section-header ${alignmentClass}`.trim()}>
-            {tag && <div className="section-tag">✦ {tag}</div>}
+            {tag && (
+                <div className="section-tag">
+                    <IconGlyph name="spark" size={14} className="section-tag-icon" />
+                    {tag}
+                </div>
+            )}
             <h2 className={gradient ? 'gradient-text' : ''}>{title}</h2>
             {subtitle && <p>{subtitle}</p>}
         </div>

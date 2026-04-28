@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
+import IconGlyph from './IconGlyph';
 
 const INITIAL_FORM = { name: '', email: '', company: '' };
 const MotionDiv = motion.div;
@@ -79,13 +80,15 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                         aria-modal="true"
                         aria-labelledby="pricing-guide-title"
                     >
-                        <button type="button" className="modal-close-new" onClick={() => requestClose('close_button')}>✕</button>
+                            <button type="button" className="modal-close-new" onClick={() => requestClose('close_button')} aria-label="Close pricing guide modal">
+                                <IconGlyph name="close" size={16} />
+                            </button>
 
                         {status !== 'success' ? (
                             <>
                                 <h3 id="pricing-guide-title">Get Our 2026 Pricing Guide</h3>
                                 <p className="modal-subtitle">
-                                    Download our exhaustive overview of development, digital marketing, and SaaS packages — with full ETB pricing.
+                                    Download our complete overview of development, digital marketing, and SaaS packages, with full ETB pricing.
                                 </p>
 
                                 <form onSubmit={handleSubmit}>
@@ -95,7 +98,7 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                                             id="lead-name"
                                             type="text"
                                             name="name"
-                                            placeholder="John Doe"
+                                            placeholder="Hana Bekele"
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
@@ -107,7 +110,7 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                                             id="lead-email"
                                             type="email"
                                             name="email"
-                                            placeholder="john@company.com"
+                                            placeholder="team@company.et"
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
@@ -119,7 +122,7 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                                             id="lead-company"
                                             type="text"
                                             name="company"
-                                            placeholder="Acme Corp"
+                                            placeholder="Aster Ventures"
                                             value={formData.company}
                                             onChange={handleChange}
                                         />
@@ -128,11 +131,16 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                                         {status === 'submitting' ? 'Preparing Your Guide...' : 'Download Pricing Guide'}
                                     </button>
                                 </form>
-                                <p className="privacy-note">🔒 We respect your privacy. No spam, ever.</p>
+                                <p className="privacy-note">
+                                    <IconGlyph name="shield" size={14} className="privacy-icon" />
+                                    We respect your privacy. No spam, ever.
+                                </p>
                             </>
                         ) : (
                             <div className="modal-success-state" role="status" aria-live="polite">
-                                <div className="modal-success-icon">✅</div>
+                                <div className="modal-success-icon" aria-hidden="true">
+                                    <IconGlyph name="check" size={30} />
+                                </div>
                                 <h3>Thank You!</h3>
                                 <p className="modal-subtitle">Your guide is open in a new tab. You can also reopen it below.</p>
                                 <div className="modal-success-actions">
