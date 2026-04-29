@@ -1,10 +1,16 @@
 import { useMemo, useState } from 'react';
+import { useLanguage } from '../i18n/useLanguage';
 
 function roundCurrency(value) {
   return Math.max(0, Math.round(value));
 }
 
-export default function RoiEstimator({ title = 'ROI Estimator', subtitle = 'Model expected revenue impact using your current funnel assumptions.' }) {
+export default function RoiEstimator({ title, subtitle }) {
+  const { t } = useLanguage();
+
+  const resolvedTitle = title || t('roi.title', 'ROI Estimator');
+  const resolvedSubtitle = subtitle || t('roi.subtitle', 'Model expected revenue impact using your current funnel assumptions.');
+
   const [inputs, setInputs] = useState({
     monthlyLeads: 120,
     conversionRate: 7,
@@ -41,57 +47,57 @@ export default function RoiEstimator({ title = 'ROI Estimator', subtitle = 'Mode
   };
 
   return (
-    <section className="section roi-section" aria-label="ROI estimator">
+    <section className="section roi-section" aria-label={t('roi.aria', 'ROI estimator')}>
       <div className="container roi-grid">
         <div className="roi-card roi-input-card">
-          <h2>{title}</h2>
-          <p>{subtitle}</p>
+          <h2>{resolvedTitle}</h2>
+          <p>{resolvedSubtitle}</p>
 
           <div className="roi-input-grid">
             <label>
-              Monthly leads
+              {t('roi.inputs.monthlyLeads', 'Monthly leads')}
               <input type="number" min="0" value={inputs.monthlyLeads} onChange={handleNumberChange('monthlyLeads')} />
             </label>
             <label>
-              Conversion rate (%)
+              {t('roi.inputs.conversionRate', 'Conversion rate (%)')}
               <input type="number" min="0" max="100" value={inputs.conversionRate} onChange={handleNumberChange('conversionRate')} />
             </label>
             <label>
-              Average deal value (ETB)
+              {t('roi.inputs.averageDealValue', 'Average deal value (ETB)')}
               <input type="number" min="0" value={inputs.averageDealValue} onChange={handleNumberChange('averageDealValue')} />
             </label>
             <label>
-              Monthly spend (ETB)
+              {t('roi.inputs.monthlySpend', 'Monthly spend (ETB)')}
               <input type="number" min="0" value={inputs.monthlySpend} onChange={handleNumberChange('monthlySpend')} />
             </label>
             <label>
-              Expected traffic lift (%)
+              {t('roi.inputs.expectedLift', 'Expected traffic lift (%)')}
               <input type="number" min="0" max="500" value={inputs.expectedLift} onChange={handleNumberChange('expectedLift')} />
             </label>
           </div>
         </div>
 
         <div className="roi-card roi-output-card">
-          <h3>Projected monthly outcome</h3>
+          <h3>{t('roi.output.title', 'Projected monthly outcome')}</h3>
           <ul>
             <li>
-              <span>Projected leads</span>
+              <span>{t('roi.output.projectedLeads', 'Projected leads')}</span>
               <strong>{metrics.projectedLeads}</strong>
             </li>
             <li>
-              <span>Current revenue (ETB)</span>
+              <span>{t('roi.output.currentRevenue', 'Current revenue (ETB)')}</span>
               <strong>{metrics.currentRevenue.toLocaleString()}</strong>
             </li>
             <li>
-              <span>Projected revenue (ETB)</span>
+              <span>{t('roi.output.projectedRevenue', 'Projected revenue (ETB)')}</span>
               <strong>{metrics.projectedRevenue.toLocaleString()}</strong>
             </li>
             <li>
-              <span>Revenue lift (ETB)</span>
+              <span>{t('roi.output.revenueLift', 'Revenue lift (ETB)')}</span>
               <strong>{metrics.revenueLift.toLocaleString()}</strong>
             </li>
             <li className={`roi-highlight ${metrics.roi >= 0 ? 'positive' : 'negative'}`}>
-              <span>Estimated ROI</span>
+              <span>{t('roi.output.estimatedRoi', 'Estimated ROI')}</span>
               <strong>{metrics.roi}%</strong>
             </li>
           </ul>

@@ -64,7 +64,7 @@ export default function Navbar({ onDownloadClick }) {
         <div className="container navbar-inner">
           <Link to="/" className="navbar-logo">
             <span className="logo-icon">N</span>
-            <span>NovaTech</span>
+            <span>{t('brand.name', 'NovaTech')}</span>
           </Link>
 
           <div className="navbar-desktop">
@@ -104,7 +104,7 @@ export default function Navbar({ onDownloadClick }) {
               onClick={() => setMobileOpen((current) => !current)}
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-label={mobileOpen ? t('nav.closeMenu', 'Close menu') : t('nav.openMenu', 'Open menu')}
             >
               <span></span>
               <span></span>
@@ -119,7 +119,7 @@ export default function Navbar({ onDownloadClick }) {
       <nav
         id="mobile-navigation"
         className={`mobile-nav ${mobileOpen ? 'open' : ''}`}
-        aria-label="Mobile navigation"
+        aria-label={t('nav.mobileNavigation', 'Mobile navigation')}
         aria-hidden={!mobileOpen}
       >
         {NAV_LINKS.map((link) => (

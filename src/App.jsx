@@ -25,6 +25,21 @@ import IndustryLandingPage from './pages/IndustryLandingPage';
 import InstantQuotePage from './pages/InstantQuotePage';
 import DiscoveryCallPage from './pages/DiscoveryCallPage';
 
+const AUTO_LEAD_CAPTURE_ROUTES = new Set([
+  '/',
+  '/web-development',
+  '/mobile-development',
+  '/saas-solutions',
+  '/additional-services',
+]);
+
+const AUTO_LEAD_CAPTURE_MIN_VIEW_MS = 12000;
+const AUTO_LEAD_CAPTURE_MIN_SCROLL_PX = 420;
+const AUTO_LEAD_CAPTURE_MIN_SCROLL_DEPTH = 0.72;
+const AUTO_LEAD_CAPTURE_SESSION_KEY = 'lead-capture-auto:shown';
+const AUTO_LEAD_CAPTURE_LAST_SHOWN_KEY = 'lead-capture-auto:last-shown-at';
+const AUTO_LEAD_CAPTURE_COOLDOWN_MS = 1000 * 60 * 60 * 10;
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -54,6 +69,50 @@ function getLeadCaptureVariant(pathname, trigger) {
   }
 
   return 'pricing_guide';
+}
+
+function isAutoLeadCaptureRoute(pathname) {
+  return AUTO_LEAD_CAPTURE_ROUTES.has(pathname);
+}
+
+function hasAutoLeadCaptureCooldown() {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  const lastShownRaw = window.localStorage.getItem(AUTO_LEAD_CAPTURE_LAST_SHOWN_KEY);
+  if (!lastShownRaw) {
+    return false;
+  }
+
+  const lastShownAt = Number(lastShownRaw);
+  if (!Number.isFinite(lastShownAt)) {
+    return false;
+  }
+
+  return Date.now() - lastShownAt < AUTO_LEAD_CAPTURE_COOLDOWN_MS;
+}
+
+function markAutoLeadCaptureShown() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  sessionStorage.setItem(AUTO_LEAD_CAPTURE_SESSION_KEY, '1');
+  window.localStorage.setItem(AUTO_LEAD_CAPTURE_LAST_SHOWN_KEY, String(Date.now()));
+}
+
+function hasFocusedFormField() {
+  if (typeof document === 'undefined') {
+    return false;
+  }
+
+  const active = document.activeElement;
+  if (!active) {
+    return false;
+  }
+
+  return ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName);
 }
 
 function AppContent() {
@@ -113,6 +172,18 @@ function AppContent() {
   };
 
   useEffect(() => {
+    if (!isAutoLeadCaptureRoute(location.pathname)) {
+      return undefined;
+    }
+
+    if (sessionStorage.getItem(AUTO_LEAD_CAPTURE_SESSION_KEY) === '1') {
+      return undefined;
+    }
+
+    if (hasAutoLeadCaptureCooldown()) {
+      return undefined;
+    }
+
     const exitKey = `lead-capture-exit:${location.pathname}`;
     const scrollKey = `lead-capture-scroll:${location.pathname}`;
 
@@ -120,11 +191,20 @@ function AppContent() {
     const hasScrollFired = sessionStorage.getItem(scrollKey) === '1';
     let exitTriggered = hasExitFired;
     let scrollTriggered = hasScrollFired;
+    const pageOpenedAt = Date.now();
 
     const canUseExitIntent = window.matchMedia('(pointer:fine)').matches;
 
     const handleMouseOut = (event) => {
       if (!canUseExitIntent || exitTriggered || leadCapture.isOpen) {
+        return;
+      }
+
+      if (Date.now() - pageOpenedAt < AUTO_LEAD_CAPTURE_MIN_VIEW_MS) {
+        return;
+      }
+
+      if (window.scrollY < AUTO_LEAD_CAPTURE_MIN_SCROLL_PX || hasFocusedFormField()) {
         return;
       }
 
@@ -135,6 +215,7 @@ function AppContent() {
       const variant = getLeadCaptureVariant(location.pathname, 'exit');
       exitTriggered = true;
       sessionStorage.setItem(exitKey, '1');
+      markAutoLeadCaptureShown();
       openLeadCapture(`exit_intent:${location.pathname}`, {
         variant,
         trackIntent: true,
@@ -146,16 +227,25 @@ function AppContent() {
         return;
       }
 
+      if (Date.now() - pageOpenedAt < AUTO_LEAD_CAPTURE_MIN_VIEW_MS) {
+        return;
+      }
+
+      if (hasFocusedFormField()) {
+        return;
+      }
+
       const docHeight = Math.max(document.documentElement.scrollHeight, 1);
       const depth = (window.scrollY + window.innerHeight) / docHeight;
 
-      if (depth < 0.65) {
+      if (depth < AUTO_LEAD_CAPTURE_MIN_SCROLL_DEPTH || window.scrollY < AUTO_LEAD_CAPTURE_MIN_SCROLL_PX) {
         return;
       }
 
       const variant = getLeadCaptureVariant(location.pathname, 'scroll');
       scrollTriggered = true;
       sessionStorage.setItem(scrollKey, '1');
+      markAutoLeadCaptureShown();
       openLeadCapture(`scroll_depth:${location.pathname}`, {
         variant,
         trackIntent: true,

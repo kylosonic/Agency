@@ -5,6 +5,36 @@ import ScrollReveal from '../components/ScrollReveal';
 import { quoteWizardOptions } from '../config/contentData';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { trackEvent } from '../services/analyticsService';
+import { useLanguage } from '../i18n/useLanguage';
+
+const SERVICE_TYPE_LABEL_KEYS = {
+  'Web Development': 'instantQuote.options.service.web',
+  'Mobile App Development': 'instantQuote.options.service.mobile',
+  'SaaS Platform': 'instantQuote.options.service.saas',
+  'Branding and Additional Services': 'instantQuote.options.service.additional',
+};
+
+const BUDGET_LABEL_KEYS = {
+  'Under 50k ETB': 'instantQuote.options.budget.under50',
+  '50k - 120k ETB': 'instantQuote.options.budget.mid',
+  '120k - 250k ETB': 'instantQuote.options.budget.high',
+  '250k+ ETB': 'instantQuote.options.budget.enterprise',
+};
+
+const TIMELINE_LABEL_KEYS = {
+  '2-4 weeks': 'instantQuote.options.timeline.fast',
+  '1-2 months': 'instantQuote.options.timeline.standard',
+  '2-4 months': 'instantQuote.options.timeline.extended',
+  'Flexible timeline': 'instantQuote.options.timeline.flexible',
+};
+
+const INTEGRATION_LABEL_KEYS = {
+  Telebirr: 'instantQuote.options.integrations.telebirr',
+  Chapa: 'instantQuote.options.integrations.chapa',
+  'CRM Sync': 'instantQuote.options.integrations.crm',
+  'Analytics Dashboard': 'instantQuote.options.integrations.analytics',
+  'Multilingual Content': 'instantQuote.options.integrations.multilingual',
+};
 
 const INITIAL_STATE = {
   serviceType: quoteWizardOptions.serviceTypes[0],
@@ -47,6 +77,7 @@ function calculateRange(formState) {
 }
 
 export default function InstantQuotePage() {
+  const { t } = useLanguage();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [formState, setFormState] = useState(INITIAL_STATE);
@@ -86,7 +117,7 @@ export default function InstantQuotePage() {
         name: formState.name,
         email: formState.email,
         phone: formState.phone,
-        message: `${formState.serviceType} | ${formState.budgetRange} | ${formState.timelineRange} | Integrations: ${formState.integrations.join(', ') || 'None'} | Goals: ${formState.goals}`,
+        message: `${formState.serviceType} | ${formState.budgetRange} | ${formState.timelineRange} | Integrations: ${formState.integrations.join(', ') || t('common.none', 'None')} | ${t('instantQuote.labels.projectGoals', 'Project goals')}: ${formState.goals}`,
       },
     });
 
@@ -108,8 +139,8 @@ export default function InstantQuotePage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>Instant Quote Wizard</h1>
-          <p>Answer a few questions and get a working estimate range in under two minutes.</p>
+          <h1>{t('instantQuote.hero.title', 'Instant Quote Wizard')}</h1>
+          <p>{t('instantQuote.hero.subtitle', 'Answer a few questions and get a working estimate range in under two minutes.')}</p>
         </div>
       </section>
 
@@ -117,13 +148,13 @@ export default function InstantQuotePage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Fast Estimate"
-              title="Plan Scope, Budget, and Timeline"
-              subtitle="This estimate is directional and helps us prepare the right architecture and proposal for your team."
+              tag={t('instantQuote.header.tag', 'Fast Estimate')}
+              title={t('instantQuote.header.title', 'Plan Scope, Budget, and Timeline')}
+              subtitle={t('instantQuote.header.subtitle', 'This estimate is directional and helps us prepare the right architecture and proposal for your team.')}
             />
           </ScrollReveal>
 
-          <div className="quote-step-indicator" aria-label="Quote wizard progress">
+          <div className="quote-step-indicator" aria-label={t('instantQuote.progressAria', 'Quote wizard progress')}>
             {[1, 2, 3, 4].map((index) => (
               <span key={index} className={`quote-step-dot ${step >= index - 1 ? 'active' : ''}`.trim()}>
                 {index}
@@ -135,8 +166,8 @@ export default function InstantQuotePage() {
             <form className="quote-wizard-card glass-card" onSubmit={handleSubmit}>
               {step === 0 ? (
                 <div className="quote-step">
-                  <h3>Project Type</h3>
-                  <p>Select the primary service for this estimate.</p>
+                  <h3>{t('instantQuote.steps.projectType.title', 'Project Type')}</h3>
+                  <p>{t('instantQuote.steps.projectType.subtitle', 'Select the primary service for this estimate.')}</p>
                   <div className="quote-option-grid">
                     {quoteWizardOptions.serviceTypes.map((serviceType) => (
                       <label key={serviceType} className={`quote-option ${formState.serviceType === serviceType ? 'selected' : ''}`.trim()}>
@@ -147,7 +178,7 @@ export default function InstantQuotePage() {
                           checked={formState.serviceType === serviceType}
                           onChange={updateValue('serviceType')}
                         />
-                        <span>{serviceType}</span>
+                        <span>{t(SERVICE_TYPE_LABEL_KEYS[serviceType], serviceType)}</span>
                       </label>
                     ))}
                   </div>
@@ -156,21 +187,21 @@ export default function InstantQuotePage() {
 
               {step === 1 ? (
                 <div className="quote-step">
-                  <h3>Budget and Timeline</h3>
+                  <h3>{t('instantQuote.steps.budget.title', 'Budget and Timeline')}</h3>
                   <div className="quote-two-column">
                     <label>
-                      Budget range
+                      {t('instantQuote.labels.budgetRange', 'Budget range')}
                       <select value={formState.budgetRange} onChange={updateValue('budgetRange')}>
                         {quoteWizardOptions.budgetRanges.map((range) => (
-                          <option key={range} value={range}>{range}</option>
+                          <option key={range} value={range}>{t(BUDGET_LABEL_KEYS[range], range)}</option>
                         ))}
                       </select>
                     </label>
                     <label>
-                      Delivery timeline
+                      {t('instantQuote.labels.deliveryTimeline', 'Delivery timeline')}
                       <select value={formState.timelineRange} onChange={updateValue('timelineRange')}>
                         {quoteWizardOptions.timelineRanges.map((range) => (
-                          <option key={range} value={range}>{range}</option>
+                          <option key={range} value={range}>{t(TIMELINE_LABEL_KEYS[range], range)}</option>
                         ))}
                       </select>
                     </label>
@@ -180,8 +211,8 @@ export default function InstantQuotePage() {
 
               {step === 2 ? (
                 <div className="quote-step">
-                  <h3>Technical Requirements</h3>
-                  <p>Choose integrations and notes that apply to your project.</p>
+                  <h3>{t('instantQuote.steps.requirements.title', 'Technical Requirements')}</h3>
+                  <p>{t('instantQuote.steps.requirements.subtitle', 'Choose integrations and notes that apply to your project.')}</p>
                   <div className="quote-option-grid">
                     {quoteWizardOptions.integrations.map((integration) => (
                       <label key={integration} className={`quote-option ${formState.integrations.includes(integration) ? 'selected' : ''}`.trim()}>
@@ -190,16 +221,16 @@ export default function InstantQuotePage() {
                           checked={formState.integrations.includes(integration)}
                           onChange={() => toggleIntegration(integration)}
                         />
-                        <span>{integration}</span>
+                        <span>{t(INTEGRATION_LABEL_KEYS[integration], integration)}</span>
                       </label>
                     ))}
                   </div>
                   <label>
-                    Project goals
+                    {t('instantQuote.labels.projectGoals', 'Project goals')}
                     <textarea
                       value={formState.goals}
                       onChange={updateValue('goals')}
-                      placeholder="Describe goals, priorities, and constraints."
+                      placeholder={t('instantQuote.labels.projectGoalsPlaceholder', 'Describe goals, priorities, and constraints.')}
                       rows={4}
                     />
                   </label>
@@ -208,19 +239,19 @@ export default function InstantQuotePage() {
 
               {step === 3 ? (
                 <div className="quote-step">
-                  <h3>Contact Details</h3>
+                  <h3>{t('instantQuote.steps.contact.title', 'Contact Details')}</h3>
                   <div className="quote-two-column">
                     <label>
-                      Full name
+                      {t('instantQuote.labels.fullName', 'Full name')}
                       <input type="text" value={formState.name} onChange={updateValue('name')} required />
                     </label>
                     <label>
-                      Work email
+                      {t('instantQuote.labels.workEmail', 'Work email')}
                       <input type="email" value={formState.email} onChange={updateValue('email')} required />
                     </label>
                   </div>
                   <label>
-                    Phone (optional)
+                    {t('instantQuote.labels.phoneOptional', 'Phone (optional)')}
                     <input type="text" value={formState.phone} onChange={updateValue('phone')} />
                   </label>
                 </div>
@@ -228,34 +259,34 @@ export default function InstantQuotePage() {
 
               <div className="quote-navigation">
                 <button type="button" className="btn btn-secondary" onClick={previousStep} disabled={step === 0}>
-                  Previous
+                  {t('actions.previous', 'Previous')}
                 </button>
                 {step < 3 ? (
                   <button type="button" className="btn btn-primary" onClick={nextStep}>
-                    Continue
+                    {t('actions.continue', 'Continue')}
                   </button>
                 ) : (
                   <button type="submit" className="btn btn-primary">
-                    Generate Estimate
+                    {t('instantQuote.actions.generate', 'Generate Estimate')}
                   </button>
                 )}
               </div>
             </form>
           ) : (
             <div className="quote-result-card glass-card" role="status" aria-live="polite">
-              <h3>Your estimated range</h3>
+              <h3>{t('instantQuote.result.title', 'Your estimated range')}</h3>
               <p className="quote-result-range">{formatCurrency(quoteRange[0])} - {formatCurrency(quoteRange[1])}</p>
               <p>
-                This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.
+                {t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.')}
               </p>
               <div className="quote-result-actions">
-                <Link className="btn btn-primary" to="/book-discovery-call">Book Discovery Call</Link>
+                <Link className="btn btn-primary" to="/book-discovery-call">{t('actions.bookDiscoveryCall', 'Book Discovery Call')}</Link>
                 <button type="button" className="btn btn-secondary" onClick={() => {
                   setSubmitted(false);
                   setStep(0);
                   setFormState(INITIAL_STATE);
                 }}>
-                  Start Again
+                  {t('actions.startAgain', 'Start Again')}
                 </button>
               </div>
             </div>

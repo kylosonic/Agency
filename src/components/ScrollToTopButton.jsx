@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../i18n/useLanguage';
 
 const MotionButton = motion.button;
 
 export default function ScrollToTopButton() {
+    const { t } = useLanguage();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -37,7 +39,7 @@ export default function ScrollToTopButton() {
                     transition={{ type: "spring", stiffness: 260, damping: 20 }}
                     onClick={scrollToTop}
                     className="scroll-to-top-btn"
-                    aria-label="Scroll to top"
+                    aria-label={t('actions.scrollTop', 'Scroll to top')}
                 >
                     ↑
                 </MotionButton>

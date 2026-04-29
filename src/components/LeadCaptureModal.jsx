@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import IconGlyph from './IconGlyph';
+import { useLanguage } from '../i18n/useLanguage';
 
 const INITIAL_FORM = { name: '', email: '', company: '' };
 const MotionDiv = motion.div;
@@ -38,9 +39,19 @@ const VARIANT_CONTENT = {
 };
 
 export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', variant = 'pricing_guide', routePath = '/' }) {
+    const { t } = useLanguage();
     const [formData, setFormData] = useState(INITIAL_FORM);
     const [status, setStatus] = useState('idle');
-    const activeVariant = VARIANT_CONTENT[variant] || VARIANT_CONTENT.pricing_guide;
+    const activeVariantConfig = VARIANT_CONTENT[variant] || VARIANT_CONTENT.pricing_guide;
+    const activeVariant = {
+        title: t(`leadCapture.${variant}.title`, activeVariantConfig.title),
+        subtitle: t(`leadCapture.${variant}.subtitle`, activeVariantConfig.subtitle),
+        submitLabel: t(`leadCapture.${variant}.submitLabel`, activeVariantConfig.submitLabel),
+        successTitle: t(`leadCapture.${variant}.successTitle`, activeVariantConfig.successTitle),
+        successSubtitle: t(`leadCapture.${variant}.successSubtitle`, activeVariantConfig.successSubtitle),
+        successPrimaryLabel: t(`leadCapture.${variant}.successPrimaryLabel`, activeVariantConfig.successPrimaryLabel),
+        successPrimaryAction: activeVariantConfig.successPrimaryAction,
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -142,7 +153,12 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                         aria-modal="true"
                         aria-labelledby="pricing-guide-title"
                     >
-                            <button type="button" className="modal-close-new" onClick={() => requestClose('close_button')} aria-label="Close pricing guide modal">
+                            <button
+                                type="button"
+                                className="modal-close-new"
+                                onClick={() => requestClose('close_button')}
+                                aria-label={t('leadCapture.closeAria', 'Close pricing guide modal')}
+                            >
                                 <IconGlyph name="close" size={16} />
                             </button>
 
@@ -155,47 +171,47 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
 
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-group">
-                                        <label htmlFor="lead-name">Full Name</label>
+                                        <label htmlFor="lead-name">{t('leadCapture.form.fullName', 'Full Name')}</label>
                                         <input
                                             id="lead-name"
                                             type="text"
                                             name="name"
-                                            placeholder="Hana Bekele"
+                                            placeholder={t('leadCapture.form.fullNamePlaceholder', 'Hana Bekele')}
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="lead-email">Email Address</label>
+                                        <label htmlFor="lead-email">{t('leadCapture.form.email', 'Email Address')}</label>
                                         <input
                                             id="lead-email"
                                             type="email"
                                             name="email"
-                                            placeholder="team@company.et"
+                                            placeholder={t('leadCapture.form.emailPlaceholder', 'team@company.et')}
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="lead-company">Company (optional)</label>
+                                        <label htmlFor="lead-company">{t('leadCapture.form.company', 'Company (optional)')}</label>
                                         <input
                                             id="lead-company"
                                             type="text"
                                             name="company"
-                                            placeholder="Aster Ventures"
+                                            placeholder={t('leadCapture.form.companyPlaceholder', 'Aster Ventures')}
                                             value={formData.company}
                                             onChange={handleChange}
                                         />
                                     </div>
                                     <button type="submit" className="btn btn-primary btn-lg" disabled={status === 'submitting'}>
-                                        {status === 'submitting' ? 'Submitting...' : activeVariant.submitLabel}
+                                        {status === 'submitting' ? t('leadCapture.form.submitting', 'Submitting...') : activeVariant.submitLabel}
                                     </button>
                                 </form>
                                 <p className="privacy-note">
                                     <IconGlyph name="shield" size={14} className="privacy-icon" />
-                                    We respect your privacy. No spam, ever.
+                                    {t('leadCapture.privacy', 'We respect your privacy. No spam, ever.')}
                                 </p>
                             </>
                         ) : (
@@ -210,7 +226,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                         {activeVariant.successPrimaryLabel}
                                     </button>
                                     <button type="button" className="btn btn-secondary" onClick={closeAndReset}>
-                                        Close
+                                        {t('actions.close', 'Close')}
                                     </button>
                                 </div>
                             </div>

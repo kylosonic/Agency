@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
@@ -8,8 +8,10 @@ import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getAdditionalServices, getFeaturedAddons } from '../services/firebaseService';
+import { useLanguage } from '../i18n/useLanguage';
 
 export default function AdditionalServicesPage({ onDownloadClick }) {
+    const { t } = useLanguage();
     const [services, setServices] = useState([]);
     const [featuredAddons, setFeaturedAddons] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -32,18 +34,25 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
         fetchData();
     }, []);
 
+    const localizedFaqItems = useMemo(() => {
+        return serviceFaqs.additional.map((item, index) => ({
+            question: t(`faqs.additional.${index}.question`, item.question),
+            answer: t(`faqs.additional.${index}.answer`, item.answer),
+        }));
+    }, [t]);
+
 
     return (
         <>
             {/* Page Hero */}
             <section className="page-hero">
                 <div className="container page-hero-content">
-                    <h1>Additional<br />Services</h1>
-                    <p>Essential one-time and recurring services to complement your digital presence — from hosting to branding.</p>
-                    <div className="page-hero-meta" aria-label="Additional services highlights">
-                        <span className="page-hero-chip">Transparent Cost Bands</span>
-                        <span className="page-hero-chip">One-Time and Recurring Options</span>
-                        <span className="page-hero-chip">Bundle-Ready Add-Ons</span>
+                    <h1>{t('additional.hero.title', 'Additional Services')}</h1>
+                    <p>{t('additional.hero.subtitle', 'Essential one-time and recurring services to complement your digital presence — from hosting to branding.')}</p>
+                    <div className="page-hero-meta" aria-label={t('additional.hero.metaAria', 'Additional services highlights')}>
+                        <span className="page-hero-chip">{t('additional.hero.chip1', 'Transparent Cost Bands')}</span>
+                        <span className="page-hero-chip">{t('additional.hero.chip2', 'One-Time and Recurring Options')}</span>
+                        <span className="page-hero-chip">{t('additional.hero.chip3', 'Bundle-Ready Add-Ons')}</span>
                     </div>
                 </div>
             </section>
@@ -51,16 +60,16 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
             <RouteProofStrip
                 items={[
                     {
-                        title: 'Practical Service Bundles',
-                        text: 'Combine hosting, design, and maintenance services without hidden package lock-ins.',
+                        title: t('additional.proof.0.title', 'Practical Service Bundles'),
+                        text: t('additional.proof.0.text', 'Combine hosting, design, and maintenance services without hidden package lock-ins.'),
                     },
                     {
-                        title: 'Predictable Renewals',
-                        text: 'Recurring services are clearly labeled so budgeting and planning stay straightforward.',
+                        title: t('additional.proof.1.title', 'Predictable Renewals'),
+                        text: t('additional.proof.1.text', 'Recurring services are clearly labeled so budgeting and planning stay straightforward.'),
                     },
                     {
-                        title: 'Scalable Support Options',
-                        text: 'Start with essentials and layer in creative or technical support as your brand grows.',
+                        title: t('additional.proof.2.title', 'Scalable Support Options'),
+                        text: t('additional.proof.2.text', 'Start with essentials and layer in creative or technical support as your brand grows.'),
                     },
                 ]}
             />
@@ -70,9 +79,9 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader
-                            tag="Service Catalog"
-                            title="One-Time & Recurring Services"
-                            subtitle="Everything you need to launch, maintain, and elevate your digital products."
+                            tag={t('additional.sections.catalog.tag', 'Service Catalog')}
+                            title={t('additional.sections.catalog.title', 'One-Time & Recurring Services')}
+                            subtitle={t('additional.sections.catalog.subtitle', 'Everything you need to launch, maintain, and elevate your digital products.')}
                         />
                     </ScrollReveal>
 
@@ -81,16 +90,16 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                             <table className="services-table">
                                 <thead>
                                     <tr>
-                                        <th>Service</th>
-                                        <th>Description</th>
-                                        <th>Estimated Cost</th>
-                                        <th>Billing</th>
+                                        <th>{t('additional.table.service', 'Service')}</th>
+                                        <th>{t('additional.table.description', 'Description')}</th>
+                                        <th>{t('additional.table.cost', 'Estimated Cost')}</th>
+                                        <th>{t('additional.table.billing', 'Billing')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {loading ? (
                                         <tr>
-                                            <td colSpan="4" className="table-loading-cell">Loading Services...</td>
+                                            <td colSpan="4" className="table-loading-cell">{t('states.loadingServices', 'Loading Services...')}</td>
                                         </tr>
                                     ) : (
                                         services.map((item, i) => (
@@ -100,7 +109,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                                                 <td className="price-cell">{item.price}</td>
                                                 <td>
                                                     <span className="billing-chip">
-                                                        {item.type}
+                                                        {t(`additional.billing.${String(item.type).toLowerCase()}`, item.type)}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -118,16 +127,16 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                 <div className="container">
                     <ScrollReveal>
                         <SectionHeader
-                            tag="Highlights"
-                            title="Featured Add-Ons"
-                            subtitle="Our most popular additional services, packaged to deliver maximum value."
+                            tag={t('additional.sections.featured.tag', 'Highlights')}
+                            title={t('additional.sections.featured.title', 'Featured Add-Ons')}
+                            subtitle={t('additional.sections.featured.subtitle', 'Our most popular additional services, packaged to deliver maximum value.')}
                         />
                     </ScrollReveal>
 
                     <ScrollReveal stagger>
                         {loading ? (
                             <div className="loading-state">
-                                <p>Loading Featured Add-Ons...</p>
+                                <p>{t('states.loadingFeaturedAddons', 'Loading Featured Add-Ons...')}</p>
                             </div>
                         ) : (
                             <div className="services-grid">
@@ -148,9 +157,9 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
             </section>
 
             <FaqAccordion
-                title="Additional Services FAQs"
-                subtitle="Understand billing models, bundle flexibility, and custom scoping options."
-                items={serviceFaqs.additional}
+                title={t('additional.faq.title', 'Additional Services FAQs')}
+                subtitle={t('additional.faq.subtitle', 'Understand billing models, bundle flexibility, and custom scoping options.')}
+                items={localizedFaqItems}
             />
 
             {/* CTA */}
@@ -158,14 +167,14 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">
-                            <h2>Need Something Custom?</h2>
-                            <p>Contact us for custom quotes on any service. Download our full pricing guide for the complete breakdown.</p>
+                            <h2>{t('additional.cta.title', 'Need Something Custom?')}</h2>
+                            <p>{t('additional.cta.subtitle', 'Contact us for custom quotes on any service. Download our full pricing guide for the complete breakdown.')}</p>
                             <div className="cta-actions">
                                 <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('additional_page_cta_pricing')}>
-                                    Download Full Pricing Guide
+                                    {t('actions.downloadFullPricingGuide', 'Download Full Pricing Guide')}
                                 </button>
                                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('additional_page_cta_discovery')}>
-                                    Request A Custom Quote
+                                    {t('additional.cta.secondary', 'Request A Custom Quote')}
                                 </a>
                             </div>
                         </div>

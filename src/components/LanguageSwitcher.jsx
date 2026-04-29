@@ -7,7 +7,7 @@ export default function LanguageSwitcher({ compact = false }) {
   return (
     <label className={`language-switcher ${compact ? 'compact' : ''}`.trim()} aria-label={t('actions.switchLanguage')}>
       <span className="language-switcher-label" aria-hidden="true">
-        {compact ? 'Lang' : 'Language'}
+        {compact ? t('labels.languageShort', 'Lang') : t('labels.language', 'Language')}
       </span>
       <select
         className="language-switcher-select"

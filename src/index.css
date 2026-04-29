@@ -3318,7 +3318,7 @@ h2 {
   position: fixed;
   right: 1rem;
   bottom: max(4.2rem, calc(3.8rem + env(safe-area-inset-bottom)));
-  z-index: 940;
+  z-index: 1040;
   display: grid;
   justify-items: end;
   gap: 0.45rem;
@@ -3352,6 +3352,16 @@ h2 {
   color: var(--text-secondary);
   font-size: 0.82rem;
   line-height: 1.52;
+}
+
+#sitespeak-iframe {
+  z-index: 1030 !important;
+}
+
+#sitespeak-launcher,
+#sitespeak-hide-chatbot,
+#sitespeak-welcome-bubble {
+  display: none !important;
 }
 
 .live-chat-actions {
