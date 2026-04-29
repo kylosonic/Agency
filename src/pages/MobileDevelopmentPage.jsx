@@ -4,7 +4,10 @@ import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
 import IconGlyph from '../components/IconGlyph';
+import RoiEstimator from '../components/RoiEstimator';
+import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
+import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getMobilePackages, getAppMarketingAddons } from '../services/firebaseService';
 
@@ -129,6 +132,17 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                     )}
                 </div>
             </section>
+
+            <RoiEstimator
+                title="Mobile Acquisition ROI Estimator"
+                subtitle="Estimate expected gain from app-store readiness, paid acquisition, and retention improvements."
+            />
+
+            <FaqAccordion
+                title="Mobile Development FAQs"
+                subtitle="Answers on store submission, platform coverage, and local payment integrations."
+                items={serviceFaqs.mobile}
+            />
 
             {/* CTA */}
             <section className="section-sm cta-section">

@@ -3,7 +3,9 @@ import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
 import IconGlyph from '../components/IconGlyph';
+import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
+import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getAdditionalServices, getFeaturedAddons } from '../services/firebaseService';
 
@@ -144,6 +146,12 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                     </ScrollReveal>
                 </div>
             </section>
+
+            <FaqAccordion
+                title="Additional Services FAQs"
+                subtitle="Understand billing models, bundle flexibility, and custom scoping options."
+                items={serviceFaqs.additional}
+            />
 
             {/* CTA */}
             <section className="section-sm cta-section">

@@ -8,6 +8,11 @@ const routes = [
   '/mobile-development',
   '/saas-solutions',
   '/additional-services',
+  '/case-studies',
+  '/portfolio',
+  '/instant-quote',
+  '/book-discovery-call',
+  '/industries/real-estate',
   '/policy',
 ];
 
@@ -17,6 +22,13 @@ const viewports = [
   { name: '414x896', width: 414, height: 896 },
   { name: '768x1024', width: 768, height: 1024 },
 ];
+
+async function dismissLeadModalIfOpen(page) {
+  const closeModalButton = page.getByRole('button', { name: 'Close pricing guide modal' });
+  if (await closeModalButton.isVisible().catch(() => false)) {
+    await closeModalButton.click();
+  }
+}
 
 test.describe('Live site responsive smoke', () => {
   for (const vp of viewports) {
@@ -95,5 +107,51 @@ test.describe('Live site responsive smoke', () => {
     expect(tableBehavior.tableWiderThanWrapper).toBeTruthy();
     expect(tableBehavior.wrapperScrollable).toBeTruthy();
     expect(tableBehavior.pageOverflow).toBeLessThanOrEqual(1);
+  });
+
+  test('instant quote wizard completes and shows estimate range', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
+
+    for (let index = 0; index < 3; index += 1) {
+      await dismissLeadModalIfOpen(page);
+      await page.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
+    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
+    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+
+    await expect(page.locator('.quote-result-range')).toBeVisible();
+    await expect(page.getByText('Your estimated range')).toBeVisible();
+  });
+
+  test('discovery booking form submits successfully', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/book-discovery-call`, { waitUntil: 'networkidle' });
+
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.discovery-slot input[type="radio"]').nth(1).check();
+    await page.locator('#booking-name').fill('Playwright Tester');
+    await page.locator('#booking-email').fill('playwright@example.com');
+    await page.locator('#booking-company').fill('QA Labs');
+    await page.locator('#booking-agenda').fill('Need roadmap and estimate for a multi-module platform.');
+
+    await page.getByRole('button', { name: 'Confirm Session' }).click();
+
+    await expect(page.getByText('Thanks. Your booking details were captured')).toBeVisible();
+  });
+
+  test('language switch updates html lang and route title metadata', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/portfolio`, { waitUntil: 'networkidle' });
+
+    const titleBefore = await page.title();
+
+    await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption('am');
+
+    await expect.poll(async () => page.getAttribute('html', 'lang')).toBe('am');
+    await expect.poll(async () => page.title()).not.toBe(titleBefore);
   });
 });

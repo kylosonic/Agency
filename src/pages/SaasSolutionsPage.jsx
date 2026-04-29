@@ -5,7 +5,10 @@ import StaggeredText from '../components/StaggeredText';
 import MagneticButton from '../components/MagneticButton';
 import RouteProofStrip from '../components/RouteProofStrip';
 import IconGlyph from '../components/IconGlyph';
+import RoiEstimator from '../components/RoiEstimator';
+import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
+import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getSaasPackages } from '../services/firebaseService';
 
@@ -145,6 +148,17 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                     )}
                 </div>
             </section>
+
+            <RoiEstimator
+                title="SaaS Operations ROI Estimator"
+                subtitle="Model the business impact of process automation, reduced admin workload, and better collection discipline."
+            />
+
+            <FaqAccordion
+                title="SaaS Solution FAQs"
+                subtitle="Clarify onboarding, billing cadence, backup practices, and support expectations."
+                items={serviceFaqs.saas}
+            />
 
             {/* CTA */}
             <section className="section-sm cta-section">

@@ -4,7 +4,10 @@ import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
 import IconGlyph from '../components/IconGlyph';
+import RoiEstimator from '../components/RoiEstimator';
+import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
+import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
 import { getWebPackages, getMarketingAddons } from '../services/firebaseService';
 
@@ -129,6 +132,17 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                     )}
                 </div>
             </section>
+
+            <RoiEstimator
+                title="Web Growth ROI Estimator"
+                subtitle="Estimate potential monthly revenue lift from improved conversion architecture and campaign readiness."
+            />
+
+            <FaqAccordion
+                title="Web Development FAQs"
+                subtitle="Quick answers on ownership, delivery timeline, and post-launch support."
+                items={serviceFaqs.web}
+            />
 
             {/* CTA */}
             <section className="section-sm cta-section">

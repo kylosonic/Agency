@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import IconGlyph from './IconGlyph';
+import { useLanguage } from '../i18n/useLanguage';
 
 const MotionDiv = motion.div;
 
 export default function FloatingCTA({ onClick }) {
+    const { t } = useLanguage();
     const [isVisible, setIsVisible] = useState(false);
     const lastScrollY = useRef(0);
 
@@ -40,7 +42,7 @@ export default function FloatingCTA({ onClick }) {
                         <span className="icon" aria-hidden="true">
                             <IconGlyph name="download" size={16} />
                         </span>
-                        Get Pricing Guide
+                        {t('actions.pricingGuide')}
                     </button>
                 </MotionDiv>
             )}

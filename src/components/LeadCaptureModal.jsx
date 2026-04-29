@@ -1,25 +1,57 @@
 import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
+import { queueLeadFollowups } from '../services/leadAutomationService';
 import IconGlyph from './IconGlyph';
 
 const INITIAL_FORM = { name: '', email: '', company: '' };
 const MotionDiv = motion.div;
 
-export default function LeadCaptureModal({ isOpen, onClose }) {
+const VARIANT_CONTENT = {
+    pricing_guide: {
+        title: 'Get Our 2026 Pricing Guide',
+        subtitle: 'Download our complete overview of development, digital marketing, and SaaS packages, with full ETB pricing.',
+        submitLabel: 'Download Pricing Guide',
+        successTitle: 'Thank You!',
+        successSubtitle: 'Your guide is open in a new tab. You can also reopen it below.',
+        successPrimaryLabel: 'Open Guide Again',
+        successPrimaryAction: 'guide',
+    },
+    quote_offer: {
+        title: 'Get a Tailored Project Estimate',
+        subtitle: 'Share your details and continue to our Instant Quote Wizard for a custom estimate range in minutes.',
+        submitLabel: 'Continue to Instant Quote',
+        successTitle: 'Great, You Are In!',
+        successSubtitle: 'Your request was saved. Continue to the quote wizard for your tailored estimate.',
+        successPrimaryLabel: 'Open Instant Quote',
+        successPrimaryAction: 'quote',
+    },
+    book_call_offer: {
+        title: 'Book a Discovery Strategy Call',
+        subtitle: 'Leave your details and continue to booking. We will prepare a focused strategy agenda for your goals.',
+        submitLabel: 'Continue to Booking',
+        successTitle: 'Almost Done!',
+        successSubtitle: 'Your request was captured. Select your preferred session slot on the booking page.',
+        successPrimaryLabel: 'Open Booking Page',
+        successPrimaryAction: 'booking',
+    },
+};
+
+export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', variant = 'pricing_guide', routePath = '/' }) {
     const [formData, setFormData] = useState(INITIAL_FORM);
     const [status, setStatus] = useState('idle');
+    const activeVariant = VARIANT_CONTENT[variant] || VARIANT_CONTENT.pricing_guide;
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const requestClose = useCallback((source = 'modal_dismissed') => {
-        trackEvent('pricing_guide_modal_closed', { source });
+        trackEvent('pricing_guide_modal_closed', { source, variant });
         setStatus('idle');
         setFormData(INITIAL_FORM);
         onClose();
-    }, [onClose]);
+    }, [onClose, variant]);
 
     useEffect(() => {
         if (!isOpen) {
@@ -36,9 +68,21 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
         return () => window.removeEventListener('keydown', handleEscape);
     }, [isOpen, requestClose]);
 
-    const openGuide = (source = 'lead_modal_open_guide') => {
-        trackPricingGuideOpened(source);
-        window.open('/pricing-guide.pdf', '_blank', 'noopener,noreferrer');
+    const openVariantPrimaryAction = (actionSource = 'lead_modal_primary_action') => {
+        if (activeVariant.successPrimaryAction === 'guide') {
+            trackPricingGuideOpened(actionSource);
+            window.open('/pricing-guide.pdf', '_blank', 'noopener,noreferrer');
+            return;
+        }
+
+        if (activeVariant.successPrimaryAction === 'quote') {
+            window.location.assign('/instant-quote');
+            return;
+        }
+
+        if (activeVariant.successPrimaryAction === 'booking') {
+            window.location.assign('/book-discovery-call');
+        }
     };
 
     const closeAndReset = () => {
@@ -51,10 +95,28 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
 
         trackEvent('pricing_guide_form_submitted', {
             source: 'lead_modal',
+            triggerSource: source,
+            variant,
             hasCompany: Boolean(formData.company.trim()),
         });
 
-        openGuide('lead_modal_submit');
+        queueLeadFollowups({
+            source,
+            channel: 'lead_capture_modal',
+            routePath,
+            lead: {
+                name: formData.name,
+                email: formData.email,
+                company: formData.company,
+                message: `${activeVariant.title} | Variant: ${variant}`,
+            },
+        });
+
+        if (activeVariant.successPrimaryAction === 'guide') {
+            trackPricingGuideOpened('lead_modal_submit');
+            window.open('/pricing-guide.pdf', '_blank', 'noopener,noreferrer');
+        }
+
         setStatus('success');
     };
 
@@ -86,9 +148,9 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
 
                         {status !== 'success' ? (
                             <>
-                                <h3 id="pricing-guide-title">Get Our 2026 Pricing Guide</h3>
+                                <h3 id="pricing-guide-title">{activeVariant.title}</h3>
                                 <p className="modal-subtitle">
-                                    Download our complete overview of development, digital marketing, and SaaS packages, with full ETB pricing.
+                                    {activeVariant.subtitle}
                                 </p>
 
                                 <form onSubmit={handleSubmit}>
@@ -128,7 +190,7 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                                         />
                                     </div>
                                     <button type="submit" className="btn btn-primary btn-lg" disabled={status === 'submitting'}>
-                                        {status === 'submitting' ? 'Preparing Your Guide...' : 'Download Pricing Guide'}
+                                        {status === 'submitting' ? 'Submitting...' : activeVariant.submitLabel}
                                     </button>
                                 </form>
                                 <p className="privacy-note">
@@ -141,11 +203,11 @@ export default function LeadCaptureModal({ isOpen, onClose }) {
                                 <div className="modal-success-icon" aria-hidden="true">
                                     <IconGlyph name="check" size={30} />
                                 </div>
-                                <h3>Thank You!</h3>
-                                <p className="modal-subtitle">Your guide is open in a new tab. You can also reopen it below.</p>
+                                <h3>{activeVariant.successTitle}</h3>
+                                <p className="modal-subtitle">{activeVariant.successSubtitle}</p>
                                 <div className="modal-success-actions">
-                                    <button type="button" className="btn btn-primary" onClick={() => openGuide('lead_modal_reopen')}>
-                                        Open Guide Again
+                                    <button type="button" className="btn btn-primary" onClick={() => openVariantPrimaryAction('lead_modal_success_primary')}>
+                                        {activeVariant.successPrimaryLabel}
                                     </button>
                                     <button type="button" className="btn btn-secondary" onClick={closeAndReset}>
                                         Close

@@ -6,8 +6,11 @@ import StaggeredText from '../components/StaggeredText';
 import MagneticButton from '../components/MagneticButton';
 import TiltCard from '../components/TiltCard';
 import IconGlyph from '../components/IconGlyph';
+import RoiEstimator from '../components/RoiEstimator';
 import { SITE_CONTACT, DISCOVERY_CALL_MAILTO, buildProjectInquiryMailto } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
+import { queueLeadFollowups } from '../services/leadAutomationService';
+import { useLanguage } from '../i18n/useLanguage';
 import {
   trackContactChannelClick,
   trackContactFormAttempt,
@@ -22,6 +25,7 @@ const INITIAL_CONTACT_FORM = {
 };
 
 export default function HomePage({ onDownloadClick }) {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const [contactForm, setContactForm] = useState(INITIAL_CONTACT_FORM);
   const [contactStatus, setContactStatus] = useState('idle');
@@ -48,11 +52,23 @@ export default function HomePage({ onDownloadClick }) {
     if (submission.ok) {
       setContactStatus('sent');
       setContactForm(INITIAL_CONTACT_FORM);
+      queueLeadFollowups({
+        source: 'home_contact_form',
+        channel: 'contact_form',
+        routePath: '/',
+        lead: submission.payload,
+      });
       trackContactFormOutcome('submitted', 'home_contact_form');
       return;
     }
 
     if (['unconfigured', 'request-failed', 'timeout', 'network-error'].includes(submission.type)) {
+      queueLeadFollowups({
+        source: 'home_contact_form_fallback',
+        channel: 'contact_form_mailto',
+        routePath: '/',
+        lead: submission.payload || contactForm,
+      });
       window.location.href = buildProjectInquiryMailto(submission.payload || contactForm);
       setContactStatus('fallback');
       setContactForm(INITIAL_CONTACT_FORM);
@@ -86,10 +102,10 @@ export default function HomePage({ onDownloadClick }) {
               </p>
               <div className="hero-actions">
                 <MagneticButton className="btn btn-primary btn-lg" onClick={() => onDownloadClick('home_hero_pricing')}>
-                  Get Pricing Guide
+                  {t('actions.downloadPricingGuide')}
                 </MagneticButton>
                 <MagneticButton className="btn btn-secondary btn-lg" onClick={() => navigate('/web-development')}>
-                  Explore Services
+                  {t('actions.exploreServices')}
                 </MagneticButton>
               </div>
               <div className="hero-trust-row" aria-label="Core trust points">
@@ -229,6 +245,11 @@ export default function HomePage({ onDownloadClick }) {
           </ScrollReveal>
         </div>
       </section>
+
+      <RoiEstimator
+        title="Estimate Revenue Impact Before You Commit"
+        subtitle="Use your current lead and conversion data to simulate potential growth from a focused digital rollout."
+      />
 
       <section className="section" id="testimonials">
         <div className="container">
@@ -507,10 +528,10 @@ export default function HomePage({ onDownloadClick }) {
               <p>Download our comprehensive 2026 Service Menu & Pricing Guide to find the perfect package.</p>
               <div className="cta-actions">
                 <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('home_bottom_pricing')}>
-                  Get Your Free Pricing Guide
+                  {t('actions.downloadPricingGuide')}
                 </button>
                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('home_bottom_discovery')}>
-                  Book Discovery Call
+                  {t('actions.bookDiscoveryCall')}
                 </a>
               </div>
             </div>

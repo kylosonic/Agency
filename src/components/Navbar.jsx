@@ -1,17 +1,24 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from '../i18n/useLanguage';
 
 const NAV_LINKS = [
-  { to: '/', label: 'Home' },
-  { to: '/web-development', label: 'Web Dev' },
-  { to: '/mobile-development', label: 'Mobile Apps' },
-  { to: '/saas-solutions', label: 'SaaS' },
-  { to: '/additional-services', label: 'Services' },
-  { to: '/policy', label: 'Policy' },
+  { to: '/', labelKey: 'nav.home', desktop: true },
+  { to: '/web-development', labelKey: 'nav.web', desktop: true },
+  { to: '/mobile-development', labelKey: 'nav.mobile', desktop: true },
+  { to: '/saas-solutions', labelKey: 'nav.saas', desktop: true },
+  { to: '/portfolio', labelKey: 'nav.portfolio', desktop: true },
+  { to: '/case-studies', labelKey: 'nav.caseStudies', desktop: true, desktopSecondary: true },
+  { to: '/additional-services', labelKey: 'nav.services', desktop: false },
+  { to: '/policy', labelKey: 'nav.policy', desktop: false },
 ];
 
+const DESKTOP_NAV_LINKS = NAV_LINKS.filter((link) => link.desktop !== false);
+
 export default function Navbar({ onDownloadClick }) {
+  const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -60,23 +67,36 @@ export default function Navbar({ onDownloadClick }) {
             <span>NovaTech</span>
           </Link>
 
-          <div className="navbar-links">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={location.pathname === link.to ? 'active' : ''}
-              >
-                {link.label}
+          <div className="navbar-desktop">
+            <div className="navbar-links">
+              {DESKTOP_NAV_LINKS.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={`${location.pathname === link.to ? 'active' : ''} ${link.desktopSecondary ? 'desktop-secondary' : ''}`.trim()}
+                >
+                  {t(link.labelKey)}
+                </Link>
+              ))}
+            </div>
+
+            <div className="navbar-controls">
+              <LanguageSwitcher compact />
+              <DarkModeToggle />
+              <Link to="/instant-quote" className="btn btn-secondary btn-sm navbar-cta">
+                {t('nav.instantQuote')}
               </Link>
-            ))}
-            <DarkModeToggle />
-            <button type="button" className="btn btn-primary btn-sm navbar-cta" onClick={() => handlePricingClick('navbar_desktop')}>
-              Pricing Guide
-            </button>
+              <Link to="/book-discovery-call" className="btn btn-secondary btn-sm navbar-cta navbar-cta-secondary">
+                {t('nav.bookCall')}
+              </Link>
+              <button type="button" className="btn btn-primary btn-sm navbar-cta" onClick={() => handlePricingClick('navbar_desktop')}>
+                {t('actions.pricingGuide')}
+              </button>
+            </div>
           </div>
 
           <div className="navbar-mobile-actions">
+            <LanguageSwitcher compact />
             <DarkModeToggle />
             <button
               type="button"
@@ -109,11 +129,17 @@ export default function Navbar({ onDownloadClick }) {
             className={location.pathname === link.to ? 'active' : ''}
             onClick={closeMobileNav}
           >
-            {link.label}
+            {t(link.labelKey)}
           </Link>
         ))}
+        <Link to="/instant-quote" className="btn btn-secondary" onClick={closeMobileNav}>
+          {t('nav.instantQuote')}
+        </Link>
+        <Link to="/book-discovery-call" className="btn btn-secondary" onClick={closeMobileNav}>
+          {t('nav.bookCall')}
+        </Link>
         <button type="button" className="btn btn-primary" onClick={() => handlePricingClick('navbar_mobile')}>
-          Download Pricing Guide
+          {t('actions.downloadPricingGuide')}
         </button>
       </nav>
     </>
