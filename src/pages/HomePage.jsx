@@ -69,8 +69,8 @@ export default function HomePage({ onDownloadClick }) {
         routePath: '/',
         lead: submission.payload || contactForm,
       });
-      window.location.href = buildProjectInquiryMailto(submission.payload || contactForm);
-      setContactStatus('fallback');
+      window.open(buildProjectInquiryMailto(submission.payload || contactForm), '_blank');
+      setContactStatus('sent');
       setContactForm(INITIAL_CONTACT_FORM);
       trackContactFormOutcome('fallback_mailto', 'home_contact_form', submission.type);
       return;

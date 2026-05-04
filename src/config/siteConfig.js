@@ -1,4 +1,4 @@
-const CONTACT_EMAIL = 'hello@novatech.et';
+const CONTACT_EMAIL = 'nahomgwmichael@gmail.com';
 const WHATSAPP_NUMBER = '251911000000';
 
 export const SITE_CONTACT = {
