@@ -10,7 +10,7 @@ import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
-import { getSaasPackages } from '../services/firebaseService';
+import { getSaasPackages } from '../services/pricingData';
 import { useLanguage } from '../i18n/useLanguage';
 
 export default function SaasSolutionsPage({ onDownloadClick }) {

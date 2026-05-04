@@ -9,7 +9,7 @@ import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
-import { getWebPackages, getMarketingAddons } from '../services/firebaseService';
+import { getWebPackages, getMarketingAddons } from '../services/pricingData';
 import { useLanguage } from '../i18n/useLanguage';
 
 export default function WebDevelopmentPage({ onDownloadClick }) {
@@ -143,8 +143,8 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
             </section>
 
             <RoiEstimator
-                title="Web Growth ROI Estimator"
-                subtitle="Estimate potential monthly revenue lift from improved conversion architecture and campaign readiness."
+                title={t('web.roi.title', 'Web Growth ROI Estimator')}
+                subtitle={t('web.roi.subtitle', 'Estimate potential monthly revenue lift from improved conversion architecture and campaign readiness.')}
             />
 
             <FaqAccordion

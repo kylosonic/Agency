@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -9,21 +9,24 @@ import LiveChatDock from './components/LiveChatDock';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import SectionScrollbar from './components/SectionScrollbar';
 import PageTransition from './components/PageTransition';
+import ErrorBoundary from './components/ErrorBoundary';
 import { trackPageView, trackPricingGuideIntent } from './services/analyticsService';
 import { setDocumentMetadata } from './services/seoService';
 import { LanguageProvider } from './i18n/LanguageContext';
 import { useLanguage } from './i18n/useLanguage';
-import HomePage from './pages/HomePage';
-import WebDevelopmentPage from './pages/WebDevelopmentPage';
-import MobileDevelopmentPage from './pages/MobileDevelopmentPage';
-import SaasSolutionsPage from './pages/SaasSolutionsPage';
-import AdditionalServicesPage from './pages/AdditionalServicesPage';
-import PolicyPage from './pages/PolicyPage';
-import CaseStudiesPage from './pages/CaseStudiesPage';
-import PortfolioPage from './pages/PortfolioPage';
-import IndustryLandingPage from './pages/IndustryLandingPage';
-import InstantQuotePage from './pages/InstantQuotePage';
-import DiscoveryCallPage from './pages/DiscoveryCallPage';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const WebDevelopmentPage = lazy(() => import('./pages/WebDevelopmentPage'));
+const MobileDevelopmentPage = lazy(() => import('./pages/MobileDevelopmentPage'));
+const SaasSolutionsPage = lazy(() => import('./pages/SaasSolutionsPage'));
+const AdditionalServicesPage = lazy(() => import('./pages/AdditionalServicesPage'));
+const PolicyPage = lazy(() => import('./pages/PolicyPage'));
+const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'));
+const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
+const IndustryLandingPage = lazy(() => import('./pages/IndustryLandingPage'));
+const InstantQuotePage = lazy(() => import('./pages/InstantQuotePage'));
+const DiscoveryCallPage = lazy(() => import('./pages/DiscoveryCallPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const AUTO_LEAD_CAPTURE_ROUTES = new Set([
   '/',
@@ -269,19 +272,24 @@ function AppContent() {
       <main id="main-content" className="site-main">
         <AnimatePresence mode="wait" initial={false}>
           <PageTransition key={location.pathname}>
-            <Routes location={location}>
-              <Route path="/" element={<HomePage onDownloadClick={openLeadCapture} />} />
-              <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/additional-services" element={<AdditionalServicesPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/policy" element={<PolicyPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/case-studies" element={<CaseStudiesPage />} />
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/industries/:industrySlug" element={<IndustryLandingPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/instant-quote" element={<InstantQuotePage />} />
-              <Route path="/book-discovery-call" element={<DiscoveryCallPage />} />
-            </Routes>
+            <ErrorBoundary>
+              <Suspense fallback={<div className="route-loader" />}>
+                <Routes location={location}>
+                  <Route path="/" element={<HomePage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/additional-services" element={<AdditionalServicesPage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/policy" element={<PolicyPage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/case-studies" element={<CaseStudiesPage />} />
+                  <Route path="/portfolio" element={<PortfolioPage />} />
+                  <Route path="/industries/:industrySlug" element={<IndustryLandingPage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/instant-quote" element={<InstantQuotePage />} />
+                  <Route path="/book-discovery-call" element={<DiscoveryCallPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </Suspense>
+            </ErrorBoundary>
           </PageTransition>
         </AnimatePresence>
       </main>
