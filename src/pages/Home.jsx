@@ -1,10 +1,26 @@
+import { lazy, Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
 import AnimatedMetric from '../components/AnimatedMetric';
-import AgentOpsShowcase from '../components/AgentOpsShowcase';
-import AutomationImpactCalculator from '../components/AutomationImpactCalculator';
+import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
+import { submitContactInquiry } from '../services/contactService';
+import { queueLeadFollowups } from '../services/leadAutomationService';
+import {
+  trackContactChannelClick,
+  trackContactFormAttempt,
+  trackContactFormOutcome,
+} from '../services/analyticsService';
+
+const AgentOpsShowcase = lazy(() => import('../components/AgentOpsShowcase'));
+const AutomationImpactCalculator = lazy(() => import('../components/AutomationImpactCalculator'));
+
+const INITIAL_CONTACT_FORM = {
+  name: '',
+  email: '',
+  message: '',
+};
 
 const HERO_METRICS = [
   {
@@ -91,6 +107,61 @@ const PRODUCT_DELIVERY_TRACKS = [
 ];
 
 export default function Home() {
+  const [contactForm, setContactForm] = useState(INITIAL_CONTACT_FORM);
+  const [contactStatus, setContactStatus] = useState('idle');
+
+  const handleContactChange = (event) => {
+    const { name, value } = event.target;
+    setContactForm((current) => ({
+      ...current,
+      [name]: value,
+    }));
+
+    if (contactStatus !== 'idle') {
+      setContactStatus('idle');
+    }
+  };
+
+  const handleContactSubmit = async (event) => {
+    event.preventDefault();
+    setContactStatus('sending');
+    trackContactFormAttempt('home_contact_form');
+
+    const submission = await submitContactInquiry(contactForm);
+
+    if (submission.ok) {
+      setContactStatus('sent');
+      setContactForm(INITIAL_CONTACT_FORM);
+      queueLeadFollowups({
+        source: 'home_contact_form',
+        channel: 'contact_form',
+        routePath: '/',
+        lead: submission.payload,
+      });
+      trackContactFormOutcome('submitted', 'home_contact_form');
+      return;
+    }
+
+    if (['unconfigured', 'request-failed', 'timeout', 'network-error'].includes(submission.type)) {
+      queueLeadFollowups({
+        source: 'home_contact_form_fallback',
+        channel: 'contact_form_mailto',
+        routePath: '/',
+        lead: submission.payload || contactForm,
+      });
+      if (typeof window !== 'undefined') {
+        window.location.assign(buildProjectInquiryMailto(submission.payload || contactForm));
+      }
+      setContactStatus('fallback');
+      setContactForm(INITIAL_CONTACT_FORM);
+      trackContactFormOutcome('fallback_mailto', 'home_contact_form', submission.type);
+      return;
+    }
+
+    setContactStatus('error');
+    trackContactFormOutcome('failed', 'home_contact_form', submission.type);
+  };
+
   return (
     <>
       <section className="hero ai-home-hero" id="hero">
@@ -190,7 +261,9 @@ export default function Home() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
-            <AgentOpsShowcase />
+            <Suspense fallback={<div className="section-loader" aria-hidden="true" />}>
+              <AgentOpsShowcase />
+            </Suspense>
           </ScrollReveal>
         </div>
       </section>
@@ -308,7 +381,138 @@ export default function Home() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.12}>
-            <AutomationImpactCalculator />
+            <Suspense fallback={<div className="section-loader" aria-hidden="true" />}>
+              <AutomationImpactCalculator />
+            </Suspense>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section ai-contact-section" id="contact">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              tag="Contact"
+              title="Start Your Automation Project"
+              subtitle="Share your workflow bottlenecks and we will reply with next steps within one business day."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <div className="contact-grid">
+              <div className="contact-form-card glass-card">
+                <h3>Send Us a Message</h3>
+                <form className="contact-form" onSubmit={handleContactSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="contact-name">Full Name</label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      name="name"
+                      value={contactForm.name}
+                      onChange={handleContactChange}
+                      placeholder="Hana Bekele"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="contact-email">Email Address</label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      name="email"
+                      value={contactForm.email}
+                      onChange={handleContactChange}
+                      placeholder="team@company.et"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="contact-message">Your Message</label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      value={contactForm.message}
+                      onChange={handleContactChange}
+                      placeholder="Tell us about your workflow bottlenecks and current tooling..."
+                      rows={5}
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-primary btn-lg" disabled={contactStatus === 'sending'}>
+                    {contactStatus === 'sending' ? 'Sending...' : 'Send Message'}
+                  </button>
+
+                  <p className={`form-feedback ${contactStatus}`} role="status" aria-live="polite">
+                    {contactStatus === 'sent'
+                      ? 'Thanks. Your message was sent successfully and our team will respond within 24 hours.'
+                      : contactStatus === 'fallback'
+                      ? 'We opened your email app to complete delivery. Please send the drafted message to finish your request.'
+                      : contactStatus === 'error'
+                      ? 'Please verify your name, email, and message, then try again.'
+                      : contactStatus === 'sending'
+                      ? 'Submitting your request to our contact channel...'
+                      : 'We usually respond in less than one business day.'}
+                  </p>
+                </form>
+              </div>
+
+              <div className="contact-info-card glass-card">
+                <div className="contact-info-item">
+                  <div className="contact-info-icon" aria-hidden="true"><IconGlyph name="mail" size={17} /></div>
+                  <div>
+                    <h4>Email</h4>
+                    <a href={`mailto:${SITE_CONTACT.email}`} onClick={() => trackContactChannelClick('email', 'home_contact_info')}>
+                      {SITE_CONTACT.email}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="contact-info-item">
+                  <div className="contact-info-icon" aria-hidden="true"><IconGlyph name="phone" size={17} /></div>
+                  <div>
+                    <h4>Phone</h4>
+                    <a href={SITE_CONTACT.phoneHref} onClick={() => trackContactChannelClick('phone', 'home_contact_info')}>
+                      {SITE_CONTACT.phoneDisplay}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="contact-info-item">
+                  <div className="contact-info-icon" aria-hidden="true"><IconGlyph name="chat" size={17} /></div>
+                  <div>
+                    <h4>Telegram</h4>
+                    <a
+                      href={SITE_CONTACT.telegramUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => trackContactChannelClick('telegram', 'home_contact_info')}
+                    >
+                      {SITE_CONTACT.telegramHandle}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="contact-info-item">
+                  <div className="contact-info-icon" aria-hidden="true"><IconGlyph name="pin" size={17} /></div>
+                  <div>
+                    <h4>Location</h4>
+                    <a
+                      href={SITE_CONTACT.mapsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => trackContactChannelClick('maps', 'home_contact_info')}
+                    >
+                      {SITE_CONTACT.locationLabel}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </ScrollReveal>
         </div>
       </section>

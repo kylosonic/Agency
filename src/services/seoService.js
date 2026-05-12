@@ -13,6 +13,20 @@ const SEO_BY_ROUTE = {
       description: 'Stop manual work at the source. NovaTech AI designs and deploys autonomous agents, private assistants, and ROI-focused workflow automation systems.',
     },
   },
+  '/404': {
+    en: {
+      title: '404 - Page Not Found | NovaTech AI',
+      description: 'The page you requested does not exist. Explore NovaTech AI workflow automation and product engineering services.',
+    },
+    am: {
+      title: '404 - Page Not Found | NovaTech AI',
+      description: 'The page you requested does not exist. Explore NovaTech AI workflow automation and product engineering services.',
+    },
+    om: {
+      title: '404 - Page Not Found | NovaTech AI',
+      description: 'The page you requested does not exist. Explore NovaTech AI workflow automation and product engineering services.',
+    },
+  },
   '/services': {
     en: {
       title: 'AI Solutions | NovaTech AI',
@@ -57,43 +71,43 @@ const SEO_BY_ROUTE = {
   },
   '/web-development': {
     en: {
-      title: 'Web Development Packages | NovaTech',
-      description: 'Choose conversion-focused web development packages with modern stacks, SEO baseline, and launch support.',
+      title: 'Web Development | NovaTech AI',
+      description: 'Conversion-focused web platforms and portals that operationalize your workflows with AI-ready architecture.',
     },
     am: {
-      title: 'የዌብ ልማት ፓኬጆች | NovaTech',
+      title: 'የዌብ ልማት | NovaTech AI',
       description: 'SEO እና የማስጀመሪያ ድጋፍ ያላቸውን የዌብ ፓኬጆች ይምረጡ።',
     },
     om: {
-      title: 'Paakeejii Web Development | NovaTech',
+      title: 'Web Development | NovaTech AI',
       description: 'Paakeejii web kan jijjiirraa dabalu, SEO fi deeggarsa launch waliin filadhu.',
     },
   },
   '/mobile-development': {
     en: {
-      title: 'Mobile App Development | NovaTech',
+      title: 'Mobile App Development | NovaTech AI',
       description: 'Cross-platform mobile apps built for performance, retention, and local payment integrations.',
     },
     am: {
-      title: 'ሞባይል መተግበሪያ ልማት | NovaTech',
+      title: 'ሞባይል መተግበሪያ ልማት | NovaTech AI',
       description: 'ከአካባቢ ክፍያ ውህደት ጋር ከፍተኛ አፈፃፀም ያላቸው ሞባይል መተግበሪያዎች።',
     },
     om: {
-      title: 'Mobile App Development | NovaTech',
+      title: 'Mobile App Development | NovaTech AI',
       description: 'Appii mobile cross-platform kan hojii gaarii fi kaffaltii naannoo wajjin hojjetan.',
     },
   },
   '/saas-solutions': {
     en: {
-      title: 'SaaS Cloud Solutions | NovaTech',
-      description: 'Deploy managed SaaS systems for schools, hospitals, and real estate with zero IT overhead.',
+      title: 'SaaS Product Engineering | NovaTech AI',
+      description: 'Build and scale SaaS platforms with multi-tenant architecture, analytics, and automation-ready workflows.',
     },
     am: {
-      title: 'የSaaS የደመና መፍትሄዎች | NovaTech',
+      title: 'የSaaS ምርት እንጂነሪንግ | NovaTech AI',
       description: 'ለትምህርት ቤቶች፣ ሆስፒታሎች እና ሪል እስቴት የSaaS ስርዓቶችን ያስጀምሩ።',
     },
     om: {
-      title: 'SaaS Cloud Solutions | NovaTech',
+      title: 'SaaS Product Engineering | NovaTech AI',
       description: 'Mana barumsaa, hospitaala fi real estatef sirna SaaS tajaajilamaa diriirsi.',
     },
   },
@@ -202,7 +216,22 @@ function resolveRoute(pathname) {
     return '/industries';
   }
 
-  return SEO_BY_ROUTE[pathname] ? pathname : '/';
+  return SEO_BY_ROUTE[pathname] ? pathname : '/404';
+}
+
+function ensureCanonicalLink(href) {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  let element = document.querySelector('link[rel="canonical"]');
+  if (!element) {
+    element = document.createElement('link');
+    element.setAttribute('rel', 'canonical');
+    document.head.appendChild(element);
+  }
+
+  element.setAttribute('href', href);
 }
 
 function ensureMeta(name, content) {
@@ -246,14 +275,18 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   const route = resolveRoute(pathname);
   const routeSeo = SEO_BY_ROUTE[route] || SEO_BY_ROUTE['/'];
   const selected = routeSeo[language] || routeSeo.en;
+  const isNotFoundRoute = route === '/404';
+  const canonicalUrl = `${SITE_URL}${pathname}`;
 
   document.title = selected.title;
   ensureMeta('description', selected.description);
+  ensureMeta('robots', isNotFoundRoute ? 'noindex, nofollow' : 'index, follow');
+  ensureCanonicalLink(canonicalUrl);
 
   // Open Graph / Twitter Card
   ensurePropertyMeta('og:title', selected.title);
   ensurePropertyMeta('og:description', selected.description);
-  ensurePropertyMeta('og:url', `${SITE_URL}${pathname}`);
+  ensurePropertyMeta('og:url', canonicalUrl);
   ensurePropertyMeta('og:image', OG_IMAGE);
   ensurePropertyMeta('og:image:alt', 'NovaTech AI automation and product engineering preview');
   ensurePropertyMeta('og:type', 'website');

@@ -14,21 +14,45 @@ import { trackPageView, trackPricingGuideIntent } from './services/analyticsServ
 import { setDocumentMetadata } from './services/seoService';
 import { LanguageProvider } from './i18n/LanguageContext';
 import { useLanguage } from './i18n/useLanguage';
-const Home = lazy(() => import('./pages/Home'));
-const Services = lazy(() => import('./pages/Services'));
-const Pricing = lazy(() => import('./pages/Pricing'));
-const WorkflowAudit = lazy(() => import('./pages/WorkflowAudit'));
-const WebDevelopmentPage = lazy(() => import('./pages/WebDevelopmentPage'));
-const MobileDevelopmentPage = lazy(() => import('./pages/MobileDevelopmentPage'));
-const SaasSolutionsPage = lazy(() => import('./pages/SaasSolutionsPage'));
-const AdditionalServicesPage = lazy(() => import('./pages/AdditionalServicesPage'));
-const PolicyPage = lazy(() => import('./pages/PolicyPage'));
-const CaseStudiesPage = lazy(() => import('./pages/CaseStudiesPage'));
-const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
-const IndustryLandingPage = lazy(() => import('./pages/IndustryLandingPage'));
-const InstantQuotePage = lazy(() => import('./pages/InstantQuotePage'));
-const DiscoveryCallPage = lazy(() => import('./pages/DiscoveryCallPage'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+
+function lazyWithRetry(importer, retries = 2, delayMs = 250) {
+  return lazy(async () => {
+    let attempt = 0;
+
+    while (attempt <= retries) {
+      try {
+        return await importer();
+      } catch (error) {
+        if (attempt >= retries) {
+          throw error;
+        }
+
+        await new Promise((resolve) => {
+          setTimeout(resolve, delayMs * (attempt + 1));
+        });
+        attempt += 1;
+      }
+    }
+
+    return importer();
+  });
+}
+
+const Home = lazyWithRetry(() => import('./pages/Home'));
+const Services = lazyWithRetry(() => import('./pages/Services'));
+const Pricing = lazyWithRetry(() => import('./pages/Pricing'));
+const WorkflowAudit = lazyWithRetry(() => import('./pages/WorkflowAudit'));
+const WebDevelopmentPage = lazyWithRetry(() => import('./pages/WebDevelopmentPage'));
+const MobileDevelopmentPage = lazyWithRetry(() => import('./pages/MobileDevelopmentPage'));
+const SaasSolutionsPage = lazyWithRetry(() => import('./pages/SaasSolutionsPage'));
+const AdditionalServicesPage = lazyWithRetry(() => import('./pages/AdditionalServicesPage'));
+const PolicyPage = lazyWithRetry(() => import('./pages/PolicyPage'));
+const CaseStudiesPage = lazyWithRetry(() => import('./pages/CaseStudiesPage'));
+const PortfolioPage = lazyWithRetry(() => import('./pages/PortfolioPage'));
+const IndustryLandingPage = lazyWithRetry(() => import('./pages/IndustryLandingPage'));
+const InstantQuotePage = lazyWithRetry(() => import('./pages/InstantQuotePage'));
+const DiscoveryCallPage = lazyWithRetry(() => import('./pages/DiscoveryCallPage'));
+const NotFoundPage = lazyWithRetry(() => import('./pages/NotFoundPage'));
 
 const AUTO_LEAD_CAPTURE_ROUTES = new Set([
   '/',
@@ -284,7 +308,14 @@ function AppContent() {
         <AnimatePresence mode="wait" initial={false}>
           <PageTransition key={location.pathname}>
             <ErrorBoundary>
-              <Suspense fallback={<div className="route-loader" />}>
+              <Suspense
+                fallback={(
+                  <div className="route-loader" role="status" aria-live="polite" aria-label="Loading page">
+                    <span className="route-loader-ring" aria-hidden="true"></span>
+                    <span className="route-loader-text">Loading page...</span>
+                  </div>
+                )}
+              >
                 <Routes location={location}>
                   <Route path="/" element={<Home />} />
                   <Route path="/services" element={<Services />} />

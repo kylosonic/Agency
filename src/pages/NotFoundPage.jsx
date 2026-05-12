@@ -17,7 +17,7 @@ export default function NotFoundPage() {
           <p>
             {t(
               'notFound.text',
-              'The page you are looking for does not exist or has been moved. Let us help you find what you need.'
+              'The page you are looking for does not exist or has been moved. Use one of the links below to continue.'
             )}
           </p>
           <div className="not-found-actions">
@@ -26,6 +26,9 @@ export default function NotFoundPage() {
             </Link>
             <Link to="/web-development" className="btn btn-secondary">
               {t('notFound.exploreServices', 'Explore Services')}
+            </Link>
+            <Link to="/workflow-audit" className="btn btn-secondary">
+              {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
             </Link>
           </div>
         </div>

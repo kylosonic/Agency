@@ -154,4 +154,26 @@ test.describe('Live site responsive smoke', () => {
     await expect.poll(async () => page.getAttribute('html', 'lang')).toBe('am');
     await expect.poll(async () => page.title()).not.toBe(titleBefore);
   });
+
+  test('home contact form submits and shows success feedback', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.route('https://formsubmit.co/**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true }),
+      });
+    });
+
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    await page.locator('#contact-name').fill('Playwright Contact Tester');
+    await page.locator('#contact-email').fill('playwright-contact@example.com');
+    await page.locator('#contact-message').fill('Please contact us with implementation options and timeline.');
+    await page.getByRole('button', { name: 'Send Message' }).click();
+
+    await expect(page.getByText('Thanks. Your message was sent successfully and our team will respond within 24 hours.')).toBeVisible();
+  });
 });

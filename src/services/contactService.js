@@ -1,6 +1,8 @@
 const CONTACT_API_ENDPOINT = (import.meta.env.VITE_CONTACT_API_ENDPOINT || '').trim();
 const CONTACT_API_KEY = (import.meta.env.VITE_CONTACT_API_KEY || '').trim();
 const DEFAULT_TIMEOUT_MS = Number(import.meta.env.VITE_CONTACT_TIMEOUT_MS || 9000);
+const DEFAULT_CONTACT_EMAIL = 'nahomgwmichael@gmail.com';
+const FALLBACK_CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${DEFAULT_CONTACT_EMAIL}`;
 
 function normalizeValue(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -24,6 +26,7 @@ function isValidPayload(payload) {
 
 export async function submitContactInquiry(formData) {
   const payload = normalizeContactPayload(formData);
+  const endpoint = CONTACT_API_ENDPOINT || FALLBACK_CONTACT_ENDPOINT;
 
   if (!isValidPayload(payload)) {
     return {
@@ -33,30 +36,31 @@ export async function submitContactInquiry(formData) {
     };
   }
 
-  if (!CONTACT_API_ENDPOINT) {
-    return {
-      ok: false,
-      type: 'unconfigured',
-      payload,
-    };
-  }
-
   const controller = new AbortController();
-  const timeoutId = window.setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
+  const timeoutId = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
 
   try {
     const headers = {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
     };
 
     if (CONTACT_API_KEY) {
       headers['X-Api-Key'] = CONTACT_API_KEY;
     }
 
-    const response = await fetch(CONTACT_API_ENDPOINT, {
+    const body = {
+      ...payload,
+      _subject: `New Project Inquiry - ${payload.name || 'Website Visitor'}`,
+      _replyto: payload.email,
+      _captcha: 'false',
+      _source: 'novatech_homepage_contact_form',
+    };
+
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers,
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
       signal: controller.signal,
     });
 
@@ -89,6 +93,6 @@ export async function submitContactInquiry(formData) {
       payload,
     };
   } finally {
-    window.clearTimeout(timeoutId);
+    clearTimeout(timeoutId);
   }
 }

@@ -1965,6 +1965,10 @@ h2 {
   align-items: start;
 }
 
+.ai-contact-section .contact-grid {
+  gap: 1.2rem;
+}
+
 .contact-grid > * {
   min-height: 100%;
 }
@@ -1972,6 +1976,8 @@ h2 {
 .contact-form-card,
 .contact-info-card {
   height: 100%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-card);
 }
 
 .contact-form-card h3 {
@@ -2045,6 +2051,10 @@ h2 {
 
 .form-feedback.fallback {
   color: var(--blue);
+}
+
+[data-theme='dark'] .form-feedback.fallback {
+  color: #93c5fd;
 }
 
 .form-feedback.error {
@@ -5497,12 +5507,49 @@ h2 {
   width: 100%;
   min-height: 60vh;
   background: var(--bg-primary);
-  animation: route-loader-pulse 1.4s ease-in-out infinite;
+  display: grid;
+  place-items: center;
+  gap: var(--space-sm);
+}
+
+.route-loader-ring {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 3px solid color-mix(in srgb, var(--green), transparent 70%);
+  border-top-color: var(--green);
+  animation: route-loader-spin 0.8s linear infinite;
+}
+
+.route-loader-text {
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.section-loader {
+  width: 100%;
+  min-height: 240px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(120deg, var(--bg-tertiary), var(--bg-secondary), var(--bg-tertiary));
+  background-size: 220% 100%;
+  animation: section-loader-wave 1.4s ease-in-out infinite;
 }
 
 @keyframes route-loader-pulse {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 0.8; }
+}
+
+@keyframes route-loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes section-loader-wave {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ── Error Boundary ── */
@@ -5537,6 +5584,21 @@ h2 {
   color: var(--text-secondary);
   margin-bottom: var(--space-xl);
   line-height: 1.65;
+}
+
+.error-boundary-meta {
+  margin-top: calc(var(--space-md) * -1);
+  margin-bottom: var(--space-lg);
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+}
+
+.error-boundary-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
 }
 
 /* ── 404 Not Found ── */
@@ -5596,6 +5658,11 @@ h2 {
   }
 
   .not-found-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .error-boundary-actions {
     flex-direction: column;
     align-items: center;
   }
