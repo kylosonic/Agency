@@ -4220,6 +4220,52 @@ h2 {
   line-height: 1.62;
 }
 
+.ai-product-track-section {
+  border-top: 1px solid var(--glass-border);
+}
+
+.ai-product-track-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-product-track-card::before {
+  content: '';
+  position: absolute;
+  inset: auto -20% -40% auto;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--green-bg), transparent 26%) 0%, transparent 66%);
+  pointer-events: none;
+}
+
+.ai-product-track-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ai-product-track-link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  border-bottom: 1px solid color-mix(in srgb, var(--green), transparent 40%);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+[data-theme='dark'] .ai-product-track-link {
+  color: var(--green-light);
+}
+
+.ai-product-track-link:hover {
+  color: var(--blue-dark);
+  border-color: color-mix(in srgb, var(--blue), transparent 40%);
+}
+
 .methodology-section {
   border-top: 1px solid var(--glass-border);
 }
@@ -4416,6 +4462,56 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
+}
+
+.ai-supporting-track-grid {
+  margin-top: 0.88rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.62rem;
+}
+
+.ai-supporting-track-pill {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg-card), transparent 6%);
+  padding: 0.58rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.48rem;
+  color: var(--text-secondary);
+  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+}
+
+.ai-supporting-track-pill:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--green), var(--blue) 46%);
+  background: color-mix(in srgb, var(--green-bg), transparent 72%);
+}
+
+.ai-supporting-track-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ai-supporting-track-pill strong {
+  display: block;
+  color: var(--text-primary);
+  font-size: 0.84rem;
+}
+
+.ai-supporting-track-pill small {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--text-tertiary);
+  line-height: 1.45;
+  font-size: 0.75rem;
 }
 
 .ai-pricing-section {
@@ -4655,6 +4751,7 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .ai-supporting-track-grid,
   .ai-service-grid,
   .methodology-timeline,
   .ai-pricing-tier-grid {
@@ -4668,6 +4765,7 @@ h2 {
   }
 
   .ai-preview-grid,
+  .ai-supporting-track-grid,
   .ai-service-grid,
   .methodology-timeline,
   .ai-pricing-tier-grid,
@@ -4711,6 +4809,590 @@ h2 {
   .ai-supporting-actions .btn,
   .ai-home-cta .btn {
     width: 100%;
+  }
+}
+
+.animated-metric {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-agent-demo-section,
+.ai-impact-section {
+  border-top: 1px solid var(--glass-border);
+}
+
+.ai-agent-showcase {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+  padding: clamp(1.05rem, 3.2vw, 1.65rem);
+  display: grid;
+  gap: 0.9rem;
+}
+
+.ai-agent-showcase::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--green-bg), transparent 25%) 0%, transparent 45%),
+    radial-gradient(circle at 75% 35%, color-mix(in srgb, var(--blue-bg), transparent 35%) 0%, transparent 52%);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: ai-agent-glow 11s ease-in-out infinite;
+}
+
+.ai-agent-showcase > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ai-agent-showcase-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.ai-agent-kicker {
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  font-weight: 800;
+  margin-bottom: 0.28rem;
+}
+
+.ai-agent-showcase-header h3 {
+  font-size: clamp(1.2rem, 2.8vw, 1.52rem);
+  max-width: 35ch;
+}
+
+.ai-agent-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border-hover);
+  background: color-mix(in srgb, var(--bg-card), transparent 8%);
+  padding: 0.34rem 0.7rem;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--green), transparent 36%);
+  animation: ai-status-pulse 2.2s ease-out infinite;
+}
+
+.ai-agent-progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--bg-card), transparent 4%);
+  overflow: hidden;
+}
+
+.ai-agent-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green-dark) 0%, var(--blue-dark) 100%);
+  transition: width 0.42s var(--ease-out);
+}
+
+.ai-agent-showcase-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: 0.82rem;
+}
+
+.ai-agent-step-rail {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.ai-agent-step-btn {
+  width: 100%;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg-card), transparent 8%);
+  padding: 0.62rem 0.68rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.56rem;
+  color: var(--text-secondary);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+}
+
+.ai-agent-step-btn strong {
+  display: block;
+  font-size: 0.86rem;
+}
+
+.ai-agent-step-btn small {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+}
+
+.ai-agent-step-btn:hover {
+  transform: translateX(2px);
+}
+
+.ai-agent-step-btn.active {
+  border-color: color-mix(in srgb, var(--green), var(--blue) 34%);
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--green-bg), transparent 50%);
+}
+
+.ai-agent-step-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ai-agent-terminal {
+  position: relative;
+  min-height: 228px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--glass-border-hover);
+  background: color-mix(in srgb, var(--bg-dark-soft), transparent 12%);
+  padding: 0.92rem;
+}
+
+[data-theme='dark'] .ai-agent-terminal {
+  background: color-mix(in srgb, var(--bg-primary), transparent 6%);
+}
+
+.ai-agent-terminal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, color-mix(in srgb, var(--blue-bg), transparent 65%) 50%, transparent 100%);
+  animation: ai-terminal-scan 4.2s linear infinite;
+}
+
+.ai-agent-terminal-command {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  margin-bottom: 0.62rem;
+  color: var(--green-dark);
+}
+
+[data-theme='dark'] .ai-agent-terminal-command {
+  color: var(--green-light);
+}
+
+.ai-agent-terminal-output {
+  color: var(--text-secondary);
+  line-height: 1.64;
+  margin-bottom: 0.72rem;
+}
+
+.ai-agent-terminal-checks {
+  display: grid;
+  gap: 0.34rem;
+}
+
+.ai-agent-terminal-checks li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.ai-agent-terminal-checks svg {
+  color: var(--green);
+}
+
+.ai-impact-calculator {
+  border-radius: var(--radius-2xl);
+  padding: clamp(1.05rem, 3.2vw, 1.7rem);
+  display: grid;
+  gap: 0.9rem;
+}
+
+.ai-impact-calculator-header h3 {
+  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+  margin-bottom: 0.32rem;
+}
+
+.ai-impact-calculator-header p {
+  color: var(--text-secondary);
+  max-width: 72ch;
+}
+
+.ai-impact-calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.72rem;
+}
+
+.ai-impact-control {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg-card), transparent 4%);
+  padding: 0.74rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.ai-impact-control span {
+  color: var(--text-tertiary);
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.ai-impact-control strong {
+  font-family: var(--font-heading);
+  font-size: 0.98rem;
+}
+
+.ai-impact-control input[type='range'],
+.pricing-scenario-controls input[type='range'] {
+  width: 100%;
+  accent-color: var(--green);
+}
+
+.ai-impact-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.ai-impact-metrics article {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 0.76rem;
+  background: color-mix(in srgb, var(--bg-card), transparent 4%);
+}
+
+.ai-impact-metrics p {
+  color: var(--text-tertiary);
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+  font-weight: 700;
+}
+
+.ai-impact-metrics h4 {
+  font-size: 1.05rem;
+  font-family: var(--font-heading);
+}
+
+.ai-service-objective-board {
+  margin-top: 0.72rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-2xl);
+  padding: clamp(0.95rem, 3vw, 1.3rem);
+  display: grid;
+  gap: 0.68rem;
+}
+
+.ai-service-objective-kicker {
+  font-size: 0.73rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-tertiary);
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+
+.ai-service-objective-head h3 {
+  font-size: clamp(1.1rem, 2.2vw, 1.36rem);
+  margin-bottom: 0.18rem;
+}
+
+.ai-service-objective-head p {
+  color: var(--text-secondary);
+}
+
+.ai-service-objective-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ai-service-objective-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.36rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  background: color-mix(in srgb, var(--bg-card), transparent 8%);
+  padding: 0.42rem 0.72rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
+}
+
+.ai-service-objective-chip:hover {
+  transform: translateY(-1px);
+}
+
+.ai-service-objective-chip.active {
+  color: var(--text-primary);
+  border-color: color-mix(in srgb, var(--green), var(--blue) 45%);
+  background: color-mix(in srgb, var(--green-bg), transparent 58%);
+}
+
+.ai-service-objective-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.ai-service-objective-flow span {
+  position: relative;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  padding: 0.44rem 0.54rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--bg-card), transparent 8%);
+}
+
+.ai-service-objective-flow span:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -0.32rem;
+  transform: translate(100%, -50%);
+  width: 0.74rem;
+  height: 2px;
+  background: color-mix(in srgb, var(--green), var(--blue) 48%);
+  opacity: 0.75;
+  animation: ai-flow-pulse 1.8s ease-in-out infinite;
+}
+
+.ai-service-objective-meta {
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+}
+
+.ai-service-card {
+  transition: opacity var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ai-service-card.is-focus {
+  border-color: color-mix(in srgb, var(--green), var(--blue) 45%);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.ai-service-card.is-muted {
+  opacity: 0.62;
+}
+
+.pricing-scenario-planner {
+  margin-top: 0.74rem;
+  border-radius: var(--radius-2xl);
+  padding: clamp(0.95rem, 3vw, 1.45rem);
+  display: grid;
+  gap: 0.86rem;
+}
+
+.pricing-scenario-header h3 {
+  font-size: clamp(1.1rem, 2.3vw, 1.4rem);
+  margin-bottom: 0.24rem;
+}
+
+.pricing-scenario-header p {
+  color: var(--text-secondary);
+  max-width: 74ch;
+}
+
+.pricing-scenario-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.pricing-scenario-controls label {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg-card), transparent 5%);
+  padding: 0.7rem;
+  display: grid;
+  gap: 0.42rem;
+}
+
+.pricing-scenario-controls span {
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.pricing-scenario-controls strong {
+  font-family: var(--font-heading);
+  font-size: 0.96rem;
+}
+
+.pricing-scenario-output {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 0.84rem;
+  background: color-mix(in srgb, var(--bg-card), transparent 4%);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.pricing-scenario-tier {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--green), var(--blue) 42%);
+  background: color-mix(in srgb, var(--green-bg), transparent 55%);
+  padding: 0.36rem 0.66rem;
+  font-size: 0.79rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.pricing-scenario-values {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.pricing-scenario-values article {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 0.58rem;
+  display: grid;
+  gap: 0.24rem;
+}
+
+.pricing-scenario-values span {
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.pricing-scenario-values strong {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+}
+
+@keyframes ai-agent-glow {
+  0%,
+  100% {
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, 1.6%, 0) scale(1.05);
+  }
+}
+
+@keyframes ai-status-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--green), transparent 36%);
+    opacity: 0.9;
+  }
+  70% {
+    box-shadow: 0 0 0 9px color-mix(in srgb, var(--green), transparent 100%);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--green), transparent 100%);
+    opacity: 0.9;
+  }
+}
+
+@keyframes ai-terminal-scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes ai-flow-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@media (max-width: 1200px) {
+  .pricing-scenario-values,
+  .ai-impact-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .ai-agent-showcase-grid,
+  .ai-impact-calculator-grid,
+  .pricing-scenario-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-service-objective-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-service-objective-flow span:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .pricing-scenario-values,
+  .ai-impact-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .ai-agent-showcase,
+  .ai-impact-calculator,
+  .pricing-scenario-planner,
+  .ai-service-objective-board {
+    padding: 0.9rem;
+  }
+
+  .ai-service-objective-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-service-objective-flow span::after {
+    display: none;
+  }
+
+  .ai-agent-step-btn {
+    padding: 0.58rem;
   }
 }
 

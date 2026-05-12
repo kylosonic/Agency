@@ -18,7 +18,7 @@ export default function Footer() {
                         <p>
                             {t(
                                 'footer.description',
-                                'AI-first automation consultancy delivering custom agentic workflows, private model deployments, and resilient execution layers for operations-heavy teams.',
+                                'AI-first automation consultancy delivering custom agentic workflows while actively building web platforms, mobile apps, and SaaS products for scaling teams.',
                             )}
                         </p>
                     </div>
@@ -37,7 +37,10 @@ export default function Footer() {
                     <div>
                         <h4>{t('footer.company', 'Company')}</h4>
                         <ul className="footer-links">
-                            <li><Link to="/services#engineering">{t('footer.links.engineeringLayer', 'Engineering Delivery Layer')}</Link></li>
+                            <li><Link to="/services#engineering">{t('footer.links.engineeringLayer', 'Product Engineering (Web, Mobile, SaaS)')}</Link></li>
+                            <li><Link to="/web-development">{t('web.hero.title', 'Web Design & Development')}</Link></li>
+                            <li><Link to="/mobile-development">{t('mobile.hero.title', 'Mobile App Development')}</Link></li>
+                            <li><Link to="/saas-solutions">{t('saas.hero.title', 'SaaS Cloud Solutions')}</Link></li>
                             <li><Link to="/policy">{t('nav.policy', 'Payment Policy')}</Link></li>
                             <li><Link to="/case-studies">{t('nav.caseStudies', 'Case Studies')}</Link></li>
                             <li><Link to="/portfolio">{t('nav.portfolio', 'Portfolio')}</Link></li>

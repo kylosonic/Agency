@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
+import PricingScenarioPlanner from '../components/PricingScenarioPlanner';
 
 const AUTOMATION_TIERS = [
   {
@@ -71,11 +72,12 @@ export default function Pricing() {
         <div className="container page-hero-content ai-pricing-hero-content">
           <h1>Comprehensive Pricing Guide</h1>
           <p>
-            Pricing is structured around operational impact: AI automation systems are scoped by integration depth and autonomy, while interface engineering is scoped as a supporting delivery layer.
+            Pricing is structured around operational impact: AI automation is our primary acceleration layer, and web, mobile, and SaaS product engineering remains an active delivery track.
           </p>
           <div className="page-hero-meta" aria-label="Pricing model notes">
             <span className="page-hero-chip">Setup + monthly retainers</span>
             <span className="page-hero-chip">Scope tied to integration depth</span>
+            <span className="page-hero-chip">Product engineering still active</span>
             <span className="page-hero-chip">Audit-first engagement model</span>
           </div>
         </div>
@@ -86,10 +88,14 @@ export default function Pricing() {
           <ScrollReveal>
             <SectionHeader
               tag="Pricing Structure"
-              title="AI Automation Services vs. Interface Development"
-              subtitle="Use the toggle to inspect pricing by delivery track."
+              title="AI Automation + Product Engineering"
+              subtitle="Use the toggle to inspect both active tracks: automation systems and web/mobile/SaaS product builds."
               align="left"
             />
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.08}>
+            <PricingScenarioPlanner />
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
@@ -114,7 +120,7 @@ export default function Pricing() {
                 className={activeTrack === 'interface' ? 'active' : ''}
                 onClick={() => setActiveTrack('interface')}
               >
-                Interface Development (Web/Mobile)
+                Product Engineering (Web/Mobile/SaaS)
               </button>
             </div>
           </ScrollReveal>
@@ -178,7 +184,7 @@ export default function Pricing() {
             >
               <ScrollReveal delay={0.12}>
                 <div className="ai-interface-disclaimer glass-card">
-                  Prices reflect standard interface development. Deep AI-integrated applications require custom scoping to account for data pipeline complexity.
+                  This product engineering track is fully active for standalone and AI-integrated builds. Final scope depends on architecture depth, integrations, and compliance requirements.
                 </div>
               </ScrollReveal>
 

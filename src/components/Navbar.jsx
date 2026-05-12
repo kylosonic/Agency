@@ -13,11 +13,13 @@ const PRIMARY_LINKS = [
 const ENGINEERING_LINKS = [
   { to: '/web-development', label: 'Web Development' },
   { to: '/mobile-development', label: 'Mobile Applications' },
-  { to: '/saas-solutions', label: 'SaaS Systems' },
+  { to: '/saas-solutions', label: 'SaaS Products' },
   { to: '/additional-services', label: 'Additional Services' },
   { to: '/case-studies', label: 'Case Studies' },
   { to: '/portfolio', label: 'Portfolio' },
 ];
+
+const ENGINEERING_LABEL = 'Product Engineering';
 
 const WORKFLOW_ROUTES = new Set(['/workflow-audit', '/book-discovery-call']);
 
@@ -130,11 +132,11 @@ export default function Navbar() {
                   aria-haspopup="true"
                   onClick={() => setEngineeringOpen((current) => !current)}
                 >
-                  Engineering
+                  {ENGINEERING_LABEL}
                   <span className="navbar-engineering-caret" aria-hidden="true">v</span>
                 </button>
 
-                <div className="navbar-engineering-menu" role="menu" aria-label="Engineering links">
+                <div className="navbar-engineering-menu" role="menu" aria-label="Product engineering links">
                   {ENGINEERING_LINKS.map((link) => (
                     <Link key={link.to} to={link.to} role="menuitem">
                       {link.label}
@@ -191,8 +193,8 @@ export default function Navbar() {
           </Link>
         ))}
 
-        <div className="mobile-nav-group" aria-label="Engineering links">
-          <p className="mobile-nav-group-title">Engineering</p>
+        <div className="mobile-nav-group" aria-label="Product engineering links">
+          <p className="mobile-nav-group-title">{ENGINEERING_LABEL}</p>
           {ENGINEERING_LINKS.map((link) => (
             <Link
               key={link.to}

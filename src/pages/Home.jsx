@@ -2,19 +2,25 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
+import AnimatedMetric from '../components/AnimatedMetric';
+import AgentOpsShowcase from '../components/AgentOpsShowcase';
+import AutomationImpactCalculator from '../components/AutomationImpactCalculator';
 
 const HERO_METRICS = [
   {
     label: 'Hours Reclaimed',
-    value: '1,800+',
+    value: 1800,
+    suffix: '+',
   },
   {
     label: 'Systems Integrated',
-    value: '40+',
+    value: 40,
+    suffix: '+',
   },
   {
     label: 'Manual Steps Removed',
-    value: '92%',
+    value: 92,
+    suffix: '%',
   },
 ];
 
@@ -60,6 +66,30 @@ const METHODOLOGY_STEPS = [
   },
 ];
 
+const PRODUCT_DELIVERY_TRACKS = [
+  {
+    title: 'Web Development',
+    description:
+      'Conversion-focused websites, portals, and internal web platforms delivered as standalone or AI-enabled builds.',
+    icon: 'globe',
+    to: '/web-development',
+  },
+  {
+    title: 'Mobile App Development',
+    description:
+      'Cross-platform iOS and Android applications for field teams, approvals, and customer workflows.',
+    icon: 'mobile',
+    to: '/mobile-development',
+  },
+  {
+    title: 'SaaS Product Engineering',
+    description:
+      'Scalable SaaS platforms with multi-tenant architecture, billing, and operational analytics built for growth.',
+    icon: 'cloud',
+    to: '/saas-solutions',
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -77,7 +107,7 @@ export default function Home() {
 
             <ScrollReveal delay={0.2}>
               <p>
-                We build autonomous systems and custom workflows that scrape data, navigate browsers, organize messy files, and integrate directly into your existing legacy software.
+                We lead with AI automation because it creates the fastest operational advantage, while actively delivering web, mobile, and SaaS products that turn those systems into real business outcomes.
               </p>
               <div className="hero-actions">
                 <Link className="btn btn-primary btn-lg" to="/workflow-audit">
@@ -93,7 +123,9 @@ export default function Home() {
               <div className="hero-stats ai-hero-stats" aria-label="Operational performance metrics">
                 {HERO_METRICS.map((metric) => (
                   <div key={metric.label} className="hero-stat glass-card ai-hero-stat">
-                    <div className="hero-stat-value">{metric.value}</div>
+                    <div className="hero-stat-value">
+                      <AnimatedMetric value={metric.value} suffix={metric.suffix} />
+                    </div>
                     <div className="hero-stat-label">{metric.label}</div>
                   </div>
                 ))}
@@ -146,6 +178,23 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section ai-agent-demo-section" id="agent-demo">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              tag="Agentic Replay"
+              title="Watch an End-to-End Agent Pipeline Execute"
+              subtitle="A sample autonomous sequence from data collection to reporting, visualized as an operational control surface."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1}>
+            <AgentOpsShowcase />
+          </ScrollReveal>
+        </div>
+      </section>
+
       <section className="section" id="ai-solutions">
         <div className="container">
           <ScrollReveal>
@@ -187,6 +236,36 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section ai-product-track-section" id="product-engineering">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              tag="Product Engineering"
+              title="Web, Mobile, and SaaS Delivery Is Still Core to Our Stack"
+              subtitle="AI is the primary growth lever, and we continue shipping full product surfaces that operationalize your workflows in production."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal stagger>
+            <div className="ai-preview-grid">
+              {PRODUCT_DELIVERY_TRACKS.map((track) => (
+                <article key={track.title} className="ai-preview-card glass-card ai-product-track-card">
+                  <div className="ai-preview-icon" aria-hidden="true">
+                    <IconGlyph name={track.icon} size={20} />
+                  </div>
+                  <h3>{track.title}</h3>
+                  <p>{track.description}</p>
+                  <Link className="ai-product-track-link" to={track.to}>
+                    Explore Track
+                  </Link>
+                </article>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       <section className="section methodology-section" id="methodology">
         <div className="container">
           <ScrollReveal>
@@ -213,6 +292,23 @@ export default function Home() {
                 </article>
               ))}
             </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section ai-impact-section" id="impact-calculator">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              tag="ROI Modeling"
+              title="Quantify Recoverable Margin Before You Commit"
+              subtitle="Dial in your current operational drag and estimate the projected savings from automation-first implementation."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.12}>
+            <AutomationImpactCalculator />
           </ScrollReveal>
         </div>
       </section>
