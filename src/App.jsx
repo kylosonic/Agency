@@ -14,24 +14,10 @@ import { trackPageView, trackPricingGuideIntent } from './services/analyticsServ
 import { setDocumentMetadata } from './services/seoService';
 import { LanguageProvider } from './i18n/LanguageContext';
 import { useLanguage } from './i18n/useLanguage';
-<<<<<<< HEAD
-import Home from './pages/Home';
-import Services from './pages/Services';
-import Pricing from './pages/Pricing';
-import WorkflowAudit from './pages/WorkflowAudit';
-import WebDevelopmentPage from './pages/WebDevelopmentPage';
-import MobileDevelopmentPage from './pages/MobileDevelopmentPage';
-import SaasSolutionsPage from './pages/SaasSolutionsPage';
-import AdditionalServicesPage from './pages/AdditionalServicesPage';
-import PolicyPage from './pages/PolicyPage';
-import CaseStudiesPage from './pages/CaseStudiesPage';
-import PortfolioPage from './pages/PortfolioPage';
-import IndustryLandingPage from './pages/IndustryLandingPage';
-import InstantQuotePage from './pages/InstantQuotePage';
-import DiscoveryCallPage from './pages/DiscoveryCallPage';
-=======
-
-const HomePage = lazy(() => import('./pages/HomePage'));
+const Home = lazy(() => import('./pages/Home'));
+const Services = lazy(() => import('./pages/Services'));
+const Pricing = lazy(() => import('./pages/Pricing'));
+const WorkflowAudit = lazy(() => import('./pages/WorkflowAudit'));
 const WebDevelopmentPage = lazy(() => import('./pages/WebDevelopmentPage'));
 const MobileDevelopmentPage = lazy(() => import('./pages/MobileDevelopmentPage'));
 const SaasSolutionsPage = lazy(() => import('./pages/SaasSolutionsPage'));
@@ -43,7 +29,6 @@ const IndustryLandingPage = lazy(() => import('./pages/IndustryLandingPage'));
 const InstantQuotePage = lazy(() => import('./pages/InstantQuotePage'));
 const DiscoveryCallPage = lazy(() => import('./pages/DiscoveryCallPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
->>>>>>> 4188885b9973e6fd7a521a691c6ec36017bc15e6
 
 const AUTO_LEAD_CAPTURE_ROUTES = new Set([
   '/',
@@ -298,28 +283,13 @@ function AppContent() {
       <main id="main-content" className="site-main">
         <AnimatePresence mode="wait" initial={false}>
           <PageTransition key={location.pathname}>
-<<<<<<< HEAD
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/workflow-audit" element={<WorkflowAudit />} />
-              <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/additional-services" element={<AdditionalServicesPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/policy" element={<PolicyPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/case-studies" element={<CaseStudiesPage />} />
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/industries/:industrySlug" element={<IndustryLandingPage onDownloadClick={openLeadCapture} />} />
-              <Route path="/instant-quote" element={<InstantQuotePage />} />
-              <Route path="/book-discovery-call" element={<DiscoveryCallPage />} />
-            </Routes>
-=======
             <ErrorBoundary>
               <Suspense fallback={<div className="route-loader" />}>
                 <Routes location={location}>
-                  <Route path="/" element={<HomePage onDownloadClick={openLeadCapture} />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/workflow-audit" element={<WorkflowAudit />} />
                   <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
@@ -334,7 +304,6 @@ function AppContent() {
                 </Routes>
               </Suspense>
             </ErrorBoundary>
->>>>>>> 4188885b9973e6fd7a521a691c6ec36017bc15e6
           </PageTransition>
         </AnimatePresence>
       </main>
