@@ -13,7 +13,10 @@ import { trackPageView, trackPricingGuideIntent } from './services/analyticsServ
 import { setDocumentMetadata } from './services/seoService';
 import { LanguageProvider } from './i18n/LanguageContext';
 import { useLanguage } from './i18n/useLanguage';
-import HomePage from './pages/HomePage';
+import Home from './pages/Home';
+import Services from './pages/Services';
+import Pricing from './pages/Pricing';
+import WorkflowAudit from './pages/WorkflowAudit';
 import WebDevelopmentPage from './pages/WebDevelopmentPage';
 import MobileDevelopmentPage from './pages/MobileDevelopmentPage';
 import SaasSolutionsPage from './pages/SaasSolutionsPage';
@@ -27,6 +30,9 @@ import DiscoveryCallPage from './pages/DiscoveryCallPage';
 
 const AUTO_LEAD_CAPTURE_ROUTES = new Set([
   '/',
+  '/services',
+  '/pricing',
+  '/workflow-audit',
   '/web-development',
   '/mobile-development',
   '/saas-solutions',
@@ -53,11 +59,17 @@ function ScrollToTop() {
 function getLeadCaptureVariant(pathname, trigger) {
   const normalized = pathname.toLowerCase();
 
+  if (normalized.includes('workflow-audit') || normalized.includes('book-discovery-call')) {
+    return 'book_call_offer';
+  }
+
   if (normalized.includes('policy') && trigger === 'scroll') {
     return 'book_call_offer';
   }
 
   if (
+    normalized.includes('services') ||
+    normalized.includes('pricing') ||
     normalized.includes('web-development') ||
     normalized.includes('mobile-development') ||
     normalized.includes('saas-solutions') ||
@@ -265,12 +277,15 @@ function AppContent() {
     <>
       <ScrollToTop />
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <Navbar onDownloadClick={openLeadCapture} />
+      <Navbar />
       <main id="main-content" className="site-main">
         <AnimatePresence mode="wait" initial={false}>
           <PageTransition key={location.pathname}>
             <Routes location={location}>
-              <Route path="/" element={<HomePage onDownloadClick={openLeadCapture} />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/workflow-audit" element={<WorkflowAudit />} />
               <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
               <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
               <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />

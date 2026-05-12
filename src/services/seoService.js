@@ -1,16 +1,58 @@
 const SEO_BY_ROUTE = {
   '/': {
     en: {
-      title: 'NovaTech - Digital Agency | Web, Mobile and SaaS Solutions',
-      description: 'Build better products, faster. NovaTech delivers web development, mobile apps, SaaS systems, and growth marketing.',
+      title: 'NovaTech AI - Agentic Workflow Consultancy',
+      description: 'Stop manual work at the source. NovaTech AI designs and deploys autonomous agents, private assistants, and ROI-focused workflow automation systems.',
     },
     am: {
-      title: 'NovaTech - ዲጂታል ኤጀንሲ | ዌብ፣ ሞባይል እና SaaS መፍትሄዎች',
-      description: 'NovaTech የዌብ፣ የሞባይል እና SaaS መፍትሄዎችን ከማርኬቲንግ ጋር በፍጥነት ያቀርባል።',
+      title: 'NovaTech AI - Agentic Workflow Consultancy',
+      description: 'Stop manual work at the source. NovaTech AI designs and deploys autonomous agents, private assistants, and ROI-focused workflow automation systems.',
     },
     om: {
-      title: 'NovaTech - Agency Dijitaalaa | Web, Mobile fi SaaS',
-      description: 'NovaTech furmaata web, mobile fi SaaS akkasumas tarsiimoo guddina daldalaa saffisaan kenna.',
+      title: 'NovaTech AI - Agentic Workflow Consultancy',
+      description: 'Stop manual work at the source. NovaTech AI designs and deploys autonomous agents, private assistants, and ROI-focused workflow automation systems.',
+    },
+  },
+  '/services': {
+    en: {
+      title: 'AI Solutions | NovaTech AI',
+      description: 'Explore custom agentic systems, private air-gapped assistants, autonomous browser agents, and revenue operations automation.',
+    },
+    am: {
+      title: 'AI Solutions | NovaTech AI',
+      description: 'Explore custom agentic systems, private air-gapped assistants, autonomous browser agents, and revenue operations automation.',
+    },
+    om: {
+      title: 'AI Solutions | NovaTech AI',
+      description: 'Explore custom agentic systems, private air-gapped assistants, autonomous browser agents, and revenue operations automation.',
+    },
+  },
+  '/pricing': {
+    en: {
+      title: 'Pricing | NovaTech AI',
+      description: 'Review pricing for workflow audits, AI automation tiers, enterprise private deployments, and interface development support.',
+    },
+    am: {
+      title: 'Pricing | NovaTech AI',
+      description: 'Review pricing for workflow audits, AI automation tiers, enterprise private deployments, and interface development support.',
+    },
+    om: {
+      title: 'Pricing | NovaTech AI',
+      description: 'Review pricing for workflow audits, AI automation tiers, enterprise private deployments, and interface development support.',
+    },
+  },
+  '/workflow-audit': {
+    en: {
+      title: 'Workflow Audit | NovaTech AI',
+      description: 'Book a workflow audit to map bottlenecks, estimate recoverable capacity, and receive an implementation-ready automation blueprint.',
+    },
+    am: {
+      title: 'Workflow Audit | NovaTech AI',
+      description: 'Book a workflow audit to map bottlenecks, estimate recoverable capacity, and receive an implementation-ready automation blueprint.',
+    },
+    om: {
+      title: 'Workflow Audit | NovaTech AI',
+      description: 'Book a workflow audit to map bottlenecks, estimate recoverable capacity, and receive an implementation-ready automation blueprint.',
     },
   },
   '/web-development': {
