@@ -1175,6 +1175,11 @@ h2 {
   box-shadow: var(--shadow-xl);
 }
 
+[data-theme='dark'] .pricing-card.recommended {
+  background: linear-gradient(170deg, #133463 0%, #11515b 100%);
+  border-color: color-mix(in srgb, var(--blue-light), transparent 28%);
+}
+
 .pricing-badge {
   position: absolute;
   top: -12px;
@@ -1226,6 +1231,14 @@ h2 {
 .pricing-card.recommended .pricing-amount .period,
 .pricing-card.recommended .pricing-timeline {
   color: color-mix(in srgb, var(--text-on-dark), transparent 22%);
+}
+
+[data-theme='dark'] .pricing-card.recommended .subtitle,
+[data-theme='dark'] .pricing-card.recommended .pricing-features li,
+[data-theme='dark'] .pricing-card.recommended .pricing-amount .currency,
+[data-theme='dark'] .pricing-card.recommended .pricing-amount .period,
+[data-theme='dark'] .pricing-card.recommended .pricing-timeline {
+  color: color-mix(in srgb, var(--text-on-dark), transparent 10%);
 }
 
 .pricing-card.recommended .pricing-card-icon {
@@ -1339,9 +1352,13 @@ h2 {
 }
 
 .addon-card-featured {
-  background: linear-gradient(170deg, color-mix(in srgb, var(--blue), black 35%) 0%, color-mix(in srgb, var(--blue-dark), black 22%) 100%);
+  background: linear-gradient(170deg, #1d4f96 0%, #146068 100%);
   border-color: color-mix(in srgb, var(--blue), white 10%);
   color: var(--text-on-dark);
+}
+
+[data-theme='dark'] .addon-card-featured {
+  background: linear-gradient(170deg, #19457f 0%, #0f4f57 100%);
 }
 
 .addon-card-featured h4,
@@ -1351,7 +1368,7 @@ h2 {
 }
 
 .addon-card-featured .price .detail {
-  color: color-mix(in srgb, var(--text-on-dark), transparent 22%);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 12%);
 }
 
 .addon-card-featured .check {
@@ -2101,34 +2118,40 @@ h2 {
   position: relative;
   overflow: hidden;
   text-align: center;
-  color: var(--text-on-dark);
+  color: var(--text-primary);
   border-radius: var(--radius-2xl);
-  border: 1px solid color-mix(in srgb, var(--blue), transparent 45%);
-  background: linear-gradient(145deg, color-mix(in srgb, var(--bg-dark), black 6%) 0%, color-mix(in srgb, var(--bg-dark-soft), black 14%) 100%);
+  border: 1px solid var(--glass-border-hover);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--bg-secondary), white 20%) 0%, color-mix(in srgb, var(--bg-tertiary), white 6%) 100%);
   padding: var(--space-3xl) var(--space-xl);
 }
 
 [data-theme='dark'] .cta-inner {
   border-color: rgba(96, 165, 250, 0.34);
   background: linear-gradient(145deg, #071126 0%, #10213d 100%);
+  color: var(--text-on-dark);
 }
 
 [data-theme='dark'] .cta-inner p {
   color: rgba(226, 232, 240, 0.88);
 }
 
+.cta-inner p {
+  color: var(--text-secondary);
+}
+
 .cta-inner .btn-secondary {
-  color: var(--text-on-dark);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border-color: var(--glass-border);
 }
 
 .cta-inner .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--bg-card-hover);
+  border-color: var(--glass-border-hover);
 }
 
 [data-theme='dark'] .cta-inner .btn-secondary {
+  color: var(--text-on-dark);
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.16);
 }
@@ -2178,7 +2201,7 @@ h2 {
 .cta-inner p {
   max-width: 620px;
   margin: 0 auto 1rem;
-  color: rgba(248, 250, 252, 0.9);
+  color: var(--text-secondary);
   line-height: 1.72;
   text-wrap: pretty;
 }
@@ -2191,8 +2214,22 @@ h2 {
 }
 
 .cta-inner .btn-primary {
-  background: linear-gradient(130deg, var(--blue-light) 0%, var(--blue) 55%, var(--green) 100%);
+  color: var(--text-on-dark);
+  background: linear-gradient(130deg, color-mix(in srgb, var(--blue-dark), black 10%) 0%, var(--blue-dark) 55%, var(--green-dark) 100%);
   box-shadow: 0 16px 36px rgba(37, 99, 235, 0.28);
+}
+
+.cta-inner .btn-primary:hover {
+  background: linear-gradient(130deg, var(--blue-dark) 0%, var(--blue) 55%, var(--green) 100%);
+}
+
+[data-theme='dark'] .cta-inner .btn-primary {
+  color: var(--text-inverse);
+  background: linear-gradient(130deg, var(--blue-light) 0%, var(--blue) 58%, var(--green) 100%);
+}
+
+[data-theme='dark'] .cta-inner .btn-primary:hover {
+  background: linear-gradient(130deg, color-mix(in srgb, var(--blue-light), white 12%) 0%, var(--blue-light) 58%, var(--green-light) 100%);
 }
 
 .page-hero {
@@ -2399,11 +2436,19 @@ h2 {
 .footer {
   margin-top: var(--space-3xl);
   border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
-  background: linear-gradient(150deg, color-mix(in srgb, var(--bg-dark-soft), black 6%) 0%, color-mix(in srgb, var(--bg-dark), black 10%) 100%);
-  color: var(--text-on-dark);
+  background: linear-gradient(150deg, color-mix(in srgb, var(--bg-secondary), white 18%) 0%, color-mix(in srgb, var(--bg-tertiary), white 8%) 100%);
+  color: var(--text-primary);
   padding: var(--space-3xl) 0 var(--space-xl);
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--glass-border);
+  border-bottom: 0;
+}
+
+[data-theme='dark'] .footer {
+  background: linear-gradient(150deg, color-mix(in srgb, var(--bg-dark-soft), black 6%) 0%, color-mix(in srgb, var(--bg-dark), black 10%) 100%);
+  color: var(--text-on-dark);
+  border-color: color-mix(in srgb, var(--text-on-dark), transparent 84%);
 }
 
 .footer::before {
@@ -2414,6 +2459,10 @@ h2 {
   right: -190px;
   top: -190px;
   border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--blue-bg), var(--green-bg) 45%) 0%, transparent 72%);
+}
+
+[data-theme='dark'] .footer::before {
   background: radial-gradient(circle, rgba(45, 212, 191, 0.28) 0%, transparent 72%);
 }
 
@@ -2431,9 +2480,13 @@ h2 {
 
 .footer-brand p {
   margin-top: 0.66rem;
-  color: color-mix(in srgb, var(--text-on-dark), transparent 25%);
+  color: var(--text-secondary);
   max-width: 360px;
   font-size: 0.87rem;
+}
+
+[data-theme='dark'] .footer-brand p {
+  color: color-mix(in srgb, var(--text-on-dark), transparent 25%);
 }
 
 .footer h4 {
@@ -2441,6 +2494,10 @@ h2 {
   font-size: 0.73rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: color-mix(in srgb, var(--text-secondary), transparent 8%);
+}
+
+[data-theme='dark'] .footer h4 {
   color: color-mix(in srgb, var(--text-on-dark), transparent 35%);
 }
 
@@ -2449,22 +2506,35 @@ h2 {
 }
 
 .footer-links a {
-  color: color-mix(in srgb, var(--text-on-dark), transparent 18%);
+  color: var(--text-secondary);
   font-size: 0.84rem;
 }
 
+[data-theme='dark'] .footer-links a {
+  color: color-mix(in srgb, var(--text-on-dark), transparent 18%);
+}
+
 .footer-links a:hover {
+  color: var(--blue-dark);
+}
+
+[data-theme='dark'] .footer-links a:hover {
   color: color-mix(in srgb, var(--blue-light), white 10%);
 }
 
 .footer-bottom {
-  border-top: 1px solid color-mix(in srgb, var(--text-on-dark), transparent 82%);
+  border-top: 1px solid var(--glass-border);
   padding-top: 0.9rem;
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
-  color: color-mix(in srgb, var(--text-on-dark), transparent 30%);
+  color: color-mix(in srgb, var(--text-secondary), transparent 6%);
   font-size: 0.76rem;
+}
+
+[data-theme='dark'] .footer-bottom {
+  border-top-color: color-mix(in srgb, var(--text-on-dark), transparent 82%);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 30%);
 }
 
 .floating-cta-container {
@@ -4114,7 +4184,16 @@ h2 {
   position: relative;
   border-top: 1px solid var(--glass-border);
   border-bottom: 1px solid var(--glass-border);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--bg-dark-soft), transparent 90%) 0%, color-mix(in srgb, var(--blue-bg), transparent 25%) 45%, color-mix(in srgb, var(--green-bg), transparent 30%) 100%);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--bg-secondary), white 12%) 0%, color-mix(in srgb, var(--blue-bg), white 65%) 45%, color-mix(in srgb, var(--green-bg), white 62%) 100%);
+}
+
+[data-theme='dark'] .searchable-brain-section {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-dark), black 4%) 0%,
+    color-mix(in srgb, var(--blue-bg), var(--bg-dark) 72%) 45%,
+    color-mix(in srgb, var(--green-bg), var(--bg-dark) 76%) 100%
+  );
 }
 
 .searchable-brain-shell {
@@ -4129,20 +4208,33 @@ h2 {
   letter-spacing: 0.08em;
   font-size: 0.78rem;
   font-weight: 800;
-  color: var(--text-tertiary);
+  color: color-mix(in srgb, var(--text-secondary), transparent 10%);
   margin-bottom: 0.5rem;
+}
+
+[data-theme='dark'] .searchable-brain-kicker {
+  color: var(--text-on-dark);
 }
 
 .searchable-brain-copy h2 {
   font-size: clamp(1.85rem, 3.5vw, 2.8rem);
   margin-bottom: 0.8rem;
   max-width: 24ch;
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .searchable-brain-copy h2 {
+  color: var(--text-on-dark);
 }
 
 .searchable-brain-copy p {
   color: var(--text-secondary);
   max-width: 72ch;
   line-height: 1.72;
+}
+
+[data-theme='dark'] .searchable-brain-copy p {
+  color: var(--text-on-dark);
 }
 
 .searchable-brain-proof {
@@ -4954,6 +5046,10 @@ h2 {
   background: color-mix(in srgb, var(--green-bg), transparent 50%);
 }
 
+.ai-agent-step-btn.active small {
+  color: var(--text-secondary);
+}
+
 .ai-agent-step-icon {
   width: 34px;
   height: 34px;
@@ -4992,15 +5088,15 @@ h2 {
   font-family: var(--font-heading);
   font-size: 0.9rem;
   margin-bottom: 0.62rem;
-  color: var(--green-dark);
+  color: color-mix(in srgb, var(--green-light), white 18%);
 }
 
 [data-theme='dark'] .ai-agent-terminal-command {
-  color: var(--green-light);
+  color: color-mix(in srgb, var(--green-light), white 24%);
 }
 
 .ai-agent-terminal-output {
-  color: var(--text-secondary);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 14%);
   line-height: 1.64;
   margin-bottom: 0.72rem;
 }
@@ -5015,7 +5111,7 @@ h2 {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.82rem;
-  color: var(--text-secondary);
+  color: color-mix(in srgb, var(--text-on-dark), transparent 16%);
 }
 
 .ai-agent-terminal-checks svg {

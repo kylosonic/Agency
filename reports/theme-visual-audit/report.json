@@ -1,0 +1,1376 @@
+{
+  "generatedAt": "2026-05-12T14:54:49.159Z",
+  "routes": [
+    "/",
+    "/services",
+    "/pricing",
+    "/workflow-audit",
+    "/web-development",
+    "/mobile-development",
+    "/saas-solutions",
+    "/additional-services",
+    "/case-studies",
+    "/portfolio",
+    "/industries/real-estate",
+    "/instant-quote",
+    "/book-discovery-call",
+    "/policy"
+  ],
+  "sections": [
+    "heroTitle",
+    "primaryBodyText",
+    "primaryCTA",
+    "footerHeading",
+    "footerLink"
+  ],
+  "summary": {
+    "passCount": 28,
+    "failCount": 0
+  },
+  "results": [
+    {
+      "route": "/",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/home.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Stop Doing Manual Work. Let Custom AI Agents Run Your Bottlenecks."
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "We lead with AI automation because it creates the fastest operational advantage,"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/services",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/services.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "AI Solutions Engineered for Operational Throughput"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "We lead with AI automation to remove operational drag, while continuing full-sca"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/pricing",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/pricing.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Comprehensive Pricing Guide"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Pricing is structured around operational impact: AI automation is our primary ac"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/workflow-audit",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/workflow-audit.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Workflow Audit Engagement"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "We run a technical discovery sprint to expose where manual labor, fragmented dat"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/web-development",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/web-development.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Web Design & Development"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Three tailored packages to match your business stage — from establishing your di"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/mobile-development",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/mobile-development.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Mobile App Development"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Cross-platform and native iOS & Android apps built with Flutter and React Native"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/saas-solutions",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/saas-solutions.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "SaaS Cloud Solutions"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Rent-to-use cloud management systems — zero IT overhead, instant deployment, and"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/additional-services",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/additional-services.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Additional Services"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Essential one-time and recurring services to complement your digital presence — "
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/case-studies",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/case-studies.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Case Studies"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Real delivery stories with measurable before and after outcomes across priority "
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/portfolio",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/portfolio.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Portfolio"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Filter by industry to explore projects and architecture patterns relevant to you"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/industries/real-estate",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/industries-real-estate.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Real Estate CRM and Leasing"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Unify listings, tenant lifecycle, and payment follow-up workflows."
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/instant-quote",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/instant-quote.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Instant Quote Wizard"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Answer a few questions and get a working estimate range in under two minutes."
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/book-discovery-call",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/book-discovery-call.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Book a Discovery Call"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Choose a slot in your timezone and share key priorities so we can prepare a focu"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/policy",
+      "theme": "light",
+      "screenshot": "reports/theme-visual-audit/light/policy.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 16.36,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Payment & Operational Policy"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 9.49,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Transparent terms to ensure a smooth, trust-based working relationship from kick"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 7.11,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 9.14,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/home.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Stop Doing Manual Work. Let Custom AI Agents Run Your Bottlenecks."
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "We lead with AI automation because it creates the fastest operational advantage,"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/services",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/services.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "AI Solutions Engineered for Operational Throughput"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "We lead with AI automation to remove operational drag, while continuing full-sca"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/pricing",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/pricing.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Comprehensive Pricing Guide"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Pricing is structured around operational impact: AI automation is our primary ac"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/workflow-audit",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/workflow-audit.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Workflow Audit Engagement"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "We run a technical discovery sprint to expose where manual labor, fragmented dat"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/web-development",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/web-development.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Web Design & Development"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Three tailored packages to match your business stage — from establishing your di"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/mobile-development",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/mobile-development.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Mobile App Development"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Cross-platform and native iOS & Android apps built with Flutter and React Native"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/saas-solutions",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/saas-solutions.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "SaaS Cloud Solutions"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Rent-to-use cloud management systems — zero IT overhead, instant deployment, and"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/additional-services",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/additional-services.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Additional Services"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Essential one-time and recurring services to complement your digital presence — "
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/case-studies",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/case-studies.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Case Studies"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Real delivery stories with measurable before and after outcomes across priority "
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/portfolio",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/portfolio.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Portfolio"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Filter by industry to explore projects and architecture patterns relevant to you"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/industries/real-estate",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/industries-real-estate.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Real Estate CRM and Leasing"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Unify listings, tenant lifecycle, and payment follow-up workflows."
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/instant-quote",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/instant-quote.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Instant Quote Wizard"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Answer a few questions and get a working estimate range in under two minutes."
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/book-discovery-call",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/book-discovery-call.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Book a Discovery Call"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Choose a slot in your timezone and share key priorities so we can prepare a focu"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    },
+    {
+      "route": "/policy",
+      "theme": "dark",
+      "screenshot": "reports/theme-visual-audit/dark/policy.png",
+      "pass": true,
+      "sections": [
+        {
+          "name": "heroTitle",
+          "pass": true,
+          "ratio": 15.61,
+          "minimum": 3,
+          "selector": "h1",
+          "text": "Payment & Operational Policy"
+        },
+        {
+          "name": "primaryBodyText",
+          "pass": true,
+          "ratio": 11.69,
+          "minimum": 4.5,
+          "selector": "p",
+          "text": "Transparent terms to ensure a smooth, trust-based working relationship from kick"
+        },
+        {
+          "name": "primaryCTA",
+          "pass": true,
+          "ratio": 6.08,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "Book Audit"
+        },
+        {
+          "name": "footerHeading",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "h4",
+          "text": "AI SOLUTIONS"
+        },
+        {
+          "name": "footerLink",
+          "pass": true,
+          "ratio": 16.74,
+          "minimum": 4.5,
+          "selector": "a",
+          "text": "AI Solutions"
+        }
+      ]
+    }
+  ]
+}
