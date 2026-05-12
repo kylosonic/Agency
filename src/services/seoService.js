@@ -236,26 +236,7 @@ function ensurePropertyMeta(property, content) {
 }
 
 const SITE_URL = typeof window !== 'undefined' ? window.location.origin : 'https://novatech.et';
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
-
-const OG_BY_ROUTE = {
-  '/': {
-    title: 'NovaTech - Digital Agency | Web, Mobile and SaaS Solutions',
-    description: 'Build better products, faster. NovaTech delivers web development, mobile apps, SaaS systems, and growth marketing for the Ethiopian market.',
-  },
-  '/web-development': {
-    title: 'Web Development Packages | NovaTech',
-    description: 'Choose conversion-focused web development packages with modern stacks, SEO baseline, and launch support.',
-  },
-  '/mobile-development': {
-    title: 'Mobile App Development | NovaTech',
-    description: 'Cross-platform mobile apps built for performance, retention, and local payment integrations.',
-  },
-  '/saas-solutions': {
-    title: 'SaaS Cloud Solutions | NovaTech',
-    description: 'Deploy managed SaaS systems for schools, hospitals, and real estate with zero IT overhead.',
-  },
-};
+const OG_IMAGE = `${SITE_URL}/og-image.png?v=20260512`;
 
 export function setDocumentMetadata({ pathname, language = 'en' }) {
   if (typeof document === 'undefined') {
@@ -270,16 +251,16 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   ensureMeta('description', selected.description);
 
   // Open Graph / Twitter Card
-  const ogData = OG_BY_ROUTE[route] || OG_BY_ROUTE['/'];
-  ensurePropertyMeta('og:title', ogData.title);
-  ensurePropertyMeta('og:description', ogData.description);
+  ensurePropertyMeta('og:title', selected.title);
+  ensurePropertyMeta('og:description', selected.description);
   ensurePropertyMeta('og:url', `${SITE_URL}${pathname}`);
   ensurePropertyMeta('og:image', OG_IMAGE);
+  ensurePropertyMeta('og:image:alt', 'NovaTech AI automation and product engineering preview');
   ensurePropertyMeta('og:type', 'website');
-  ensurePropertyMeta('og:site_name', 'NovaTech');
+  ensurePropertyMeta('og:site_name', 'NovaTech AI');
   ensurePropertyMeta('og:locale', language === 'am' ? 'am_ET' : language === 'om' ? 'om_ET' : 'en_US');
   ensureMeta('twitter:card', 'summary_large_image');
-  ensureMeta('twitter:title', ogData.title);
-  ensureMeta('twitter:description', ogData.description);
+  ensureMeta('twitter:title', selected.title);
+  ensureMeta('twitter:description', selected.description);
   ensureMeta('twitter:image', OG_IMAGE);
 }
