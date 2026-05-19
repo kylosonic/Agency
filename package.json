@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test tests/live-site.spec.js --reporter=line",
+    "test:e2e:all": "playwright test"
   },
   "dependencies": {
     "framer-motion": "^12.36.0",

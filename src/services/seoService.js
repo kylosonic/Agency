@@ -2,15 +2,15 @@ const SEO_BY_ROUTE = {
   '/': {
     en: {
       title: 'NovaTech AI - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source. NovaTech AI designs and deploys autonomous agents, private assistants, and ROI-focused workflow automation systems.',
+      description: 'Stop manual work at the source while scaling software delivery. NovaTech AI deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
     },
     am: {
       title: 'NovaTech AI - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source. NovaTech AI designs and deploys autonomous agents, private assistants, and ROI-focused workflow automation systems.',
+      description: 'Stop manual work at the source while scaling software delivery. NovaTech AI deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
     },
     om: {
       title: 'NovaTech AI - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source. NovaTech AI designs and deploys autonomous agents, private assistants, and ROI-focused workflow automation systems.',
+      description: 'Stop manual work at the source while scaling software delivery. NovaTech AI deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
     },
   },
   '/404': {
@@ -30,29 +30,29 @@ const SEO_BY_ROUTE = {
   '/services': {
     en: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems, private air-gapped assistants, autonomous browser agents, and revenue operations automation.',
+      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
     },
     am: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems, private air-gapped assistants, autonomous browser agents, and revenue operations automation.',
+      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
     },
     om: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems, private air-gapped assistants, autonomous browser agents, and revenue operations automation.',
+      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
     },
   },
   '/pricing': {
     en: {
       title: 'Pricing | NovaTech AI',
-      description: 'Review pricing for workflow audits, AI automation tiers, enterprise private deployments, and interface development support.',
+      description: 'Review pricing for workflow audits, AI automation tiers, and co-equal web/mobile/SaaS product engineering engagements.',
     },
     am: {
       title: 'Pricing | NovaTech AI',
-      description: 'Review pricing for workflow audits, AI automation tiers, enterprise private deployments, and interface development support.',
+      description: 'Review pricing for workflow audits, AI automation tiers, and co-equal web/mobile/SaaS product engineering engagements.',
     },
     om: {
       title: 'Pricing | NovaTech AI',
-      description: 'Review pricing for workflow audits, AI automation tiers, enterprise private deployments, and interface development support.',
+      description: 'Review pricing for workflow audits, AI automation tiers, and co-equal web/mobile/SaaS product engineering engagements.',
     },
   },
   '/workflow-audit': {

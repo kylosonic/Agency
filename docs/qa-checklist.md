@@ -4,6 +4,7 @@
 
 - [x] Run lint: npm run lint
 - [x] Run build: npm run build
+- [ ] Run responsive smoke E2E: npm run test:e2e
 
 ## Manual Route Walkthrough
 
@@ -18,11 +19,8 @@ Check each route in both desktop and mobile breakpoints:
 
 ## Tracking Spot Checks
 
-- [ ] pricing_guide_intent events fire from navbar, floating button, and page CTAs
-- [ ] pricing_guide_form_submitted and pricing_guide_opened fire from lead modal
-- [ ] discovery_call_clicked events fire from all page CTA links
-- [ ] contact_form_attempt and contact_form_outcome fire on homepage submission
-- [ ] contact_channel_clicked events fire for homepage/footer contact links
+- [x] E2E analytics smoke (npm run test:e2e) validates core events: page_view, pricing_guide_intent, pricing_guide_form_submitted, pricing_guide_opened, discovery_call_clicked, contact_form_attempt, contact_form_outcome, contact_channel_clicked
+- [ ] Validate event payload values and aggregate counts in production analytics dashboards
 
 ## Accessibility Checks
 

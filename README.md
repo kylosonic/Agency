@@ -34,6 +34,8 @@ Modern multi-page React marketing site for NovaTech digital services. This proje
 - npm run build: production build
 - npm run lint: lint project files
 - npm run preview: preview production build locally
+- npm run test:e2e: run responsive smoke E2E tests (auto-builds and auto-starts preview server)
+- npm run test:e2e:all: run all Playwright tests
 
 ## Environment Variables
 
@@ -53,6 +55,11 @@ Configure these in .env (see .env.example):
 - VITE_ANALYTICS_ENDPOINT
 	- Optional endpoint for custom analytics events.
 	- Events are also forwarded to window.gtag and window.dataLayer if available.
+
+- VITE_PRICING_DATA_ENDPOINT
+	- Optional endpoint that returns pricing JSON.
+	- Expected shape: { "webPackages": [ ... ] }.
+	- When missing or invalid, the app falls back to static pricing data.
 
 ## Contact Submission Flow
 
@@ -89,6 +96,20 @@ Before release:
 
 1. npm run lint
 2. npm run build
-3. Manual route walkthrough (desktop + mobile)
+3. npm run test:e2e
+4. Manual route walkthrough (desktop + mobile)
 
 See docs/qa-checklist.md for the structured checklist.
+
+## E2E Analytics Coverage
+
+The responsive smoke suite includes analytics assertions for core events:
+
+- page_view
+- pricing_guide_intent
+- pricing_guide_form_submitted
+- pricing_guide_opened
+- discovery_call_clicked
+- contact_form_attempt
+- contact_form_outcome
+- contact_channel_clicked

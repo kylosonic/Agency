@@ -274,7 +274,7 @@ export default function Home() {
             <SectionHeader
               tag="AI Solutions"
               title="Systems Built for Throughput, Not Busywork"
-              subtitle="We engineer targeted automation layers that remove repetitive labor from operations, finance, support, and delivery teams."
+              subtitle="We engineer targeted automation layers that remove repetitive labor, delivered as one of two core tracks alongside full software product engineering."
               align="left"
             />
           </ScrollReveal>
@@ -314,8 +314,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="Product Engineering"
-              title="Web, Mobile, and SaaS Delivery Is Still Core to Our Stack"
-              subtitle="AI is the primary growth lever, and we continue shipping full product surfaces that operationalize your workflows in production."
+              title="Web, Mobile, and SaaS Product Engineering Is an Equal Core Track"
+              subtitle="After the AI-led opening strategy, we execute automation systems and full software products in parallel to ship measurable outcomes."
               align="left"
             />
           </ScrollReveal>
@@ -393,8 +393,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="Contact"
-              title="Start Your Automation Project"
-              subtitle="Share your workflow bottlenecks and we will reply with next steps within one business day."
+              title="Start Your AI or Software Project"
+              subtitle="Share your workflow bottlenecks or product goals and we will reply with next steps within one business day."
               align="left"
             />
           </ScrollReveal>
@@ -520,9 +520,9 @@ export default function Home() {
       <section className="section section-sm ai-home-cta" id="workflow-audit-cta">
         <div className="container">
           <div className="ai-home-cta-inner glass-strong">
-            <h2>If your team is still copy-pasting between systems, your operation is leaking margin.</h2>
+            <h2>Ready to automate operations or ship a new software product?</h2>
             <p>
-              We will map your workflows, quantify recoverable hours, and deliver a technical implementation blueprint tied to ROI.
+              We can map workflow bottlenecks, quantify recoverable hours, and scope production web, mobile, and SaaS builds tied to ROI.
             </p>
             <div className="hero-actions">
               <Link className="btn btn-primary btn-lg" to="/workflow-audit">

@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'http://localhost:4173';
+const nodeEnv = globalThis.process?.env ?? {};
+const BASE_URL = nodeEnv.PLAYWRIGHT_BASE_URL || 'http://localhost:4173';
 
 const routes = [
   '/',
@@ -28,6 +29,57 @@ async function dismissLeadModalIfOpen(page) {
   if (await closeModalButton.isVisible().catch(() => false)) {
     await closeModalButton.click();
   }
+}
+
+async function seedDataLayer(page) {
+  await page.addInitScript(() => {
+    window.dataLayer = [];
+  });
+}
+
+async function preventMailtoNavigation(page) {
+  await page.addInitScript(() => {
+    document.addEventListener(
+      'click',
+      (event) => {
+        if (!(event.target instanceof Element)) {
+          return;
+        }
+
+        const mailtoLink = event.target.closest('a[href^="mailto:"]');
+        if (mailtoLink) {
+          event.preventDefault();
+        }
+      },
+      true
+    );
+  });
+}
+
+async function getAnalyticsEventCount(page, eventName) {
+  return page.evaluate((targetEventName) => {
+    if (!Array.isArray(window.dataLayer)) {
+      return 0;
+    }
+
+    return window.dataLayer.filter((entry) => entry?.event === targetEventName).length;
+  }, eventName);
+}
+
+async function expectAnalyticsEvent(page, eventName) {
+  await expect.poll(async () => getAnalyticsEventCount(page, eventName)).toBeGreaterThan(0);
+}
+
+async function expectAnalyticsEventWithSource(page, eventName, source) {
+  await expect.poll(async () => page.evaluate(({ targetEventName, targetSource }) => {
+    if (!Array.isArray(window.dataLayer)) {
+      return false;
+    }
+
+    return window.dataLayer.some(
+      (entry) => entry?.event === targetEventName && entry?.source === targetSource
+    );
+  }, { targetEventName: eventName, targetSource: source })).toBe(true);
 }
 
 test.describe('Live site responsive smoke', () => {
@@ -175,5 +227,81 @@ test.describe('Live site responsive smoke', () => {
     await page.getByRole('button', { name: 'Send Message' }).click();
 
     await expect(page.getByText('Thanks. Your message was sent successfully and our team will respond within 24 hours.')).toBeVisible();
+  });
+});
+
+test.describe('Analytics smoke assertions', () => {
+  test('tracks page views and lead capture modal lifecycle events', async ({ page }) => {
+    await seedDataLayer(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/web-development`, { waitUntil: 'networkidle' });
+
+    await expectAnalyticsEvent(page, 'page_view');
+
+    await page.locator('.cta-section .cta-actions button.btn.btn-primary').first().click();
+    await expect(page.locator('.modal-slide-panel')).toBeVisible();
+    await expectAnalyticsEvent(page, 'pricing_guide_intent');
+
+    await page.locator('#lead-name').fill('Playwright Analytics Tester');
+    await page.locator('#lead-email').fill('analytics-playwright@example.com');
+    await page.locator('#lead-company').fill('QA Labs');
+    await page.locator('.modal-slide-panel form button.btn.btn-primary.btn-lg').click();
+
+    await expect(page.locator('.modal-success-state')).toBeVisible();
+    await expectAnalyticsEvent(page, 'pricing_guide_form_submitted');
+    await expectAnalyticsEvent(page, 'pricing_guide_opened');
+  });
+
+  test('tracks contact form attempt/outcome and contact channel clicks', async ({ page }) => {
+    await seedDataLayer(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.route('https://formsubmit.co/**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true }),
+      });
+    });
+
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    await page.locator('#contact-name').fill('Analytics Contact Tester');
+    await page.locator('#contact-email').fill('analytics-contact@example.com');
+    await page.locator('#contact-message').fill('Analytics smoke test contact form submission.');
+    await page.getByRole('button', { name: 'Send Message' }).click();
+
+    await expect(page.getByText('Thanks. Your message was sent successfully and our team will respond within 24 hours.')).toBeVisible();
+    await expectAnalyticsEvent(page, 'contact_form_attempt');
+    await expectAnalyticsEvent(page, 'contact_form_outcome');
+
+    await page.locator('.contact-info-card a[href^="mailto:"]').first().click();
+    await expectAnalyticsEventWithSource(page, 'contact_channel_clicked', 'home_contact_info');
+
+    await page.locator('.footer-links a[href^="mailto:"]').first().click();
+    await expectAnalyticsEventWithSource(page, 'contact_channel_clicked', 'footer');
+  });
+
+  test('tracks discovery call CTA links across service pages', async ({ page }) => {
+    await seedDataLayer(page);
+    await preventMailtoNavigation(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    const discoveryRoutes = [
+      { path: '/web-development', source: 'web_page_cta_discovery' },
+      { path: '/mobile-development', source: 'mobile_page_cta_discovery' },
+      { path: '/saas-solutions', source: 'saas_page_cta_discovery' },
+      { path: '/additional-services', source: 'additional_page_cta_discovery' },
+      { path: '/policy', source: 'policy_page_cta_discovery' },
+    ];
+
+    for (const route of discoveryRoutes) {
+      await page.goto(`${BASE_URL}${route.path}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      await page.locator('.cta-actions a.btn.btn-secondary.btn-lg[href^="mailto:"]').first().click();
+      await expectAnalyticsEventWithSource(page, 'discovery_call_clicked', route.source);
+    }
   });
 });

@@ -72,12 +72,12 @@ export default function Pricing() {
         <div className="container page-hero-content ai-pricing-hero-content">
           <h1>Comprehensive Pricing Guide</h1>
           <p>
-            Pricing is structured around operational impact: AI automation is our primary acceleration layer, and web, mobile, and SaaS product engineering remains an active delivery track.
+            Pricing is structured around operational impact: we start with AI workflow audits, then scope AI automation and web/mobile/SaaS product engineering as equal delivery tracks.
           </p>
           <div className="page-hero-meta" aria-label="Pricing model notes">
             <span className="page-hero-chip">Setup + monthly retainers</span>
             <span className="page-hero-chip">Scope tied to integration depth</span>
-            <span className="page-hero-chip">Product engineering still active</span>
+            <span className="page-hero-chip">Product engineering co-equal track</span>
             <span className="page-hero-chip">Audit-first engagement model</span>
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function Pricing() {
             >
               <ScrollReveal delay={0.12}>
                 <div className="ai-interface-disclaimer glass-card">
-                  This product engineering track is fully active for standalone and AI-integrated builds. Final scope depends on architecture depth, integrations, and compliance requirements.
+                  This product engineering track is co-equal and fully active for standalone and AI-integrated builds. Final scope depends on architecture depth, integrations, and compliance requirements.
                 </div>
               </ScrollReveal>
 

@@ -69,7 +69,7 @@ const SERVICE_OBJECTIVES = [
 const SUPPORTING_SERVICE = {
   title: 'Web, Mobile & SaaS Product Engineering',
   copy:
-    'These are active service lines, not legacy offerings. We design and build standalone products and AI-enabled product surfaces, from enterprise web platforms to mobile applications and multi-tenant SaaS systems.',
+    'This is a co-equal service line. We design and build standalone products and AI-enabled product surfaces, from enterprise web platforms to mobile applications and multi-tenant SaaS systems.',
   icon: 'mobile',
 };
 
@@ -113,12 +113,12 @@ export default function Services() {
         <div className="container page-hero-content ai-services-hero-content">
           <h1>AI Solutions Engineered for Operational Throughput</h1>
           <p>
-            We lead with AI automation to remove operational drag, while continuing full-scale web, mobile, and SaaS product delivery for teams that need complete software systems.
+            We lead with AI automation to remove operational drag, then scope AI systems and full software engineering with equal delivery priority based on your roadmap.
           </p>
           <div className="page-hero-meta" aria-label="Service delivery priorities">
             <span className="page-hero-chip">Agent orchestration first</span>
             <span className="page-hero-chip">Private deployment options</span>
-            <span className="page-hero-chip">Web/Mobile/SaaS delivery active</span>
+            <span className="page-hero-chip">Web/Mobile/SaaS co-equal track</span>
             <span className="page-hero-chip">ROI-backed implementation</span>
           </div>
         </div>
@@ -129,8 +129,8 @@ export default function Services() {
           <ScrollReveal>
             <SectionHeader
               tag="Core Offerings"
-              title="AI-First Taxonomy"
-              subtitle="Our primary offering stack removes labor-heavy bottlenecks while connecting directly to active product engineering tracks."
+              title="AI Automation Track"
+              subtitle="This automation track removes labor-heavy bottlenecks and runs in parallel with our product engineering track."
               align="left"
             />
           </ScrollReveal>
@@ -202,7 +202,7 @@ export default function Services() {
                   <IconGlyph name={SUPPORTING_SERVICE.icon} size={22} />
                 </span>
                 <div>
-                  <p className="ai-supporting-kicker">Supporting Delivery Layer</p>
+                  <p className="ai-supporting-kicker">Parallel Delivery Track</p>
                   <h2>{SUPPORTING_SERVICE.title}</h2>
                 </div>
               </div>

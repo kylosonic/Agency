@@ -71,7 +71,7 @@ const en = {
     dark: 'Dark mode',
   },
   footer: {
-    description: 'AI-first automation consultancy delivering custom agentic workflows while actively building web platforms, mobile apps, and SaaS products for scaling teams.',
+    description: 'AI-first automation consultancy with equal focus on custom agentic workflows and full-scale web, mobile, and SaaS product engineering.',
     company: 'Company',
     connect: 'Connect',
     rights: '© 2026 NovaTech AI Systems. All rights reserved.',
@@ -2448,7 +2448,7 @@ const amFinalOverrides = {
     bookCall: 'Workflow Audit Call',
   },
   footer: {
-    description: 'AI-first አውቶሜሽን ኮንሰልታንሲ፣ ብጁ ኤጀንቲክ ዎርክፍሎዎች፣ የግል ሞዴል ዲፕሎይመንት እና አስተማማኝ የኦፕሬሽን አፈጻጸም ላይ ያተኮረ።',
+    description: 'AI-first አውቶሜሽን ኮንሰልታንሲ፣ በብጁ ኤጀንቲክ ዎርክፍሎዎች እና በዌብ፣ ሞባይል እና SaaS የሶፍትዌር ልማት ላይ እኩል ትኩረት ያደርጋል።',
     rights: '© 2026 NovaTech AI Systems. መብቶች ሁሉ የተጠበቁ ናቸው።',
     links: {
       aiSolutionsHeading: 'AI መፍትሄዎች',
@@ -2615,7 +2615,7 @@ const omFinalOverrides = {
     whatsapp: 'Waatsaappii',
   },
   footer: {
-    description: 'AI-first automation consultancy kan agentic workflows dhuunfaa, private model deployments fi execution layers hojii irratti xiyyeeffatan ijaaru.',
+    description: 'AI-first automation consultancy kan agentic workflows dhuunfaa fi web, mobile, SaaS software engineering irratti xiyyeeffannoo walqixa qabu.',
     rights: '© 2026 NovaTech AI Systems. Mirgi hundi eegameera.',
     links: {
       aiSolutionsHeading: 'Furmaata AI',

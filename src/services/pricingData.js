@@ -3,8 +3,14 @@
  * 
  * STATIC PRICING DATA
  * 
- * Static pricing package data. Returns arrays immediately with no simulated
- * network delay. To integrate a backend, replace return values with API calls.
+ * Static pricing package data with optional remote overrides.
+ * By default, this module returns local arrays immediately.
+ *
+ * Optional remote source:
+ * - Set VITE_PRICING_DATA_ENDPOINT to a JSON endpoint that returns:
+ *   { webPackages: [...] }
+ * - When available and valid, webPackages from the endpoint are used.
+ * - On any failure or invalid payload, local static fallback is used.
  */
 
 // import { initializeApp } from 'firebase/app';
@@ -14,10 +20,53 @@
 // const app = initializeApp(firebaseConfig);
 // const db = getFirestore(app);
 
+const PRICING_DATA_ENDPOINT = (import.meta.env.VITE_PRICING_DATA_ENDPOINT || '').trim();
+let remoteWebPackagesCache = null;
+let remoteWebPackagesLoaded = false;
+
+async function getRemoteWebPackages() {
+    if (remoteWebPackagesLoaded) {
+        return remoteWebPackagesCache;
+    }
+
+    remoteWebPackagesLoaded = true;
+
+    if (!PRICING_DATA_ENDPOINT) {
+        return null;
+    }
+
+    try {
+        const response = await fetch(PRICING_DATA_ENDPOINT, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Pricing endpoint responded with ${response.status}`);
+        }
+
+        const payload = await response.json();
+        if (!Array.isArray(payload?.webPackages)) {
+            throw new Error('Pricing endpoint payload missing webPackages[]');
+        }
+
+        remoteWebPackagesCache = payload.webPackages;
+        return remoteWebPackagesCache;
+    } catch (error) {
+        console.warn('Falling back to static web pricing packages:', error);
+        remoteWebPackagesCache = null;
+        return null;
+    }
+}
+
 export const getWebPackages = async () => {
-    // TODO: const snapshot = await getDocs(collection(db, 'webPackages'));
-    // TODO: return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    
+    const remotePackages = await getRemoteWebPackages();
+    if (remotePackages) {
+        return remotePackages;
+    }
+
     return [
         {
             icon: 'rocket',
