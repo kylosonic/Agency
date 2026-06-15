@@ -143,8 +143,8 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
             </section>
 
             <RoiEstimator
-                title="Mobile Acquisition ROI Estimator"
-                subtitle="Estimate expected gain from app-store readiness, paid acquisition, and retention improvements."
+                title={t('mobile.roi.title', 'Mobile Acquisition ROI Estimator')}
+                subtitle={t('mobile.roi.subtitle', 'Estimate expected gain from app-store readiness, paid acquisition, and retention improvements.')}
             />
 
             <FaqAccordion

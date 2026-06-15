@@ -5,21 +5,19 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '../i18n/useLanguage';
 
 const PRIMARY_LINKS = [
-  { to: '/services', label: 'AI Solutions' },
-  { to: '/workflow-audit', label: 'Workflow Audit' },
-  { to: '/pricing', label: 'Pricing' },
+  { to: '/services', labelKey: 'nav.services', fallback: 'AI Solutions' },
+  { to: '/workflow-audit', labelKey: 'nav.workflowAudit', fallback: 'Workflow Audit' },
+  { to: '/pricing', labelKey: 'footer.links.pricing', fallback: 'Pricing' },
 ];
 
 const ENGINEERING_LINKS = [
-  { to: '/web-development', label: 'Web Development' },
-  { to: '/mobile-development', label: 'Mobile Applications' },
-  { to: '/saas-solutions', label: 'SaaS Products' },
-  { to: '/additional-services', label: 'Additional Services' },
-  { to: '/case-studies', label: 'Case Studies' },
-  { to: '/portfolio', label: 'Portfolio' },
+  { to: '/web-development', labelKey: 'web.hero.title', fallback: 'Web Design & Development' },
+  { to: '/mobile-development', labelKey: 'mobile.hero.title', fallback: 'Mobile App Development' },
+  { to: '/saas-solutions', labelKey: 'saas.hero.title', fallback: 'SaaS Cloud Solutions' },
+  { to: '/additional-services', labelKey: 'additional.hero.title', fallback: 'Additional Services' },
+  { to: '/case-studies', labelKey: 'nav.caseStudies', fallback: 'Case Studies' },
+  { to: '/portfolio', labelKey: 'nav.portfolio', fallback: 'Portfolio' },
 ];
-
-const ENGINEERING_LABEL = 'Product Engineering';
 
 const WORKFLOW_ROUTES = new Set(['/workflow-audit', '/book-discovery-call']);
 
@@ -87,8 +85,32 @@ export default function Navbar() {
 
   const closeMobileNav = () => setMobileOpen(false);
 
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => {
+      setEngineeringOpen(false);
+      setMobileOpen(false);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [location.pathname]);
+
   const isWorkflowActive = WORKFLOW_ROUTES.has(location.pathname);
   const isEngineeringActive = ENGINEERING_LINKS.some((link) => location.pathname === link.to);
+
+  const primaryLinks = PRIMARY_LINKS.map((link) => ({
+    ...link,
+    label: t(link.labelKey, link.fallback),
+  }));
+
+  const engineeringLinks = ENGINEERING_LINKS.map((link) => ({
+    ...link,
+    label: t(link.labelKey, link.fallback),
+  }));
+
+  const engineeringLabel = t('nav.engineering', 'Product Engineering');
+  const workflowAuditLabel = t('nav.workflowAudit', 'Workflow Audit');
 
   const isPrimaryLinkActive = (to) => {
     if (to === '/workflow-audit') {
@@ -104,14 +126,14 @@ export default function Navbar() {
         <div className="container navbar-inner">
           <Link to="/" className="navbar-logo">
             <span className="logo-icon">N</span>
-            <span>NovaTech AI</span>
+            <span>{t('brand.name', 'NovaTech AI')}</span>
           </Link>
 
           <div className="navbar-desktop">
             <div className="navbar-links">
-              {PRIMARY_LINKS.map((link) => (
+              {primaryLinks.map((link) => (
                 <Link
-                  key={link.label}
+                  key={link.to}
                   to={link.to}
                   className={isPrimaryLinkActive(link.to) ? 'active' : ''}
                 >
@@ -129,16 +151,28 @@ export default function Navbar() {
                   type="button"
                   className={`navbar-engineering-trigger ${isEngineeringActive ? 'active' : ''}`.trim()}
                   aria-expanded={engineeringOpen}
-                  aria-haspopup="true"
+                  aria-haspopup="menu"
+                  aria-controls="navbar-engineering-menu"
                   onClick={() => setEngineeringOpen((current) => !current)}
                 >
-                  {ENGINEERING_LABEL}
+                  {engineeringLabel}
                   <span className="navbar-engineering-caret" aria-hidden="true">v</span>
                 </button>
 
-                <div className="navbar-engineering-menu" role="menu" aria-label="Product engineering links">
-                  {ENGINEERING_LINKS.map((link) => (
-                    <Link key={link.to} to={link.to} role="menuitem">
+                <div
+                  id="navbar-engineering-menu"
+                  className="navbar-engineering-menu"
+                  role="menu"
+                  aria-label={t('nav.engineeringLinks', 'Product engineering links')}
+                >
+                  {engineeringLinks.map((link) => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      role="menuitem"
+                      className={location.pathname === link.to ? 'active' : ''}
+                      onClick={() => setEngineeringOpen(false)}
+                    >
                       {link.label}
                     </Link>
                   ))}
@@ -150,7 +184,7 @@ export default function Navbar() {
               <LanguageSwitcher compact />
               <DarkModeToggle />
               <Link to="/workflow-audit" className="btn btn-primary btn-sm navbar-cta">
-                Book Audit
+                {workflowAuditLabel}
               </Link>
             </div>
           </div>
@@ -182,7 +216,7 @@ export default function Navbar() {
         aria-label={t('nav.mobileNavigation', 'Mobile navigation')}
         aria-hidden={!mobileOpen}
       >
-        {PRIMARY_LINKS.map((link) => (
+        {primaryLinks.map((link) => (
           <Link
             key={link.to}
             to={link.to}
@@ -193,9 +227,9 @@ export default function Navbar() {
           </Link>
         ))}
 
-        <div className="mobile-nav-group" aria-label="Product engineering links">
-          <p className="mobile-nav-group-title">{ENGINEERING_LABEL}</p>
-          {ENGINEERING_LINKS.map((link) => (
+        <div className="mobile-nav-group" aria-label={t('nav.engineeringLinks', 'Product engineering links')}>
+          <p className="mobile-nav-group-title">{engineeringLabel}</p>
+          {engineeringLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}
@@ -208,7 +242,7 @@ export default function Navbar() {
         </div>
 
         <Link to="/workflow-audit" className="btn btn-primary" onClick={closeMobileNav}>
-          Book Audit
+          {workflowAuditLabel}
         </Link>
       </nav>
     </>

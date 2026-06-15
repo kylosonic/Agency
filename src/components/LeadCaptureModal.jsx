@@ -28,7 +28,7 @@ const VARIANT_CONTENT = {
         successPrimaryAction: 'quote',
     },
     book_call_offer: {
-        title: 'Book a Discovery Strategy Call',
+        title: 'Book a Discovery Call',
         subtitle: 'Leave your details and continue to booking. We will prepare a focused strategy agenda for your goals.',
         submitLabel: 'Continue to Booking',
         successTitle: 'Almost Done!',

@@ -20,6 +20,9 @@ const en = {
     mobile: 'Mobile Interfaces',
     saas: 'SaaS Interfaces',
     services: 'AI Solutions',
+    workflowAudit: 'Workflow Audit',
+    engineering: 'Product Engineering',
+    engineeringLinks: 'Product engineering links',
     policy: 'Operations Policy',
     caseStudies: 'Case Studies',
     portfolio: 'Portfolio',
@@ -80,7 +83,7 @@ const en = {
       aiSolutions: 'AI Solutions',
       workflowAudit: 'Workflow Audit',
       pricing: 'Pricing',
-      strategyCall: 'Strategy Call',
+      strategyCall: 'Discovery Call',
       automationBrief: 'Automation Brief Wizard',
       engineeringLayer: 'Product Engineering (Web, Mobile, SaaS)',
       searchableBrain: 'The Searchable Brain',
@@ -162,7 +165,7 @@ const en = {
       successPrimaryLabel: 'Open Instant Quote',
     },
     book_call_offer: {
-      title: 'Book a Discovery Strategy Call',
+      title: 'Book a Discovery Call',
       subtitle: 'Leave your details and continue to booking. We will prepare a focused strategy agenda for your goals.',
       submitLabel: 'Continue to Booking',
       successTitle: 'Almost Done!',
@@ -547,6 +550,10 @@ const en = {
       subtitle: "Let's turn your vision into a market-ready mobile application. Download our full guide for detailed specs and pricing.",
       secondary: 'Schedule App Strategy Call',
     },
+    roi: {
+      title: 'Mobile Acquisition ROI Estimator',
+      subtitle: 'Estimate expected gain from app-store readiness, paid acquisition, and retention improvements.',
+    },
   },
   saas: {
     hero: {
@@ -559,6 +566,10 @@ const en = {
     },
     labels: {
       annualSave: 'Save 2 months',
+    },
+    roi: {
+      title: 'SaaS Operations ROI Estimator',
+      subtitle: 'Model the business impact of process automation, reduced admin workload, and better collection discipline.',
     },
   },
   additional: {

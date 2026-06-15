@@ -29,7 +29,7 @@ export default function Footer() {
                             <li><Link to="/services">{t('footer.links.aiSolutions', 'AI Solutions')}</Link></li>
                             <li><Link to="/workflow-audit">{t('footer.links.workflowAudit', 'Workflow Audit')}</Link></li>
                             <li><Link to="/pricing">{t('footer.links.pricing', 'Pricing')}</Link></li>
-                            <li><Link to="/book-discovery-call">{t('footer.links.strategyCall', 'Strategy Call')}</Link></li>
+                            <li><Link to="/book-discovery-call">{t('footer.links.strategyCall', 'Discovery Call')}</Link></li>
                             <li><Link to="/instant-quote">{t('footer.links.automationBrief', 'Automation Brief Wizard')}</Link></li>
                         </ul>
                     </div>

@@ -159,8 +159,8 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
             </section>
 
             <RoiEstimator
-                title="SaaS Operations ROI Estimator"
-                subtitle="Model the business impact of process automation, reduced admin workload, and better collection discipline."
+                title={t('saas.roi.title', 'SaaS Operations ROI Estimator')}
+                subtitle={t('saas.roi.subtitle', 'Model the business impact of process automation, reduced admin workload, and better collection discipline.')}
             />
 
             <FaqAccordion

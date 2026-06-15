@@ -73,6 +73,7 @@
 
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body: 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --container-max: 1280px;
   --container-padding: 1.6rem;
@@ -2850,6 +2851,31 @@ h2 {
 .navbar-links .btn {
   padding: 0.42rem 0.68rem;
   font-size: 0.72rem;
+}
+
+/* Re-apply featured addon theme after shared card tokens to avoid low-contrast regressions. */
+.addon-card.addon-card-featured {
+  background: linear-gradient(170deg, #1d4f96 0%, #146068 100%);
+  border-color: color-mix(in srgb, var(--blue), white 10%);
+  color: var(--text-on-dark);
+}
+
+[data-theme='dark'] .addon-card.addon-card-featured {
+  background: linear-gradient(170deg, #19457f 0%, #0f4f57 100%);
+}
+
+.addon-card.addon-card-featured h4,
+.addon-card.addon-card-featured .price,
+.addon-card.addon-card-featured ul li {
+  color: var(--text-on-dark);
+}
+
+.addon-card.addon-card-featured .price .detail {
+  color: color-mix(in srgb, var(--text-on-dark), transparent 12%);
+}
+
+.addon-card.addon-card-featured .check {
+  color: color-mix(in srgb, var(--green-light), white 20%);
 }
 
 .mobile-nav .language-switcher {
