@@ -61,6 +61,10 @@ Configure these in .env (see .env.example):
 	- Expected shape: { "webPackages": [ ... ] }.
 	- When missing or invalid, the app falls back to static pricing data.
 
+- VITE_SITESPEAK_BOT_ID
+	- Optional SiteSpeak bot identifier for live chat.
+	- Default: f1f5fc15-c1e9-4d01-864b-1e7a756a61b4.
+
 ## Contact Submission Flow
 
 Homepage contact form behavior:
@@ -72,7 +76,7 @@ Homepage contact form behavior:
 Implementation references:
 
 - src/services/contactService.js
-- src/pages/HomePage.jsx
+- src/pages/Home.jsx
 
 ## Analytics Tracking
 

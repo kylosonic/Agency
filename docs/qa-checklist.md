@@ -4,7 +4,14 @@
 
 - [x] Run lint: npm run lint
 - [x] Run build: npm run build
-- [ ] Run responsive smoke E2E: npm run test:e2e
+- [x] Run responsive smoke E2E: npm run test:e2e
+
+## Launch Configuration
+
+- [ ] Confirm production domain is correct in canonical, robots, and sitemap files
+- [ ] Confirm contact channels are final (email, phone, WhatsApp, Telegram, LinkedIn)
+- [ ] Confirm SiteSpeak bot id in env if using a production-specific chatbot
+- [ ] Confirm pricing guide PDF and OG image are current assets for campaign sharing
 
 ## Manual Route Walkthrough
 
@@ -28,3 +35,9 @@ Check each route in both desktop and mobile breakpoints:
 - [ ] Mobile menu is closable with Escape key
 - [ ] Lead modal closes on Escape and backdrop click
 - [ ] Form status text updates are announced via aria-live regions
+
+## Marketing Readiness
+
+- [ ] Prepare launch copy from docs/marketing-launch-kit.md
+- [ ] Add UTM-tagged URLs for each launch channel
+- [ ] Verify social preview cards with metadata debuggers (LinkedIn/X/Facebook)

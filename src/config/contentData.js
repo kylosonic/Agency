@@ -205,15 +205,6 @@ export const quoteWizardOptions = {
   integrations: ['Telebirr', 'Chapa', 'CRM Sync', 'Analytics Dashboard', 'Multilingual Content'],
 };
 
-export const bookingSlotsUtc = [
-  '2026-05-04T09:00:00.000Z',
-  '2026-05-04T12:00:00.000Z',
-  '2026-05-05T09:00:00.000Z',
-  '2026-05-05T12:00:00.000Z',
-  '2026-05-06T09:00:00.000Z',
-  '2026-05-06T12:00:00.000Z',
-];
-
 export const liveChatPromptsByRoute = {
   '/': 'Hi NovaTech, I am exploring your services and want quick guidance on the right package.',
   '/web-development': 'Hi NovaTech, I need help choosing the right web development package for my business.',

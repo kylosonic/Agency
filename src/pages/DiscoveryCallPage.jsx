@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
-import { bookingSlotsUtc } from '../config/contentData';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { trackEvent } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
@@ -12,6 +11,48 @@ const INITIAL_FORM = {
   company: '',
   agenda: '',
 };
+
+function generateUpcomingBookingSlotsUtc({
+  slotsNeeded = 8,
+  slotHoursUtc = [9, 12],
+  businessDays = [1, 2, 3, 4, 5],
+} = {}) {
+  const slots = [];
+  const cursor = new Date();
+
+  cursor.setUTCMinutes(0, 0, 0);
+
+  while (slots.length < slotsNeeded) {
+    const day = cursor.getUTCDay();
+    if (businessDays.includes(day)) {
+      for (const hour of slotHoursUtc) {
+        if (slots.length >= slotsNeeded) {
+          break;
+        }
+
+        const slot = new Date(Date.UTC(
+          cursor.getUTCFullYear(),
+          cursor.getUTCMonth(),
+          cursor.getUTCDate(),
+          hour,
+          0,
+          0,
+          0
+        ));
+
+        if (slot.getTime() > Date.now()) {
+          slots.push(slot.toISOString());
+        }
+      }
+    }
+
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
+  }
+
+  return slots;
+}
+
+const bookingSlotsUtc = generateUpcomingBookingSlotsUtc();
 
 function formatSlotForTimezone(slotIso, timezone, locale) {
   const date = new Date(slotIso);
@@ -25,7 +66,7 @@ function formatSlotForTimezone(slotIso, timezone, locale) {
 export default function DiscoveryCallPage() {
   const { language, t } = useLanguage();
   const timezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone || 'Africa/Addis_Ababa', []);
-  const [selectedSlot, setSelectedSlot] = useState(bookingSlotsUtc[0]);
+  const [selectedSlot, setSelectedSlot] = useState(bookingSlotsUtc[0] || '');
   const [form, setForm] = useState(INITIAL_FORM);
   const [status, setStatus] = useState('idle');
 
@@ -58,6 +99,11 @@ export default function DiscoveryCallPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!selectedSlot) {
+      setStatus('error');
+      return;
+    }
 
     queueLeadFollowups({
       source: 'discovery_call_booking',
@@ -153,6 +199,8 @@ export default function DiscoveryCallPage() {
                 <p className={`form-feedback ${status === 'submitted' ? 'sent' : ''}`}>
                   {status === 'submitted'
                     ? t('discovery.form.success', 'Thanks. Your booking details were captured and our team will send a calendar invite shortly.')
+                    : status === 'error'
+                    ? t('discovery.form.slotError', 'Please select a valid future session before confirming.')
                     : t('discovery.form.hint', 'You will receive confirmation by email with next steps and preparation notes.')}
                 </p>
               </form>

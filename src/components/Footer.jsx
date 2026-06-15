@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { SITE_CONTACT } from '../config/siteConfig';
 import { trackContactChannelClick } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
+import logoMark from '../assets/logo-mark.png';
 
 export default function Footer() {
     const { t } = useLanguage();
@@ -12,7 +13,9 @@ export default function Footer() {
                 <div className="footer-grid">
                     <div className="footer-brand">
                         <Link to="/" className="navbar-logo">
-                            <span className="logo-icon">N</span>
+                            <span className="logo-icon" aria-hidden="true">
+                                <img src={logoMark} alt="" loading="lazy" decoding="async" />
+                            </span>
                             <span>{t('brand.name', 'NovaTech AI')}</span>
                         </Link>
                         <p>

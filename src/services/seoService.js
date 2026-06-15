@@ -1,3 +1,5 @@
+import { SITE_CONTACT } from '../config/siteConfig';
+
 const SEO_BY_ROUTE = {
   '/': {
     en: {
@@ -211,6 +213,54 @@ const SEO_BY_ROUTE = {
   },
 };
 
+const SERVICE_SCHEMA_BY_ROUTE = {
+  '/services': {
+    name: 'AI Automation and Agentic Systems',
+    serviceType: 'AI automation consultancy',
+  },
+  '/workflow-audit': {
+    name: 'Workflow Automation Audit',
+    serviceType: 'Workflow optimization consulting',
+  },
+  '/web-development': {
+    name: 'Web Development Services',
+    serviceType: 'Web design and development',
+  },
+  '/mobile-development': {
+    name: 'Mobile App Development Services',
+    serviceType: 'Cross-platform mobile app development',
+  },
+  '/saas-solutions': {
+    name: 'SaaS Product Engineering',
+    serviceType: 'SaaS architecture and development',
+  },
+  '/additional-services': {
+    name: 'Additional Digital Services and Add-ons',
+    serviceType: 'Branding, hosting, and launch support services',
+  },
+  '/book-discovery-call': {
+    name: 'Discovery Call Session',
+    serviceType: 'Technical strategy consultation',
+  },
+};
+
+const FAQ_SCHEMA_BY_ROUTE = {
+  '/policy': [
+    {
+      question: 'How are development payments structured?',
+      answer: 'Development projects follow milestone billing with 40 percent upfront, 30 percent after design or prototype approval, and 30 percent before final deployment.',
+    },
+    {
+      question: 'Do clients own their deliverables after project completion?',
+      answer: 'Yes. After final payment, clients receive full ownership of custom design assets, source code, and project intellectual property.',
+    },
+    {
+      question: 'Are SaaS subscriptions available monthly and annually?',
+      answer: 'Yes. SaaS offerings support monthly and annual billing, and annual plans include a two-month discount.',
+    },
+  ],
+};
+
 function resolveRoute(pathname) {
   if (pathname.startsWith('/industries/')) {
     return '/industries';
@@ -264,6 +314,168 @@ function ensurePropertyMeta(property, content) {
   element.setAttribute('content', content);
 }
 
+function ensureJsonLdScript(id, schemaObject) {
+  if (typeof document === 'undefined' || !schemaObject) {
+    return;
+  }
+
+  let element = document.querySelector(`script[data-seo-schema="${id}"]`);
+  if (!element) {
+    element = document.createElement('script');
+    element.setAttribute('type', 'application/ld+json');
+    element.setAttribute('data-seo-schema', id);
+    document.head.appendChild(element);
+  }
+
+  element.textContent = JSON.stringify(schemaObject);
+}
+
+function removeJsonLdScript(id) {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  const element = document.querySelector(`script[data-seo-schema="${id}"]`);
+  if (element) {
+    element.remove();
+  }
+}
+
+function toLocaleTag(language) {
+  if (language === 'am') {
+    return 'am-ET';
+  }
+
+  if (language === 'om') {
+    return 'om-ET';
+  }
+
+  return 'en-ET';
+}
+
+function buildOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'NovaTech AI',
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon.svg`,
+    email: `mailto:${SITE_CONTACT.email}`,
+    telephone: SITE_CONTACT.phoneDisplay,
+    sameAs: [SITE_CONTACT.linkedinUrl, SITE_CONTACT.telegramUrl].filter(Boolean),
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Addis Ababa',
+      addressCountry: 'ET',
+    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        email: SITE_CONTACT.email,
+        telephone: SITE_CONTACT.phoneDisplay,
+        areaServed: 'ET',
+        availableLanguage: ['en', 'am', 'om'],
+      },
+    ],
+  };
+}
+
+function buildWebsiteSchema(localeTag) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'NovaTech AI',
+    url: SITE_URL,
+    inLanguage: localeTag,
+    publisher: {
+      '@type': 'Organization',
+      name: 'NovaTech AI',
+      url: SITE_URL,
+    },
+  };
+}
+
+function buildWebPageSchema({ title, description, canonicalUrl, localeTag }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: title,
+    description,
+    url: canonicalUrl,
+    inLanguage: localeTag,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'NovaTech AI',
+      url: SITE_URL,
+    },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: OG_IMAGE,
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: title,
+          item: canonicalUrl,
+        },
+      ],
+    },
+  };
+}
+
+function buildServiceSchema(pathname, description, localeTag, canonicalUrl) {
+  const serviceEntry = SERVICE_SCHEMA_BY_ROUTE[pathname];
+  if (!serviceEntry) {
+    return null;
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: serviceEntry.name,
+    description,
+    serviceType: serviceEntry.serviceType,
+    url: canonicalUrl,
+    areaServed: 'ET',
+    inLanguage: localeTag,
+    provider: {
+      '@type': 'Organization',
+      name: 'NovaTech AI',
+      url: SITE_URL,
+    },
+  };
+}
+
+function buildFaqSchema(pathname) {
+  const entries = FAQ_SCHEMA_BY_ROUTE[pathname];
+  if (!entries || !entries.length) {
+    return null;
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: entries.map((entry) => ({
+      '@type': 'Question',
+      name: entry.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: entry.answer,
+      },
+    })),
+  };
+}
+
 const SITE_URL = typeof window !== 'undefined' ? window.location.origin : 'https://novatech.et';
 const OG_IMAGE = `${SITE_URL}/og-image.png?v=20260512`;
 
@@ -277,6 +489,7 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   const selected = routeSeo[language] || routeSeo.en;
   const isNotFoundRoute = route === '/404';
   const canonicalUrl = `${SITE_URL}${pathname}`;
+  const localeTag = toLocaleTag(language);
 
   document.title = selected.title;
   ensureMeta('description', selected.description);
@@ -296,4 +509,27 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   ensureMeta('twitter:title', selected.title);
   ensureMeta('twitter:description', selected.description);
   ensureMeta('twitter:image', OG_IMAGE);
+
+  ensureJsonLdScript('organization', buildOrganizationSchema());
+  ensureJsonLdScript('website', buildWebsiteSchema(localeTag));
+  ensureJsonLdScript('webpage', buildWebPageSchema({
+    title: selected.title,
+    description: selected.description,
+    canonicalUrl,
+    localeTag,
+  }));
+
+  const serviceSchema = buildServiceSchema(pathname, selected.description, localeTag, canonicalUrl);
+  if (serviceSchema) {
+    ensureJsonLdScript('service', serviceSchema);
+  } else {
+    removeJsonLdScript('service');
+  }
+
+  const faqSchema = buildFaqSchema(pathname);
+  if (faqSchema) {
+    ensureJsonLdScript('faq', faqSchema);
+  } else {
+    removeJsonLdScript('faq');
+  }
 }

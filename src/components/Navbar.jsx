@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '../i18n/useLanguage';
+import logoMark from '../assets/logo-mark.png';
 
 const PRIMARY_LINKS = [
   { to: '/services', labelKey: 'nav.services', fallback: 'AI Solutions' },
@@ -125,7 +126,9 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="container navbar-inner">
           <Link to="/" className="navbar-logo">
-            <span className="logo-icon">N</span>
+            <span className="logo-icon" aria-hidden="true">
+              <img src={logoMark} alt="" loading="eager" decoding="async" />
+            </span>
             <span>{t('brand.name', 'NovaTech AI')}</span>
           </Link>
 
