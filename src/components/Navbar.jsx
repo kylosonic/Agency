@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import DarkModeToggle from './DarkModeToggle';
 import IconGlyph from './IconGlyph';
 import LanguageSwitcher from './LanguageSwitcher';
 import LogoMark from './LogoMark';
@@ -234,7 +233,6 @@ export default function Navbar() {
 
             <div className="navbar-controls">
               <LanguageSwitcher compact />
-              <DarkModeToggle />
               <Link to="/workflow-audit" className="btn btn-primary btn-sm navbar-cta">
                 {workflowAuditLabel}
               </Link>
@@ -243,7 +241,6 @@ export default function Navbar() {
 
           <div className="navbar-mobile-actions">
             <LanguageSwitcher compact />
-            <DarkModeToggle />
             <button
               type="button"
               className={`mobile-menu-toggle ${mobileOpen ? 'open' : ''}`}

@@ -67,12 +67,6 @@ const en = {
     startAgain: 'Start Again',
     viewPackages: 'View Scope',
   },
-  theme: {
-    switchLight: 'Switch to light mode',
-    switchDark: 'Switch to dark mode',
-    light: 'Light mode',
-    dark: 'Dark mode',
-  },
   footer: {
     description: 'AI-first automation consultancy with equal focus on custom agentic workflows and full-scale web, mobile, and SaaS product engineering.',
     company: 'Company',
@@ -1043,12 +1037,6 @@ const amContentOverrides = {
     loadingServices: 'አገልግሎቶች በመጫን ላይ...',
     loadingFeaturedAddons: 'ተመራጭ ተጨማሪዎች በመጫን ላይ...',
   },
-  theme: {
-    switchLight: 'ወደ ብርሃን ሁነታ ቀይር',
-    switchDark: 'ወደ ጨለማ ሁነታ ቀይር',
-    light: 'ብርሃን ሁነታ',
-    dark: 'ጨለማ ሁነታ',
-  },
   liveChat: {
     toggle: 'የቀጥታ ውይይት አማራጮችን ቀይር',
     dialog: 'የውይይት አማራጮች',
@@ -1739,12 +1727,6 @@ const omContentOverrides = {
     loadingCloudPlatforms: 'Platfoormii cloud feenaa jira...',
     loadingServices: 'Tajaajila feenaa jira...',
     loadingFeaturedAddons: 'Dabalata filatamoo feenaa jira...',
-  },
-  theme: {
-    switchLight: 'Gara haala ifaa jijjiiri',
-    switchDark: 'Gara haala dukkanaa jijjiiri',
-    light: 'Haala ifaa',
-    dark: 'Haala dukkanaa',
   },
   liveChat: {
     toggle: 'Filannoo chat jijjiiri',

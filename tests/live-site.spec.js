@@ -108,7 +108,7 @@ test.describe('Live site responsive smoke', () => {
     }
   }
 
-  test('mobile nav and dark mode toggle work on home page', async ({ page }) => {
+  test('mobile nav works and the site remains dark-only on home page', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
 
@@ -124,14 +124,8 @@ test.describe('Live site responsive smoke', () => {
     await mobileToggle.click();
     await expect(page.locator('.mobile-nav.open')).toBeHidden();
 
-    const mobileThemeToggle = page.locator('.navbar-mobile-actions .dark-mode-toggle');
-    await expect(mobileThemeToggle).toBeVisible();
-
-    const themeBefore = await page.getAttribute('html', 'data-theme');
-    await mobileThemeToggle.click();
-    const themeAfter = await page.getAttribute('html', 'data-theme');
-
-    expect(themeAfter).not.toBe(themeBefore);
+    await expect(page.locator('.dark-mode-toggle')).toHaveCount(0);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   });
 
   test('additional services table scrolls inside wrapper on small screens without page overflow', async ({ page }) => {

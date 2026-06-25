@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -7,10 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="application-name" content="NovaTech AI" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="dark" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#ecf1f6" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#070f1e" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#070f1e" />
     <meta name="description" content="NovaTech AI is an AI-first automation consultancy delivering custom agentic workflows while actively building web platforms, mobile apps, and SaaS products." />
     <meta property="og:title" content="NovaTech AI | Agentic Workflows + Web, Mobile &amp; SaaS" />
     <meta property="og:description" content="AI-first automation built for today, plus active web, mobile, and SaaS delivery for teams scaling real products." />
@@ -156,14 +155,6 @@
         <p>NovaTech AI Systems, Addis Ababa, Ethiopia. Phone: <a href="tel:+251944191603">+251944191603</a>. Telegram: <a href="https://t.me/NovaTechET">NovaTechET</a>.</p>
       </footer>
     </noscript>
-    <script>
-      (function() {
-        var t = localStorage.getItem('novatech-theme');
-        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
-      })();
-    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
