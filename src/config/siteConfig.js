@@ -1,17 +1,42 @@
-const CONTACT_EMAIL = 'nahomgwmichael@gmail.com';
-const WHATSAPP_NUMBER = '251911000000';
+const DEFAULT_SITE_URL = 'https://novatech.et';
+
+function getEnvValue(value, fallback = '') {
+  return (value || fallback).trim();
+}
+
+function normalizeSiteUrl(value) {
+  const url = (value || DEFAULT_SITE_URL).trim();
+  return url.replace(/\/+$/, '');
+}
+
+function toTelephoneHref(displayNumber) {
+  return `tel:${displayNumber.replace(/[^\d+]/g, '')}`;
+}
+
+export const SITE_URL = normalizeSiteUrl(getEnvValue(import.meta.env.VITE_SITE_URL, DEFAULT_SITE_URL));
+export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20260512`;
+
+const CONTACT_EMAIL = getEnvValue(import.meta.env.VITE_CONTACT_EMAIL, 'nahomgwmichael@gmail.com');
+const PHONE_DISPLAY = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_DISPLAY, '+251 911 000 000');
+const PHONE_HREF = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_HREF, toTelephoneHref(PHONE_DISPLAY));
+const WHATSAPP_NUMBER = getEnvValue(import.meta.env.VITE_WHATSAPP_NUMBER, '251911000000');
+const TELEGRAM_HANDLE = getEnvValue(import.meta.env.VITE_TELEGRAM_HANDLE, '@NovaTechET');
+const TELEGRAM_URL = getEnvValue(import.meta.env.VITE_TELEGRAM_URL, 'https://t.me/NovaTechET');
+const LINKEDIN_URL = getEnvValue(import.meta.env.VITE_LINKEDIN_URL, 'https://www.linkedin.com/company/novatech-et/');
+const LOCATION_LABEL = getEnvValue(import.meta.env.VITE_LOCATION_LABEL, 'Addis Ababa, Ethiopia');
+const MAPS_URL = getEnvValue(import.meta.env.VITE_MAPS_URL, 'https://maps.google.com/?q=Addis%20Ababa%2C%20Ethiopia');
 
 export const SITE_CONTACT = {
   email: CONTACT_EMAIL,
-  phoneHref: 'tel:+251911000000',
-  phoneDisplay: '+251 911 000 000',
+  phoneHref: PHONE_HREF,
+  phoneDisplay: PHONE_DISPLAY,
   whatsappNumber: WHATSAPP_NUMBER,
   whatsappUrl: `https://wa.me/${WHATSAPP_NUMBER}`,
-  telegramHandle: '@NovaTechET',
-  telegramUrl: 'https://t.me/NovaTechET',
-  linkedinUrl: 'https://www.linkedin.com/company/novatech-et/',
-  locationLabel: 'Addis Ababa, Ethiopia',
-  mapsUrl: 'https://maps.google.com/?q=Addis%20Ababa%2C%20Ethiopia',
+  telegramHandle: TELEGRAM_HANDLE,
+  telegramUrl: TELEGRAM_URL,
+  linkedinUrl: LINKEDIN_URL,
+  locationLabel: LOCATION_LABEL,
+  mapsUrl: MAPS_URL,
 };
 
 export const DISCOVERY_CALL_MAILTO = `mailto:${CONTACT_EMAIL}?subject=Discovery%20Call%20Request&body=Hi%20NovaTech%2C%20I%20want%20to%20book%20a%20discovery%20call.`;

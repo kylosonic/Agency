@@ -185,7 +185,8 @@ export default function Home() {
                   Book a Custom Workflow Audit
                 </Link>
                 <a className="btn btn-secondary btn-lg" href="#ai-solutions">
-                  See What&apos;s Possible ↓
+                  See What&apos;s Possible
+                  <IconGlyph name="chevronDown" size={15} strokeWidth={2} />
                 </a>
               </div>
             </ScrollReveal>

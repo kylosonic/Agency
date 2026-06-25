@@ -43,6 +43,11 @@ const ICONS = {
       <path d="M13 6l6 6-6 6" />
     </>
   ),
+  chevronDown: (
+    <>
+      <path d="M6 9l6 6 6-6" />
+    </>
+  ),
   clock: (
     <>
       <circle cx="12" cy="12" r="8.5" />

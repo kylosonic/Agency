@@ -8,9 +8,9 @@ export default function DarkModeToggle() {
         if (typeof window !== 'undefined') {
             const saved = localStorage.getItem('novatech-theme');
             if (saved) return saved === 'dark';
-            return true;
+            return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
         }
-        return true;
+        return false;
     });
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function DarkModeToggle() {
         <button
             type="button"
             className="dark-mode-toggle"
-            onClick={() => setDark(!dark)}
+            onClick={() => setDark((current) => !current)}
             aria-label={dark ? t('theme.switchLight', 'Switch to light mode') : t('theme.switchDark', 'Switch to dark mode')}
             title={dark ? t('theme.light', 'Light mode') : t('theme.dark', 'Dark mode')}
         >

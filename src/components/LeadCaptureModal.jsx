@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
@@ -7,6 +7,14 @@ import { useLanguage } from '../i18n/useLanguage';
 
 const INITIAL_FORM = { name: '', email: '', company: '' };
 const MotionDiv = motion.div;
+const FOCUSABLE_SELECTOR = [
+    'a[href]',
+    'button:not([disabled])',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+].join(',');
 
 const VARIANT_CONTENT = {
     pricing_guide: {
@@ -42,6 +50,8 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
     const { t } = useLanguage();
     const [formData, setFormData] = useState(INITIAL_FORM);
     const [status, setStatus] = useState('idle');
+    const panelRef = useRef(null);
+    const previousFocusRef = useRef(null);
     const activeVariantConfig = VARIANT_CONTENT[variant] || VARIANT_CONTENT.pricing_guide;
     const activeVariant = {
         title: t(`leadCapture.${variant}.title`, activeVariantConfig.title),
@@ -69,15 +79,64 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
             return undefined;
         }
 
-        const handleEscape = (event) => {
+        const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
                 requestClose('escape_key');
+                return;
+            }
+
+            if (event.key !== 'Tab' || !panelRef.current) {
+                return;
+            }
+
+            const focusableElements = Array.from(panelRef.current.querySelectorAll(FOCUSABLE_SELECTOR))
+                .filter((element) => element.offsetParent !== null || element === document.activeElement);
+
+            if (!focusableElements.length) {
+                event.preventDefault();
+                panelRef.current.focus();
+                return;
+            }
+
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            if (event.shiftKey && document.activeElement === firstElement) {
+                event.preventDefault();
+                lastElement.focus();
+                return;
+            }
+
+            if (!event.shiftKey && document.activeElement === lastElement) {
+                event.preventDefault();
+                firstElement.focus();
             }
         };
 
-        window.addEventListener('keydown', handleEscape);
-        return () => window.removeEventListener('keydown', handleEscape);
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, requestClose]);
+
+    useEffect(() => {
+        if (!isOpen || typeof document === 'undefined') {
+            return undefined;
+        }
+
+        previousFocusRef.current = document.activeElement;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        const frameId = window.requestAnimationFrame(() => {
+            const firstField = panelRef.current?.querySelector(FOCUSABLE_SELECTOR);
+            firstField?.focus();
+        });
+
+        return () => {
+            window.cancelAnimationFrame(frameId);
+            document.body.style.overflow = previousOverflow;
+            previousFocusRef.current?.focus?.();
+        };
+    }, [isOpen]);
 
     const openVariantPrimaryAction = (actionSource = 'lead_modal_primary_action') => {
         if (activeVariant.successPrimaryAction === 'guide') {
@@ -152,6 +211,9 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="pricing-guide-title"
+                        aria-describedby="pricing-guide-subtitle"
+                        tabIndex={-1}
+                        ref={panelRef}
                     >
                             <button
                                 type="button"
@@ -165,7 +227,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                         {status !== 'success' ? (
                             <>
                                 <h3 id="pricing-guide-title">{activeVariant.title}</h3>
-                                <p className="modal-subtitle">
+                                <p className="modal-subtitle" id="pricing-guide-subtitle">
                                     {activeVariant.subtitle}
                                 </p>
 
@@ -219,8 +281,8 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                 <div className="modal-success-icon" aria-hidden="true">
                                     <IconGlyph name="check" size={30} />
                                 </div>
-                                <h3>{activeVariant.successTitle}</h3>
-                                <p className="modal-subtitle">{activeVariant.successSubtitle}</p>
+                                <h3 id="pricing-guide-title">{activeVariant.successTitle}</h3>
+                                <p className="modal-subtitle" id="pricing-guide-subtitle">{activeVariant.successSubtitle}</p>
                                 <div className="modal-success-actions">
                                     <button type="button" className="btn btn-primary" onClick={() => openVariantPrimaryAction('lead_modal_success_primary')}>
                                         {activeVariant.successPrimaryLabel}

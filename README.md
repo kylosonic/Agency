@@ -41,6 +41,19 @@ Modern multi-page React marketing site for NovaTech digital services. This proje
 
 Configure these in .env (see .env.example):
 
+- VITE_SITE_URL
+	- Canonical production origin used for runtime SEO, Open Graph, and JSON-LD metadata.
+	- Default: https://novatech.et.
+
+- VITE_CONTACT_EMAIL / VITE_CONTACT_PHONE_DISPLAY / VITE_CONTACT_PHONE_HREF
+	- Public sales contact channels rendered across forms, footer links, and structured data.
+
+- VITE_WHATSAPP_NUMBER / VITE_TELEGRAM_HANDLE / VITE_TELEGRAM_URL / VITE_LINKEDIN_URL
+	- Public social and messaging channels used in footer/contact CTAs.
+
+- VITE_LOCATION_LABEL / VITE_MAPS_URL
+	- Public location label and map destination used in contact sections and footer links.
+
 - VITE_CONTACT_API_ENDPOINT
 	- Optional API endpoint for form submissions.
 	- If missing or unavailable, homepage contact form falls back to mail client submission.

@@ -1,4 +1,4 @@
-import { SITE_CONTACT } from '../config/siteConfig';
+import { OG_IMAGE_URL, SITE_CONTACT, SITE_URL } from '../config/siteConfig';
 
 const SEO_BY_ROUTE = {
   '/': {
@@ -411,7 +411,7 @@ function buildWebPageSchema({ title, description, canonicalUrl, localeTag }) {
     },
     primaryImageOfPage: {
       '@type': 'ImageObject',
-      url: OG_IMAGE,
+      url: OG_IMAGE_URL,
     },
     breadcrumb: {
       '@type': 'BreadcrumbList',
@@ -476,9 +476,6 @@ function buildFaqSchema(pathname) {
   };
 }
 
-const SITE_URL = typeof window !== 'undefined' ? window.location.origin : 'https://novatech.et';
-const OG_IMAGE = `${SITE_URL}/og-image.png?v=20260512`;
-
 export function setDocumentMetadata({ pathname, language = 'en' }) {
   if (typeof document === 'undefined') {
     return;
@@ -500,7 +497,7 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   ensurePropertyMeta('og:title', selected.title);
   ensurePropertyMeta('og:description', selected.description);
   ensurePropertyMeta('og:url', canonicalUrl);
-  ensurePropertyMeta('og:image', OG_IMAGE);
+  ensurePropertyMeta('og:image', OG_IMAGE_URL);
   ensurePropertyMeta('og:image:alt', 'NovaTech AI automation and product engineering preview');
   ensurePropertyMeta('og:type', 'website');
   ensurePropertyMeta('og:site_name', 'NovaTech AI');
@@ -508,7 +505,7 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   ensureMeta('twitter:card', 'summary_large_image');
   ensureMeta('twitter:title', selected.title);
   ensureMeta('twitter:description', selected.description);
-  ensureMeta('twitter:image', OG_IMAGE);
+  ensureMeta('twitter:image', OG_IMAGE_URL);
 
   ensureJsonLdScript('organization', buildOrganizationSchema());
   ensureJsonLdScript('website', buildWebsiteSchema(localeTag));

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
+import IconGlyph from './IconGlyph';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '../i18n/useLanguage';
 import logoMark from '../assets/logo-mark.png';
@@ -159,7 +160,7 @@ export default function Navbar() {
                   onClick={() => setEngineeringOpen((current) => !current)}
                 >
                   {engineeringLabel}
-                  <span className="navbar-engineering-caret" aria-hidden="true">v</span>
+                  <IconGlyph name="chevronDown" size={13} strokeWidth={2} className="navbar-engineering-caret" />
                 </button>
 
                 <div

@@ -34,7 +34,10 @@ function loadSiteSpeakScript() {
     script.defer = true;
     script.dataset.sitespeakScript = 'true';
     script.onload = () => resolve(true);
-    script.onerror = () => reject(new Error('Failed to load SiteSpeak script'));
+    script.onerror = () => {
+      window.__novatechSiteSpeakLoaderPromise = null;
+      reject(new Error('Failed to load SiteSpeak script'));
+    };
     document.head.appendChild(script);
   });
 
@@ -106,7 +109,7 @@ function toggleSiteSpeakChat() {
   }
 
   const isOpen = iframe.style.display !== 'none';
-  iframe.contentWindow.postMessage(isOpen ? { closeChat: true } : { openChat: true }, '*');
+  iframe.contentWindow.postMessage(isOpen ? { closeChat: true } : { openChat: true }, SITE_SPEAK_ORIGIN);
   iframe.style.display = isOpen ? 'none' : 'block';
   return true;
 }

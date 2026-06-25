@@ -73,11 +73,28 @@ const AUTO_LEAD_CAPTURE_LAST_SHOWN_KEY = 'lead-capture-auto:last-shown-at';
 const AUTO_LEAD_CAPTURE_COOLDOWN_MS = 1000 * 60 * 60 * 10;
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { hash, pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo({ top: 0, left: 0 });
+      return undefined;
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (target) {
+        target.scrollIntoView({ block: 'start' });
+        return;
+      }
+
+      window.scrollTo({ top: 0, left: 0 });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [hash, pathname]);
 
   return null;
 }
@@ -164,15 +181,15 @@ function AppContent() {
   const location = useLocation();
 
   useEffect(() => {
-    trackPageView(location.pathname);
-  }, [location.pathname]);
-
-  useEffect(() => {
     setDocumentMetadata({
       pathname: location.pathname,
       language,
     });
   }, [location.pathname, language]);
+
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location.pathname]);
 
   const openLeadCapture = useCallback((eventOrSource, options = {}) => {
     let source = `route:${location.pathname}`;
@@ -304,7 +321,7 @@ function AppContent() {
       <ScrollToTop />
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Navbar />
-      <main id="main-content" className="site-main">
+      <main id="main-content" className="site-main" tabIndex={-1}>
         <AnimatePresence mode="wait" initial={false}>
           <PageTransition key={location.pathname}>
             <ErrorBoundary>

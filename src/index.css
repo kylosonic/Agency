@@ -5708,3 +5708,25 @@ h2 {
     scroll-behavior: auto !important;
   }
 }
+
+@media print {
+  .navbar,
+  .floating-cta-container,
+  .live-chat-dock,
+  .section-scrollbar,
+  .modal-backdrop-blur {
+    display: none !important;
+  }
+
+  body,
+  .site-main,
+  .page-transition {
+    background: #fff !important;
+    color: #111827 !important;
+  }
+
+  [style*="opacity: 0"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
