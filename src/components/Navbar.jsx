@@ -3,16 +3,16 @@ import { Link, useLocation } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
 import IconGlyph from './IconGlyph';
 import LanguageSwitcher from './LanguageSwitcher';
+import LogoMark from './LogoMark';
 import { useLanguage } from '../i18n/useLanguage';
-import logoMark from '../assets/logo-mark.png';
 
 const PRIMARY_LINKS = [
-  { to: '/services', labelKey: 'nav.services', fallback: 'AI Solutions' },
   { to: '/workflow-audit', labelKey: 'nav.workflowAudit', fallback: 'Workflow Audit' },
   { to: '/pricing', labelKey: 'footer.links.pricing', fallback: 'Pricing' },
 ];
 
-const ENGINEERING_LINKS = [
+const SERVICE_LINKS = [
+  { to: '/services', labelKey: 'nav.services', fallback: 'AI Solutions' },
   { to: '/web-development', labelKey: 'web.hero.title', fallback: 'Web Design & Development' },
   { to: '/mobile-development', labelKey: 'mobile.hero.title', fallback: 'Mobile App Development' },
   { to: '/saas-solutions', labelKey: 'saas.hero.title', fallback: 'SaaS Cloud Solutions' },
@@ -27,8 +27,9 @@ export default function Navbar() {
   const { t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [engineeringOpen, setEngineeringOpen] = useState(false);
-  const engineeringRef = useRef(null);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef(null);
+  const closeTimerRef = useRef(0);
   const location = useLocation();
 
   useEffect(() => {
@@ -39,19 +40,19 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (!engineeringOpen) {
+    if (!servicesOpen) {
       return undefined;
     }
 
     const handlePointerDown = (event) => {
-      if (!engineeringRef.current?.contains(event.target)) {
-        setEngineeringOpen(false);
+      if (!servicesRef.current?.contains(event.target)) {
+        setServicesOpen(false);
       }
     };
 
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
-        setEngineeringOpen(false);
+        setServicesOpen(false);
       }
     };
 
@@ -62,7 +63,11 @@ export default function Navbar() {
       window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('keydown', handleEscape);
     };
-  }, [engineeringOpen]);
+  }, [servicesOpen]);
+
+  useEffect(() => () => {
+    window.clearTimeout(closeTimerRef.current);
+  }, []);
 
   useEffect(() => {
     if (!mobileOpen) {
@@ -89,7 +94,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
-      setEngineeringOpen(false);
+      setServicesOpen(false);
       setMobileOpen(false);
     });
 
@@ -99,20 +104,63 @@ export default function Navbar() {
   }, [location.pathname]);
 
   const isWorkflowActive = WORKFLOW_ROUTES.has(location.pathname);
-  const isEngineeringActive = ENGINEERING_LINKS.some((link) => location.pathname === link.to);
+  const isServicesActive = SERVICE_LINKS.some((link) => location.pathname === link.to)
+    || location.pathname.startsWith('/industries/');
 
   const primaryLinks = PRIMARY_LINKS.map((link) => ({
     ...link,
     label: t(link.labelKey, link.fallback),
   }));
 
-  const engineeringLinks = ENGINEERING_LINKS.map((link) => ({
+  const serviceLinks = SERVICE_LINKS.map((link) => ({
     ...link,
     label: t(link.labelKey, link.fallback),
   }));
 
-  const engineeringLabel = t('nav.engineering', 'Product Engineering');
+  const servicesLabel = t('nav.services', 'Services');
+  const servicesMenuLabel = t('nav.servicesMenu', 'Services list');
   const workflowAuditLabel = t('nav.workflowAudit', 'Workflow Audit');
+
+  const canUseHoverMenu = () => (
+    typeof window !== 'undefined'
+    && window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  );
+
+  const clearServicesCloseTimer = () => {
+    window.clearTimeout(closeTimerRef.current);
+  };
+
+  const openServicesMenu = ({ fromPointer = false } = {}) => {
+    if (fromPointer && !canUseHoverMenu()) {
+      return;
+    }
+
+    clearServicesCloseTimer();
+    setServicesOpen(true);
+  };
+
+  const scheduleServicesClose = () => {
+    clearServicesCloseTimer();
+    closeTimerRef.current = window.setTimeout(() => {
+      setServicesOpen(false);
+    }, 150);
+  };
+
+  const toggleServicesMenu = (event) => {
+    clearServicesCloseTimer();
+
+    if (servicesOpen && canUseHoverMenu() && event.detail > 0) {
+      return;
+    }
+
+    setServicesOpen((current) => !current);
+  };
+
+  const handleServicesBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      scheduleServicesClose();
+    }
+  };
 
   const isPrimaryLinkActive = (to) => {
     if (to === '/workflow-audit') {
@@ -127,9 +175,7 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="container navbar-inner">
           <Link to="/" className="navbar-logo">
-            <span className="logo-icon" aria-hidden="true">
-              <img src={logoMark} alt="" loading="eager" decoding="async" />
-            </span>
+            <LogoMark />
             <span>{t('brand.name', 'NovaTech AI')}</span>
           </Link>
 
@@ -146,36 +192,38 @@ export default function Navbar() {
               ))}
 
               <div
-                className={`navbar-engineering ${engineeringOpen ? 'open' : ''}`}
-                ref={engineeringRef}
-                onMouseEnter={() => setEngineeringOpen(true)}
-                onMouseLeave={() => setEngineeringOpen(false)}
+                className={`navbar-services ${servicesOpen ? 'open' : ''}`}
+                ref={servicesRef}
+                onPointerEnter={() => openServicesMenu({ fromPointer: true })}
+                onPointerLeave={scheduleServicesClose}
+                onFocus={() => openServicesMenu()}
+                onBlur={handleServicesBlur}
               >
                 <button
                   type="button"
-                  className={`navbar-engineering-trigger ${isEngineeringActive ? 'active' : ''}`.trim()}
-                  aria-expanded={engineeringOpen}
+                  className={`navbar-services-trigger ${isServicesActive ? 'active' : ''}`.trim()}
+                  aria-expanded={servicesOpen}
                   aria-haspopup="menu"
-                  aria-controls="navbar-engineering-menu"
-                  onClick={() => setEngineeringOpen((current) => !current)}
+                  aria-controls="navbar-services-menu"
+                  onClick={toggleServicesMenu}
                 >
-                  {engineeringLabel}
-                  <IconGlyph name="chevronDown" size={13} strokeWidth={2} className="navbar-engineering-caret" />
+                  {servicesLabel}
+                  <IconGlyph name="chevronDown" size={13} strokeWidth={2} className="navbar-services-caret" />
                 </button>
 
                 <div
-                  id="navbar-engineering-menu"
-                  className="navbar-engineering-menu"
+                  id="navbar-services-menu"
+                  className="navbar-services-menu"
                   role="menu"
-                  aria-label={t('nav.engineeringLinks', 'Product engineering links')}
+                  aria-label={servicesMenuLabel}
                 >
-                  {engineeringLinks.map((link) => (
+                  {serviceLinks.map((link) => (
                     <Link
                       key={link.to}
                       to={link.to}
                       role="menuitem"
                       className={location.pathname === link.to ? 'active' : ''}
-                      onClick={() => setEngineeringOpen(false)}
+                      onClick={() => setServicesOpen(false)}
                     >
                       {link.label}
                     </Link>
@@ -231,9 +279,9 @@ export default function Navbar() {
           </Link>
         ))}
 
-        <div className="mobile-nav-group" aria-label={t('nav.engineeringLinks', 'Product engineering links')}>
-          <p className="mobile-nav-group-title">{engineeringLabel}</p>
-          {engineeringLinks.map((link) => (
+        <div className="mobile-nav-group" aria-label={servicesMenuLabel}>
+          <p className="mobile-nav-group-title">{servicesLabel}</p>
+          {serviceLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}

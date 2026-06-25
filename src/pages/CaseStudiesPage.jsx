@@ -1,26 +1,72 @@
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
+import IconGlyph from '../components/IconGlyph';
 import { caseStudies } from '../config/contentData';
 import { useLanguage } from '../i18n/useLanguage';
+
+const REVIEW_POINTS = [
+  {
+    title: 'Baseline Before Build',
+    text: 'Every engagement starts by documenting current cycle time, conversion, throughput, or staff load so the result has a measurable reference point.',
+    icon: 'target',
+  },
+  {
+    title: 'Implementation Path',
+    text: 'Case studies separate the business challenge from the delivery path, including integrations, rollout cadence, and operational constraints.',
+    icon: 'settings',
+  },
+  {
+    title: 'Post-Launch Signal',
+    text: 'Results highlight what changed after launch, including adoption, process reliability, and the operational metric that mattered most.',
+    icon: 'chart',
+  },
+];
 
 export default function CaseStudiesPage() {
   const { t } = useLanguage();
 
   return (
     <>
-      <section className="page-hero">
+      <section className="page-hero" aria-labelledby="case-studies-hero-title">
         <div className="container page-hero-content">
-          <h1>{t('caseStudies.hero.title', 'Case Studies')}</h1>
+          <h1 id="case-studies-hero-title">{t('caseStudies.hero.title', 'Case Studies')}</h1>
           <p>{t('caseStudies.hero.subtitle', 'Real delivery stories with measurable before and after outcomes across priority industries.')}</p>
         </div>
       </section>
 
-      <section className="section">
+      <section className="section case-study-method-section" aria-labelledby="case-study-method-title">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              tag="Proof Architecture"
+              title={<span id="case-study-method-title">How We Read Outcomes</span>}
+              subtitle="These stories are structured for fast comparison: baseline, implementation path, stack, and measurable change."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <ScrollReveal stagger>
+            <div className="content-balance-grid">
+              {REVIEW_POINTS.map((point) => (
+                <article key={point.title} className="content-balance-card glass-card">
+                  <span className="content-balance-icon" aria-hidden="true">
+                    <IconGlyph name={point.icon} size={18} />
+                  </span>
+                  <h3>{point.title}</h3>
+                  <p>{point.text}</p>
+                </article>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section case-study-results-section" aria-labelledby="case-study-results-title">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
               tag={t('caseStudies.header.tag', 'Client Outcomes')}
-              title={t('caseStudies.header.title', 'Measured Impact')}
+              title={<span id="case-study-results-title">{t('caseStudies.header.title', 'Measured Impact')}</span>}
               subtitle={t('caseStudies.header.subtitle', 'Each case study captures business context, implementation path, and quantifiable results.')}
             />
           </ScrollReveal>

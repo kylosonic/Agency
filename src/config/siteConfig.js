@@ -17,9 +17,9 @@ export const SITE_URL = normalizeSiteUrl(getEnvValue(import.meta.env.VITE_SITE_U
 export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20260512`;
 
 const CONTACT_EMAIL = getEnvValue(import.meta.env.VITE_CONTACT_EMAIL, 'nahomgwmichael@gmail.com');
-const PHONE_DISPLAY = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_DISPLAY, '+251 911 000 000');
+const PHONE_DISPLAY = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_DISPLAY, '+251 944 191 603');
 const PHONE_HREF = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_HREF, toTelephoneHref(PHONE_DISPLAY));
-const WHATSAPP_NUMBER = getEnvValue(import.meta.env.VITE_WHATSAPP_NUMBER, '251911000000');
+const WHATSAPP_NUMBER = getEnvValue(import.meta.env.VITE_WHATSAPP_NUMBER, '251944191603');
 const TELEGRAM_HANDLE = getEnvValue(import.meta.env.VITE_TELEGRAM_HANDLE, '@NovaTechET');
 const TELEGRAM_URL = getEnvValue(import.meta.env.VITE_TELEGRAM_URL, 'https://t.me/NovaTechET');
 const LINKEDIN_URL = getEnvValue(import.meta.env.VITE_LINKEDIN_URL, 'https://www.linkedin.com/company/novatech-et/');

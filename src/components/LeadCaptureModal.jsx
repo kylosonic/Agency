@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
+import { isValidEmailAddress, submitPricingGuideLead } from '../services/mailingListService';
 import IconGlyph from './IconGlyph';
 import { useLanguage } from '../i18n/useLanguage';
 
@@ -65,6 +66,10 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+
+        if (status === 'error') {
+            setStatus('idle');
+        }
     };
 
     const requestClose = useCallback((source = 'modal_dismissed') => {
@@ -159,8 +164,20 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
         requestClose('success_close');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!isValidEmailAddress(formData.email)) {
+            setStatus('error');
+            trackEvent('mailing_list_capture_outcome', {
+                source: 'lead_modal',
+                triggerSource: source,
+                variant,
+                outcome: 'validation_error',
+            });
+            return;
+        }
+
         setStatus('submitting');
 
         trackEvent('pricing_guide_form_submitted', {
@@ -168,6 +185,47 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
             triggerSource: source,
             variant,
             hasCompany: Boolean(formData.company.trim()),
+        });
+
+        const pendingGuideWindow = activeVariant.successPrimaryAction === 'guide'
+            ? window.open('about:blank', '_blank')
+            : null;
+
+        if (pendingGuideWindow) {
+            pendingGuideWindow.opener = null;
+        }
+
+        const leadPayload = {
+            name: formData.name,
+            email: formData.email,
+            company: formData.company,
+        };
+
+        const mailingListSubmission = await submitPricingGuideLead({
+            lead: leadPayload,
+            source,
+            variant,
+            routePath,
+        });
+
+        if (!mailingListSubmission.ok) {
+            pendingGuideWindow?.close?.();
+            setStatus('error');
+            trackEvent('mailing_list_capture_outcome', {
+                source: 'lead_modal',
+                triggerSource: source,
+                variant,
+                outcome: 'failed',
+                reason: mailingListSubmission.type,
+            });
+            return;
+        }
+
+        trackEvent('mailing_list_capture_outcome', {
+            source: 'lead_modal',
+            triggerSource: source,
+            variant,
+            outcome: mailingListSubmission.type,
         });
 
         queueLeadFollowups({
@@ -184,7 +242,12 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
 
         if (activeVariant.successPrimaryAction === 'guide') {
             trackPricingGuideOpened('lead_modal_submit');
-            window.open('/pricing-guide.pdf', '_blank', 'noopener,noreferrer');
+
+            if (pendingGuideWindow) {
+                pendingGuideWindow.location.href = '/pricing-guide.pdf';
+            } else {
+                window.open('/pricing-guide.pdf', '_blank', 'noopener,noreferrer');
+            }
         }
 
         setStatus('success');
@@ -270,6 +333,11 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                     <button type="submit" className="btn btn-primary btn-lg" disabled={status === 'submitting'}>
                                         {status === 'submitting' ? t('leadCapture.form.submitting', 'Submitting...') : activeVariant.submitLabel}
                                     </button>
+                                    {status === 'error' && (
+                                        <p className="form-feedback error" role="status" aria-live="polite">
+                                            {t('leadCapture.form.error', 'Please enter a valid email address and try again.')}
+                                        </p>
+                                    )}
                                 </form>
                                 <p className="privacy-note">
                                     <IconGlyph name="shield" size={14} className="privacy-icon" />

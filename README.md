@@ -65,6 +65,22 @@ Configure these in .env (see .env.example):
 	- Optional request timeout in milliseconds.
 	- Default: 9000.
 
+- VITE_MAILING_LIST_ENDPOINT
+	- Pricing-guide capture endpoint.
+	- Default: /api/mailing-list.
+
+- VITE_MAILING_LIST_API_KEY / MAILING_LIST_API_KEY
+	- Optional shared API key for pricing-guide mailing-list submissions.
+	- The frontend sends VITE_MAILING_LIST_API_KEY as X-Api-Key when configured.
+
+- MAILING_LIST_STORAGE_PATH
+	- Server-side JSONL destination for captured pricing-guide emails.
+	- Default: storage/mailing-list.jsonl.
+
+- MAILING_LIST_WEBHOOK_URL
+	- Optional server-side webhook that receives every captured lead after local storage succeeds.
+	- Use this to sync into a unified CRM, newsletter, or marketing automation list.
+
 - VITE_ANALYTICS_ENDPOINT
 	- Optional endpoint for custom analytics events.
 	- Events are also forwarded to window.gtag and window.dataLayer if available.
@@ -90,6 +106,18 @@ Implementation references:
 
 - src/services/contactService.js
 - src/pages/Home.jsx
+
+## Pricing Guide Mailing List
+
+Pricing-guide downloads now use a dedicated lead-capture path:
+
+1. The modal validates the email address.
+2. The frontend posts the lead to VITE_MAILING_LIST_ENDPOINT.
+3. The server function at api/mailing-list.js appends the record to MAILING_LIST_STORAGE_PATH.
+4. If MAILING_LIST_WEBHOOK_URL is configured, the same record is forwarded to that unified mailing list.
+5. If the endpoint is temporarily unavailable in the browser, the lead is queued in localStorage under novatech-mailing-list:fallback for manual recovery.
+
+Captured server records are ignored from git by storage/.gitignore.
 
 ## Analytics Tracking
 

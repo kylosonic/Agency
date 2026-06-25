@@ -73,6 +73,24 @@ const SUPPORTING_SERVICE = {
   icon: 'mobile',
 };
 
+const DATA_INTELLIGENCE_STEPS = [
+  {
+    title: 'Ingest Unstructured Sources',
+    text: 'Contracts, invoices, chats, audio notes, PDFs, spreadsheets, and portal exports are normalized into one governed knowledge layer.',
+    icon: 'download',
+  },
+  {
+    title: 'Structure for Retrieval',
+    text: 'Content is categorized, embedded, indexed, and permissioned so answers can cite the original records instead of guessing.',
+    icon: 'search',
+  },
+  {
+    title: 'Ship an AI Workbench',
+    text: 'Teams can ask operational questions, inspect evidence, and route verified summaries into reports, CRMs, and approval flows.',
+    icon: 'spark',
+  },
+];
+
 const PRODUCT_ENGINEERING_TRACKS = [
   {
     title: 'Web Development',
@@ -109,9 +127,9 @@ export default function Services() {
 
   return (
     <>
-      <section className="page-hero ai-services-hero">
+      <section className="page-hero ai-services-hero" aria-labelledby="services-hero-title">
         <div className="container page-hero-content ai-services-hero-content">
-          <h1>AI Solutions Engineered for Operational Throughput</h1>
+          <h1 id="services-hero-title">AI Solutions Engineered for Operational Throughput</h1>
           <p>
             We lead with AI automation to remove operational drag, then scope AI systems and full software engineering with equal delivery priority based on your roadmap.
           </p>
@@ -124,12 +142,12 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="section" id="ai-service-catalog">
+      <section className="section" id="ai-service-catalog" aria-labelledby="ai-service-catalog-title">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
               tag="Core Offerings"
-              title="AI Automation Track"
+              title={<span id="ai-service-catalog-title">AI Automation Track</span>}
               subtitle="This automation track removes labor-heavy bottlenecks and runs in parallel with our product engineering track."
               align="left"
             />
@@ -189,6 +207,43 @@ export default function Services() {
                 </article>
               ))}
             </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section searchable-brain-section ai-service-data-section" id="searchable-brain" aria-labelledby="searchable-brain-title">
+        <div className="container searchable-brain-shell">
+          <ScrollReveal>
+            <div className="searchable-brain-copy">
+              <p className="searchable-brain-kicker">The Searchable Brain</p>
+              <h2 id="searchable-brain-title">Turn Your Business&apos;s Chaos into a Searchable Brain.</h2>
+              <p>
+                Most businesses operate on a chaotic mix of unstructured data: PDF contracts, scattered emails, Telegram chat histories, audio notes, and messy spreadsheets. We engineer secure data pipelines that ingest this unstructured mess, categorize it, and structure it into clean vector databases so your team can ask operational questions and receive verifiable answers with exact citations.
+              </p>
+              <div className="ai-data-layer-list" role="list" aria-label="Searchable brain implementation steps">
+                {DATA_INTELLIGENCE_STEPS.map((item) => (
+                  <article key={item.title} className="ai-data-layer-item glass" role="listitem">
+                    <span className="ai-data-layer-icon" aria-hidden="true">
+                      <IconGlyph name={item.icon} size={16} />
+                    </span>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.18}>
+            <aside className="searchable-brain-proof glass-strong" aria-label="Example audit response">
+              <span className="searchable-brain-proof-label">Live Query Pattern</span>
+              <p className="searchable-brain-proof-query">
+                Summarize our monthly overhead from these 50 raw invoice PDFs.
+              </p>
+              <p className="searchable-brain-proof-result">
+                Response includes line-by-line totals, supplier anomalies, and exact source citations back to the original files.
+              </p>
+            </aside>
           </ScrollReveal>
         </div>
       </section>

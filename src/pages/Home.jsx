@@ -164,7 +164,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="hero ai-home-hero" id="hero">
+      <section className="hero ai-home-hero" id="hero" aria-labelledby="home-hero-title">
         <div className="container hero-shell ai-hero-shell">
           <div className="hero-copy ai-hero-copy">
             <ScrollReveal delay={0.1}>
@@ -174,7 +174,7 @@ export default function Home() {
               </div>
             </ScrollReveal>
 
-            <h1>Stop Doing Manual Work. Let Custom AI Agents Run Your Bottlenecks.</h1>
+            <h1 id="home-hero-title">Stop Doing Manual Work. Let Custom AI Agents Run Your Bottlenecks.</h1>
 
             <ScrollReveal delay={0.2}>
               <p>
@@ -219,32 +219,6 @@ export default function Home() {
                   </article>
                 ))}
               </div>
-            </aside>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      <section className="section searchable-brain-section" id="searchable-brain">
-        <div className="container searchable-brain-shell">
-          <ScrollReveal>
-            <div className="searchable-brain-copy">
-              <p className="searchable-brain-kicker">The Searchable Brain</p>
-              <h2>Turn Your Business&apos;s Chaos into a Searchable Brain.</h2>
-              <p>
-                Most businesses operate on a chaotic mix of unstructured data: PDF contracts, scattered emails, Telegram chat histories, audio notes, and messy spreadsheets. We engineer secure data pipelines that automatically ingest this unstructured mess, categorize it, and structure it into clean vector databases. The Result: You get a central AI interface where you can literally &apos;talk&apos; to your entire business history. Ask questions like, &apos;Summarize our monthly overhead from these 50 raw invoice PDFs,&apos; and receive instant, verifiable answers with exact citations.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.18}>
-            <aside className="searchable-brain-proof glass-strong" aria-label="Example audit response">
-              <span className="searchable-brain-proof-label">Live Query Pattern</span>
-              <p className="searchable-brain-proof-query">
-                Summarize our monthly overhead from these 50 raw invoice PDFs.
-              </p>
-              <p className="searchable-brain-proof-result">
-                Response includes line-by-line totals, supplier anomalies, and exact source citations back to the original files.
-              </p>
             </aside>
           </ScrollReveal>
         </div>
