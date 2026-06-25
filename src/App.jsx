@@ -7,7 +7,6 @@ import LeadCaptureModal from './components/LeadCaptureModal';
 import FloatingCTA from './components/FloatingCTA';
 import LiveChatDock from './components/LiveChatDock';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import SectionScrollbar from './components/SectionScrollbar';
 import PageTransition from './components/PageTransition';
 import ErrorBoundary from './components/ErrorBoundary';
 import { trackPageView, trackPricingGuideIntent } from './services/analyticsService';
@@ -359,7 +358,6 @@ function AppContent() {
       <FloatingCTA onClick={openLeadCapture} />
       <LiveChatDock />
       <ScrollToTopButton />
-      {location.pathname === '/' && <SectionScrollbar />}
       <LeadCaptureModal
         isOpen={leadCapture.isOpen}
         onClose={closeLeadCapture}
