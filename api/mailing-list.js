@@ -5,7 +5,7 @@ import path from 'node:path';
 const DEFAULT_STORAGE_PATH = path.join(process.cwd(), 'storage', 'mailing-list.jsonl');
 const STORAGE_PATH = process.env.MAILING_LIST_STORAGE_PATH || DEFAULT_STORAGE_PATH;
 const WEBHOOK_URL = process.env.MAILING_LIST_WEBHOOK_URL || '';
-const LIST_NAME = process.env.MAILING_LIST_NAME || 'pricing-guide';
+const LIST_NAME = process.env.MAILING_LIST_NAME || 'nocatechai';
 const API_KEY = process.env.MAILING_LIST_API_KEY || '';
 const ALLOWED_ORIGIN = process.env.MAILING_LIST_ALLOWED_ORIGIN || '*';
 const MAX_BODY_BYTES = 16_384;

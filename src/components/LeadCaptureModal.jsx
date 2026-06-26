@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { isValidEmailAddress, submitPricingGuideLead } from '../services/mailingListService';
+import { PRICING_GUIDE_ASSET_PATH } from '../config/siteConfig';
 import IconGlyph from './IconGlyph';
 import { useLanguage } from '../i18n/useLanguage';
 
@@ -19,12 +20,12 @@ const FOCUSABLE_SELECTOR = [
 
 const VARIANT_CONTENT = {
     pricing_guide: {
-        title: 'Get Our 2026 Pricing Guide',
-        subtitle: 'Download our complete overview of development, digital marketing, and SaaS packages, with full ETB pricing.',
-        submitLabel: 'Download Pricing Guide',
+        title: 'Get the NovaTechAI 2026 Service Menu & Pricing Guide',
+        subtitle: 'Download the official NovaTechAI 2026 Service Menu & Pricing Guide with AI automation, web, mobile, SaaS, and marketing pricing in ETB and USD.',
+        submitLabel: 'Download NovaTechAI Guide',
         successTitle: 'Thank You!',
-        successSubtitle: 'Your guide is open in a new tab. You can also reopen it below.',
-        successPrimaryLabel: 'Open Guide Again',
+        successSubtitle: 'Your NovaTechAI 2026 Service Menu & Pricing Guide is open in a new tab. You can reopen it below.',
+        successPrimaryLabel: 'Open NovaTechAI Guide Again',
         successPrimaryAction: 'guide',
     },
     quote_offer: {
@@ -146,7 +147,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
     const openVariantPrimaryAction = (actionSource = 'lead_modal_primary_action') => {
         if (activeVariant.successPrimaryAction === 'guide') {
             trackPricingGuideOpened(actionSource);
-            window.open('/pricing-guide.pdf', '_blank', 'noopener,noreferrer');
+            window.open(PRICING_GUIDE_ASSET_PATH, '_blank', 'noopener,noreferrer');
             return;
         }
 
@@ -244,9 +245,9 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
             trackPricingGuideOpened('lead_modal_submit');
 
             if (pendingGuideWindow) {
-                pendingGuideWindow.location.href = '/pricing-guide.pdf';
+                pendingGuideWindow.location.href = PRICING_GUIDE_ASSET_PATH;
             } else {
-                window.open('/pricing-guide.pdf', '_blank', 'noopener,noreferrer');
+                window.open(PRICING_GUIDE_ASSET_PATH, '_blank', 'noopener,noreferrer');
             }
         }
 

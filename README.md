@@ -66,15 +66,15 @@ Configure these in .env (see .env.example):
 	- Default: 9000.
 
 - VITE_MAILING_LIST_ENDPOINT
-	- Pricing-guide capture endpoint.
+	- Nocatechai guide capture endpoint.
 	- Default: /api/mailing-list.
 
 - VITE_MAILING_LIST_API_KEY / MAILING_LIST_API_KEY
-	- Optional shared API key for pricing-guide mailing-list submissions.
+	- Optional shared API key for nocatechai mailing-list submissions.
 	- The frontend sends VITE_MAILING_LIST_API_KEY as X-Api-Key when configured.
 
 - MAILING_LIST_STORAGE_PATH
-	- Server-side JSONL destination for captured pricing-guide emails.
+	- Server-side JSONL destination for captured nocatechai guide emails.
 	- Default: storage/mailing-list.jsonl.
 
 - MAILING_LIST_WEBHOOK_URL
@@ -109,7 +109,7 @@ Implementation references:
 
 ## Pricing Guide Mailing List
 
-Pricing-guide downloads now use a dedicated lead-capture path:
+NovaTechAI pricing guide downloads now use a dedicated lead-capture path:
 
 1. The modal validates the email address.
 2. The frontend posts the lead to VITE_MAILING_LIST_ENDPOINT.

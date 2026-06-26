@@ -11,9 +11,9 @@ const AUTOMATION_TIERS = [
     setup: '$2,000 - $15,000',
     monthly: '$200 - $1,000',
     includes: [
-      'Single-channel customer support chatbots',
-      'Intelligent voice agents ("The Night Shift" receptionist)',
-      'Automated lead follow-up systems',
+      'Customer support chatbots',
+      'Lead routing tools',
+      'Basic internal workflow automation',
     ],
   },
   {
@@ -21,45 +21,52 @@ const AUTOMATION_TIERS = [
     setup: '$20,000 - $80,000',
     monthly: '$2,000 - $8,000',
     includes: [
-      'Custom multi-agent systems',
-      'Complex CRM and Slack integrations',
-      'Customized RFP generation engines',
-      'Internal unstructured data pipelines',
+      'Multi-agent systems',
+      'Department workflows',
+      'CRM integrations and document generation',
     ],
   },
   {
-    title: 'Tier 3: Enterprise & Air-Gapped Deployments',
+    title: 'Tier 3: Enterprise Agentic Systems',
     setup: '$100,000 - $300,000+',
     monthly: '$10,000 - $25,000+',
     includes: [
-      '100% private local LLM hardware deployment',
-      'Custom compliance guardrails',
-      'Multi-department autonomous orchestration',
-      'Continuous proprietary model fine-tuning',
+      'Fully autonomous systems with private deployment options',
+      'Enterprise governance and audit trails',
+      'Cross-department orchestration workflows',
+      'Advanced analytics and optimization loops',
     ],
   },
 ];
 
 const INTERFACE_PRICING = [
   {
-    title: 'Small Business Web Presence',
-    price: '$1,000 - $5,000',
+    title: 'Web Development (Starter)',
+    price: '$1,000 - $3,000',
   },
   {
-    title: 'Corporate Website / eCommerce',
-    price: '$10,000 - $30,000',
+    title: 'Web Development (Growth)',
+    price: '$5,000 - $12,000',
   },
   {
-    title: 'Custom SaaS / Web Application',
-    price: '$50,000 - $150,000+',
+    title: 'Web Development (Enterprise)',
+    price: '$20,000 - $50,000',
   },
   {
-    title: 'Mobile Application (Utility/MVP)',
-    price: '$15,000 - $50,000',
+    title: 'Mobile App (Basic Utility)',
+    price: '$15,000 - $25,000',
   },
   {
-    title: 'Mobile Application (Enterprise/Complex)',
-    price: '$120,000 - $250,000+',
+    title: 'Mobile App (Business / E-Commerce)',
+    price: '$30,000 - $50,000',
+  },
+  {
+    title: 'Mobile App (Enterprise / FinTech / Custom SaaS)',
+    price: '$120,000+',
+  },
+  {
+    title: 'Management SaaS Subscriptions',
+    price: '$200 - $1,000/mo',
   },
 ];
 
@@ -141,7 +148,7 @@ export default function Pricing() {
                     <p className="ai-pricing-audit-kicker">The Workflow Audit (Entry Point)</p>
                     <h3>$2,500 - $10,000 Flat Fee</h3>
                     <p>
-                      Includes a deep-dive operational discovery, workflow mapping, concrete ROI estimates, and a complete implementation blueprint.
+                      Includes workflow mapping, bottleneck classification, data-readiness review, integration discovery, and a delivery-ready automation roadmap.
                     </p>
                   </div>
                 </article>

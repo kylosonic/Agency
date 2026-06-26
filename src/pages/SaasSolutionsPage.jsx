@@ -22,9 +22,6 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
         const fetchData = async () => {
             try {
                 const data = await getSaasPackages();
-                // Map the data into the structure expected by the component if needed.
-                // The current hardcoded data has different keys than the packages (setup/monthly vs price/period).
-                // Let's adapt the mocked firebase service data to the UI format.
                 const formattedSystems = data.map(item => ({
                     icon: item.icon,
                     name: item.title,
@@ -34,10 +31,10 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                         : item.title === 'Clinic/Hospital ERP'
                         ? t('saas.systems.clinic.description', 'End-to-end healthcare management system for clinics and hospitals — from patient registration to billing and lab results.')
                         : t('saas.systems.property.description', 'Manage properties, tenants, leases, rent collection, and maintenance — all from one centralized cloud dashboard.'),
-                    setup: item.title === 'School Management System' ? '25,000 ETB' : item.title === 'Clinic/Hospital ERP' ? '35,000 ETB' : '20,000 ETB',
-                    monthly: `${item.price} ETB`,
-                    annual: item.title === 'School Management System' ? '35,000 ETB' : item.title === 'Clinic/Hospital ERP' ? '50,000 ETB' : '30,000 ETB',
-                    annualSave: t('saas.labels.annualSave', 'Save 2 months'),
+                    setup: `${item.setupFee} ETB`,
+                    monthly: `${item.monthlyFrom} - ${item.monthlyTo} ETB`,
+                    annual: item.billingNote ? t('saas.labels.billedAnnually', 'Billed annually') : '',
+                    annualSave: t('saas.labels.annualPlan', 'Annual plan preferred'),
                     modules: item.features
                 }));
                 setSystems(formattedSystems);

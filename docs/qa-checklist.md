@@ -11,7 +11,7 @@
 - [ ] Confirm production domain is correct in canonical, robots, and sitemap files
 - [ ] Confirm contact channels are final (email, phone, WhatsApp, Telegram, LinkedIn)
 - [ ] Confirm SiteSpeak bot id in env if using a production-specific chatbot
-- [ ] Confirm pricing guide PDF and OG image are current assets for campaign sharing
+- [x] Confirm pricing guide PDF and OG image are current assets for campaign sharing
 
 ## Manual Route Walkthrough
 
