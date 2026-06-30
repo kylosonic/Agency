@@ -15,7 +15,7 @@ function toTelephoneHref(displayNumber) {
 
 export const SITE_URL = normalizeSiteUrl(getEnvValue(import.meta.env.VITE_SITE_URL, DEFAULT_SITE_URL));
 export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20260512`;
-export const PRICING_GUIDE_ASSET_PATH = '/NovaTech_AI_2026_Pricing_Guide.pdf';
+export const PRICING_GUIDE_ASSET_PATH = '/NovaTech_AI_2026_Pricing_Guide_v3.pdf';
 
 const CONTACT_EMAIL = getEnvValue(import.meta.env.VITE_CONTACT_EMAIL, 'nahomgwmichael@gmail.com');
 const PHONE_DISPLAY = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_DISPLAY, '+251 944 191 603');
