@@ -28,7 +28,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                 setPackages(webData);
                 setAddons(addonData);
             } catch (error) {
-                console.error("Failed to fetch Firebase data:", error);
+                console.error("Failed to load web pricing data:", error);
             } finally {
                 setLoading(false);
             }

@@ -39,7 +39,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                 }));
                 setSystems(formattedSystems);
             } catch (error) {
-                console.error("Failed to fetch Firebase SaaS data:", error);
+                console.error("Failed to load SaaS pricing data:", error);
             } finally {
                 setLoading(false);
             }

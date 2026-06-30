@@ -4670,6 +4670,29 @@ h2 {
   line-height: 1.64;
 }
 
+.ai-pricing-audit-card ul,
+.ai-interface-pricing-card ul {
+  margin-top: 0.72rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ai-pricing-audit-card li,
+.ai-interface-pricing-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.ai-pricing-audit-card li svg,
+.ai-interface-pricing-card li svg {
+  color: var(--green);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
 .ai-pricing-tier-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4691,6 +4714,11 @@ h2 {
   gap: 0.35rem;
 }
 
+.ai-pricing-dual-values {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.52rem;
+}
+
 .ai-pricing-values p {
   display: flex;
   flex-direction: column;
@@ -4706,8 +4734,35 @@ h2 {
 }
 
 .ai-pricing-values strong {
+  color: var(--text-primary);
   font-family: var(--font-heading);
   font-size: 1.05rem;
+}
+
+.ai-pricing-card-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.ai-pricing-card-meta {
+  color: var(--text-tertiary);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  font-weight: 700;
+}
+
+.ai-pricing-card-note {
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  line-height: 1.58;
+}
+
+.ai-pricing-subheading {
+  margin-top: 0.3rem;
+  font-size: 1.18rem;
 }
 
 .ai-pricing-tier-card ul {
@@ -4738,13 +4793,14 @@ h2 {
 
 .ai-interface-pricing-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 0.86rem;
 }
 
 .ai-interface-pricing-card {
   padding: 0.96rem;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.32rem;
 }
 
@@ -4757,6 +4813,10 @@ h2 {
   font-family: var(--font-heading);
   font-size: 1.04rem;
   font-weight: 800;
+}
+
+.ai-interface-pricing-card .ai-pricing-values {
+  margin-top: 0.12rem;
 }
 
 .ai-pricing-actions {
@@ -4888,6 +4948,10 @@ h2 {
   .ai-supporting-actions .btn,
   .ai-home-cta .btn {
     width: 100%;
+  }
+
+  .ai-pricing-dual-values {
+    grid-template-columns: 1fr;
   }
 }
 

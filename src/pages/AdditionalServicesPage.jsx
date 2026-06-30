@@ -26,7 +26,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                 setServices(servicesData);
                 setFeaturedAddons(addonsData);
             } catch (error) {
-                console.error("Failed to fetch Firebase additional services data:", error);
+                console.error("Failed to load additional services pricing data:", error);
             } finally {
                 setLoading(false);
             }

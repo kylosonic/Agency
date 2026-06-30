@@ -28,7 +28,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                 setPackages(mobileData);
                 setAddons(addonData);
             } catch (error) {
-                console.error("Failed to fetch Firebase data:", error);
+                console.error("Failed to load mobile pricing data:", error);
             } finally {
                 setLoading(false);
             }
