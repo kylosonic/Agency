@@ -16,6 +16,7 @@
 const PRICING_DATA_ENDPOINT = (import.meta.env.VITE_PRICING_DATA_ENDPOINT || '').trim();
 let remoteWebPackagesCache = null;
 let remoteWebPackagesLoaded = false;
+const SAAS_AVAILABILITY_STATUS = 'Coming soon';
 
 const WEB_PACKAGES = [
     {
@@ -150,13 +151,14 @@ const SAAS_PACKAGES = [
         icon: 'book',
         title: "School Management System",
         subtitle: "EduTech",
-        setupFee: '15,000',
-        monthlyFrom: '5,000',
-        monthlyTo: '10,000',
-        globalPricing: '$1,500 setup + $300 - $500 monthly',
-        localPricing: '15,000 ETB setup + 5,000 - 10,000 ETB monthly',
-        period: '/ month',
-        billingNote: 'billed annually',
+        availabilityStatus: SAAS_AVAILABILITY_STATUS,
+        setupFee: SAAS_AVAILABILITY_STATUS,
+        monthlyFrom: SAAS_AVAILABILITY_STATUS,
+        monthlyTo: SAAS_AVAILABILITY_STATUS,
+        globalPricing: SAAS_AVAILABILITY_STATUS,
+        localPricing: SAAS_AVAILABILITY_STATUS,
+        period: '',
+        billingNote: SAAS_AVAILABILITY_STATUS,
         features: [
             'Admissions and student records',
             'Timetables',
@@ -166,19 +168,20 @@ const SAAS_PACKAGES = [
             'Parent/student portals',
             'HR and payroll',
         ],
-        ctaText: "Request Demo",
+        ctaText: SAAS_AVAILABILITY_STATUS,
     },
     {
         icon: 'hospital',
         title: "Clinic/Hospital ERP",
         subtitle: "HealthTech",
-        setupFee: '25,000',
-        monthlyFrom: '8,000',
-        monthlyTo: '15,000',
-        globalPricing: '$2,500 setup + $500 - $1,000 monthly',
-        localPricing: '25,000 ETB setup + 8,000 - 15,000 ETB monthly',
-        period: '/ month',
-        billingNote: 'billed annually',
+        availabilityStatus: SAAS_AVAILABILITY_STATUS,
+        setupFee: SAAS_AVAILABILITY_STATUS,
+        monthlyFrom: SAAS_AVAILABILITY_STATUS,
+        monthlyTo: SAAS_AVAILABILITY_STATUS,
+        globalPricing: SAAS_AVAILABILITY_STATUS,
+        localPricing: SAAS_AVAILABILITY_STATUS,
+        period: '',
+        billingNote: SAAS_AVAILABILITY_STATUS,
         recommended: true,
         badgeText: 'High Demand',
         features: [
@@ -188,19 +191,20 @@ const SAAS_PACKAGES = [
             'Pharmacy inventory with batch/expiry alerts',
             'Lab result linkage to doctor/patient portals',
         ],
-        ctaText: "Request Demo",
+        ctaText: SAAS_AVAILABILITY_STATUS,
     },
     {
         icon: 'building',
         title: "Real Estate CRM",
         subtitle: "PropTech",
-        setupFee: '10,000',
-        monthlyFrom: '4,000',
-        monthlyTo: '8,000',
-        globalPricing: '$1,000 setup + $200 - $400 monthly',
-        localPricing: '10,000 ETB setup + 4,000 - 8,000 ETB monthly',
-        period: '/ month',
-        billingNote: 'billed annually',
+        availabilityStatus: SAAS_AVAILABILITY_STATUS,
+        setupFee: SAAS_AVAILABILITY_STATUS,
+        monthlyFrom: SAAS_AVAILABILITY_STATUS,
+        monthlyTo: SAAS_AVAILABILITY_STATUS,
+        globalPricing: SAAS_AVAILABILITY_STATUS,
+        localPricing: SAAS_AVAILABILITY_STATUS,
+        period: '',
+        billingNote: SAAS_AVAILABILITY_STATUS,
         features: [
             'Tenant portals',
             'Lease tracking',
@@ -208,7 +212,7 @@ const SAAS_PACKAGES = [
             'Payment tracking',
             'Maintenance request ticketing',
         ],
-        ctaText: "Request Demo",
+        ctaText: SAAS_AVAILABILITY_STATUS,
     }
 ];
 
@@ -431,9 +435,9 @@ export const getPricingGuideSummary = () => ({
         ...SAAS_PACKAGES.map((item) => ({
             category: 'Management SaaS',
             title: item.title,
-            timeline: item.billingNote,
-            globalPrice: item.globalPricing,
-            localPrice: item.localPricing,
+            timeline: item.availabilityStatus || item.billingNote,
+            globalPrice: item.availabilityStatus || item.globalPricing,
+            localPrice: item.availabilityStatus || item.localPricing,
             note: item.features.slice(0, 3).join(', '),
         })),
     ],

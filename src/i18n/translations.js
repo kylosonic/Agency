@@ -560,6 +560,7 @@ const en = {
     },
     labels: {
       annualSave: 'Save 2 months',
+      comingSoon: 'Coming soon',
     },
     roi: {
       title: 'SaaS Operations ROI Estimator',
@@ -2233,6 +2234,7 @@ const omContentOverrides = {
     },
     labels: {
       annualSave: 'Ji a 2 qusadhu',
+      comingSoon: 'Coming soon',
     },
     proof: {
       0: { title: 'Karaa diriirfama saffisaa', text: 'Dhaabbileen baay een onboarding gabaabaa keessatti xumuru.' },
@@ -2568,6 +2570,7 @@ const amFinalOverrides = {
     },
     labels: {
       annualSave: '2 ወር ይቆጥቡ',
+      comingSoon: 'Coming soon',
     },
     systems: {
       school: {

@@ -106,7 +106,7 @@ const PRODUCT_ENGINEERING_TRACKS = [
   },
   {
     title: 'SaaS Products',
-    summary: 'Subscription-ready products with scalable cloud architecture.',
+    summary: 'Coming soon',
     icon: 'cloud',
     to: '/saas-solutions',
   },

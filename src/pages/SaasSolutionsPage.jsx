@@ -22,6 +22,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
         const fetchData = async () => {
             try {
                 const data = await getSaasPackages();
+                const comingSoonLabel = t('saas.labels.comingSoon', 'Coming soon');
                 const formattedSystems = data.map(item => ({
                     icon: item.icon,
                     name: item.title,
@@ -31,10 +32,14 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                         : item.title === 'Clinic/Hospital ERP'
                         ? t('saas.systems.clinic.description', 'End-to-end healthcare management system for clinics and hospitals — from patient registration to billing and lab results.')
                         : t('saas.systems.property.description', 'Manage properties, tenants, leases, rent collection, and maintenance — all from one centralized cloud dashboard.'),
-                    setup: `${item.setupFee} ETB`,
-                    monthly: `${item.monthlyFrom} - ${item.monthlyTo} ETB`,
-                    annual: item.billingNote ? t('saas.labels.billedAnnually', 'Billed annually') : '',
-                    annualSave: t('saas.labels.annualPlan', 'Annual plan preferred'),
+                    setup: item.availabilityStatus ? comingSoonLabel : `${item.setupFee} ETB`,
+                    monthly: item.availabilityStatus ? comingSoonLabel : `${item.monthlyFrom} - ${item.monthlyTo} ETB`,
+                    annual: item.availabilityStatus
+                        ? comingSoonLabel
+                        : item.billingNote
+                        ? t('saas.labels.billedAnnually', 'Billed annually')
+                        : '',
+                    annualSave: item.availabilityStatus ? '' : t('saas.labels.annualPlan', 'Annual plan preferred'),
                     modules: item.features
                 }));
                 setSystems(formattedSystems);
@@ -131,9 +136,11 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                                         <div className="saas-price-item saas-price-item-highlight">
                                             <div className="label">{t('saas.pricing.annual', 'Annual Subscription')}</div>
                                             <div className="value">{system.annual}</div>
-                                            <div className="saas-annual-save">
-                                                {system.annualSave}
-                                            </div>
+                                            {system.annualSave ? (
+                                                <div className="saas-annual-save">
+                                                    {system.annualSave}
+                                                </div>
+                                            ) : null}
                                         </div>
                                     </div>
 
