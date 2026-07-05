@@ -198,11 +198,23 @@ export const quoteWizardOptions = {
     'Web Development',
     'Mobile App Development',
     'SaaS Platform',
+    'AI Invoice Processing',
+    'Engineering Knowledge Assistant',
+    'Sales Order Automation',
     'Branding and Additional Services',
   ],
   budgetRanges: ['Under 50k ETB', '50k - 120k ETB', '120k - 250k ETB', '250k+ ETB'],
   timelineRanges: ['2-4 weeks', '1-2 months', '2-4 months', 'Flexible timeline'],
-  integrations: ['Telebirr', 'Chapa', 'CRM Sync', 'Analytics Dashboard', 'Multilingual Content'],
+  integrations: [
+    'Telebirr',
+    'Chapa',
+    'CRM Sync',
+    'ERP/Accounting Sync',
+    'Inventory Sync',
+    'Internal Knowledge Base',
+    'Analytics Dashboard',
+    'Multilingual Content',
+  ],
 };
 
 export const liveChatPromptsByRoute = {

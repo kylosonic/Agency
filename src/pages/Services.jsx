@@ -35,6 +35,33 @@ const CORE_SERVICES = [
   },
 ];
 
+const AUTOMATION_USE_CASES = [
+  {
+    title: 'AI Invoice Processing',
+    summary:
+      'Turn supplier invoices, receipts, and PDF attachments into a verified finance workflow that extracts line items, checks tax totals, matches purchase orders, flags anomalies, and posts clean records into accounting or ERP systems.',
+    icon: 'card',
+    outcome: 'Manual invoice entry reduced across finance teams.',
+    workflow: ['Read PDF/email', 'Extract fields', 'Match PO', 'Post record'],
+  },
+  {
+    title: 'Engineering Knowledge Assistant',
+    summary:
+      'Deploy an internal software-system assistant that answers questions about architecture, services, data flows, APIs, runbooks, incidents, and code ownership with citations from approved repositories and documentation.',
+    icon: 'book',
+    outcome: 'Engineers get internal-system answers without waiting on tribal knowledge.',
+    workflow: ['Index code/docs', 'Apply access rules', 'Answer with citations', 'Refresh on change'],
+  },
+  {
+    title: 'Sales Order Automation',
+    summary:
+      'When a customer places an order, AI agents validate customer details, check inventory, calculate pricing and tax, create the sales order, trigger payment or fulfillment, and notify the customer without routine human handoff.',
+    icon: 'lightning',
+    outcome: 'Customer orders move from intake to fulfillment automatically.',
+    workflow: ['Capture order', 'Validate stock', 'Create order', 'Trigger fulfillment'],
+  },
+];
+
 const SERVICE_OBJECTIVES = [
   {
     id: 'throughput',
@@ -80,13 +107,13 @@ const DATA_INTELLIGENCE_STEPS = [
     icon: 'download',
   },
   {
-    title: 'Structure for Retrieval',
-    text: 'Content is categorized, embedded, indexed, and permissioned so answers can cite the original records instead of guessing.',
+    title: 'Structure Company Knowledge',
+    text: 'Code repositories, architecture docs, API specs, tickets, incidents, and deployment notes are indexed with permissions so every answer traces back to approved sources.',
     icon: 'search',
   },
   {
     title: 'Ship an AI Workbench',
-    text: 'Teams can ask operational questions, inspect evidence, and route verified summaries into reports, CRMs, and approval flows.',
+    text: 'Teams can ask finance, operations, and engineering questions, inspect evidence, and route verified summaries into reports, CRMs, ERPs, and approval flows.',
     icon: 'spark',
   },
 ];
@@ -208,6 +235,36 @@ export default function Services() {
               ))}
             </div>
           </ScrollReveal>
+
+          <ScrollReveal delay={0.14}>
+            <div className="automation-use-case-panel glass-strong" aria-labelledby="automation-use-cases-title">
+              <div className="automation-use-case-head">
+                <p className="automation-use-case-kicker">High-Impact Automations</p>
+                <h3 id="automation-use-cases-title">Ready-made AI workflows for finance, engineering, and sales operations.</h3>
+                <p>
+                  These modules can run as standalone automations or connect into a larger agentic operating system for the business.
+                </p>
+              </div>
+
+              <div className="automation-use-case-grid">
+                {AUTOMATION_USE_CASES.map((useCase) => (
+                  <article key={useCase.title} className="automation-use-case-card glass">
+                    <span className="automation-use-case-icon" aria-hidden="true">
+                      <IconGlyph name={useCase.icon} size={18} />
+                    </span>
+                    <h4>{useCase.title}</h4>
+                    <p>{useCase.summary}</p>
+                    <strong>{useCase.outcome}</strong>
+                    <div className="automation-use-case-flow" aria-label={`${useCase.title} workflow`}>
+                      {useCase.workflow.map((step) => (
+                        <span key={step}>{step}</span>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -238,10 +295,10 @@ export default function Services() {
             <aside className="searchable-brain-proof glass-strong" aria-label="Example audit response">
               <span className="searchable-brain-proof-label">Live Query Pattern</span>
               <p className="searchable-brain-proof-query">
-                Summarize our monthly overhead from these 50 raw invoice PDFs.
+                Which service creates invoices, how does it validate sales orders, and what changed in the fulfillment flow last sprint?
               </p>
               <p className="searchable-brain-proof-result">
-                Response includes line-by-line totals, supplier anomalies, and exact source citations back to the original files.
+                Response cites the relevant repository files, architecture notes, API contracts, and deployment runbooks so teams can trust the answer.
               </p>
             </aside>
           </ScrollReveal>

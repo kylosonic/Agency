@@ -11,6 +11,9 @@ const SERVICE_TYPE_LABEL_KEYS = {
   'Web Development': 'instantQuote.options.service.web',
   'Mobile App Development': 'instantQuote.options.service.mobile',
   'SaaS Platform': 'instantQuote.options.service.saas',
+  'AI Invoice Processing': 'instantQuote.options.service.invoiceProcessing',
+  'Engineering Knowledge Assistant': 'instantQuote.options.service.engineeringKnowledge',
+  'Sales Order Automation': 'instantQuote.options.service.salesOrderAutomation',
   'Branding and Additional Services': 'instantQuote.options.service.additional',
 };
 
@@ -32,6 +35,9 @@ const INTEGRATION_LABEL_KEYS = {
   Telebirr: 'instantQuote.options.integrations.telebirr',
   Chapa: 'instantQuote.options.integrations.chapa',
   'CRM Sync': 'instantQuote.options.integrations.crm',
+  'ERP/Accounting Sync': 'instantQuote.options.integrations.erpAccounting',
+  'Inventory Sync': 'instantQuote.options.integrations.inventory',
+  'Internal Knowledge Base': 'instantQuote.options.integrations.internalKnowledge',
   'Analytics Dashboard': 'instantQuote.options.integrations.analytics',
   'Multilingual Content': 'instantQuote.options.integrations.multilingual',
 };
@@ -51,6 +57,9 @@ const SERVICE_BASE_RANGES = {
   'Web Development': [35000, 90000],
   'Mobile App Development': [95000, 220000],
   'SaaS Platform': [140000, 320000],
+  'AI Invoice Processing': [85000, 190000],
+  'Engineering Knowledge Assistant': [120000, 280000],
+  'Sales Order Automation': [95000, 240000],
   'Branding and Additional Services': [20000, 70000],
 };
 
