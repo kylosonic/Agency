@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import { queueLeadFollowups } from '../services/leadAutomationService';
+import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
 
@@ -95,9 +96,13 @@ export default function DiscoveryCallPage() {
       ...current,
       [field]: value,
     }));
+
+    if (status === 'error') {
+      setStatus('idle');
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selectedSlot) {
@@ -105,27 +110,95 @@ export default function DiscoveryCallPage() {
       return;
     }
 
-    queueLeadFollowups({
+    setStatus('submitting');
+
+    const selectedSlotLabel = localizedSlots.find((slot) => slot.value === selectedSlot)?.label || selectedSlot;
+    const lead = {
+      name: form.name,
+      email: form.email,
+      company: form.company,
+      message: `${t('discovery.booking.requestedSlot', 'Requested slot')}: ${selectedSlotLabel}. ${t('discovery.booking.agendaLabel', 'Agenda')}: ${form.agenda}`,
+    };
+
+    const submission = await submitLeadIntake({
+      type: 'discovery_booking',
       source: 'discovery_call_booking',
       channel: 'booking_form',
       routePath: '/book-discovery-call',
-      lead: {
-        name: form.name,
-        email: form.email,
-        company: form.company,
-        message: `${t('discovery.booking.requestedSlot', 'Requested slot')}: ${selectedSlot}. ${t('discovery.booking.agendaLabel', 'Agenda')}: ${form.agenda}`,
+      lead,
+      context: {
+        selectedSlot,
+        selectedSlotLabel,
+        timezone,
+        agenda: form.agenda,
       },
+      consent: {
+        type: 'calendar_follow_up',
+        copy: t('discovery.form.hint', 'You will receive confirmation by email with next steps and preparation notes.'),
+      },
+    });
+
+    if (!submission.ok) {
+      setStatus('error');
+      trackEvent('discovery_call_booking_outcome', {
+        source: 'booking_page',
+        outcome: submission.type,
+      });
+      return;
+    }
+
+    if (submission.type === 'local-fallback') {
+      queueLeadFollowups({
+        source: 'discovery_call_booking_fallback',
+        channel: 'booking_form',
+        routePath: '/book-discovery-call',
+        lead,
+      });
+    }
+
+    trackEvent('discovery_call_booking_outcome', {
+      source: 'booking_page',
+      outcome: submission.type,
     });
 
     trackEvent('discovery_call_booked', {
       source: 'booking_page',
       slot: selectedSlot,
       timezone,
+      delivery: submission.type,
     });
 
-    setStatus('submitted');
+    setStatus(submission.type === 'local-fallback' ? 'fallback' : 'submitted');
     setForm(INITIAL_FORM);
   };
+
+  const feedbackClass = status === 'submitted'
+    ? 'sent'
+    : status === 'fallback'
+    ? 'fallback'
+    : status === 'error'
+    ? 'error'
+    : '';
+
+  const feedbackMessage = (() => {
+    if (status === 'submitted') {
+      return t('discovery.form.success', 'Thanks. Your booking details were captured and our team will send a calendar invite shortly.');
+    }
+
+    if (status === 'fallback') {
+      return t('discovery.form.fallback', 'Thanks. Your booking details were captured locally because the booking endpoint is temporarily unavailable. Please message us by email or Telegram if this is urgent.');
+    }
+
+    if (status === 'error') {
+      return t('discovery.form.slotError', 'Please select a valid future session before confirming.');
+    }
+
+    if (status === 'submitting') {
+      return t('discovery.form.submitting', 'Confirming your session request...');
+    }
+
+    return t('discovery.form.hint', 'You will receive confirmation by email with next steps and preparation notes.');
+  })();
 
   return (
     <>
@@ -195,13 +268,11 @@ export default function DiscoveryCallPage() {
                     placeholder={t('discovery.form.agendaPlaceholder', 'Share project goals, blockers, and timeline expectations.')}
                   />
                 </div>
-                <button type="submit" className="btn btn-primary btn-lg">{t('discovery.form.submit', 'Confirm Session')}</button>
-                <p className={`form-feedback ${status === 'submitted' ? 'sent' : ''}`}>
-                  {status === 'submitted'
-                    ? t('discovery.form.success', 'Thanks. Your booking details were captured and our team will send a calendar invite shortly.')
-                    : status === 'error'
-                    ? t('discovery.form.slotError', 'Please select a valid future session before confirming.')
-                    : t('discovery.form.hint', 'You will receive confirmation by email with next steps and preparation notes.')}
+                <button type="submit" className="btn btn-primary btn-lg" disabled={status === 'submitting'}>
+                  {status === 'submitting' ? t('discovery.form.submitting', 'Confirming...') : t('discovery.form.submit', 'Confirm Session')}
+                </button>
+                <p className={`form-feedback ${feedbackClass}`} role="status" aria-live="polite">
+                  {feedbackMessage}
                 </p>
               </form>
             </div>

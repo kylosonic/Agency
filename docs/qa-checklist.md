@@ -11,6 +11,7 @@
 - [ ] Confirm production domain is correct in canonical, robots, and sitemap files
 - [ ] Confirm contact channels are final (email, phone, WhatsApp, Telegram, LinkedIn)
 - [ ] Confirm SiteSpeak bot id in env if using a production-specific chatbot
+- [ ] Confirm lead intake endpoint/webhook is configured for quote and booking submissions
 - [x] Confirm pricing guide PDF and OG image are current assets for campaign sharing
 
 ## Manual Route Walkthrough
@@ -22,6 +23,9 @@ Check each route in both desktop and mobile breakpoints:
 - [ ] /mobile-development : pricing cards, proof strip, dual CTA
 - [ ] /saas-solutions : system cards, proof strip, dual CTA
 - [ ] /additional-services : service table, featured cards, dual CTA
+- [ ] /pricing : scenario planner, tabbed pricing, CTA paths
+- [ ] /instant-quote : all wizard steps, estimate result, saved request status
+- [ ] /book-discovery-call : future slots, submission status, fallback message
 - [ ] /policy : policy blocks, proof strip, dual CTA
 
 ## Tracking Spot Checks

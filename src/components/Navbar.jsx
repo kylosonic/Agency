@@ -6,21 +6,24 @@ import LogoMark from './LogoMark';
 import { useLanguage } from '../i18n/useLanguage';
 
 const PRIMARY_LINKS = [
-  { to: '/workflow-audit', labelKey: 'nav.workflowAudit', fallback: 'Workflow Audit' },
+  { to: '/services', labelKey: 'nav.aiAutomation', fallback: 'AI Automation' },
+  { to: '/web-development', labelKey: 'nav.productEngineeringShort', fallback: 'Product Engineering' },
   { to: '/pricing', labelKey: 'footer.links.pricing', fallback: 'Pricing' },
+  { to: '/case-studies', labelKey: 'nav.results', fallback: 'Results' },
 ];
 
 const SERVICE_LINKS = [
-  { to: '/services', labelKey: 'nav.services', fallback: 'AI Solutions' },
   { to: '/web-development', labelKey: 'web.hero.title', fallback: 'Web Design & Development' },
   { to: '/mobile-development', labelKey: 'mobile.hero.title', fallback: 'Mobile App Development' },
   { to: '/saas-solutions', labelKey: 'saas.hero.title', fallback: 'SaaS Cloud Solutions' },
   { to: '/additional-services', labelKey: 'additional.hero.title', fallback: 'Additional Services' },
   { to: '/case-studies', labelKey: 'nav.caseStudies', fallback: 'Case Studies' },
   { to: '/portfolio', labelKey: 'nav.portfolio', fallback: 'Portfolio' },
+  { to: '/policy', labelKey: 'nav.policy', fallback: 'Operations Policy' },
 ];
 
-const WORKFLOW_ROUTES = new Set(['/workflow-audit', '/book-discovery-call']);
+const PRODUCT_ROUTES = new Set(['/web-development', '/mobile-development', '/saas-solutions', '/additional-services']);
+const RESULTS_ROUTES = new Set(['/case-studies', '/portfolio']);
 
 export default function Navbar() {
   const { t } = useLanguage();
@@ -102,7 +105,6 @@ export default function Navbar() {
     };
   }, [location.pathname]);
 
-  const isWorkflowActive = WORKFLOW_ROUTES.has(location.pathname);
   const isServicesActive = SERVICE_LINKS.some((link) => location.pathname === link.to)
     || location.pathname.startsWith('/industries/');
 
@@ -116,8 +118,8 @@ export default function Navbar() {
     label: t(link.labelKey, link.fallback),
   }));
 
-  const servicesLabel = t('nav.services', 'Services');
-  const servicesMenuLabel = t('nav.servicesMenu', 'Services list');
+  const servicesLabel = t('nav.explore', 'Explore');
+  const servicesMenuLabel = t('nav.exploreMenu', 'Explore services and proof');
   const workflowAuditLabel = t('nav.workflowAudit', 'Workflow Audit');
 
   const canUseHoverMenu = () => (
@@ -162,8 +164,12 @@ export default function Navbar() {
   };
 
   const isPrimaryLinkActive = (to) => {
-    if (to === '/workflow-audit') {
-      return isWorkflowActive;
+    if (to === '/web-development') {
+      return PRODUCT_ROUTES.has(location.pathname);
+    }
+
+    if (to === '/case-studies') {
+      return RESULTS_ROUTES.has(location.pathname) || location.pathname.startsWith('/industries/');
     }
 
     return location.pathname === to;

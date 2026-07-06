@@ -81,6 +81,20 @@ Configure these in .env (see .env.example):
 	- Optional server-side webhook that receives every captured lead after local storage succeeds.
 	- Use this to sync into a unified CRM, newsletter, or marketing automation list.
 
+- VITE_LEAD_INTAKE_ENDPOINT
+	- Endpoint used by the instant quote wizard and discovery booking form.
+	- Default: /api/leads.
+
+- VITE_LEAD_INTAKE_API_KEY / LEAD_INTAKE_API_KEY
+	- Optional shared API key sent as X-Api-Key when configured.
+
+- LEAD_INTAKE_STORAGE_PATH
+	- Server-side JSONL destination for quote and booking requests.
+	- Default: storage/leads.jsonl.
+
+- LEAD_INTAKE_WEBHOOK_URL
+	- Optional server-side webhook for CRM, calendar, or automation handoff.
+
 - VITE_ANALYTICS_ENDPOINT
 	- Optional endpoint for custom analytics events.
 	- Events are also forwarded to window.gtag and window.dataLayer if available.
@@ -118,6 +132,10 @@ NovaTechAI pricing guide downloads now use a dedicated lead-capture path:
 5. If the endpoint is temporarily unavailable in the browser, the lead is queued in localStorage under novatech-mailing-list:fallback for manual recovery.
 
 Captured server records are ignored from git by storage/.gitignore.
+
+## Lead Intake Flow
+
+Quote and booking forms submit to api/leads.js first. The handler validates the email, stores a JSONL lead record, and can forward the same payload to LEAD_INTAKE_WEBHOOK_URL. If the browser cannot reach the endpoint, the frontend stores a bounded local fallback under novatech-lead-intake:fallback so the visitor still sees a clear status instead of silently losing the request.
 
 ## Analytics Tracking
 

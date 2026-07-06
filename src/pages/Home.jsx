@@ -189,6 +189,11 @@ export default function Home() {
                   <IconGlyph name="chevronDown" size={15} strokeWidth={2} />
                 </a>
               </div>
+              <div className="hero-trust-row" aria-label="Delivery assurances">
+                <span className="trust-pill">Audit blueprint in 5 business days</span>
+                <span className="trust-pill">ETB and USD pricing</span>
+                <span className="trust-pill">Private deployment options</span>
+              </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.25}>

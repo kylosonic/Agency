@@ -4,6 +4,7 @@ import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import { quoteWizardOptions } from '../config/contentData';
 import { queueLeadFollowups } from '../services/leadAutomationService';
+import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
 
@@ -41,6 +42,13 @@ const INTEGRATION_LABEL_KEYS = {
   'Analytics Dashboard': 'instantQuote.options.integrations.analytics',
   'Multilingual Content': 'instantQuote.options.integrations.multilingual',
 };
+
+const STEP_LABELS = [
+  { titleKey: 'instantQuote.progress.projectType', fallback: 'Project' },
+  { titleKey: 'instantQuote.progress.budget', fallback: 'Budget' },
+  { titleKey: 'instantQuote.progress.requirements', fallback: 'Details' },
+  { titleKey: 'instantQuote.progress.contact', fallback: 'Contact' },
+];
 
 const INITIAL_STATE = {
   serviceType: quoteWizardOptions.serviceTypes[0],
@@ -89,6 +97,7 @@ export default function InstantQuotePage() {
   const { t } = useLanguage();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState('idle');
   const [formState, setFormState] = useState(INITIAL_STATE);
 
   const quoteRange = useMemo(() => calculateRange(formState), [formState]);
@@ -99,6 +108,10 @@ export default function InstantQuotePage() {
       ...current,
       [field]: value,
     }));
+
+    if (submissionStatus === 'error') {
+      setSubmissionStatus('idle');
+    }
   };
 
   const toggleIntegration = (integration) => {
@@ -111,24 +124,62 @@ export default function InstantQuotePage() {
           : [...current.integrations, integration],
       };
     });
+
+    if (submissionStatus === 'error') {
+      setSubmissionStatus('idle');
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const [minEstimate, maxEstimate] = quoteRange;
+    setSubmissionStatus('submitting');
 
-    queueLeadFollowups({
+    const lead = {
+      name: formState.name,
+      email: formState.email,
+      phone: formState.phone,
+      message: `${formState.serviceType} | ${formState.budgetRange} | ${formState.timelineRange} | Integrations: ${formState.integrations.join(', ') || t('common.none', 'None')} | ${t('instantQuote.labels.projectGoals', 'Project goals')}: ${formState.goals}`,
+    };
+
+    const submission = await submitLeadIntake({
+      type: 'instant_quote',
       source: 'instant_quote_wizard',
       channel: 'quote_wizard',
       routePath: '/instant-quote',
-      lead: {
-        name: formState.name,
-        email: formState.email,
-        phone: formState.phone,
-        message: `${formState.serviceType} | ${formState.budgetRange} | ${formState.timelineRange} | Integrations: ${formState.integrations.join(', ') || t('common.none', 'None')} | ${t('instantQuote.labels.projectGoals', 'Project goals')}: ${formState.goals}`,
+      lead,
+      context: {
+        serviceType: formState.serviceType,
+        budgetRange: formState.budgetRange,
+        timelineRange: formState.timelineRange,
+        integrations: formState.integrations,
+        goals: formState.goals,
+        minEstimate: Math.round(minEstimate),
+        maxEstimate: Math.round(maxEstimate),
+      },
+      consent: {
+        type: 'quote_follow_up',
+        copy: t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.'),
       },
     });
+
+    if (!submission.ok) {
+      setSubmissionStatus('error');
+      trackEvent('instant_quote_outcome', {
+        outcome: submission.type,
+      });
+      return;
+    }
+
+    if (submission.type === 'local-fallback') {
+      queueLeadFollowups({
+        source: 'instant_quote_wizard_fallback',
+        channel: 'quote_wizard',
+        routePath: '/instant-quote',
+        lead,
+      });
+    }
 
     trackEvent('instant_quote_submitted', {
       serviceType: formState.serviceType,
@@ -136,8 +187,14 @@ export default function InstantQuotePage() {
       timelineRange: formState.timelineRange,
       minEstimate: Math.round(minEstimate),
       maxEstimate: Math.round(maxEstimate),
+      delivery: submission.type,
     });
 
+    trackEvent('instant_quote_outcome', {
+      outcome: submission.type,
+    });
+
+    setSubmissionStatus(submission.type === 'local-fallback' ? 'fallback' : 'submitted');
     setSubmitted(true);
   };
 
@@ -164,9 +221,14 @@ export default function InstantQuotePage() {
           </ScrollReveal>
 
           <div className="quote-step-indicator" aria-label={t('instantQuote.progressAria', 'Quote wizard progress')}>
-            {[1, 2, 3, 4].map((index) => (
-              <span key={index} className={`quote-step-dot ${step >= index - 1 ? 'active' : ''}`.trim()}>
-                {index}
+            {STEP_LABELS.map((item, index) => (
+              <span
+                key={item.titleKey}
+                className={`quote-step-dot ${step >= index ? 'active' : ''}`.trim()}
+                aria-current={step === index ? 'step' : undefined}
+              >
+                <span className="quote-step-number">{index + 1}</span>
+                <span className="quote-step-label">{t(item.titleKey, item.fallback)}</span>
               </span>
             ))}
           </div>
@@ -275,24 +337,34 @@ export default function InstantQuotePage() {
                     {t('actions.continue', 'Continue')}
                   </button>
                 ) : (
-                  <button type="submit" className="btn btn-primary">
-                    {t('instantQuote.actions.generate', 'Generate Estimate')}
+                  <button type="submit" className="btn btn-primary" disabled={submissionStatus === 'submitting'}>
+                    {submissionStatus === 'submitting'
+                      ? t('instantQuote.actions.generating', 'Generating...')
+                      : t('instantQuote.actions.generate', 'Generate Estimate')}
                   </button>
                 )}
               </div>
+              {submissionStatus === 'error' ? (
+                <p className="form-feedback error" role="status" aria-live="polite">
+                  {t('instantQuote.result.error', 'We could not save your estimate request. Please verify your email and try again.')}
+                </p>
+              ) : null}
             </form>
           ) : (
             <div className="quote-result-card glass-card" role="status" aria-live="polite">
               <h3>{t('instantQuote.result.title', 'Your estimated range')}</h3>
               <p className="quote-result-range">{formatCurrency(quoteRange[0])} - {formatCurrency(quoteRange[1])}</p>
               <p>
-                {t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.')}
+                {submissionStatus === 'fallback'
+                  ? t('instantQuote.result.fallback', 'This estimate was generated and saved locally because the intake endpoint is temporarily unavailable. Please book a discovery call or message us if this request is urgent.')
+                  : t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.')}
               </p>
               <div className="quote-result-actions">
                 <Link className="btn btn-primary" to="/book-discovery-call">{t('actions.bookDiscoveryCall', 'Book Discovery Call')}</Link>
                 <button type="button" className="btn btn-secondary" onClick={() => {
                   setSubmitted(false);
                   setStep(0);
+                  setSubmissionStatus('idle');
                   setFormState(INITIAL_STATE);
                 }}>
                   {t('actions.startAgain', 'Start Again')}

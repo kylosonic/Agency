@@ -20,6 +20,11 @@ const en = {
     mobile: 'Mobile Interfaces',
     saas: 'SaaS Interfaces',
     services: 'AI Solutions',
+    aiAutomation: 'AI Automation',
+    productEngineeringShort: 'Product Engineering',
+    results: 'Results',
+    explore: 'Explore',
+    exploreMenu: 'Explore services and proof',
     workflowAudit: 'Workflow Audit',
     engineering: 'Product Engineering',
     engineeringLinks: 'Product engineering links',
@@ -93,6 +98,7 @@ const en = {
     heading: 'Need a technical answer fast?',
     open: 'Open AI operations chat',
     close: 'Close AI operations chat',
+    unavailable: 'Chat is unavailable.',
     prompts: {
       home: 'Hi NovaTech AI, I want to identify manual bottlenecks we can automate with custom agents.',
       services: 'Hi NovaTech AI, I want to discuss which AI solution stack fits our current operations.',
@@ -415,6 +421,12 @@ const en = {
     hero: {
       title: 'Instant Quote Wizard',
       subtitle: 'Answer a few questions and get a working estimate range in under two minutes.',
+    },
+    progress: {
+      projectType: 'Project',
+      budget: 'Budget',
+      requirements: 'Details',
+      contact: 'Contact',
     },
     header: {
       tag: 'Fast Estimate',

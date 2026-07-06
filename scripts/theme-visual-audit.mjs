@@ -93,7 +93,10 @@ async function runAudit() {
   const results = [];
 
   for (const theme of ['light', 'dark']) {
-    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const context = await browser.newContext({
+      viewport: { width: 1440, height: 900 },
+      reducedMotion: 'reduce',
+    });
 
     await context.addInitScript((selectedTheme) => {
       localStorage.setItem('novatech-theme', selectedTheme);

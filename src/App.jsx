@@ -64,12 +64,12 @@ const AUTO_LEAD_CAPTURE_ROUTES = new Set([
   '/additional-services',
 ]);
 
-const AUTO_LEAD_CAPTURE_MIN_VIEW_MS = 12000;
-const AUTO_LEAD_CAPTURE_MIN_SCROLL_PX = 420;
-const AUTO_LEAD_CAPTURE_MIN_SCROLL_DEPTH = 0.72;
+const AUTO_LEAD_CAPTURE_MIN_VIEW_MS = 30000;
+const AUTO_LEAD_CAPTURE_MIN_SCROLL_PX = 900;
+const AUTO_LEAD_CAPTURE_MIN_SCROLL_DEPTH = 0.88;
 const AUTO_LEAD_CAPTURE_SESSION_KEY = 'lead-capture-auto:shown';
 const AUTO_LEAD_CAPTURE_LAST_SHOWN_KEY = 'lead-capture-auto:last-shown-at';
-const AUTO_LEAD_CAPTURE_COOLDOWN_MS = 1000 * 60 * 60 * 10;
+const AUTO_LEAD_CAPTURE_COOLDOWN_MS = 1000 * 60 * 60 * 24;
 
 function ScrollToTop() {
   const { hash, pathname } = useLocation();

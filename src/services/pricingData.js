@@ -37,7 +37,7 @@ const WEB_PACKAGES = [
             'Maps integration',
             'Security and speed setup',
         ],
-        ctaText: 'Start Your Presence',
+        ctaText: 'Request Website Estimate',
     },
     {
         icon: 'chart',
@@ -59,7 +59,7 @@ const WEB_PACKAGES = [
             'GA4 and Search Console setup',
             'Testimonials and social feeds',
         ],
-        ctaText: 'Accelerate Growth',
+        ctaText: 'Scope Growth Website',
     },
     {
         icon: 'building',
@@ -79,7 +79,7 @@ const WEB_PACKAGES = [
             'CRM and ERP integrations',
             'Cloud backups',
         ],
-        ctaText: 'Contact for Quote',
+        ctaText: 'Plan Enterprise Platform',
     },
 ];
 

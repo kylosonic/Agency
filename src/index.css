@@ -2925,27 +2925,47 @@ h2 {
 .quote-step-indicator {
   display: flex;
   justify-content: center;
-  gap: 0.42rem;
-  margin-bottom: 0.9rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .quote-step-dot {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  min-height: 34px;
+  border-radius: var(--radius-full);
   border: 1px solid var(--glass-border);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.36rem;
   color: var(--text-tertiary);
   font-size: 0.76rem;
   font-weight: 800;
+  padding: 0.24rem 0.68rem 0.24rem 0.28rem;
+}
+
+.quote-step-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--bg-card), transparent 8%);
 }
 
 .quote-step-dot.active {
   color: var(--text-inverse);
   border-color: transparent;
   background: linear-gradient(130deg, var(--blue) 0%, var(--green) 100%);
+}
+
+.quote-step-dot.active .quote-step-number {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.quote-step-label {
+  color: inherit;
 }
 
 .quote-wizard-card,
@@ -3314,6 +3334,24 @@ h2 {
   display: grid;
   justify-items: end;
   gap: 0.45rem;
+}
+
+.live-chat-fallback {
+  width: min(260px, calc(100vw - 2rem));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  box-shadow: var(--shadow-md);
+  padding: 0.68rem 0.76rem;
+  display: grid;
+  gap: 0.34rem;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.live-chat-fallback a {
+  color: var(--green-light);
+  font-weight: 800;
 }
 
 .live-chat-toggle {
@@ -3838,12 +3876,14 @@ h2 {
   }
 
   .quote-step-indicator {
-    gap: 0.32rem;
+    justify-content: flex-start;
+    gap: 0.42rem;
   }
 
   .quote-step-dot {
-    width: 24px;
-    height: 24px;
+    flex: 1 1 calc(50% - 0.5rem);
+    justify-content: flex-start;
+    min-width: 0;
     font-size: 0.7rem;
   }
 

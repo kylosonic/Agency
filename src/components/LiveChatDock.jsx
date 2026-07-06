@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import IconGlyph from './IconGlyph';
 import { trackContactChannelClick } from '../services/analyticsService';
+import { SITE_CONTACT } from '../config/siteConfig';
 import { useLanguage } from '../i18n/useLanguage';
 
 const SITE_SPEAK_ORIGIN = 'https://chatbot.sitespeak.ai';
@@ -118,56 +119,9 @@ export default function LiveChatDock() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const location = useLocation();
   const { t } = useLanguage();
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return undefined;
-    }
-
-    let cancelled = false;
-    let fallbackTimer = 0;
-    let idleHandle = 0;
-
-    const requestWarmLoad = async () => {
-      setIsLoading(true);
-      try {
-        await loadSiteSpeakScript();
-        const ready = await waitForSiteSpeakUi();
-        if (!cancelled && ready) {
-          setIsReady(true);
-          setIsChatOpen(isSiteSpeakOpen());
-        }
-      } catch {
-        // Ignore script load failure. Users can retry by opening the chat manually.
-      } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    if ('requestIdleCallback' in window) {
-      idleHandle = window.requestIdleCallback(() => {
-        requestWarmLoad();
-      }, { timeout: 2200 });
-    } else {
-      fallbackTimer = window.setTimeout(() => {
-        requestWarmLoad();
-      }, 1800);
-    }
-
-    return () => {
-      cancelled = true;
-      if (idleHandle) {
-        window.cancelIdleCallback(idleHandle);
-      }
-      if (fallbackTimer) {
-        window.clearTimeout(fallbackTimer);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -229,9 +183,12 @@ export default function LiveChatDock() {
     }
 
     if (!ready) {
+      setHasError(true);
+      trackContactChannelClick('sitespeak_ai_unavailable', `live_chat:${location.pathname}:failed`);
       return;
     }
 
+    setHasError(false);
     setIsReady(true);
     const toggled = toggleSiteSpeakChat();
     if (!toggled) {
@@ -251,6 +208,19 @@ export default function LiveChatDock() {
 
   return (
     <div className={`live-chat-dock ${isChatOpen ? 'open' : ''}`.trim()}>
+      {hasError ? (
+        <div className="live-chat-fallback" role="status">
+          <span>{t('liveChat.unavailable', 'Chat is unavailable.')}</span>
+          <a
+            href={SITE_CONTACT.telegramUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => trackContactChannelClick('telegram', `live_chat_fallback:${location.pathname}`)}
+          >
+            {t('channels.telegram', 'Telegram')}
+          </a>
+        </div>
+      ) : null}
       <button
         type="button"
         className="live-chat-toggle"

@@ -1,5 +1,11 @@
 import { OG_IMAGE_URL, SITE_CONTACT, SITE_URL } from '../config/siteConfig';
 
+const LANGUAGE_ALTERNATES = [
+  { hreflang: 'en-ET', language: 'en' },
+  { hreflang: 'am-ET', language: 'am' },
+  { hreflang: 'om-ET', language: 'om' },
+];
+
 const SEO_BY_ROUTE = {
   '/': {
     en: {
@@ -284,6 +290,33 @@ function ensureCanonicalLink(href) {
   element.setAttribute('href', href);
 }
 
+function ensureAlternateLinks(canonicalUrl) {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  const expectedKeys = new Set([...LANGUAGE_ALTERNATES.map((item) => item.hreflang), 'x-default']);
+
+  document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((element) => {
+    if (!expectedKeys.has(element.getAttribute('hreflang'))) {
+      element.remove();
+    }
+  });
+
+  [...LANGUAGE_ALTERNATES, { hreflang: 'x-default', language: 'en' }].forEach((item) => {
+    let element = document.querySelector(`link[rel="alternate"][hreflang="${item.hreflang}"]`);
+    if (!element) {
+      element = document.createElement('link');
+      element.setAttribute('rel', 'alternate');
+      element.setAttribute('hreflang', item.hreflang);
+      document.head.appendChild(element);
+    }
+
+    element.setAttribute('href', canonicalUrl);
+    element.dataset.language = item.language;
+  });
+}
+
 function ensureMeta(name, content) {
   if (typeof document === 'undefined') {
     return;
@@ -492,6 +525,7 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   ensureMeta('description', selected.description);
   ensureMeta('robots', isNotFoundRoute ? 'noindex, nofollow' : 'index, follow');
   ensureCanonicalLink(canonicalUrl);
+  ensureAlternateLinks(canonicalUrl);
 
   // Open Graph / Twitter Card
   ensurePropertyMeta('og:title', selected.title);
