@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import IconGlyph from './IconGlyph';
 import { useLanguage } from '../i18n/useLanguage';
-
-const MotionDiv = motion.div;
 
 export default function FloatingCTA({ onClick }) {
     const { t } = useLanguage();
@@ -29,23 +26,15 @@ export default function FloatingCTA({ onClick }) {
     }, []);
 
     return (
-        <AnimatePresence>
-            {isVisible && (
-                <MotionDiv
-                    initial={{ y: 150, opacity: 0, x: "-50%" }}
-                    animate={{ y: 0, opacity: 1, x: "-50%" }}
-                    exit={{ y: 150, opacity: 0, x: "-50%" }}
-                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                    className="floating-cta-container"
-                >
-                    <button type="button" className="floating-cta-btn" onClick={() => onClick('floating_cta')}>
-                        <span className="icon" aria-hidden="true">
-                            <IconGlyph name="download" size={16} />
-                        </span>
-                        {t('actions.pricingGuide')}
-                    </button>
-                </MotionDiv>
-            )}
-        </AnimatePresence>
+        isVisible ? (
+            <div className="floating-cta-container">
+                <button type="button" className="floating-cta-btn" onClick={() => onClick('floating_cta')}>
+                    <span className="icon" aria-hidden="true">
+                        <IconGlyph name="download" size={16} />
+                    </span>
+                    {t('actions.pricingGuide')}
+                </button>
+            </div>
+        ) : null
     );
 }

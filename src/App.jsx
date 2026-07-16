@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LeadCaptureModal from './components/LeadCaptureModal';
@@ -321,38 +320,36 @@ function AppContent() {
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Navbar />
       <main id="main-content" className="site-main" tabIndex={-1}>
-        <AnimatePresence mode="wait" initial={false}>
-          <PageTransition key={location.pathname}>
-            <ErrorBoundary>
-              <Suspense
-                fallback={(
-                  <div className="route-loader" role="status" aria-live="polite" aria-label="Loading page">
-                    <span className="route-loader-ring" aria-hidden="true"></span>
-                    <span className="route-loader-text">Loading page...</span>
-                  </div>
-                )}
-              >
-                <Routes location={location}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/pricing" element={<Pricing />} />
-                  <Route path="/workflow-audit" element={<WorkflowAudit />} />
-                  <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/additional-services" element={<AdditionalServicesPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/policy" element={<PolicyPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/case-studies" element={<CaseStudiesPage />} />
-                  <Route path="/portfolio" element={<PortfolioPage />} />
-                  <Route path="/industries/:industrySlug" element={<IndustryLandingPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/instant-quote" element={<InstantQuotePage />} />
-                  <Route path="/book-discovery-call" element={<DiscoveryCallPage />} />
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-              </Suspense>
-            </ErrorBoundary>
-          </PageTransition>
-        </AnimatePresence>
+        <PageTransition key={location.pathname}>
+          <ErrorBoundary>
+            <Suspense
+              fallback={(
+                <div className="route-loader" role="status" aria-live="polite" aria-label="Loading page">
+                  <span className="route-loader-ring" aria-hidden="true"></span>
+                  <span className="route-loader-text">Loading page...</span>
+                </div>
+              )}
+            >
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/workflow-audit" element={<WorkflowAudit />} />
+                <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
+                <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
+                <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
+                <Route path="/additional-services" element={<AdditionalServicesPage onDownloadClick={openLeadCapture} />} />
+                <Route path="/policy" element={<PolicyPage onDownloadClick={openLeadCapture} />} />
+                <Route path="/case-studies" element={<CaseStudiesPage />} />
+                <Route path="/portfolio" element={<PortfolioPage />} />
+                <Route path="/industries/:industrySlug" element={<IndustryLandingPage onDownloadClick={openLeadCapture} />} />
+                <Route path="/instant-quote" element={<InstantQuotePage />} />
+                <Route path="/book-discovery-call" element={<DiscoveryCallPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
+        </PageTransition>
       </main>
       <Footer />
       <FloatingCTA onClick={openLeadCapture} />
