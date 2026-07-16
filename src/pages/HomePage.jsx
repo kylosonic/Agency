@@ -162,7 +162,7 @@ export default function HomePage({ onDownloadClick }) {
             <SectionHeader
               tag={t('home.about.header.tag', 'About Us')}
               title={t('home.about.header.title', 'Empowering Your Brand with Comprehensive Digital Solutions')}
-              subtitle={t('home.about.header.subtitle', 'Practical engineering, measurable execution, and scalable SaaS delivery aligned to business outcomes.')}
+              subtitle={t('home.about.header.subtitle', 'Cutting-edge development, data-driven marketing, and scalable SaaS platforms built for measurable growth.')}
             />
           </ScrollReveal>
 
@@ -176,7 +176,7 @@ export default function HomePage({ onDownloadClick }) {
                 <p>
                   {t(
                     'home.about.cards.who.text',
-                    'We are a product and automation engineering team focused on web platforms, cross-platform mobile applications, and SaaS systems built for operational reliability.',
+                    'We are a premier technology and digital marketing agency specializing in high-performance web architecture, cross-platform mobile application development, and enterprise-grade software. We understand that your digital presence needs to do more than just establish instant credibility, it must function as a dynamic sales tool and a robust operational hub tailored to your business needs.',
                   )}
                 </p>
               </TiltCard>
@@ -202,7 +202,7 @@ export default function HomePage({ onDownloadClick }) {
                 <p>
                   {t(
                     'home.about.cards.market.text',
-                    'We engineer software for the Ethiopian market and beyond, including multilingual support (English, Amharic, Afaan Oromoo) and direct integrations with Telebirr, Chapa, and CBE Birr.',
+                    'We proudly engineer software tailored for the Ethiopian market and beyond. Our custom architectures feature seamless multi-language support (English, Amharic, Afaan Oromoo) and direct API integrations with local payment gateways like Telebirr, Chapa, and CBE Birr. Paired with our targeted digital marketing strategies, focusing on everything from local reach to full market domination, we ensure your brand connects with the right audience and drives substantial ROI.',
                   )}
                 </p>
               </TiltCard>
@@ -217,7 +217,7 @@ export default function HomePage({ onDownloadClick }) {
             <SectionHeader
               tag={t('home.services.header.tag', 'Our Services')}
               title={t('home.services.header.title', 'Comprehensive Digital Solutions')}
-              subtitle={t('home.services.header.subtitle', 'A focused service stack for launch, growth, and operational scale.')}
+              subtitle={t('home.services.header.subtitle', 'Everything you need to establish, grow, and dominate your digital presence.')}
             />
           </ScrollReveal>
 
@@ -303,7 +303,7 @@ export default function HomePage({ onDownloadClick }) {
               <div className="testimonial-card">
                 <div className="testimonial-stars">{t('home.testimonials.rating', '5.0 Rating')}</div>
                 <blockquote>
-                  "{t('home.testimonials.items.2.quote', 'Their mobile app with Telebirr integration changed how we run delivery operations. Clear process, reliable execution, and strong follow-through.')}"
+                  "{t('home.testimonials.items.2.quote', 'Their mobile app with Telebirr integration has been a game-changer for our delivery service. Professional team with exceptional follow-through.')}"
                 </blockquote>
                 <div className="testimonial-author">
                   <div className="testimonial-avatar">DM</div>

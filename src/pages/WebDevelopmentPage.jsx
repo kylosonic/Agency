@@ -49,7 +49,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
             <section className="page-hero">
                 <div className="container page-hero-content">
                     <h1>{t('web.hero.title', 'Web Design & Development')}</h1>
-                    <p>{t('web.hero.subtitle', 'Three package tiers matched to your current stage, from first launch to complex platform delivery.')}</p>
+                    <p>{t('web.hero.subtitle', 'Three tailored packages to match your business stage — from establishing your digital presence to dominating your market.')}</p>
                     <div className="page-hero-meta" aria-label={t('web.hero.metaAria', 'Web delivery highlights')}>
                         <span className="page-hero-chip">{t('web.hero.chip1', 'Conversion-Focused IA')}</span>
                         <span className="page-hero-chip">{t('web.hero.chip2', 'SEO and Analytics Baseline')}</span>
@@ -82,7 +82,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                         <SectionHeader
                             tag={t('web.sections.packages.tag', 'Development Packages')}
                             title={t('web.sections.packages.title', 'Choose Your Package')}
-                            subtitle={t('web.sections.packages.subtitle', 'Each package includes responsive delivery, indexing baseline, and a three-month support window.')}
+                            subtitle={t('web.sections.packages.subtitle', 'All packages include responsive design, SEO optimization, and 3 months of free support.')}
                         />
                     </ScrollReveal>
 
@@ -108,7 +108,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                         <SectionHeader
                             tag={t('web.sections.addons.tag', 'Marketing Add-Ons')}
                             title={t('web.sections.addons.title', 'Monthly Digital Marketing Packages')}
-                            subtitle={t('web.sections.addons.subtitle', 'Pair your website with a monthly marketing package for lead flow, traffic quality, and reporting cadence.')}
+                            subtitle={t('web.sections.addons.subtitle', 'Pair your website with a marketing package to generate leads, drive traffic, and dominate search results.')}
                         />
                     </ScrollReveal>
 
@@ -144,7 +144,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
 
             <RoiEstimator
                 title={t('web.roi.title', 'Web Growth ROI Estimator')}
-                subtitle={t('web.roi.subtitle', 'Estimate potential monthly revenue lift from stronger conversion architecture and campaign execution.')}
+                subtitle={t('web.roi.subtitle', 'Estimate potential monthly revenue lift from improved conversion architecture and campaign readiness.')}
             />
 
             <FaqAccordion
@@ -159,13 +159,13 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                     <ScrollReveal>
                         <div className="cta-inner">
                             <h2>{t('web.cta.title', 'Need a Custom Quote?')}</h2>
-                            <p>{t('web.cta.subtitle', 'Download the complete pricing guide for package scope, delivery milestones, and optional add-ons.')}</p>
+                            <p>{t('web.cta.subtitle', 'Download our full pricing guide for detailed breakdowns of every package, feature, and add-on.')}</p>
                             <div className="cta-actions">
                                 <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('web_page_cta_pricing')}>
                                     {t('actions.downloadFullPricingGuide', 'Download Full Pricing Guide')}
                                 </button>
                                 <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('web_page_cta_discovery')}>
-                                    {t('web.cta.secondary', 'Book Discovery Call')}
+                                    {t('web.cta.secondary', 'Talk To A Strategist')}
                                 </a>
                             </div>
                         </div>

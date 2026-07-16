@@ -73,8 +73,7 @@ const en = {
     viewPackages: 'View Scope',
   },
   footer: {
-    description:
-      'Automation engineering studio delivering custom operational systems alongside web, mobile, and SaaS product delivery.',
+    description: 'AI-first automation consultancy with equal focus on custom agentic workflows and full-scale web, mobile, and SaaS product engineering.',
     company: 'Company',
     connect: 'Connect',
     rights: '© 2026 NovaTech AI Systems. All rights reserved.',
@@ -84,7 +83,7 @@ const en = {
       workflowAudit: 'Workflow Audit',
       pricing: 'Pricing',
       strategyCall: 'Discovery Call',
-      automationBrief: 'Automation Scope Wizard',
+      automationBrief: 'Automation Brief Wizard',
       engineeringLayer: 'Product Engineering (Web, Mobile, SaaS)',
       searchableBrain: 'The Searchable Brain',
       methodology: 'Methodology',
@@ -106,7 +105,7 @@ const en = {
       workflowAudit: 'Hi NovaTech AI, I want to schedule a workflow audit and review required systems access.',
       pricing: 'Hi NovaTech AI, I need help selecting the right automation tier and monthly support model.',
       web: 'Hi NovaTech AI, we need a web interface layer for our internal AI workflows and dashboards.',
-      mobile: 'Hi NovaTech AI, we need a mobile interface for field operations and approvals.',
+      mobile: 'Hi NovaTech AI, we need a mobile interface for AI-powered field operations and approvals.',
       saas: 'Hi NovaTech AI, I want to discuss orchestration and deployment patterns for our SaaS operations.',
       additional: 'Hi NovaTech AI, I need scoped engineering support around integrations and automation reliability.',
       caseStudies: 'Hi NovaTech AI, I reviewed your outcomes and want to model similar automation ROI for our team.',
@@ -211,12 +210,12 @@ const en = {
       header: {
         tag: 'About Us',
         title: 'Empowering Your Brand with Comprehensive Digital Solutions',
-        subtitle: 'Practical engineering, measurable execution, and scalable SaaS delivery aligned to business outcomes.',
+        subtitle: 'Cutting-edge development, data-driven marketing, and scalable SaaS platforms built for measurable growth.',
       },
       cards: {
         who: {
           title: 'Who We Are',
-          text: 'We are a product and automation engineering team focused on web platforms, cross-platform mobile applications, and SaaS systems built for operational reliability.',
+          text: 'We are a premier technology and digital marketing agency specializing in high-performance web architecture, cross-platform mobile application development, and enterprise-grade software. We understand that your digital presence needs to do more than just establish instant credibility, it must function as a dynamic sales tool and a robust operational hub tailored to your business needs.',
         },
         what: {
           title: 'What We Do',
@@ -224,7 +223,7 @@ const en = {
         },
         market: {
           title: 'Built for the Local & Global Market',
-          text: 'We engineer software for the Ethiopian market and beyond, including multilingual support (English, Amharic, Afaan Oromoo) and direct integrations with Telebirr, Chapa, and CBE Birr.',
+          text: 'We proudly engineer software tailored for the Ethiopian market and beyond. Our custom architectures feature seamless multi-language support (English, Amharic, Afaan Oromoo) and direct API integrations with local payment gateways like Telebirr, Chapa, and CBE Birr. Paired with our targeted digital marketing strategies, focusing on everything from local reach to full market domination, we ensure your brand connects with the right audience and drives substantial ROI.',
         },
       },
     },
@@ -232,7 +231,7 @@ const en = {
       header: {
         tag: 'Our Services',
         title: 'Comprehensive Digital Solutions',
-        subtitle: 'A focused service stack for launch, growth, and operational scale.',
+        subtitle: 'Everything you need to establish, grow, and dominate your digital presence.',
       },
       cards: {
         web: {
@@ -276,7 +275,7 @@ const en = {
           role: 'Director, Bright Future Academy',
         },
         {
-          quote: 'Their mobile app with Telebirr integration changed how we run delivery operations. Clear process, reliable execution, and strong follow-through.',
+          quote: 'Their mobile app with Telebirr integration has been a game-changer for our delivery service. Professional team with exceptional follow-through.',
           name: 'Daniel Mekonnen',
           role: 'Founder, QuickDeliver ET',
         },
@@ -537,7 +536,7 @@ const en = {
   web: {
     hero: {
       title: 'Web Design & Development',
-      subtitle: 'Three package tiers matched to your current stage, from first launch to complex platform delivery.',
+      subtitle: 'Three tailored packages to match your business stage — from establishing your digital presence to dominating your market.',
       metaAria: 'Web delivery highlights',
       chip1: 'Conversion-Focused IA',
       chip2: 'SEO and Analytics Baseline',
@@ -545,8 +544,8 @@ const en = {
     },
     cta: {
       title: 'Need a Custom Quote?',
-      subtitle: 'Download the complete pricing guide for package scope, delivery milestones, and optional add-ons.',
-      secondary: 'Book Discovery Call',
+      subtitle: 'Download our full pricing guide for detailed breakdowns of every package, feature, and add-on.',
+      secondary: 'Talk To A Strategist',
     },
   },
   mobile: {
@@ -2657,7 +2656,7 @@ const omFinalOverrides = {
       workflowAudit: 'Akkam NovaTech AI, workflow audit qopheessuuf fi system access barbaachisu irratti marii barbaada.',
       pricing: 'Akkam NovaTech AI, automation tier sirrii fi monthly support model filachuuf gargaarsa barbaada.',
       web: 'Akkam NovaTech AI, workflows AI keenyaaf interfeesii web (dashboard) ijaaruu barbaanna.',
-      mobile: 'Akkam NovaTech AI, hojii fieldf interfeesii moobaayilaa barbaanna.',
+      mobile: 'Akkam NovaTech AI, hojii field AI-poweredf interfeesii moobaayilaa barbaanna.',
       saas: 'Akkam NovaTech AI, orchestration fi deployment pattern SaaS operations keenyaaf marii barbaada.',
       additional: 'Akkam NovaTech AI, integrations fi automation reliability irratti engineering support barbaada.',
       caseStudies: 'Akkam NovaTech AI, outcomes keessan ilaaleera; automation ROI walfakkaataa garee keenyaaf madaalu barbaada.',

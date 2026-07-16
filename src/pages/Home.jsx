@@ -43,17 +43,17 @@ const HERO_METRICS = [
 const SOLUTION_PREVIEWS = [
   {
     title: 'Agentic Operations',
-    text: 'Autonomous agents that run repetitive operational sequences without daily hand-holding.',
+    text: 'Autonomous, multi-step agents that execute repetitive operations without daily supervision.',
     icon: 'settings',
   },
   {
     title: 'Data Pipeline Engineering',
-    text: 'Controlled ingestion and retrieval pipelines for contracts, chats, notes, and internal documentation.',
+    text: 'Secure ingestion, normalization, and retrieval pipelines for contracts, chats, notes, and internal docs.',
     icon: 'chart',
   },
   {
     title: 'Legacy System Automation',
-    text: 'Browser and API automations that keep brittle portals and older systems moving reliably.',
+    text: 'Browser-native and API-native automations that work with brittle portals and outdated software stacks.',
     icon: 'refresh',
   },
 ];
@@ -63,21 +63,21 @@ const METHODOLOGY_STEPS = [
     step: '01',
     title: 'The Workflow Audit',
     description:
-      'We map current operations, handoffs, and recurring manual work to locate the highest-impact automation points.',
+      'We embed with your team to map daily operations, identifying manual copy-pasting, data bottlenecks, and slow human handoffs.',
     icon: 'search',
   },
   {
     step: '02',
     title: 'The Architecture',
     description:
-      'We define a practical implementation blueprint showing where agents, local models, and integrations fit into your stack.',
+      'We design a streamlined technical blueprint detailing exactly where custom agents, local models, and autonomous browser scripts will replace manual labor.',
     icon: 'idea',
   },
   {
     step: '03',
     title: 'Deployment & Integration',
     description:
-      'We ship into your live environment, connect existing tools, and keep the system stable as models and dependencies evolve.',
+      'We build, rigorously test, and deploy the system directly into your existing operational tools (Slack, CRM, internal databases), complete with ongoing maintenance to prevent silent degradation as models update.',
     icon: 'rocket',
   },
 ];
@@ -86,21 +86,21 @@ const PRODUCT_DELIVERY_TRACKS = [
   {
     title: 'Web Development',
     description:
-      'Conversion-focused websites, portals, and internal web systems delivered with clear operational goals.',
+      'Conversion-focused websites, portals, and internal web platforms delivered as standalone or AI-enabled builds.',
     icon: 'globe',
     to: '/web-development',
   },
   {
     title: 'Mobile App Development',
     description:
-      'Cross-platform iOS and Android applications for field teams, approvals, and customer operations.',
+      'Cross-platform iOS and Android applications for field teams, approvals, and customer workflows.',
     icon: 'mobile',
     to: '/mobile-development',
   },
   {
     title: 'SaaS Product Engineering',
     description:
-      'Multi-tenant SaaS platforms with billing, permissions, and analytics designed for long-term scale.',
+      'Scalable SaaS platforms with multi-tenant architecture, billing, and operational analytics built for growth.',
     icon: 'cloud',
     to: '/saas-solutions',
   },
@@ -170,29 +170,29 @@ export default function Home() {
             <ScrollReveal delay={0.1}>
               <div className="hero-badge ai-hero-badge">
                 <span className="hero-badge-dot"></span>
-                Automation Systems and Product Engineering
+                AI-First Automation Consultancy
               </div>
             </ScrollReveal>
 
-            <h1 id="home-hero-title">Run Critical Operations Without Manual Drag.</h1>
+            <h1 id="home-hero-title">Stop Doing Manual Work. Let Custom AI Agents Run Your Bottlenecks.</h1>
 
             <ScrollReveal delay={0.2}>
               <p>
-                We design and deploy custom automation systems, then ship the web, mobile, and SaaS products that make those systems usable across your organization.
+                We lead with AI automation because it creates the fastest operational advantage, while actively delivering web, mobile, and SaaS products that turn those systems into real business outcomes.
               </p>
               <div className="hero-actions">
                 <Link className="btn btn-primary btn-lg" to="/workflow-audit">
-                  Book Workflow Audit
+                  Book a Custom Workflow Audit
                 </Link>
                 <a className="btn btn-secondary btn-lg" href="#ai-solutions">
-                  Review Service Scope
+                  See What&apos;s Possible
                   <IconGlyph name="chevronDown" size={15} strokeWidth={2} />
                 </a>
               </div>
               <div className="hero-trust-row" aria-label="Delivery assurances">
-                <span className="trust-pill">Audit brief in 5 business days</span>
-                <span className="trust-pill">Local and global pricing</span>
-                <span className="trust-pill">Private deployment available</span>
+                <span className="trust-pill">Audit blueprint in 5 business days</span>
+                <span className="trust-pill">ETB and USD pricing</span>
+                <span className="trust-pill">Private deployment options</span>
               </div>
             </ScrollReveal>
 
@@ -212,7 +212,7 @@ export default function Home() {
 
           <ScrollReveal delay={0.18}>
             <aside className="hero-panel glass-card ai-hero-panel" aria-label="Core AI operational capabilities">
-              <div className="hero-panel-label">What We Build</div>
+              <div className="hero-panel-label">Execution Surface</div>
               <div className="hero-features ai-hero-features">
                 {SOLUTION_PREVIEWS.map((item) => (
                   <article key={item.title} className="hero-feature-card glass ai-signal-card">
@@ -234,8 +234,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="Agentic Replay"
-              title="Watch a Full Automation Sequence Run"
-              subtitle="A sample flow from intake to reporting, shown as an operational control surface."
+              title="Watch an End-to-End Agent Pipeline Execute"
+              subtitle="A sample autonomous sequence from data collection to reporting, visualized as an operational control surface."
               align="left"
             />
           </ScrollReveal>
@@ -253,8 +253,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="AI Solutions"
-              title="Systems Designed for Throughput"
-              subtitle="We engineer targeted automation layers that remove repetitive labor, delivered alongside full software product engineering."
+              title="Systems Built for Throughput, Not Busywork"
+              subtitle="We engineer targeted automation layers that remove repetitive labor, delivered as one of two core tracks alongside full software product engineering."
               align="left"
             />
           </ScrollReveal>
@@ -294,8 +294,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="Product Engineering"
-              title="Web, Mobile, and SaaS Delivery Runs in Parallel"
-              subtitle="After initial workflow planning, we execute automation systems and full software products together to ship measurable outcomes."
+              title="Web, Mobile, and SaaS Product Engineering Is an Equal Core Track"
+              subtitle="After the AI-led opening strategy, we execute automation systems and full software products in parallel to ship measurable outcomes."
               align="left"
             />
           </ScrollReveal>
@@ -324,8 +324,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="The Methodology"
-              title="How We Build and Ship"
-              subtitle="A clear three-step implementation model focused on reliability, accountability, and measurable operational gains."
+              title="How We Engineer Production-Grade AI Workflows"
+              subtitle="A transparent three-step implementation model designed for reliability, accountability, and measurable operational gains."
               align="left"
             />
           </ScrollReveal>
@@ -354,8 +354,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="ROI Modeling"
-              title="Estimate Recoverable Margin Before You Commit"
-              subtitle="Model your current operational drag and estimate projected savings from automation-first implementation."
+              title="Quantify Recoverable Margin Before You Commit"
+              subtitle="Dial in your current operational drag and estimate the projected savings from automation-first implementation."
               align="left"
             />
           </ScrollReveal>
@@ -374,7 +374,7 @@ export default function Home() {
             <SectionHeader
               tag="Contact"
               title="Start Your AI or Software Project"
-              subtitle="Share your current bottlenecks or product goals and we will reply with next steps within one business day."
+              subtitle="Share your workflow bottlenecks or product goals and we will reply with next steps within one business day."
               align="left"
             />
           </ScrollReveal>
@@ -500,16 +500,16 @@ export default function Home() {
       <section className="section section-sm ai-home-cta" id="workflow-audit-cta">
         <div className="container">
           <div className="ai-home-cta-inner glass-strong">
-            <h2>Ready to move from manual workflows to reliable systems?</h2>
+            <h2>Ready to automate operations or ship a new software product?</h2>
             <p>
-              We can map workflow bottlenecks, estimate recoverable hours, and scope production web, mobile, and SaaS delivery tied to business outcomes.
+              We can map workflow bottlenecks, quantify recoverable hours, and scope production web, mobile, and SaaS builds tied to ROI.
             </p>
             <div className="hero-actions">
               <Link className="btn btn-primary btn-lg" to="/workflow-audit">
-                Book Workflow Audit
+                Book a Custom Workflow Audit
               </Link>
               <Link className="btn btn-secondary btn-lg" to="/pricing">
-                Review Pricing
+                Review Pricing Structure
               </Link>
             </div>
           </div>

@@ -19,7 +19,7 @@ export default function Footer() {
                         <p>
                             {t(
                                 'footer.description',
-                                'Automation engineering studio delivering custom operational systems alongside web, mobile, and SaaS product delivery.',
+                                'AI-first automation consultancy delivering custom agentic workflows while actively building web platforms, mobile apps, and SaaS products for scaling teams.',
                             )}
                         </p>
                     </div>
@@ -31,7 +31,7 @@ export default function Footer() {
                             <li><Link to="/workflow-audit">{t('footer.links.workflowAudit', 'Workflow Audit')}</Link></li>
                             <li><Link to="/pricing">{t('footer.links.pricing', 'Pricing')}</Link></li>
                             <li><Link to="/book-discovery-call">{t('footer.links.strategyCall', 'Discovery Call')}</Link></li>
-                            <li><Link to="/instant-quote">{t('footer.links.automationBrief', 'Automation Scope Wizard')}</Link></li>
+                            <li><Link to="/instant-quote">{t('footer.links.automationBrief', 'Automation Brief Wizard')}</Link></li>
                         </ul>
                     </div>
 

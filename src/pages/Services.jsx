@@ -8,28 +8,28 @@ const CORE_SERVICES = [
   {
     title: 'Custom Agentic Systems & Orchestration',
     copy:
-      'Most off-the-shelf software asks your team to adapt to the tool. We build custom autonomous agents around your existing stack, including internal APIs, legacy systems, and multi-step operational flows.',
+      'Off-the-shelf software forces you to change how your business operates. We engineer custom, autonomous AI agents from scratch that adapt exactly to your existing tech stack. We handle the complex orchestration of multi-agent systems that can connect hidden APIs, manipulate legacy enterprise software, and execute complex multi-step operations without human intervention.',
     icon: 'settings',
     objectives: ['throughput', 'reliability', 'revenue'],
   },
   {
     title: '100% Private, Air-Gapped Enterprise Assistants',
     copy:
-      'For legal, financial, and healthcare teams, data sovereignty is non-negotiable. We deploy local AI gateways on your own infrastructure with strict access controls and no external telemetry.',
+      'For legal, financial, and healthcare sectors, data sovereignty is non-negotiable. We deploy local AI gateways (utilizing frameworks like OpenClaw and models like Hermes or Qwen) running entirely on your own internal hardware. Experience zero token costs, zero cloud telemetry, and complete peace of mind. Features strict role-based access control to protect proprietary strategies.',
     icon: 'shield',
     objectives: ['sovereignty', 'reliability'],
   },
   {
     title: 'Autonomous Browser & Web Agents',
     copy:
-      'When APIs are incomplete, we build browser agents that authenticate, navigate multi-step portals, submit forms, and pull structured data directly into your systems.',
+      'Bypass the need for clean, official APIs. We build intelligent web navigators utilizing cutting-edge frameworks like Stagehand and Browserbase that mimic human interaction. These agents can login to complex vendor portals, navigate multi-page forms, solve CAPTCHAs, and run unstoppable scraping engines to extract real-time competitor pricing directly to your database.',
     icon: 'globe',
     objectives: ['throughput', 'revenue'],
   },
   {
     title: 'Sales Velocity & Omni-Channel Support',
     copy:
-      'We automate proposal assembly and support triage so your team responds faster, routes priority conversations correctly, and keeps customer communication consistent across channels.',
+      'Accelerate revenue with RFP engines that automatically pull client data and calculate complex pricing for instant, branded proposals. Deploy omni-channel support triage systems that read incoming floods of tickets, categorize by intent, automatically resolve basic queries, and route VIP clients to priority Slack channels.',
     icon: 'lightning',
     objectives: ['revenue', 'throughput', 'reliability'],
   },
@@ -39,7 +39,7 @@ const AUTOMATION_USE_CASES = [
   {
     title: 'AI Invoice Processing',
     summary:
-      'Turn supplier invoices, receipts, and PDF attachments into a verified finance workflow that extracts line items, validates totals, matches purchase orders, flags anomalies, and posts clean records.',
+      'Turn supplier invoices, receipts, and PDF attachments into a verified finance workflow that extracts line items, checks tax totals, matches purchase orders, flags anomalies, and posts clean records into accounting or ERP systems.',
     icon: 'card',
     outcome: 'Manual invoice entry reduced across finance teams.',
     workflow: ['Read PDF/email', 'Extract fields', 'Match PO', 'Post record'],
@@ -47,7 +47,7 @@ const AUTOMATION_USE_CASES = [
   {
     title: 'Engineering Knowledge Assistant',
     summary:
-      'Deploy an internal assistant that answers architecture, services, data flow, API, and runbook questions with citations from approved repositories and documentation.',
+      'Deploy an internal software-system assistant that answers questions about architecture, services, data flows, APIs, runbooks, incidents, and code ownership with citations from approved repositories and documentation.',
     icon: 'book',
     outcome: 'Engineers get internal-system answers without waiting on tribal knowledge.',
     workflow: ['Index code/docs', 'Apply access rules', 'Answer with citations', 'Refresh on change'],
@@ -96,7 +96,7 @@ const SERVICE_OBJECTIVES = [
 const SUPPORTING_SERVICE = {
   title: 'Web, Mobile & SaaS Product Engineering',
   copy:
-    'This is a co-equal service line. We design and build standalone products and AI-enabled interfaces, from enterprise web platforms to mobile applications and multi-tenant SaaS systems.',
+    'This is a co-equal service line. We design and build standalone products and AI-enabled product surfaces, from enterprise web platforms to mobile applications and multi-tenant SaaS systems.',
   icon: 'mobile',
 };
 
@@ -156,15 +156,15 @@ export default function Services() {
     <>
       <section className="page-hero ai-services-hero" aria-labelledby="services-hero-title">
         <div className="container page-hero-content ai-services-hero-content">
-          <h1 id="services-hero-title">AI Systems Built for Real Operational Work</h1>
+          <h1 id="services-hero-title">AI Solutions Engineered for Operational Throughput</h1>
           <p>
-            We start with workflow automation to remove operational drag, then execute AI systems and product engineering in parallel based on your roadmap.
+            We lead with AI automation to remove operational drag, then scope AI systems and full software engineering with equal delivery priority based on your roadmap.
           </p>
           <div className="page-hero-meta" aria-label="Service delivery priorities">
-            <span className="page-hero-chip">Automation-first delivery</span>
-            <span className="page-hero-chip">Private deployment paths</span>
-            <span className="page-hero-chip">Web, mobile, SaaS track</span>
-            <span className="page-hero-chip">Outcome-led implementation</span>
+            <span className="page-hero-chip">Agent orchestration first</span>
+            <span className="page-hero-chip">Private deployment options</span>
+            <span className="page-hero-chip">Web/Mobile/SaaS co-equal track</span>
+            <span className="page-hero-chip">ROI-backed implementation</span>
           </div>
         </div>
       </section>
@@ -175,7 +175,7 @@ export default function Services() {
             <SectionHeader
               tag="Core Offerings"
               title={<span id="ai-service-catalog-title">AI Automation Track</span>}
-              subtitle="This automation track removes labor-heavy bottlenecks and runs in parallel with product engineering delivery."
+              subtitle="This automation track removes labor-heavy bottlenecks and runs in parallel with our product engineering track."
               align="left"
             />
           </ScrollReveal>
@@ -240,9 +240,9 @@ export default function Services() {
             <div className="automation-use-case-panel glass-strong" aria-labelledby="automation-use-cases-title">
               <div className="automation-use-case-head">
                 <p className="automation-use-case-kicker">High-Impact Automations</p>
-                <h3 id="automation-use-cases-title">Proven workflow patterns for finance, engineering, and sales operations.</h3>
+                <h3 id="automation-use-cases-title">Ready-made AI workflows for finance, engineering, and sales operations.</h3>
                 <p>
-                  These modules can run as standalone automations or connect into a broader operational system.
+                  These modules can run as standalone automations or connect into a larger agentic operating system for the business.
                 </p>
               </div>
 
@@ -273,9 +273,9 @@ export default function Services() {
           <ScrollReveal>
             <div className="searchable-brain-copy">
               <p className="searchable-brain-kicker">The Searchable Brain</p>
-              <h2 id="searchable-brain-title">Turn Operational Sprawl Into Searchable Knowledge.</h2>
+              <h2 id="searchable-brain-title">Turn Your Business&apos;s Chaos into a Searchable Brain.</h2>
               <p>
-                Most teams operate with fragmented data across PDFs, email threads, chat history, audio notes, and spreadsheets. We build controlled pipelines that structure this information so teams can ask operational questions and receive verifiable answers with citations.
+                Most businesses operate on a chaotic mix of unstructured data: PDF contracts, scattered emails, Telegram chat histories, audio notes, and messy spreadsheets. We engineer secure data pipelines that ingest this unstructured mess, categorize it, and structure it into clean vector databases so your team can ask operational questions and receive verifiable answers with exact citations.
               </p>
               <div className="ai-data-layer-list" role="list" aria-label="Searchable brain implementation steps">
                 {DATA_INTELLIGENCE_STEPS.map((item) => (
@@ -298,7 +298,7 @@ export default function Services() {
                 Which service creates invoices, how does it validate sales orders, and what changed in the fulfillment flow last sprint?
               </p>
               <p className="searchable-brain-proof-result">
-                The response cites repository files, architecture notes, API contracts, and runbooks so teams can trust every answer.
+                Response cites the relevant repository files, architecture notes, API contracts, and deployment runbooks so teams can trust the answer.
               </p>
             </aside>
           </ScrollReveal>
@@ -337,7 +337,7 @@ export default function Services() {
                   View Pricing
                 </Link>
                 <Link to="/workflow-audit" className="btn btn-secondary">
-                  Start Workflow Audit
+                  Scope Your Workflow Audit
                 </Link>
               </div>
             </div>
