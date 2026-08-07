@@ -68,7 +68,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                     <h1 className="gradient-text">
                         <StaggeredText text={t('saas.hero.title', 'SaaS Cloud Solutions')} delay={0.1} />
                     </h1>
-                    <p>{t('saas.hero.subtitle', 'Rent-to-use cloud management systems — zero IT overhead, instant deployment, and full support. Pay monthly and scale at your pace.')}</p>
+                    <p>{t('saas.hero.subtitle', 'Rent-to-use cloud management systems — zero IT overhead, fast deployment, and full support. Pay monthly and scale at your pace.')}</p>
                     <div className="page-hero-meta" aria-label={t('saas.hero.metaAria', 'SaaS delivery highlights')}>
                         <span className="page-hero-chip">{t('saas.hero.chip1', 'Rapid Team Onboarding')}</span>
                         <span className="page-hero-chip">{t('saas.hero.chip2', 'Managed Backups and Security')}</span>
@@ -80,7 +80,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
             <RouteProofStrip
                 items={[
                     {
-                        title: t('saas.proof.0.title', 'Fast Deployment Path'),
+                        title: t('saas.proof.0.title', 'A short path to go-live'),
                         text: t('saas.proof.0.text', 'Most organizations complete setup and staff orientation in a short onboarding cycle.'),
                     },
                     {
@@ -88,7 +88,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
                         text: t('saas.proof.1.text', 'Dashboards and reporting modules are configured around your daily workflows.'),
                     },
                     {
-                        title: t('saas.proof.2.title', 'Continuous Improvements'),
+                        title: t('saas.proof.2.title', 'Security and platform updates, handled'),
                         text: t('saas.proof.2.text', 'Security updates and platform enhancements are rolled out without heavy IT overhead.'),
                     },
                 ]}

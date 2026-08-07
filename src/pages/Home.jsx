@@ -49,7 +49,7 @@ const METHODOLOGY_STEPS = [
     step: '02',
     title: 'The Architecture',
     description:
-      'We design a streamlined technical blueprint detailing exactly where custom agents, local models, and autonomous browser scripts will replace manual labor.',
+      'We design a technical blueprint that shows exactly where custom agents, local models, and autonomous browser scripts replace manual labor.',
     icon: 'idea',
   },
   {
@@ -200,7 +200,7 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="AI Solutions"
-              title="Systems Built for Throughput, Not Busywork"
+              title="Automation built for the work your team does every day"
               subtitle="We engineer targeted automation layers that remove repetitive labor, delivered as one of two core tracks alongside full software product engineering."
               align="left"
             />
@@ -241,7 +241,7 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="Product Engineering"
-              title="Web, Mobile, and SaaS Product Engineering Is an Equal Core Track"
+              title="The same delivery standard applies to web, mobile, and SaaS builds"
               subtitle="After the AI-led opening strategy, we execute automation systems and full software products in parallel to ship measurable outcomes."
               align="left"
             />
@@ -270,8 +270,7 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="The Methodology"
-              title="How We Engineer Production-Grade AI Workflows"
+              title="What happens after the audit?"
               subtitle="A transparent three-step implementation model designed for reliability, accountability, and measurable operational gains."
               align="left"
             />
@@ -302,8 +301,7 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Contact"
-              title="Start Your AI or Software Project"
+              title="Tell us where the manual work lives."
               subtitle="Share your workflow bottlenecks or product goals and we will reply with next steps within one business day."
               align="left"
             />
@@ -322,7 +320,7 @@ export default function Home() {
                       name="name"
                       value={contactForm.name}
                       onChange={handleContactChange}
-                      placeholder="Hana Bekele"
+                      placeholder="Sara Tesfaye"
                       required
                     />
                   </div>
@@ -335,7 +333,7 @@ export default function Home() {
                       name="email"
                       value={contactForm.email}
                       onChange={handleContactChange}
-                      placeholder="team@company.et"
+                      placeholder="sara.tesfaye@example.com"
                       required
                     />
                   </div>

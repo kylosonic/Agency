@@ -15,14 +15,14 @@ const CORE_SERVICES = [
   {
     title: '100% Private, Air-Gapped Enterprise Assistants',
     copy:
-      'For legal, financial, and healthcare sectors, data sovereignty is non-negotiable. We deploy local AI gateways (utilizing frameworks like OpenClaw and models like Hermes or Qwen) running entirely on your own internal hardware. Experience zero token costs, zero cloud telemetry, and complete peace of mind. Features strict role-based access control to protect proprietary strategies.',
+      'For legal, financial, and healthcare sectors, data sovereignty is non-negotiable. We deploy local AI gateways (utilizing frameworks like OpenClaw and models like Hermes or Qwen) running entirely on your own internal hardware. You get zero token costs and zero cloud telemetry leaving your network. Features strict role-based access control to protect proprietary strategies.',
     icon: 'shield',
     objectives: ['sovereignty', 'reliability'],
   },
   {
     title: 'Autonomous Browser & Web Agents',
     copy:
-      'Bypass the need for clean, official APIs. We build intelligent web navigators utilizing cutting-edge frameworks like Stagehand and Browserbase that mimic human interaction. These agents can login to complex vendor portals, navigate multi-page forms, solve CAPTCHAs, and run unstoppable scraping engines to extract real-time competitor pricing directly to your database.',
+      'Bypass the need for clean, official APIs. We build web navigators on frameworks like Stagehand and Browserbase that work a page the way a person would. These agents log into vendor portals, move through multi-page forms, and run scheduled scraping jobs that pull live competitor pricing into your database.',
     icon: 'globe',
     objectives: ['throughput', 'revenue'],
   },

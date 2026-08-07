@@ -2667,7 +2667,7 @@ h2 {
   gap: 0.44rem;
 }
 
-/* ── Pilot offer (B10) — elevated card, accent top rule, divide-y list ── */
+/* ── Pilot offer (B10) — emphasized card, accent top rule, divide-y list ── */
 .pilot-offer-card {
   border-radius: var(--radius-2xl);
   border-top: 2px solid var(--accent);
@@ -4122,7 +4122,7 @@ h2 {
   grid-column: span 3;
 }
 
-/* Middle tier (Operational Intelligence) elevated — emphasis earns elevation */
+/* Middle tier (Operational Intelligence) raised — emphasis earns prominence */
 .ai-pricing-tier-grid > :nth-child(2) .ai-pricing-tier-card {
   border-color: var(--border-strong);
   box-shadow: var(--shadow-md);

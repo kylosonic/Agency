@@ -31,7 +31,7 @@ export default function PolicyPage({ onDownloadClick }) {
                         text: t('policy.proof.0.text', 'Every engagement is structured around visible milestones and clear deliverables.'),
                     },
                     {
-                        title: t('policy.proof.1.title', 'No Surprises In Billing'),
+                        title: t('policy.proof.1.title', 'Billing with no surprises'),
                         text: t('policy.proof.1.text', 'Payment checkpoints and service boundaries are communicated before kickoff begins.'),
                     },
                     {
@@ -220,7 +220,7 @@ export default function PolicyPage({ onDownloadClick }) {
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">
-                            <h2>{t('policy.cta.title', 'Need Clarification Before You Start?')}</h2>
+                            <h2>{t('policy.cta.title', 'Clarify the terms before you start')}</h2>
                             <p>{t('policy.cta.subtitle', 'Review the full service guide or book a discovery call and we will walk through the policy details with your team.')}</p>
                             <div className="cta-actions">
                                 <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('policy_page_cta_pricing')}>

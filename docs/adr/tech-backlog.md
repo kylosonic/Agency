@@ -15,17 +15,10 @@
 > NB-05, NB-06 marked [IMPLEMENTED] in the behavior ledger.
 > Follow-up logged: `PricingScenarioPlanner.jsx` still hardcodes AI anchors (currently match locked table) — derive from `pricingData` in a later cleanup ticket.
 
-## Phase 3 — Design Redesign (P1)
+## ✅ DONE — Phase 3 — Design Redesign (P1)
 
-### TECH-06 — Design system overhaul (mandatory skill: `design-taste-frontend`)
-- **Maps to:** NB-08 (B20–B22)
-- **Scope (per skill rules):**
-  - Replace dark-navy/blue/teal token palette with neutral base + ONE desaturated accent; no AI blue/purple
-  - Remove glassmorphism as default surface (kill `glass-card` overuse; keep elevation only where hierarchy requires)
-  - Break equal 3-column card grids (asymmetric grids / zig-zag / varied spans)
-  - Restyle gradient CTA buttons to solid desaturated with inner-border states
-  - Keep Space Grotesk / Manrope / JetBrains Mono; `min-h-[100dvh]` over `h-screen`; transform/opacity-only animation
-- **Acceptance:** The site no longer reads as a dark-glass AI template; skill rules hold on all pages, all breakpoints.
+> TECH-06 resolved in commit `a2d7d1a` (QA APPROVED, 67/67 E2E with byte-identical spec, lint + build clean, 31 screenshots).
+> NB-08 marked [IMPLEMENTED] in the behavior ledger.
 
 ## Phase 4 — Copy Humanization (P1)
 

@@ -135,11 +135,11 @@ const en = {
     privacy: 'We respect your privacy. No spam, ever.',
     form: {
       fullName: 'Full Name',
-      fullNamePlaceholder: 'Hana Bekele',
+      fullNamePlaceholder: 'Sara Tesfaye',
       email: 'Email Address',
-      emailPlaceholder: 'team@company.et',
+      emailPlaceholder: 'sara.tesfaye@example.com',
       company: 'Company (optional)',
-      companyPlaceholder: 'Aster Ventures',
+      companyPlaceholder: 'Mesob Trading PLC',
       submitting: 'Submitting...',
     },
     pricing_guide: {
@@ -318,7 +318,7 @@ const en = {
   web: {
     hero: {
       title: 'Web Design & Development',
-      subtitle: 'Three tailored packages to match your business stage — from establishing your digital presence to dominating your market.',
+      subtitle: 'Three tailored packages to match your business stage — from establishing your digital presence to a platform your operation depends on.',
       metaAria: 'Web delivery highlights',
       chip1: 'Conversion-Focused IA',
       chip2: 'SEO and Analytics Baseline',
@@ -352,7 +352,7 @@ const en = {
   saas: {
     hero: {
       title: 'SaaS Cloud Solutions',
-      subtitle: 'Rent-to-use cloud management systems — zero IT overhead, instant deployment, and full support. Pay monthly and scale at your pace.',
+      subtitle: 'Rent-to-use cloud management systems — zero IT overhead, fast deployment, and full support. Pay monthly and scale at your pace.',
       metaAria: 'SaaS delivery highlights',
       chip1: 'Rapid Team Onboarding',
       chip2: 'Managed Backups and Security',
@@ -632,11 +632,11 @@ const amContentOverrides = {
     privacy: 'ግላዊነትዎን እናከብራለን። ስፓም አንልክም።',
     form: {
       fullName: 'ሙሉ ስም',
-      fullNamePlaceholder: 'ሀና በቀለ',
+      fullNamePlaceholder: 'ሳራ ተስፋዬ (ለምሳሌ)',
       email: 'የኢሜይል አድራሻ',
-      emailPlaceholder: 'team@company.et',
+      emailPlaceholder: 'sara.tesfaye@example.com (ለምሳሌ)',
       company: 'ኩባንያ (አማራጭ)',
-      companyPlaceholder: 'Aster Ventures',
+      companyPlaceholder: 'ሜሶብ ንግድ PLC (አማራጭ)',
       submitting: 'በመላክ ላይ...',
     },
     pricing_guide: {
@@ -833,14 +833,14 @@ const amContentOverrides = {
   },
   web: {
     hero: {
-      subtitle: 'ከዲጂታል መገኘት እስከ ገበያ መሪነት ድረስ የሚስማሙ 3 ፓኬጆች።',
+      subtitle: 'ከዲጂታል መገኘት እስከ ኦፕሬሽንዎ የሚተማመንበት መድረክ ድረስ የሚስማሙ 3 ፓኬጆች።',
       metaAria: 'የዌብ ማቅረቢያ አበረክቶች',
       chip1: 'ቅየራ-ተኮር IA',
       chip2: 'የSEO እና አናሊቲክስ መሠረት',
       chip3: 'ሳምንታዊ የስፕሪንት ግምገማዎች',
     },
     proof: {
-      0: { title: 'በ48 ሰዓት ውስጥ ጅምር', text: 'ክልል ከተፀደቀ በኋላ በ2 የስራ ቀን ውስጥ ዲስከቨሪ እና ዋይርፍሬም እንጀምራለን።' },
+      0: { title: 'በ2 የስራ ቀን ውስጥ ጅምር', text: 'ክልል ከተፀደቀ በኋላ በ2 የስራ ቀን ውስጥ ዲስከቨሪ እና ዋይርፍሬም እንጀምራለን።' },
       1: { title: 'ግልጽ የግንባታ ደረጃዎች', text: 'በሳምንት በግልጽ የሂደት እይታ ላይ ግምገማ ያደርጋሉ።' },
       2: { title: 'የመለቀቅ ዝግጁነት ተካቷል', text: 'እያንዳንዱ ፓኬጅ የፍጥነት ሙከራ፣ ኢንዴክሲንግ እና ሀንድኦቨር መመሪያን ያካትታል።' },
     },
@@ -868,9 +868,9 @@ const amContentOverrides = {
       chip3: 'Telebirr እና Chapa ውህደት',
     },
     proof: {
-      0: { title: 'የተጠቃሚ ፍሰት ቀድሞ', text: 'ኮድ ከመፃፍ በፊት ዋና የተጠቃሚ ጉዞዎችን እናጣጣማለን።' },
+      0: { title: 'ፍሰቱ ቀድሞ ይመጣል', text: 'ኮድ ከመፃፍ በፊት ዋና የተጠቃሚ ጉዞዎችን እናጣጣማለን።' },
       1: { title: 'በእውነተኛ መሳሪያ ሙከራ', text: 'እያንዳንዱ ስፕሪንት በAndroid/iOS መሳሪያዎች ላይ QA ያካትታል።' },
-      2: { title: 'መለቀቅ እና ማሻሻል', text: 'ከመለቀቅ በፊት የአናሊቲክስ እና የbacklog ቅድሚያዎች ይዘጋጃሉ።' },
+      2: { title: 'መለቀቅ፣ ከዚያም ማሻሻል', text: 'ከመለቀቅ በፊት የአናሊቲክስ እና የbacklog ቅድሚያዎች ይዘጋጃሉ።' },
     },
     sections: {
       packages: {
@@ -886,16 +886,16 @@ const amContentOverrides = {
   },
   saas: {
     hero: {
-      subtitle: 'ኪራይ ላይ የሚሰጡ የክላውድ አስተዳደር ስርዓቶች፣ የIT ጫና የለም።',
+      subtitle: 'ኪራይ ላይ የሚሰጡ የክላውድ አስተዳደር ስርዓቶች — የIT ጫና ሳይኖር፣ ፈጣን ማስጀመር እና ሙሉ ድጋፍ። በወር ይክፈሉ፣ በራስ ፍጥነት ያስፉ።',
       metaAria: 'የSaaS ማቅረቢያ አበረክቶች',
       chip1: 'ፈጣን የቡድን ማስጀመር',
       chip2: 'የሚተዳደር መጠባበቂያ እና ደህንነት',
       chip3: 'ዓመታዊ እቅድ ቅናሽ',
     },
     proof: {
-      0: { title: 'ፈጣን የመለቀቅ መንገድ', text: 'አብዛኛዎቹ ድርጅቶች በአጭር ጊዜ ማስጀመር ይጨርሳሉ።' },
+      0: { title: 'ወደ ጅምር አጭር መንገድ', text: 'አብዛኛዎቹ ድርጅቶች በአጭር ጊዜ ማስጀመር ይጨርሳሉ።' },
       1: { title: 'የኦፕሬሽን ግልጽነት', text: 'ዳሽቦርዶች እና ሪፖርቶች በየቀኑ ሂደትዎ መሰረት ይዋቀራሉ።' },
-      2: { title: 'ቀጣይ ማሻሻያዎች', text: 'የደህንነት እና የፕላትፎርም ማሻሻያዎች ቀጣይ ይደርሳሉ።' },
+      2: { title: 'የደህንነት እና የመድረክ ማሻሻያዎች፣ ይጠበቃሉ', text: 'የደህንነት እና የፕላትፎርም ማሻሻያዎች ቀጣይ ይደርሳሉ።' },
     },
     sections: {
       catalog: {
@@ -923,14 +923,14 @@ const amContentOverrides = {
   additional: {
     proof: {
       0: { title: 'ተግባራዊ የአገልግሎት ጥቅሎች', text: 'ሆስቲንግ፣ ዲዛይን እና ጥገና አገልግሎቶችን ያቀናብሩ።' },
-      1: { title: 'ተገምታ የሚታወቅ እድሳት', text: 'የተደጋጋሚ አገልግሎቶች በግልጽ ይለያሉ።' },
+      1: { title: 'ሊገመቱ የሚችሉ እድሳቶች', text: 'የተደጋጋሚ አገልግሎቶች በግልጽ ይለያሉ።' },
       2: { title: 'ስኬላብል የድጋፍ አማራጮች', text: 'በመሠረታዊ አገልግሎቶች ይጀምሩ እና እንደ እድገትዎ ያስፋፉ።' },
     },
     sections: {
       catalog: {
         tag: 'የአገልግሎት ካታሎግ',
         title: 'አንድ-ጊዜ እና ተደጋጋሚ አገልግሎቶች',
-        subtitle: 'ለማስጀመር፣ ለማቆየት እና ለማሳደግ የሚያስፈልጉ ሁሉ።',
+        subtitle: 'ዲጂታል ምርቶችዎን ለማስጀመር፣ እንዲሰሩ ለማድረግ እና ለማሳደግ የሚያስፈልግዎ ሁሉ።',
       },
       featured: {
         tag: 'ልዩ ምርጫዎች',
@@ -956,7 +956,7 @@ const amContentOverrides = {
   policy: {
     proof: {
       0: { title: 'ከመስማማት በፊት ግልጽነት', text: 'እያንዳንዱ ስምምነት በግልጽ ደረጃ እና ተረካቢ ውጤት ይመራል።' },
-      1: { title: 'በክፍያ ላይ አስገራሚ ነገር የለም', text: 'የክፍያ ደረጃዎች እና ክልሎች ከመጀመር በፊት ይገለጻሉ።' },
+      1: { title: 'ክፍያ ያለ አስገራሚ ነገር', text: 'የክፍያ ደረጃዎች እና ክልሎች ከመጀመር በፊት ይገለጻሉ።' },
       2: { title: 'ረዥም ጊዜ የኦፕሬሽን ድጋፍ', text: 'ቀጣይ ድጋፍ፣ አዘምን እና ሪፖርት መመሪያዎች ቀድሞ ይዘጋጃሉ።' },
     },
     cta: {
@@ -1012,7 +1012,7 @@ const amContentOverrides = {
     web: [
       {
         question: 'ከመለቀቅ በኋላ የሶስ ኮድ እና የዲዛይን ፋይሎች ባለቤት እሆናለሁ?',
-        answer: 'አዎ። የመጨረሻ የደረጃ ክፍያ ከተጠናቀቀ በኋላ ባለቤትነት ሙሉ በሙሉ ወደ ቡድንዎ ይተላለፋል።',
+        answer: 'የመጨረሻ የደረጃ ክፍያ ሲጠናቀቅ፣ የሶርስ ኮድ እና የዲዛይን ፋይሎች ባለቤትነት ሙሉ በሙሉ ወደ ቡድንዎ ይተላለፋል።',
       },
       {
         question: 'መደበኛ የዌብ ፕሮጀክት ስንት ጊዜ ይወስዳል?',
@@ -1020,21 +1020,21 @@ const amContentOverrides = {
       },
       {
         question: 'ከመለቀቅ በኋላ ድጋፍ መቀጠል እንችላለን?',
-        answer: 'አዎ። ከSLA የተደገፈ የዓመታዊ ጥገና እና እድገት ፓኬጆች አሉ።',
+        answer: 'ከመለቀቅ በኋላ፣ በSLA የተደገፉ ዓመታዊ የጥገና እና የእድገት ፓኬጆች ስርዓቱን የተረጋጋ ያደርጉታል — ለቀጣዩ ግንባታም አብረዎት እንቀራለን።',
       },
     ],
     mobile: [
       {
         question: 'ለAndroid እና iOS ሁለቱም ታገነባላችሁ?',
-        answer: 'አዎ። የcross-platform ፍሬምወርክ እና አስፈላጊ ሲሆን native bridge እንጠቀማለን።',
+        answer: 'ሁለቱም መድረኮች የሚለቀቁት ከአንድ ኮድቤዝ ነው፣ የcross-platform ፍሬምወርኮችን በመጠቀም፣ native bridge ደግሞ ለአፈፃፀም-ወሳኝ ሞዱሎች ብቻ ተይዞ ይቀራል።',
       },
       {
         question: 'የstore submission እና ኮምፕላየንስ ትያዙታላችሁ?',
-        answer: 'አዎ። ሁለቱም ሱቆች ላይ የማስገባት ሰነዶችን እና የመለቀቅ ቼክሊስት እናዘጋጃለን።',
+        answer: 'የስቶር ማስገባት የግንባታው አካል ነው — ለሁለቱም ሱቆች የማስገቢያ ሰነዶችን፣ የፖሊሲ ተገዢነት ማረጋገጫዎችን እና የመለቀቅ ቼክሊስቶችን እናዘጋጃለን።',
       },
       {
         question: 'የአካባቢ ክፍያ ጌትዌዎች ሊዋሃዱ ይችላሉ?',
-        answer: 'አዎ። እንደ ንግድ ሞዴል በTelebirr፣ Chapa እና ካርድ ጌትዌዎች ማዋሃድ እንችላለን።',
+        answer: 'Telebirr፣ Chapa እና የካርድ ጌትዌዎች ሊዋሃዱ ይችላሉ፤ ትክክለኛው ምርጫ በንግድ ሞዴልዎ እና ደንበኞችዎ በሚከፍሉበት ቦታ ላይ የተመሰረተ ነው።',
       },
     ],
     saas: [
@@ -1044,7 +1044,7 @@ const amContentOverrides = {
       },
       {
         question: 'ዓመታዊ ክፍያ ላይ ጥቅም አለ?',
-        answer: 'አዎ። ዓመታዊ ስብስክሪፕሽኖች ቅናሽ አላቸው እና የማሻሻያ ቼክፖይንቶችን ያካትታሉ።',
+        answer: 'ዓመታዊ ስብስክሪፕሽኖች ቅናሽ አላቸው እና የታቀዱ የማሻሻያ ቼክፖይንቶችን ያካትታሉ።',
       },
       {
         question: 'የዳታ መጠባበቂያ እንዴት ይደረጋል?',
@@ -1054,7 +1054,7 @@ const amContentOverrides = {
     additional: [
       {
         question: 'ተጨማሪ አገልግሎቶች ብቻቸውን ሊገዙ ይችላሉ?',
-        answer: 'አዎ። እያንዳንዱ ተጨማሪ አገልግሎት ብቻውን ወይም ከልማት ፓኬጅ ጋር ሊወሰን ይችላል።',
+        answer: 'እያንዳንዱ ተጨማሪ አገልግሎት ብቻውን ወይም ከልማት ፓኬጅዎ ጋር ተቀናጅቶ ሊሰላ ይችላል።',
       },
       {
         question: 'ለአንድ-ጊዜ አገልግሎት ተደጋጋሚ ግዴታ አለ?',
@@ -1062,7 +1062,7 @@ const amContentOverrides = {
       },
       {
         question: 'ብጁ የአገልግሎት ጥቅሎች ትሰጣላችሁ?',
-        answer: 'አዎ። እንደ የማስጀመሪያ ጊዜ እና የእድገት ቅድሚያዎች ተመጣጣኝ ጥቅል ማሰናጃ እንችላለን።',
+        answer: 'ጥቅሎች የሚዘጋጁት በማስጀመሪያ ጊዜዎ እና በእድገት ቅድሚያዎችዎ ዙሪያ ነው፣ ስለዚህ ዋጋው በትክክል ከሚፈልጉት ክልል ጋር ይሄዳል።',
       },
     ],
   },
@@ -1103,11 +1103,11 @@ const omContentOverrides = {
     privacy: 'Iccitii kee ni kabajna. Spam hin ergnu.',
     form: {
       fullName: 'Maqaa guutuu',
-      fullNamePlaceholder: 'Hana Bekele',
+      fullNamePlaceholder: 'Sara Tesfaye (fakkeenya)',
       email: 'Imeelii',
-      emailPlaceholder: 'team@company.et',
+      emailPlaceholder: 'sara.tesfaye@example.com (fakkeenya)',
       company: 'Dhaabbata (filannoo)',
-      companyPlaceholder: 'Aster Ventures',
+      companyPlaceholder: 'Mesob Trading PLC (filannoo)',
       submitting: 'Ergaa jira...',
     },
     pricing_guide: {
@@ -1318,14 +1318,14 @@ const omContentOverrides = {
   },
   web: {
     hero: {
-      subtitle: 'Pakeejjii 3 sadarkaa daldalaa keessaniif mijatan.',
+      subtitle: "Pakeejjii 3 sadarkaa daldalaa keessaniif mijatan — waldhoowwannaa dijitaalaa ijaaruu irraa hanga platfoormii hojii keessan itti hirkatuutti.",
       metaAria: 'Ibsa geessii web',
       chip1: 'IA conversion irratti xiyyeeffate',
       chip2: 'Bu uura SEO fi Analytics',
       chip3: 'Review sprint torbee torbeen',
     },
     proof: {
-      0: { title: 'Kickoff sa aa 48 keessatti', text: 'Scope erga mirkanaa ee booda guyyoota hojii lama keessatti discovery fi wireframe jalqabna.' },
+      0: { title: 'Kickoff guyyoota hojii lama keessatti', text: 'Scope erga mirkanaa ee booda guyyoota hojii lama keessatti discovery fi wireframe jalqabna.' },
       1: { title: 'Milestone ijaarsa ifaa', text: 'Torbee torbeedhaan progress ifaa ilaaltanii gara sprint itti aanu ceena.' },
       2: { title: 'Qophiin launch dabalameera', text: 'Pakeejji hundi check performance, setup indexing fi qajeelfama handover qaba.' },
     },
@@ -1354,9 +1354,9 @@ const omContentOverrides = {
       chip3: 'Walitti hidhamiinsa Telebirr fi Chapa',
     },
     proof: {
-      0: { title: 'Flow fayyadamaa dura', text: 'Kodee dura user journey ijoo irratti walii galla.' },
+      0: { title: 'Floon dura dhufa', text: 'Kodee dura user journey ijoo irratti walii galla.' },
       1: { title: 'Qormaata meeshaa dhugaa irratti', text: 'Sprint hundi QA practical Android fi iOS irratti ni qabaata.' },
-      2: { title: 'Launch fi fooyya ii', text: 'Analytics fi backlog dursa launch dura ni qophaa a.' },
+      2: { title: 'Launch, itti aansii fooyyeessi', text: 'Analytics fi backlog dursa launch dura ni qophaa a.' },
     },
     sections: {
       packages: {
@@ -1376,7 +1376,7 @@ const omContentOverrides = {
   },
   saas: {
     hero: {
-      subtitle: 'Sirna bulchiinsaa cloud kiraan kennamu; IT overhead hin qabu, saffisaan ni diriirfama.',
+      subtitle: "Sirna bulchiinsaa cloud kiraan kennamu — IT overhead malee, diriirfama saffisaa fi deeggarsa guutuu waliin. Ji'aan kaffalaa, saffisa keessaniin guddadhaa.",
       metaAria: 'Ibsa geessii SaaS',
       chip1: 'Onboarding garee saffisaa',
       chip2: 'Backup fi nageenya bulchaa',
@@ -1387,9 +1387,9 @@ const omContentOverrides = {
       comingSoon: 'Coming soon',
     },
     proof: {
-      0: { title: 'Karaa diriirfama saffisaa', text: 'Dhaabbileen baay een onboarding gabaabaa keessatti xumuru.' },
+      0: { title: 'Karaa gabaabaa gara go-live', text: 'Dhaabbileen baay een onboarding gabaabaa keessatti xumuru.' },
       1: { title: 'Mul atina hojii', text: 'Dashboard fi reporting adeemsa guyyaa guyyaa keessan irratti qindaa a.' },
-      2: { title: 'Fooyya ii itti fufiinsa', text: 'Update nageenyaa fi platform yeroo yeroon ni kennama.' },
+      2: { title: 'Upphaatii nageenyaa fi platform — nu bulcha', text: 'Update nageenyaa fi platform yeroo yeroon ni kennama.' },
     },
     sections: {
       catalog: {
@@ -1429,14 +1429,14 @@ const omContentOverrides = {
     },
     proof: {
       0: { title: 'Bundla tajaajilaa hojii irra oolu', text: 'Hosting, design fi maintenance package dhokataa malee qindeessi.' },
-      1: { title: 'Renewal tilmaamamaa', text: 'Tajaajiloonni deddeebiin ifatti mallattoo qabaniiru; budget salphaatti qopheessa.' },
+      1: { title: 'Renewal tilmaamuu dandeessu', text: 'Tajaajiloonni deddeebiin ifatti mallattoo qabaniiru; budget salphaatti qopheessa.' },
       2: { title: 'Filannoo deeggarsa guddataa', text: 'Barbaachisoo irraa jalqabi; akka guddataan deeggarsa dabaluu dandeessa.' },
     },
     sections: {
       catalog: {
         tag: 'Kaataaloga Tajaajilaa',
         title: 'Tajaajiloota yeroo tokkoo fi deddeebii',
-        subtitle: 'Waan jalqabuuf, tikfachuuf fi guddifachuuf barbaachisu hunda.',
+        subtitle: "Waan oomisha dijitaalaa keessan jalqabuuf, itti fufuuf fi guddifachuuf barbaachisu hunda.",
       },
       featured: {
         tag: 'Filatamoo',
@@ -1474,11 +1474,11 @@ const omContentOverrides = {
     },
     proof: {
       0: { title: 'Ifa waliigaltee dura', text: 'Engagement hundi milestone ifaa fi deliverable beekamaa irratti ijaarama.' },
-      1: { title: 'Kaffaltii irratti waan hin eegamne hin jiru', text: 'Checkpoints kaffaltii fi daangaan tajaajilaa kickoff dura ibsama.' },
+      1: { title: 'Kaffaltii waan hin eegamne malee', text: 'Checkpoints kaffaltii fi daangaan tajaajilaa kickoff dura ibsama.' },
       2: { title: 'Deeggarsa hojii yeroo dheeraa', text: 'Deeggarsa, update fi reporting terms dursanii galma a an.' },
     },
     cta: {
-      title: 'Jalqabuu dura ibsa dabalataa barbaaddaa?',
+      title: 'Seera jalqabuu dura ifa godhi',
       subtitle: 'Qajeelfama guutuu ilaalaa yookaan bilbila marii qabadhaa; balinaan isinif ibsina.',
     },
     sections: {
@@ -1531,7 +1531,7 @@ const omContentOverrides = {
     web: [
       {
         question: 'Launch booda source code fi design files anatu qabaataa?',
-        answer: 'Eeyyee. Erga milestone kaffaltii xumurtanii booda abbummaan guutuun gara garee keessanitti darbu.',
+        answer: "Yeroo kaffaltiin milestone xumuraa ifa ta'u, abbummaan source code fi design files guutuun gara garee keessanitti darba.",
       },
       {
         question: 'Pirojektiin web idileen yeroo meeqa fudhata?',
@@ -1539,21 +1539,21 @@ const omContentOverrides = {
       },
       {
         question: 'Launch booda deeggarsa itti fufuu dandeenyaa?',
-        answer: 'Eeyyee. Maintenance waggaa fi growth retainers deeggarsa SLA qabu ni kennina.',
+        answer: "Launch booda, maintenance waggaa fi growth retainers SLA qabaniin sirni nagaa jiraata — pirojektii itti aanuufis nu biratti haanna.",
       },
     ],
     mobile: [
       {
         question: 'Android fi iOS lamaaniif ni ijaartu?',
-        answer: 'Eeyyee. Framework cross-platform fayyadamna; modules performance olaanaaf native bridge ni dabalna.',
+        answer: "Platformni lachuu codebase tokko irraa framework cross-platform fayyadamuun ni ba'a; native bridge moduulota performance olaanaaf qofa duubatti qabna.",
       },
       {
         question: 'Submission store fi compliance ni qabattu?',
-        answer: 'Eeyyee. Artifacts submission, policy checks fi checklists release stores lamaaniif ni qopheessina.',
+        answer: 'Submission store kutaa ijaarsaa ti — stores lamaanii fiif artifacts submission, check policy compliance fi checklists release ni qopheessina.',
       },
       {
         question: 'Gateway kaffaltii biyya keessaa walitti hidhuu ni dandeessuu?',
-        answer: 'Eeyyee. Telebirr, Chapa fi gateway kaardii akka model daldalaa irratti hundaa ee ni walitti hidhama.',
+        answer: "Gateway Telebirr, Chapa fi kaardii walitti hidhamuu danda'a; filannoon sirriin model daldalaa keessaniifi bakka fayyadattoonni keessan itti kaffalan irratti hundaa'a.",
       },
     ],
     saas: [
@@ -1563,7 +1563,7 @@ const omContentOverrides = {
       },
       {
         question: 'Kaffaltii waggaa irratti faayidaan jiraa?',
-        answer: 'Eeyyee. Subscription waggaa discount qaba; checkpoint optimization dursamee dabalama.',
+        answer: 'Subscription waggaa discount qaba; checkpoint optimization karoorfaman ni dabalama.',
       },
       {
         question: 'Backup data akkamitti geggeeffama?',
@@ -1573,7 +1573,7 @@ const omContentOverrides = {
     additional: [
       {
         question: 'Tajaajiloonni add-on adda addaan bitamuu ni danda u?',
-        answer: 'Eeyyee. Add-on hundi of danda ee scope ta uu yookaan package misoomaa waliin walitti qabamuu danda a.',
+        answer: "Add-on hundi of danda'ee scope ta'uu yookaan package misoomaa keessan waliin walitti hidhamuu danda'a.",
       },
       {
         question: 'Tajaajila yeroo tokkoof waadaa deddeebii ni jiraa?',
@@ -1581,7 +1581,7 @@ const omContentOverrides = {
       },
       {
         question: 'Bundle tajaajila dhuunfaa ni kennituu?',
-        answer: 'Eeyyee. Akka yeroo launch fi dursa guddina keessaniitti gatii bundle qopheessuu dandeenya.',
+        answer: "Bundlootni yeroo launch fi dursa guddina keessan irratti hundaa'anii ijaarama; kanaaf gatii bal'ina dhuguma barbaachistu irratti hundaa'a.",
       },
     ],
   },
@@ -1644,7 +1644,7 @@ const amFinalOverrides = {
       chip3: 'ለጥቅል ዝግጁ ተጨማሪዎች',
     },
     cta: {
-      title: 'ብጁ አገልግሎት ይፈልጋሉ?',
+      title: 'ብጁ መስፈርቶች?',
       subtitle: 'ለማንኛውም አገልግሎት ብጁ ዋጋ ይጠይቁ።',
       secondary: 'ብጁ ዋጋ ይጠይቁ',
     },
@@ -1667,8 +1667,8 @@ const amFinalOverrides = {
   },
   leadCapture: {
     form: {
-      emailPlaceholder: 'team@company.et (ለምሳሌ)',
-      companyPlaceholder: 'Aster Ventures (አማራጭ)',
+      emailPlaceholder: 'sara.tesfaye@example.com (ለምሳሌ)',
+      companyPlaceholder: 'ሜሶብ ንግድ PLC (አማራጭ)',
     },
   },
   mobile: {
@@ -1692,7 +1692,7 @@ const amFinalOverrides = {
       chip4: 'የባንክ ማስተላለፍ ብቻ',
     },
     cta: {
-      title: 'ከመጀመርዎ በፊት ማብራሪያ ይፈልጋሉ?',
+      title: 'ውሎችን ከመጀመርዎ በፊት ያብራሩ',
     },
   },
   saas: {
@@ -1782,7 +1782,7 @@ const omFinalOverrides = {
       title: 'Tajaajiloota Dabalataa',
     },
     cta: {
-      title: 'Wanta addaa barbaaddaa?',
+      title: 'Fedhii dhuunfaa?',
     },
   },
   discovery: {
@@ -1792,9 +1792,9 @@ const omFinalOverrides = {
   },
   leadCapture: {
     form: {
-      fullNamePlaceholder: 'Hana Bekele (fakkeenya)',
-      emailPlaceholder: 'team@company.et (fakkeenya)',
-      companyPlaceholder: 'Aster Ventures (filannoo)',
+      fullNamePlaceholder: 'Sara Tesfaye (fakkeenya)',
+      emailPlaceholder: 'sara.tesfaye@example.com (fakkeenya)',
+      companyPlaceholder: 'Mesob Trading PLC (filannoo)',
     },
   },
   mobile: {

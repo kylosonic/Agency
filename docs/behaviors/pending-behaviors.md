@@ -13,7 +13,7 @@
 | NB-05 | P0 | B16, B17 | Instant estimate wizard, pricing page | Quoting the same scope in the wizard and the pricing page yields the same number; wizard options cannot produce estimates below the entry offer. — **[IMPLEMENTED]** commit `191d8e3` |
 | NB-06 | P0 | B10 | Homepage, pricing page, workflow audit page | A visitor can see the founding-client pilot offer: first three implementations at 15–20% off, exchanged for case study rights, testimonial, and referral. — **[IMPLEMENTED]** commit `191d8e3` |
 | NB-07 | P0 | B14 | Policy page | Milestone billing 40/30/30 and full ownership on final payment are visible and accurate. — **[IMPLEMENTED]** commit `adc2302` |
-| NB-08 | P1 | B20–B22 | All pages | A visitor on any page sees one desaturated accent on a neutral base; no frosted-glass-everywhere, no equal three-card rows, no gradient CTAs, no template blue palette. |
+| NB-08 | P1 | B20–B22 | All pages | A visitor on any page sees one desaturated accent on a neutral base; no frosted-glass-everywhere, no equal three-card rows, no gradient CTAs, no template blue palette. — **[IMPLEMENTED]** commit `a2d7d1a` |
 | NB-09 | P1 | B23 | All copy in English, Amharic, and Afaan Oromo | A reader cannot find filler words, uniform FAQ openings, identical section rhythms, or placeholder-sounding names, numbers, or quotes in any language. |
 | NB-10 | P1 | B18, B19 | Lead handling, discovery call, contact flows | A visitor's inquiry is confirmed as received, stored, and forwarded to the team's working inbox; the team's first response happens within one business day. |
 | NB-11 | P1 | B2, B3 | Homepage demo section | The demo section is either removed or shows a real, running system built on the business's own operations (lead triage and follow-up). |

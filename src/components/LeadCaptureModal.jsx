@@ -302,7 +302,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                             id="lead-name"
                                             type="text"
                                             name="name"
-                                            placeholder={t('leadCapture.form.fullNamePlaceholder', 'Hana Bekele')}
+                                            placeholder={t('leadCapture.form.fullNamePlaceholder', 'Sara Tesfaye')}
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
@@ -314,7 +314,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                             id="lead-email"
                                             type="email"
                                             name="email"
-                                            placeholder={t('leadCapture.form.emailPlaceholder', 'team@company.et')}
+                                            placeholder={t('leadCapture.form.emailPlaceholder', 'sara.tesfaye@example.com')}
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
@@ -326,7 +326,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                             id="lead-company"
                                             type="text"
                                             name="company"
-                                            placeholder={t('leadCapture.form.companyPlaceholder', 'Aster Ventures')}
+                                            placeholder={t('leadCapture.form.companyPlaceholder', 'Mesob Trading PLC')}
                                             value={formData.company}
                                             onChange={handleChange}
                                         />

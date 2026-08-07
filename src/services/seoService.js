@@ -38,15 +38,15 @@ const SEO_BY_ROUTE = {
   '/services': {
     en: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
+      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery.',
     },
     am: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
+      description: 'ብጁ ኤጀንቲክ ሲስተሞችን እና ከእነሱ ጋር እኩል የሆነ የዌብ፣ ሞባይል እና SaaS የምርት ኢንጂነሪንግ አቅርቦትን ያስሱ።',
     },
     om: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
+      description: 'Sirna agentic dhuunfaa fi geessii engineering oomisha web, mobile fi SaaS qixa tokkoon ilaali.',
     },
   },
   '/pricing': {
@@ -80,15 +80,15 @@ const SEO_BY_ROUTE = {
   '/web-development': {
     en: {
       title: 'Web Development | NovaTech AI',
-      description: 'Conversion-focused web platforms and portals that operationalize your workflows with AI-ready architecture.',
+      description: 'Websites, portals, and dashboards built with conversion-focused information architecture, an SEO and analytics baseline, and weekly sprint reviews — typically delivered in 3 to 8 weeks.',
     },
     am: {
       title: 'የዌብ ልማት | NovaTech AI',
-      description: 'SEO እና የማስጀመሪያ ድጋፍ ያላቸውን የዌብ ፓኬጆች ይምረጡ።',
+      description: 'ቅየራ-ተኮር የመረጃ አደረጃጀት፣ የSEO እና አናሊቲክስ መሠረት እና ሳምንታዊ የስፕሪንት ግምገማ ያላቸው ዌብሳይቶች፣ ፖርታሎች እና ዳሽቦርዶች — አብዛኛውን ጊዜ በ3 እስከ 8 ሳምንት የሚደርሱ።',
     },
     om: {
       title: 'Web Development | NovaTech AI',
-      description: 'Paakeejii web kan jijjiirraa dabalu, SEO fi deeggarsa launch waliin filadhu.',
+      description: "Websaayitii, portalii fi dashboard kan IA conversion irratti xiyyeeffate, bu'uura SEO fi analytics fi gamaaggama sprint torbeetuma qaban — baay'inaan torban 3 hanga 8 keessatti.",
     },
   },
   '/mobile-development': {
@@ -230,7 +230,7 @@ const FAQ_SCHEMA_BY_ROUTE = {
     },
     {
       question: 'Do clients own their deliverables after project completion?',
-      answer: 'Yes. After final payment, clients receive full ownership of custom design assets, source code, and project intellectual property.',
+      answer: 'Once the final payment clears, clients receive full ownership of custom design assets, source code, and project intellectual property.',
     },
     {
       question: 'Are SaaS subscriptions available monthly and annually?',

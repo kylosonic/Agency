@@ -1,9 +1,9 @@
 # Launch Readiness & Pricing Behaviors — NovaTech AI
 
 > ⚠️ **PARTIALLY IMPLEMENTED**
-> Sections 1–3 (B1–B15: truth & proof integrity, pricing & offers, payment & policy) and Section 4
-> (B16–B17: conversion consistency) shipped in commits `adc2302` + `191d8e3` (Phases 1–2, QA APPROVED).
-> Sections 5–7 (B18–B25) are NOT YET IMPLEMENTED and remain the contract for the remaining phases.
+> Sections 1–3 (B1–B15), Section 4 (B16–B17), and Section 6 design rules (B20–B22) shipped in
+> commits `adc2302` + `191d8e3` + `a2d7d1a` (Phases 1–3, QA APPROVED). B23 (copy voice), Section 5
+> (B18–B19 lead handling), and B24–B25 remain NOT YET IMPLEMENTED.
 
 ## 1. Truth & Proof Integrity
 

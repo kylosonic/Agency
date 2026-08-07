@@ -33,7 +33,7 @@ export const serviceFaqs = {
   web: [
     {
       question: 'Do I own the source code and design files after launch?',
-      answer: 'Yes. Once final milestone payment is completed, ownership transfers fully to your team.',
+      answer: 'Once the final milestone payment clears, ownership of the source code and design files transfers fully to your team.',
     },
     {
       question: 'How long does a typical web project take?',
@@ -41,21 +41,21 @@ export const serviceFaqs = {
     },
     {
       question: 'Can we continue support after launch?',
-      answer: 'Yes. We offer annual maintenance and growth retainers with SLA-backed support.',
+      answer: 'After launch, annual maintenance and growth retainers backed by an SLA keep the system stable — and we stay on hand for the next build.',
     },
   ],
   mobile: [
     {
       question: 'Do you build for both Android and iOS?',
-      answer: 'Yes. We use cross-platform frameworks and native bridges when required for performance-critical modules.',
+      answer: 'Both platforms ship from the same codebase using cross-platform frameworks, with native bridges reserved for performance-critical modules.',
     },
     {
       question: 'Do you handle store submission and compliance?',
-      answer: 'Yes. We prepare submission artifacts, policy compliance checks, and release checklists for both stores.',
+      answer: 'Store submission is part of the build — we prepare the submission artifacts, policy compliance checks, and release checklists for both stores.',
     },
     {
       question: 'Can local payment gateways be integrated?',
-      answer: 'Yes. Telebirr, Chapa, and card-processing gateways can be integrated based on business model.',
+      answer: 'Telebirr, Chapa, and card gateways can be integrated; the right choice depends on your business model and where your users pay.',
     },
   ],
   saas: [
@@ -65,7 +65,7 @@ export const serviceFaqs = {
     },
     {
       question: 'Is there an annual billing advantage?',
-      answer: 'Yes. Annual subscriptions are discounted and include planned optimization checkpoints.',
+      answer: 'Annual subscriptions are discounted and include planned optimization checkpoints.',
     },
     {
       question: 'How is data backup handled?',
@@ -75,7 +75,7 @@ export const serviceFaqs = {
   additional: [
     {
       question: 'Can add-on services be purchased separately?',
-      answer: 'Yes. Each add-on can be scoped independently or bundled with your development package.',
+      answer: 'Each add-on can be scoped on its own or bundled with your development package.',
     },
     {
       question: 'Are there recurring commitments for one-time services?',
@@ -83,7 +83,7 @@ export const serviceFaqs = {
     },
     {
       question: 'Do you provide custom service bundles?',
-      answer: 'Yes. We can assemble bundle pricing based on your launch timeline and growth priorities.',
+      answer: 'Bundles are built around your launch timeline and growth priorities, so pricing follows the scope you actually need.',
     },
   ],
 };

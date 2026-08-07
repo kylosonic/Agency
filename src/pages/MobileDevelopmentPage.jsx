@@ -55,7 +55,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
             <RouteProofStrip
                 items={[
                     {
-                        title: t('mobile.proof.0.title', 'User Flow First'),
+                        title: t('mobile.proof.0.title', 'The flow comes first'),
                         text: t('mobile.proof.0.text', 'Before coding, we align on key user journeys so every screen supports retention and conversion.'),
                     },
                     {
@@ -63,7 +63,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                         text: t('mobile.proof.1.text', 'Each sprint includes practical QA on target Android and iOS device ranges.'),
                     },
                     {
-                        title: t('mobile.proof.2.title', 'Launch and Iterate'),
+                        title: t('mobile.proof.2.title', 'Launch, then iterate'),
                         text: t('mobile.proof.2.text', 'Post-launch analytics and backlog priorities are prepared before release day.'),
                     },
                 ]}
