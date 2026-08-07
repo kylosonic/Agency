@@ -9,23 +9,11 @@
 > TECH-01, TECH-02, TECH-03 resolved in commit `adc2302` (QA APPROVED, 58/58 E2E, lint + build clean).
 > NB-01, NB-02, NB-03, NB-04, NB-07 marked [IMPLEMENTED] in the behavior ledger.
 
-## Phase 2 — Conversion Consistency (P0)
+## ✅ DONE — Phase 2 — Conversion Consistency (P0)
 
-### TECH-04 — Unify instant quote wizard with pricing table
-- **Maps to:** NB-05 (B16–B17)
-- **Scope:**
-  - `InstantQuotePage.jsx`: replace hardcoded `SERVICE_BASE_RANGES` with ranges derived from the same pricing data source as the pricing page (share a single source module)
-  - Align budget options with the entry offer: remove "Under 50k ETB" or re-map it to guide toward the audit (B17)
-  - Ensure wizard output for a given scope matches published package prices
-- **Acceptance:** Same scope in wizard and pricing page produces the same numbers; wizard can no longer quote below the entry offer.
-
-### TECH-05 — Founding-client pilot offer
-- **Maps to:** NB-06 (B10)
-- **Scope:**
-  - Add pilot copy: first three implementation projects at 15–20% off, exchanged for case study rights + testimonial + referral
-  - Place on homepage (replacing removed proof section), pricing page CTA area, workflow audit page
-  - i18n keys for EN/AM/OM; analytics event `pilot_offer_cta_clicked`
-- **Acceptance:** A visitor can find the founding-client offer on at least two pages, in all three languages, with the exchange terms stated.
+> TECH-04, TECH-05 resolved in commit `191d8e3` (QA APPROVED, 67/67 E2E incl. exhaustive floor property, lint + build clean).
+> NB-05, NB-06 marked [IMPLEMENTED] in the behavior ledger.
+> Follow-up logged: `PricingScenarioPlanner.jsx` still hardcodes AI anchors (currently match locked table) — derive from `pricingData` in a later cleanup ticket.
 
 ## Phase 3 — Design Redesign (P1)
 
