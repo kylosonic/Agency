@@ -1,9 +1,9 @@
 # Launch Readiness & Pricing Behaviors — NovaTech AI
 
-> ⚠️ **NOT YET IMPLEMENTED**
-> These rules describe the launch-ready behavior of the NovaTech AI business and website.
-> None of them are live yet. They are the contract for the launch sprint: the build must
-> make every rule below true before launch.
+> ⚠️ **PARTIALLY IMPLEMENTED**
+> Sections 1–3 (B1–B15: truth & proof integrity, pricing & offers, payment & policy) shipped in
+> commit `adc2302` (Phase 1, QA APPROVED). Sections 4–7 (B16–B25) are NOT YET IMPLEMENTED and
+> remain the contract for the remaining launch sprint phases.
 
 ## 1. Truth & Proof Integrity
 

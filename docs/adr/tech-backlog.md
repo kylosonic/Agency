@@ -4,37 +4,10 @@
 > governed by `docs/behaviors/launch-readiness.md` (B-rules) and `docs/adr/ADR-001-pricing-model-etb-only.md`.
 > Priority: **P0** = launch blocker · **P1** = must before launch · **P2** = after launch · **BLOCKED** = waiting on external dependency.
 
-## Phase 1 — Proof Strip (P0)
+## ✅ DONE — Phase 1 — Proof Strip + Pricing Engine Swap + Policy Rewrite (P0)
 
-### TECH-01 — Remove all fabricated proof content
-- **Maps to:** NB-01 (B1–B3)
-- **Scope:**
-  - Delete `caseStudies` array and `portfolioProjects` from `src/config/contentData.js`
-  - Remove/repurpose `/case-studies` and `/portfolio` routes, pages, nav links, footer links, i18n keys, and SEO metadata entries
-  - Remove `HERO_METRICS` (1,800+ hours, 40+ systems, 92%) from `src/pages/Home.jsx`
-  - Remove `AgentOpsShowcase` (fake demo) and `AutomationImpactCalculator` (implied benchmarks) sections from the homepage, or gate them behind a real-system flag
-  - Purge all case-study/portfolio i18n translations (EN/AM/OM)
-- **Acceptance:** No fabricated client story, testimonial, portfolio item, aggregate stat, or simulated demo remains anywhere in the rendered site, sitemap, or metadata.
-
-## Phase 1 — Pricing Engine Swap (P0)
-
-### TECH-02 — Locked ETB pricing table + remove USD display
-- **Maps to:** NB-02, NB-03 (B4–B9, B11, B12)
-- **Scope:**
-  - Replace `src/services/pricingData.js` arrays with the ADR-001 table: audit 85,000 fixed; AI tiers from 250k/750k/1.5M+; web from 45k/150k/250k; mobile from 200k/400k; AI support 30–70k/mo; maintenance 5–15k/mo
-  - Strip all `globalPrice`/`global*` fields and USD columns from rendered pages (Pricing, WebDevelopment, MobileDevelopment, AdditionalServices, guide summary)
-  - Replace "Global USD + local ETB" chips and "ETB and USD pricing" trust pills with ETB-only messaging; international = "quoted individually"
-  - Remove `MARKETING_ADDONS`/`APP_MARKETING_PACKAGES` from the pricing page (marketing cut per B12); SaaS packages render as waitlist only (B11)
-  - Remove money-losing lines: app-store "About 4,500 ETB / year" and annual maintenance 10–20k/year
-- **Acceptance:** Every price rendered on every page matches ADR-001; no USD figure appears anywhere; no marketing retainer or priced SaaS line exists.
-
-### TECH-03 — Policy page payment terms rewrite
-- **Maps to:** NB-04, NB-07 (B13–B15)
-- **Scope:**
-  - Replace marketing/card-handling policy blocks with: payments by bank transfer (CBE Birr) only until license; Telebirr/Chapa/cards post-license (B25 note)
-  - Verify milestone 40/30/30 + IP ownership copy is accurate (B14)
-  - Remove the 15–20% international card handling block (B15)
-- **Acceptance:** Policy page states bank-transfer-only payment and the post-license plan; no capability the business lacks is claimed.
+> TECH-01, TECH-02, TECH-03 resolved in commit `adc2302` (QA APPROVED, 58/58 E2E, lint + build clean).
+> NB-01, NB-02, NB-03, NB-04, NB-07 marked [IMPLEMENTED] in the behavior ledger.
 
 ## Phase 2 — Conversion Consistency (P0)
 

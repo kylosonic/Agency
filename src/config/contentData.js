@@ -96,9 +96,8 @@ export const quoteWizardOptions = {
     'AI Invoice Processing',
     'Engineering Knowledge Assistant',
     'Sales Order Automation',
-    'Branding and Additional Services',
   ],
-  budgetRanges: ['Under 50k ETB', '50k - 120k ETB', '120k - 250k ETB', '250k+ ETB'],
+  budgetRanges: ['85k - 150k ETB', '150k - 400k ETB', '400k - 1M ETB', '1M+ ETB'],
   timelineRanges: ['2-4 weeks', '1-2 months', '2-4 months', 'Flexible timeline'],
   integrations: [
     'Telebirr',

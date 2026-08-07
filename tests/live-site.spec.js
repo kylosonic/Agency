@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
+import { deriveEstimateBand, ENTRY_OFFER_FLOOR, QUOTE_BUDGET_BANDS } from '../src/services/pricingData';
+import { quoteWizardOptions } from '../src/config/contentData';
 
 const nodeEnv = globalThis.process?.env ?? {};
 const BASE_URL = nodeEnv.PLAYWRIGHT_BASE_URL || 'http://localhost:4173';
@@ -463,5 +465,220 @@ test.describe('Analytics smoke assertions', () => {
       await page.locator('.cta-actions a.btn.btn-secondary.btn-lg[href^="mailto:"]').first().click();
       await expectAnalyticsEventWithSource(page, 'discovery_call_clicked', route.source);
     }
+  });
+});
+
+const PILOT_CLOSE_MODAL_LABELS = {
+  en: 'Close pricing guide modal',
+  am: 'የዋጋ መመሪያ ሞዳልን ዝጋ',
+  om: 'Modal qajeelfama gatii cufi',
+};
+
+async function dismissLeadModalInLanguage(page, language) {
+  const closeButton = page.getByRole('button', { name: PILOT_CLOSE_MODAL_LABELS[language] });
+  if (await closeButton.isVisible().catch(() => false)) {
+    await closeButton.click();
+  }
+}
+
+const PILOT_HEADLINES_BY_LANGUAGE = {
+  en: 'Be among the first three implementation clients',
+  am: 'ከመጀመሪያዎቹ ሶስት የልማት ደንበኞች አንዱ ይሁኑ',
+  om: "Maamiltoota jalqabaa sadii keessaa tokko ta'aa",
+};
+
+test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
+  test('wizard and pricing page quote the same numbers for the same web scope', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
+
+    for (let index = 0; index < 3; index += 1) {
+      await dismissLeadModalIfOpen(page);
+      await page.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
+    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
+    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+
+    const rangeText = await page.locator('.quote-result-range').innerText();
+    expect(rangeText, 'web mid band must quote 150,000 ETB').toContain('150,000 ETB');
+    expect(rangeText, 'web mid band must quote 250,000 ETB').toContain('250,000 ETB');
+  });
+
+  test('wizard offers no below-entry budget option and no add-on-only service', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    await expect(page.getByText('Branding and Additional Services')).toHaveCount(0);
+
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await dismissLeadModalIfOpen(page);
+
+    const budgetOptions = await page.locator('.quote-step select').first().locator('option').allTextContents();
+    expect(budgetOptions, 'budget options must start at the 85k entry band').toEqual([
+      '85k - 150k ETB',
+      '150k - 400k ETB',
+      '400k - 1M ETB',
+      '1M+ ETB',
+    ]);
+    expect(budgetOptions, 'no Under 50k ETB option').not.toContain('Under 50k ETB');
+  });
+
+  test('entry floor holds even with every integration selected', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
+
+    await dismissLeadModalIfOpen(page);
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.quote-step select').first().selectOption('85k - 150k ETB');
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    await dismissLeadModalIfOpen(page);
+    const integrationInputs = page.locator('.quote-step input[type="checkbox"]');
+    await expect(integrationInputs).toHaveCount(8);
+    for (let index = 0; index < 8; index += 1) {
+      await integrationInputs.nth(index).check();
+    }
+    await page.getByRole('button', { name: 'Continue' }).click();
+
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
+    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
+    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+
+    const rangeText = await page.locator('.quote-result-range').innerText();
+    expect(rangeText, 'entry band with all integrations must floor at 85,000 ETB').toContain('85,000 ETB');
+  });
+
+  test('exhaustive floor property: every service × budget combo quotes at or above the entry offer', () => {
+    const services = quoteWizardOptions.serviceTypes;
+    const bands = QUOTE_BUDGET_BANDS;
+
+    expect(services.length, 'wizard must still expose service options').toBeGreaterThan(0);
+    expect(bands, 'budget bands are exported from the pricing data module').toEqual([
+      '85k - 150k ETB',
+      '150k - 400k ETB',
+      '400k - 1M ETB',
+      '1M+ ETB',
+    ]);
+
+    for (const serviceType of services) {
+      for (const budgetRange of bands) {
+        const band = deriveEstimateBand({ serviceType, budgetRange });
+
+        if (serviceType === 'SaaS Platform') {
+          expect(band, `SaaS + ${budgetRange} must quote nothing`).toBeNull();
+          continue;
+        }
+
+        expect(band, `${serviceType} + ${budgetRange} must produce a band`).not.toBeNull();
+        expect(band.min, `${serviceType} + ${budgetRange} must not quote below the entry offer`).toBeGreaterThanOrEqual(ENTRY_OFFER_FLOOR);
+        expect(band.max, `${serviceType} + ${budgetRange} max must not be below min`).toBeGreaterThanOrEqual(band.min);
+      }
+    }
+
+    const webMidBand = deriveEstimateBand({ serviceType: 'Web Development', budgetRange: '150k - 400k ETB' });
+    expect(webMidBand.min, 'web mid band min matches the published 150,000 ETB anchor').toBe(150000);
+  });
+
+  test('SaaS selection ends in a waitlist result with no numeric range', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
+
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.quote-option input[value="SaaS Platform"]').check();
+
+    for (let index = 0; index < 3; index += 1) {
+      await dismissLeadModalIfOpen(page);
+      await page.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
+    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
+    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+
+    await expect(page.locator('.quote-result-range')).toHaveCount(0);
+    await expect(page.getByText('tell us you want it').first()).toBeVisible();
+
+    const resultCardText = await page.locator('.quote-result-card').innerText();
+    expect(resultCardText, 'SaaS result must not render a numeric ETB range').not.toContain('ETB');
+  });
+});
+
+test.describe('Phase 2 — founding-client pilot offer (TECH-05)', () => {
+  test('pilot offer renders with exchange terms and founding-client framing', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/pricing`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const pilotOffer = page.getByTestId('pilot-offer');
+    await expect(pilotOffer).toBeVisible();
+
+    await expect(pilotOffer.getByText('Be among the first three implementation clients', { exact: true })).toBeVisible();
+    await expect(pilotOffer.getByText('Open to the first three implementation clients.', { exact: true })).toBeVisible();
+    await expect(pilotOffer.getByText('15–20%').first()).toBeVisible();
+    await expect(pilotOffer.getByText('Permission to document your project as a case study', { exact: true })).toBeVisible();
+    await expect(pilotOffer.getByText('A short written testimonial from your team', { exact: true })).toBeVisible();
+    await expect(pilotOffer.getByText('Permission to refer you as a reference client', { exact: true })).toBeVisible();
+    await expect(pilotOffer.getByText('Claim founding-client rate', { exact: true })).toBeVisible();
+    await expect(pilotOffer.getByText('Founding-client rates apply to implementation projects only.', { exact: true })).toBeVisible();
+
+    const pilotText = await pilotOffer.innerText();
+    expect(pilotText, 'pilot copy must not render USD').not.toContain('USD');
+    expect(pilotText, 'pilot copy must not render a dollar sign').not.toContain('$');
+  });
+
+  test('pilot offer section is visible and localized on home, pricing, and audit pages in all three languages', async ({ page }) => {
+    const pilotRoutes = ['/', '/pricing', '/workflow-audit'];
+
+    for (const language of ['en', 'am', 'om']) {
+      for (const route of pilotRoutes) {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+        await dismissLeadModalInLanguage(page, language);
+
+        if (language !== 'en') {
+          await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption(language);
+          await expect.poll(async () => page.getAttribute('html', 'lang')).toBe(language);
+        }
+
+        const pilotOffer = page.getByTestId('pilot-offer');
+        await expect(pilotOffer, `${language} ${route} must render the pilot section`).toBeVisible();
+        await expect(pilotOffer.getByText(PILOT_HEADLINES_BY_LANGUAGE[language], { exact: true })).toBeVisible();
+      }
+    }
+  });
+
+  test('pilot offer CTA fires pilot_offer_cta_clicked with the page source', async ({ page }) => {
+    await seedDataLayer(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    await page.getByTestId('pilot-offer').getByRole('link', { name: 'Claim founding-client rate', exact: true }).click();
+    await expectAnalyticsEventWithSource(page, 'pilot_offer_cta_clicked', 'home_pilot_offer');
+
+    await page.goto(`${BASE_URL}/pricing`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    await page.getByTestId('pilot-offer').getByRole('link', { name: 'Claim founding-client rate', exact: true }).click();
+    await expectAnalyticsEventWithSource(page, 'pilot_offer_cta_clicked', 'pricing_pilot_offer');
+  });
+
+  test('workflow audit page states the fixed 85k fee, 5-business-day delivery, and credit terms', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/workflow-audit`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    await expect(page.getByText('85,000 ETB').first()).toBeVisible();
+    await expect(page.getByText('5 business days').first()).toBeVisible();
+    await expect(page.getByText('credited toward').first()).toBeVisible();
+    await expect(page.getByText('1-2 week audit cycle')).toHaveCount(0);
+    await expect(page.getByTestId('pilot-offer')).toBeVisible();
   });
 });

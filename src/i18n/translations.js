@@ -231,6 +231,8 @@ const en = {
     result: {
       title: 'Your estimated range',
       subtitle: 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.',
+      waitlistTitle: 'SaaS is in development — tell us you want it',
+      waitlistSubtitle: 'We will add you to the waitlist and contact you when a product is ready for your organization. No prices are published until a real product exists.',
     },
     options: {
       service: {
@@ -240,13 +242,13 @@ const en = {
         invoiceProcessing: 'AI Invoice Processing',
         engineeringKnowledge: 'Engineering Knowledge Assistant',
         salesOrderAutomation: 'Sales Order Automation',
-        additional: 'Branding and Additional Services',
+        saasWaitlist: 'In development — tell us you want it',
       },
       budget: {
-        under50: 'Under 50k ETB',
-        mid: '50k - 120k ETB',
-        high: '120k - 250k ETB',
-        enterprise: '250k+ ETB',
+        entry: '85k - 150k ETB',
+        mid: '150k - 400k ETB',
+        high: '400k - 1M ETB',
+        enterprise: '1M+ ETB',
       },
       timeline: {
         fast: '2-4 weeks',
@@ -265,6 +267,20 @@ const en = {
         multilingual: 'Multilingual Content',
       },
     },
+  },
+  pilotOffer: {
+    tag: 'Founding-Client Pilot',
+    title: 'Be among the first three implementation clients',
+    intro: 'Open to the first three implementation clients.',
+    discount: 'Founding-client rates: 15–20% off published prices',
+    exchangeTitle: 'In exchange for:',
+    exchangeItems: [
+      'Permission to document your project as a case study',
+      'A short written testimonial from your team',
+      'Permission to refer you as a reference client',
+    ],
+    cta: 'Claim founding-client rate',
+    finePrint: 'Founding-client rates apply to implementation projects only.',
   },
   discovery: {
     hero: {
@@ -740,19 +756,21 @@ const amContentOverrides = {
     },
     result: {
       subtitle: 'ይህ ክልል በመረጡት ክልል፣ ጊዜ እና የውህደት ውስብስብነት ላይ የተመሰረተ ነው።',
+      waitlistTitle: 'SaaS በግንባታ ላይ ነው — ይፈልጋሉ ከሆነ ይንገሩን',
+      waitlistSubtitle: 'ወደ የጥበቃ ዝርዝሩ እንጨምርዎታለን እና ምርት ሲዘጋጅ እናገኝዎታለን። እውነተኛ ምርት እስካልተገኘ ድረስ ምንም ዋጋ አይታተምም።',
     },
     options: {
       service: {
         web: 'የዌብ ልማት',
         mobile: 'የሞባይል መተግበሪያ ልማት',
         saas: 'SaaS መድረክ',
-        additional: 'ብራንዲንግ እና ተጨማሪ አገልግሎቶች',
+        saasWaitlist: 'በግንባታ ላይ ነው — ይፈልጋሉ ከሆነ ይንገሩን',
       },
       budget: {
-        under50: 'ከ50ሺ ETB በታች',
-        mid: '50ሺ - 120ሺ ETB',
-        high: '120ሺ - 250ሺ ETB',
-        enterprise: '250ሺ+ ETB',
+        entry: '85ሺ - 150ሺ ETB',
+        mid: '150ሺ - 400ሺ ETB',
+        high: '400ሺ - 1ሚ ETB',
+        enterprise: '1ሚ+ ETB',
       },
       timeline: {
         fast: '2-4 ሳምንት',
@@ -766,6 +784,20 @@ const amContentOverrides = {
         multilingual: 'ባለብዙ ቋንቋ ይዘት',
       },
     },
+  },
+  pilotOffer: {
+    tag: 'የመሠረት ደንበኛ ፓይለት',
+    title: 'ከመጀመሪያዎቹ ሶስት የልማት ደንበኞች አንዱ ይሁኑ',
+    intro: 'ለመጀመሪያዎቹ ሶስት የልማት ደንበኞች ክፍት ነው።',
+    discount: 'የመሠረት ደንበኛ ዋጋ: ከታተመው ዋጋ 15–20% ቅናሽ',
+    exchangeTitle: 'በምላሹ:',
+    exchangeItems: [
+      'የጉዳይ ጥናት የመጠቀም ፈቃድ',
+      'ከቡድንዎ አጭር የምስክርነት ጽሁፍ',
+      'የማጣቀሻ ፈቃድ',
+    ],
+    cta: 'የመሠረት ደንበኛ ዋጋ ይጠይቁ',
+    finePrint: 'የመሠረት ደንበኛ ዋጋ ለልማት ፕሮጀክቶች ብቻ ነው።',
   },
   discovery: {
     hero: {
@@ -1209,19 +1241,21 @@ const omContentOverrides = {
     result: {
       title: 'Daangaa gatii tilmaamaa kee',
       subtitle: 'Daangaan kun scope, timeline fi complexity integration filattan irratti hundaa eera.',
+      waitlistTitle: 'SaaS miseensaaf jira — isin barbaadda yoo ta e nu himaa',
+      waitlistSubtitle: 'Tartiiba eeggachaa irratti isin galchina; oomishni qophaa u yeroo ta u isin qunnamna. Hanga oomisha dhugaa argamutti gatii hin maxxanfamu.',
     },
     options: {
       service: {
         web: 'Misooma Web',
         mobile: 'Misooma Appii Moobaayilaa',
         saas: 'Platfoormii SaaS',
-        additional: 'Branding fi Tajaajila Dabalataa',
+        saasWaitlist: 'Miseensaaf jira — isin barbaadda yoo ta e nu himaa',
       },
       budget: {
-        under50: '50k ETB gadi',
-        mid: '50k - 120k ETB',
-        high: '120k - 250k ETB',
-        enterprise: '250k+ ETB',
+        entry: '85k - 150k ETB',
+        mid: '150k - 400k ETB',
+        high: '400k - 1M ETB',
+        enterprise: '1M+ ETB',
       },
       timeline: {
         fast: 'Torban 2-4',
@@ -1235,6 +1269,20 @@ const omContentOverrides = {
         multilingual: 'Qabiyyee Afaan hedduu',
       },
     },
+  },
+  pilotOffer: {
+    tag: 'Piroogiraamii Maamilaa Ijoo',
+    title: "Maamiltoota jalqabaa sadii keessaa tokko ta'aa",
+    intro: 'Maamiltoota sadii jalqabaa qofaaf banameera.',
+    discount: 'Gatii maamilaa jalqabaa: gatii maxxanfame irraa 15–20% qusannaa',
+    exchangeTitle: 'Galata isaaniitiif:',
+    exchangeItems: [
+      'Hayyama waraabbii case study',
+      'Ragaa gabaabaa garee keessan irraa',
+      'Hayyama wabiinsa',
+    ],
+    cta: 'Gatii maamilaa jalqabaa gaafadhu',
+    finePrint: 'Gatii maamilaa jalqabaa pirojektiiwwan hojiirra oolmaa qofaaf.',
   },
   discovery: {
     hero: {

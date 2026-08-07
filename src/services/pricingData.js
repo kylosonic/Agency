@@ -20,10 +20,68 @@
  *   global-prefixed or local-prefixed keys, '$' or 'USD' is rejected and the static fallback is used.
  */
 
-const PRICING_DATA_ENDPOINT = (import.meta.env.VITE_PRICING_DATA_ENDPOINT || '').trim();
+const PRICING_DATA_ENDPOINT_KEY = 'VITE_PRICING_DATA_ENDPOINT';
 let remoteWebPackagesCache = null;
 let remoteWebPackagesLoaded = false;
 const SAAS_AVAILABILITY_STATUS = 'Coming soon';
+
+/**
+ * Numeric anchors derived from the locked ETB table (ADR-001, B5–B9).
+ * Index i anchors the i-th published tier; `saas` is intentionally null
+ * because SaaS shows no prices (B11).
+ */
+export const QUOTE_ANCHORS = {
+  web: [45000, 150000, 250000],
+  mobile: [200000, 400000],
+  ai: [250000, 750000, 1500000],
+  saas: null,
+};
+
+/**
+ * The Workflow Audit entry offer (B5): the hard floor below which no
+ * wizard estimate may quote (B17, arbitration decision 4).
+ */
+export const ENTRY_OFFER_FLOOR = 85000;
+
+/** Budget bands offered by the wizard, aligned to the locked table tiers. */
+export const QUOTE_BUDGET_BANDS = ['85k - 150k ETB', '150k - 400k ETB', '400k - 1M ETB', '1M+ ETB'];
+
+const BUDGET_BAND_TIER_INDEX = {
+  '85k - 150k ETB': 0,
+  '150k - 400k ETB': 1,
+  '400k - 1M ETB': 2,
+  '1M+ ETB': 3,
+};
+
+const SERVICE_TO_FAMILY = {
+  'Web Development': 'web',
+  'Mobile App Development': 'mobile',
+  'AI Invoice Processing': 'ai',
+  'Engineering Knowledge Assistant': 'ai',
+  'Sales Order Automation': 'ai',
+  'SaaS Platform': 'saas',
+};
+
+/**
+ * Pure derivation of the directional ETB estimate band for a wizard scope
+ * (B16 parity, B17 floor). Returns `{ min, max }` in ETB integers, or
+ * `null` for SaaS (B11 — no numeric estimate).
+ */
+export function deriveEstimateBand(formState) {
+  const family = SERVICE_TO_FAMILY[formState?.serviceType];
+  if (!family || family === 'saas') {
+    return null;
+  }
+
+  const anchors = QUOTE_ANCHORS[family];
+  const requestedIndex = BUDGET_BAND_TIER_INDEX[formState?.budgetRange] ?? 1;
+  const tierIndex = Math.min(requestedIndex, anchors.length - 1);
+
+  const min = Math.max(anchors[tierIndex], ENTRY_OFFER_FLOOR);
+  const max = anchors[tierIndex + 1] ?? 2 * anchors[tierIndex];
+
+  return { min, max };
+}
 
 const WEB_PACKAGES = [
     {
@@ -336,12 +394,16 @@ async function getRemoteWebPackages() {
 
     remoteWebPackagesLoaded = true;
 
-    if (!PRICING_DATA_ENDPOINT) {
+    // Lazy environment read so this module can be imported in Node-side
+    // tests without `import.meta.env` (R1). Browser behavior is identical.
+    const pricingDataEndpoint = (import.meta.env?.[PRICING_DATA_ENDPOINT_KEY] || '').trim();
+
+    if (!pricingDataEndpoint) {
         return null;
     }
 
     try {
-        const response = await fetch(PRICING_DATA_ENDPOINT, {
+        const response = await fetch(pricingDataEndpoint, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

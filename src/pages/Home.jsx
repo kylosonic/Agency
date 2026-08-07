@@ -6,6 +6,7 @@ import IconGlyph from '../components/IconGlyph';
 import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
+import PilotOfferSection from '../components/PilotOfferSection';
 import {
   trackContactChannelClick,
   trackContactFormAttempt,
@@ -294,6 +295,8 @@ export default function Home() {
           </ScrollReveal>
         </div>
       </section>
+
+      <PilotOfferSection source="home_pilot_offer" />
 
       <section className="section ai-contact-section" id="contact">
         <div className="container">
