@@ -43,8 +43,6 @@ export default function Footer() {
                             <li><Link to="/mobile-development">{t('mobile.hero.title', 'Mobile App Development')}</Link></li>
                             <li><Link to="/saas-solutions">{t('saas.hero.title', 'SaaS Cloud Solutions')}</Link></li>
                             <li><Link to="/policy">{t('nav.policy', 'Payment Policy')}</Link></li>
-                            <li><Link to="/case-studies">{t('nav.caseStudies', 'Case Studies')}</Link></li>
-                            <li><Link to="/portfolio">{t('nav.portfolio', 'Portfolio')}</Link></li>
                             <li><a href="/#methodology">{t('footer.links.methodology', 'Methodology')}</a></li>
                             <li><Link to="/services#searchable-brain">{t('footer.links.searchableBrain', 'The Searchable Brain')}</Link></li>
                         </ul>

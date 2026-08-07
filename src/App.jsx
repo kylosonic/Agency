@@ -46,8 +46,6 @@ const MobileDevelopmentPage = lazyWithRetry(() => import('./pages/MobileDevelopm
 const SaasSolutionsPage = lazyWithRetry(() => import('./pages/SaasSolutionsPage'));
 const AdditionalServicesPage = lazyWithRetry(() => import('./pages/AdditionalServicesPage'));
 const PolicyPage = lazyWithRetry(() => import('./pages/PolicyPage'));
-const CaseStudiesPage = lazyWithRetry(() => import('./pages/CaseStudiesPage'));
-const PortfolioPage = lazyWithRetry(() => import('./pages/PortfolioPage'));
 const IndustryLandingPage = lazyWithRetry(() => import('./pages/IndustryLandingPage'));
 const InstantQuotePage = lazyWithRetry(() => import('./pages/InstantQuotePage'));
 const DiscoveryCallPage = lazyWithRetry(() => import('./pages/DiscoveryCallPage'));
@@ -116,7 +114,6 @@ function getLeadCaptureVariant(pathname, trigger) {
     normalized.includes('mobile-development') ||
     normalized.includes('saas-solutions') ||
     normalized.includes('additional-services') ||
-    normalized.includes('portfolio') ||
     normalized.includes('industries')
   ) {
     return 'quote_offer';
@@ -342,8 +339,6 @@ function AppContent() {
                   <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/additional-services" element={<AdditionalServicesPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/policy" element={<PolicyPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/case-studies" element={<CaseStudiesPage />} />
-                  <Route path="/portfolio" element={<PortfolioPage />} />
                   <Route path="/industries/:industrySlug" element={<IndustryLandingPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/instant-quote" element={<InstantQuotePage />} />
                   <Route path="/book-discovery-call" element={<DiscoveryCallPage />} />

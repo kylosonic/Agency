@@ -19,6 +19,7 @@ export default function PolicyPage({ onDownloadClick }) {
                         <span className="page-hero-chip">{t('policy.hero.chip1', 'Milestone-Based Billing')}</span>
                         <span className="page-hero-chip">{t('policy.hero.chip2', 'Client IP Ownership')}</span>
                         <span className="page-hero-chip">{t('policy.hero.chip3', 'Clear Support Commitments')}</span>
+                        <span className="page-hero-chip">{t('policy.hero.chip4', 'Bank Transfer Only')}</span>
                     </div>
                 </div>
             </section>
@@ -91,39 +92,39 @@ export default function PolicyPage({ onDownloadClick }) {
                         </div>
                     </ScrollReveal>
 
-                    {/* Digital Marketing Terms */}
+                    {/* Payment Methods */}
                     <ScrollReveal>
                         <div className="policy-section">
                             <h3 className="policy-heading">
-                                <span className="policy-heading-icon" aria-hidden="true"><IconGlyph name="chart" size={17} /></span>
-                                <span>{t('policy.sections.marketing.title', 'Digital Marketing Terms')}</span>
+                                <span className="policy-heading-icon" aria-hidden="true"><IconGlyph name="card" size={17} /></span>
+                                <span>{t('policy.sections.payments.title', 'Payment Methods')}</span>
                             </h3>
                             <p className="policy-intro">
-                                {t('policy.sections.marketing.intro', 'All digital marketing packages operate on a prepaid monthly basis to ensure uninterrupted campaign delivery and optimal budget allocation.')}
+                                {t('policy.sections.payments.intro', 'Until the business license is secured, payment is accepted by bank transfer (CBE Birr) only.')}
                             </p>
 
                             <div className="services-grid policy-services-grid">
                                 <div className="service-card">
                                     <div className="service-card-icon" aria-hidden="true"><IconGlyph name="card" size={21} /></div>
-                                    <h3>{t('policy.sections.marketing.cards.billing.title', 'Pre-Paid Monthly Billing')}</h3>
+                                    <h3>{t('policy.sections.payments.cards.bankTransfer.title', 'Bank Transfer (CBE Birr)')}</h3>
                                     <p>
-                                        {t('policy.sections.marketing.cards.billing.body', 'Both the Ad Management Fee and Ad Spend budget are invoiced and collected at the beginning of each month, before campaigns go live.')}
+                                        {t('policy.sections.payments.cards.bankTransfer.body', 'Payments are made by direct bank transfer in Ethiopian Birr. This is the only accepted payment method until the business license is secured.')}
                                     </p>
                                 </div>
 
                                 <div className="service-card">
-                                    <div className="service-card-icon" aria-hidden="true"><IconGlyph name="refresh" size={21} /></div>
-                                    <h3>{t('policy.sections.marketing.cards.scaling.title', 'Flexible Scaling')}</h3>
+                                    <div className="service-card-icon" aria-hidden="true"><IconGlyph name="phone" size={21} /></div>
+                                    <h3>{t('policy.sections.payments.cards.telebirr.title', 'Telebirr Merchant (Planned)')}</h3>
                                     <p>
-                                        {t('policy.sections.marketing.cards.scaling.body', 'You can adjust your ad spend up or down each month. We provide recommendations based on performance data to optimize your ROI.')}
+                                        {t('policy.sections.payments.cards.telebirr.body', 'After licensing, we plan to add Telebirr merchant payments so clients can pay by mobile money. This is a plan, not a current capability.')}
                                     </p>
                                 </div>
 
                                 <div className="service-card">
-                                    <div className="service-card-icon" aria-hidden="true"><IconGlyph name="chart" size={21} /></div>
-                                    <h3>{t('policy.sections.marketing.cards.reporting.title', 'Transparent Reporting')}</h3>
+                                    <div className="service-card-icon" aria-hidden="true"><IconGlyph name="globe" size={21} /></div>
+                                    <h3>{t('policy.sections.payments.cards.chapa.title', 'Chapa & Card Payments (Planned)')}</h3>
                                     <p>
-                                        {t('policy.sections.marketing.cards.reporting.body', 'Receive detailed monthly reports showing exactly how your budget was spent, campaign performance, and actionable insights.')}
+                                        {t('policy.sections.payments.cards.chapa.body', 'After licensing, we plan to add Chapa checkout and card payments for local and international clients. This is a plan, not a current capability.')}
                                     </p>
                                 </div>
                             </div>
@@ -131,7 +132,7 @@ export default function PolicyPage({ onDownloadClick }) {
                             <div className="policy-note">
                                 <span className="icon" aria-hidden="true"><IconGlyph name="idea" size={14} /></span>
                                 <span>
-                                    <strong>{t('policy.sections.marketing.note.title', 'International Card Handling:')}</strong> {t('policy.sections.marketing.note.body', 'If you do not have a valid international payment card (Visa/Mastercard) for ad platform payments (Google Ads, Meta Ads, etc.), we can process the Ad Spend on your behalf for an industry-standard handling fee of 15–20% of the ad spend amount. This covers currency conversion, transaction fees, and platform management.')}
+                                    <strong>{t('policy.sections.payments.note.title', 'Payment plan:')}</strong> {t('policy.sections.payments.note.body', 'Telebirr merchant, Chapa, and card payments will be added after the business license is secured. Until they are live, bank transfer (CBE Birr) remains the only accepted payment method.')}
                                 </span>
                             </div>
                         </div>
@@ -145,33 +146,40 @@ export default function PolicyPage({ onDownloadClick }) {
                                 <span>{t('policy.sections.saas.title', 'SaaS Subscription Terms')}</span>
                             </h3>
                             <p className="policy-intro">
-                                {t('policy.sections.saas.intro', 'Our cloud management systems (SMS, HMS, PMS) are offered as a service with the following terms.')}
+                                {t('policy.sections.saas.intro', 'Our cloud management systems (SMS, HMS, PMS) are in development — tell us you want it and we will add you to the waitlist.')}
                             </p>
 
                             <div className="services-grid">
                                 <div className="service-card">
                                     <div className="service-card-icon" aria-hidden="true"><IconGlyph name="wrench" size={21} /></div>
-                                    <h3>{t('policy.sections.saas.cards.setup.title', 'Setup & Training')}</h3>
+                                    <h3>{t('policy.sections.saas.cards.setup.title', 'Waitlist Only')}</h3>
                                     <p>
-                                        {t('policy.sections.saas.cards.setup.body', 'One-time setup fee covers system configuration, data migration, and comprehensive staff training. We ensure full onboarding before handoff.')}
+                                        {t('policy.sections.saas.cards.setup.body', 'SaaS products show no prices and no billing until a real product exists. Join the waitlist and we will contact you when a product is ready for your organization.')}
                                     </p>
                                 </div>
 
                                 <div className="service-card">
                                     <div className="service-card-icon" aria-hidden="true"><IconGlyph name="calendar" size={21} /></div>
-                                    <h3>{t('policy.sections.saas.cards.billing.title', 'Subscription Billing')}</h3>
+                                    <h3>{t('policy.sections.saas.cards.billing.title', 'In Development')}</h3>
                                     <p>
-                                        {t('policy.sections.saas.cards.billing.body', 'Choose monthly or annual billing. Annual subscriptions receive a 2-month discount. Payment is due at the start of each billing cycle.')}
+                                        {t('policy.sections.saas.cards.billing.body', 'School Management, Clinic/Hospital ERP, and Real Estate CRM are being built. There is no monthly or annual billing today.')}
                                     </p>
                                 </div>
 
                                 <div className="service-card">
                                     <div className="service-card-icon" aria-hidden="true"><IconGlyph name="shield" size={21} /></div>
-                                    <h3>{t('policy.sections.saas.cards.support.title', 'Support & Updates')}</h3>
+                                    <h3>{t('policy.sections.saas.cards.support.title', 'No Billing Until Launch')}</h3>
                                     <p>
-                                        {t('policy.sections.saas.cards.support.body', 'All subscriptions include continuous updates, security patches, data backups, and technical support via phone, email, and Telegram.')}
+                                        {t('policy.sections.saas.cards.support.body', 'Once a product is available, its terms will be published before any payment is requested. You will never be billed for a product that is not live.')}
                                     </p>
                                 </div>
+                            </div>
+
+                            <div className="policy-note">
+                                <span className="icon" aria-hidden="true"><IconGlyph name="spark" size={14} /></span>
+                                <span>
+                                    <strong>{t('policy.sections.saas.waitlistNote.title', 'Want it?')}</strong> {t('policy.sections.saas.waitlistNote.body', 'Tell us and we will keep you on the waitlist with no charge and no commitment.')}
+                                </span>
                             </div>
                         </div>
                     </ScrollReveal>

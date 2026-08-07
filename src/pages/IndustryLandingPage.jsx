@@ -21,8 +21,8 @@ export default function IndustryLandingPage({ onDownloadClick }) {
       <section className="section">
         <div className="container industry-not-found glass-card">
           <h1>{t('industry.notFound.title', `${toTitleCase(industrySlug)} industry page is not available yet`)}</h1>
-          <p>{t('industry.notFound.subtitle', 'We are still building this industry playbook. Explore the full portfolio in the meantime.')}</p>
-          <Link className="btn btn-primary" to="/portfolio">{t('industry.notFound.action', 'Go to Portfolio')}</Link>
+          <p>{t('industry.notFound.subtitle', 'We are still building this industry playbook. Explore our services in the meantime.')}</p>
+          <Link className="btn btn-primary" to="/services">{t('industry.notFound.action', 'Explore Our Services')}</Link>
         </div>
       </section>
     );

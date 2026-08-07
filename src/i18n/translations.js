@@ -22,15 +22,12 @@ const en = {
     services: 'AI Solutions',
     aiAutomation: 'AI Automation',
     productEngineeringShort: 'Product Engineering',
-    results: 'Results',
     explore: 'Explore',
     exploreMenu: 'Explore services and proof',
     workflowAudit: 'Workflow Audit',
     engineering: 'Product Engineering',
     engineeringLinks: 'Product engineering links',
     policy: 'Operations Policy',
-    caseStudies: 'Case Studies',
-    portfolio: 'Portfolio',
     instantQuote: 'Automation Brief',
     bookCall: 'Workflow Audit Call',
     openMenu: 'Open menu',
@@ -51,7 +48,6 @@ const en = {
   states: {
     sending: 'Sending...',
     loadingPackages: 'Loading Packages...',
-    loadingMarketingAddons: 'Loading Marketing Add-ons...',
     loadingCloudPlatforms: 'Loading Cloud Platforms...',
     loadingServices: 'Loading Services...',
     loadingFeaturedAddons: 'Loading Featured Add-Ons...',
@@ -108,8 +104,6 @@ const en = {
       mobile: 'Hi NovaTech AI, we need a mobile interface for AI-powered field operations and approvals.',
       saas: 'Hi NovaTech AI, I want to discuss orchestration and deployment patterns for our SaaS operations.',
       additional: 'Hi NovaTech AI, I need scoped engineering support around integrations and automation reliability.',
-      caseStudies: 'Hi NovaTech AI, I reviewed your outcomes and want to model similar automation ROI for our team.',
-      portfolio: 'Hi NovaTech AI, I am reviewing your architecture patterns and need guidance for our industry.',
       instantQuote: 'Hi NovaTech AI, I am completing the automation brief and need help validating scope and budget.',
       bookCall: 'Hi NovaTech AI, I want support selecting the best workflow audit slot and agenda.',
       policy: 'Hi NovaTech AI, I have a question about deployment, security, and operating policy terms.',
@@ -150,7 +144,7 @@ const en = {
     },
     pricing_guide: {
       title: 'Get the NovaTechAI 2026 Service Menu & Pricing Guide',
-      subtitle: 'Download the official NovaTechAI 2026 Service Menu & Pricing Guide with AI automation, web, mobile, SaaS, and marketing pricing in ETB and USD.',
+      subtitle: 'Download the official NovaTechAI 2026 Service Menu & Pricing Guide with AI automation, web, mobile, and SaaS pricing in ETB.',
       submitLabel: 'Download NovaTechAI Guide',
       successTitle: 'Thank You!',
       successSubtitle: 'Your NovaTechAI 2026 Service Menu & Pricing Guide is open in a new tab. You can also reopen it below.',
@@ -173,238 +167,10 @@ const en = {
       successPrimaryLabel: 'Open Booking Page',
     },
   },
-  home: {
-    hero: {
-      badge: '2026 Service Menu Available',
-      title: 'Build better sites, faster',
-      subtitle: 'From stunning websites to enterprise SaaS, we deliver end-to-end digital solutions tailored for the Ethiopian market and beyond.',
-      trustAria: 'Core trust points',
-      panelAria: 'Core service pillars',
-      trust: {
-        telebirr: 'Telebirr and Chapa Integration',
-        multilingual: 'Multilingual Product Teams',
-        launchSupport: 'Launch Support Included',
-      },
-      stats: {
-        projects: 'Projects Delivered',
-        clients: 'Active Clients',
-        satisfaction: 'Client Satisfaction',
-      },
-      panelLabel: 'Core Solutions',
-      cards: {
-        web: {
-          title: 'Web Development',
-          text: 'Custom websites with modern technology, optimized for performance and conversions across all devices.',
-        },
-        mobile: {
-          title: 'Mobile Apps',
-          text: 'Cross-platform iOS & Android apps with offline-first architecture and local payment integrations.',
-        },
-        saas: {
-          title: 'SaaS Solutions',
-          text: 'Rent-to-use cloud management systems for schools, hospitals, and real estate companies.',
-        },
-      },
-    },
-    about: {
-      header: {
-        tag: 'About Us',
-        title: 'Empowering Your Brand with Comprehensive Digital Solutions',
-        subtitle: 'Cutting-edge development, data-driven marketing, and scalable SaaS platforms built for measurable growth.',
-      },
-      cards: {
-        who: {
-          title: 'Who We Are',
-          text: 'We are a premier technology and digital marketing agency specializing in high-performance web architecture, cross-platform mobile application development, and enterprise-grade software. We understand that your digital presence needs to do more than just establish instant credibility, it must function as a dynamic sales tool and a robust operational hub tailored to your business needs.',
-        },
-        what: {
-          title: 'What We Do',
-          text: 'Our development tiers are meticulously designed to scale with you, accommodating varying technical complexities and platform requirements. We partner with a diverse range of clients, from local startups, personal brands, and NGOs to multi-national corporations, large hotels, and government bureaus. Whether you need a responsive, highly optimized web presence, a custom mobile app, or fully hosted enterprise systems, our packages are built to elevate your operations.',
-        },
-        market: {
-          title: 'Built for the Local & Global Market',
-          text: 'We proudly engineer software tailored for the Ethiopian market and beyond. Our custom architectures feature seamless multi-language support (English, Amharic, Afaan Oromoo) and direct API integrations with local payment gateways like Telebirr, Chapa, and CBE Birr. Paired with our targeted digital marketing strategies, focusing on everything from local reach to full market domination, we ensure your brand connects with the right audience and drives substantial ROI.',
-        },
-      },
-    },
-    services: {
-      header: {
-        tag: 'Our Services',
-        title: 'Comprehensive Digital Solutions',
-        subtitle: 'Everything you need to establish, grow, and dominate your digital presence.',
-      },
-      cards: {
-        web: {
-          title: 'Web Design & Development',
-          text: 'From starter websites to enterprise platforms. Custom-built with modern technology, optimized for performance and conversions.',
-        },
-        mobile: {
-          title: 'Mobile App Development',
-          text: 'Cross-platform iOS & Android apps built with Flutter and React Native. Designed for the Ethiopian market.',
-        },
-        saas: {
-          title: 'SaaS Cloud Solutions',
-          text: 'Rent-to-use management systems for schools, hospitals, and real estate. Zero IT overhead.',
-        },
-        additional: {
-          title: 'Branding & Additional',
-          text: 'Logo design, photography, copywriting, domain hosting, and annual maintenance packages.',
-        },
-      },
-    },
-    roi: {
-      title: 'Estimate Revenue Impact Before You Commit',
-      subtitle: 'Use your current lead and conversion data to simulate potential growth from a focused digital rollout.',
-    },
-    testimonials: {
-      header: {
-        tag: 'Testimonials',
-        title: 'What Our Clients Say',
-        subtitle: "Don't take our word for it, here is what businesses we've partnered with have to say.",
-      },
-      rating: '5.0 Rating',
-      items: [
-        {
-          quote: 'NovaTech completely transformed our online presence. Our new website loads 3x faster and conversions increased by 40% in the first month.',
-          name: 'Abel Kebede',
-          role: 'CEO, Habesha Brands',
-        },
-        {
-          quote: 'The SaaS platform they built for our school has streamlined everything from attendance to grade reports. Parents love the Telegram notifications.',
-          name: 'Sara Tesfaye',
-          role: 'Director, Bright Future Academy',
-        },
-        {
-          quote: 'Their mobile app with Telebirr integration has been a game-changer for our delivery service. Professional team with exceptional follow-through.',
-          name: 'Daniel Mekonnen',
-          role: 'Founder, QuickDeliver ET',
-        },
-      ],
-    },
-    process: {
-      header: {
-        tag: 'Our Process',
-        title: 'How We Work',
-        subtitle: 'A proven 4-step process that takes your project from idea to launch with transparency at every stage.',
-      },
-      steps: {
-        discovery: {
-          title: 'Discovery',
-          text: 'We learn your business, goals, audience, and competition to define the perfect strategy.',
-        },
-        design: {
-          title: 'Design',
-          text: 'Wireframes and high-fidelity mockups crafted for your brand, reviewed until perfect.',
-        },
-        develop: {
-          title: 'Develop',
-          text: 'Clean, scalable code built with modern frameworks. Rigorous testing at every milestone.',
-        },
-        deploy: {
-          title: 'Deploy',
-          text: 'Launch with confidence. We handle hosting, SEO, and provide ongoing support and training.',
-        },
-      },
-    },
-    portfolio: {
-      header: {
-        tag: 'Our Work',
-        title: 'Featured Projects',
-        subtitle: "A glimpse of the digital experiences we've crafted for businesses across Ethiopia and beyond.",
-      },
-      cards: {
-        web: {
-          tag: 'Web Platform',
-          title: 'E-Commerce Marketplace',
-          text: 'Multi-vendor platform with Chapa payment integration, real-time inventory, and Amharic support.',
-        },
-        mobile: {
-          tag: 'Mobile App',
-          title: 'Delivery Service App',
-          text: 'Cross-platform app with live tracking, Telebirr payments, and push notifications via Telegram.',
-        },
-        saas: {
-          tag: 'SaaS Platform',
-          title: 'School Management System',
-          text: 'Cloud-based ERP serving 50+ schools with grading, attendance, fees, and parent portals.',
-        },
-      },
-      comingSoon: 'Full portfolio page with detailed case studies coming soon. Stay tuned.',
-    },
-    contact: {
-      header: {
-        tag: 'Get In Touch',
-        title: "Let's Start Your Project",
-        subtitle: "Have a project in mind? Drop us a message and we'll get back to you within 24 hours.",
-      },
-      form: {
-        title: 'Send Us a Message',
-        fullName: 'Full Name',
-        fullNamePlaceholder: 'Hana Bekele',
-        email: 'Email Address',
-        emailPlaceholder: 'team@company.et',
-        message: 'Your Message',
-        messagePlaceholder: 'Tell us about your project...',
-        submit: 'Send Message',
-        feedback: {
-          sent: 'Thanks. Your message was submitted successfully and our team will respond within 24 hours.',
-          fallback: 'We could not reach our API endpoint, so we opened your email app to complete the request.',
-          error: 'Please verify your name, email, and message, then try again.',
-          sending: 'Sending your request through our secure contact API...',
-          idle: 'We usually respond in less than one business day.',
-        },
-      },
-    },
-    bottomCta: {
-      title: 'Ready to Transform Your Business?',
-      subtitle: 'Download our comprehensive 2026 Service Menu & Pricing Guide to find the perfect package.',
-    },
-  },
-  caseStudies: {
-    hero: {
-      title: 'Case Studies',
-      subtitle: 'Real delivery stories with measurable before and after outcomes across priority industries.',
-    },
-    header: {
-      tag: 'Client Outcomes',
-      title: 'Measured Impact',
-      subtitle: 'Each case study captures business context, implementation path, and quantifiable results.',
-    },
-    delivery: 'Delivery',
-    labels: {
-      challenge: 'Challenge',
-      solution: 'Solution',
-      stack: 'Stack',
-    },
-  },
-  portfolio: {
-    hero: {
-      title: 'Portfolio',
-      subtitle: 'Filter by industry to explore projects and architecture patterns relevant to your business model.',
-    },
-    header: {
-      tag: 'Project Library',
-      title: 'Filter by Industry',
-      subtitle: 'Use industry filters to focus on examples close to your operational context.',
-    },
-    filters: {
-      aria: 'Portfolio industry filters',
-      all: 'All',
-      ecommerce: 'E-commerce',
-      education: 'Education',
-      healthcare: 'Healthcare',
-      'real-estate': 'Real Estate',
-      logistics: 'Logistics',
-    },
-    actions: {
-      viewPlaybook: 'View Industry Playbook',
-      viewRelated: 'View Related Work',
-    },
-  },
   industry: {
     notFound: {
-      subtitle: 'We are still building this industry playbook. Explore the full portfolio in the meantime.',
-      action: 'Go to Portfolio',
+      subtitle: 'We are still building this industry playbook. Explore our services in the meantime.',
+      action: 'Explore Our Services',
     },
     header: {
       tag: 'Industry Playbook',
@@ -603,6 +369,53 @@ const en = {
       chip1: 'Milestone-Based Billing',
       chip2: 'Client IP Ownership',
       chip3: 'Clear Support Commitments',
+      chip4: 'Bank Transfer Only',
+    },
+    sections: {
+      payments: {
+        title: 'Payment Methods',
+        intro: 'Until the business license is secured, payment is accepted by bank transfer (CBE Birr) only.',
+        cards: {
+          bankTransfer: {
+            title: 'Bank Transfer (CBE Birr)',
+            body: 'Payments are made by direct bank transfer in Ethiopian Birr. This is the only accepted payment method until the business license is secured.',
+          },
+          telebirr: {
+            title: 'Telebirr Merchant (Planned)',
+            body: 'After licensing, we plan to add Telebirr merchant payments so clients can pay by mobile money. This is a plan, not a current capability.',
+          },
+          chapa: {
+            title: 'Chapa & Card Payments (Planned)',
+            body: 'After licensing, we plan to add Chapa checkout and card payments for local and international clients. This is a plan, not a current capability.',
+          },
+        },
+        note: {
+          title: 'Payment plan:',
+          body: 'Telebirr merchant, Chapa, and card payments will be added after the business license is secured. Until they are live, bank transfer (CBE Birr) remains the only accepted payment method.',
+        },
+      },
+      saas: {
+        title: 'SaaS Subscription Terms',
+        intro: 'Our cloud management systems (SMS, HMS, PMS) are in development — tell us you want it and we will add you to the waitlist.',
+        cards: {
+          setup: {
+            title: 'Waitlist Only',
+            body: 'SaaS products show no prices and no billing until a real product exists. Join the waitlist and we will contact you when a product is ready for your organization.',
+          },
+          billing: {
+            title: 'In Development',
+            body: 'School Management, Clinic/Hospital ERP, and Real Estate CRM are being built. There is no monthly or annual billing today.',
+          },
+          support: {
+            title: 'No Billing Until Launch',
+            body: 'Once a product is available, its terms will be published before any payment is requested. You will never be billed for a product that is not live.',
+          },
+        },
+        waitlistNote: {
+          title: 'Want it?',
+          body: 'Tell us and we will keep you on the waitlist with no charge and no commitment.',
+        },
+      },
     },
   },
   seo: {
@@ -619,8 +432,6 @@ const amOverrides = {
     saas: 'SaaS',
     services: 'አገልግሎቶች',
     policy: 'ፖሊሲ',
-    caseStudies: 'የስራ ጥናቶች',
-    portfolio: 'ፖርትፎሊዮ',
     instantQuote: 'ፈጣን ዋጋ',
     bookCall: 'ጥሪ ያስይዙ',
     openMenu: 'ሜኑ ክፈት',
@@ -675,141 +486,6 @@ const amOverrides = {
       estimatedRoi: 'ተገመተ ROI',
     },
   },
-  home: {
-    hero: {
-      badge: 'የ2026 አገልግሎት መመሪያ ተዘጋጅቷል',
-      title: 'የተሻለ ድር ጣቢያ በፍጥነት ይገንቡ',
-      subtitle: 'ከአስደናቂ ድር ጣቢያዎች እስከ የኢንተርፕራይዝ SaaS ድረስ፣ ለኢትዮጵያ ገበያ እና ከዚያ በላይ የተሟላ ዲጂታል መፍትሄዎችን እናቀርባለን።',
-      trustAria: 'ዋና የመታመኛ ነጥቦች',
-      panelAria: 'ዋና የአገልግሎት ምሰሶዎች',
-      trust: {
-        telebirr: 'Telebirr እና Chapa ውህደት',
-        multilingual: 'ባለብዙ ቋንቋ የምርት ቡድኖች',
-        launchSupport: 'የማስጀመሪያ ድጋፍ ተካቷል',
-      },
-      stats: {
-        projects: 'የተፈጸሙ ፕሮጀክቶች',
-        clients: 'ንቁ ደንበኞች',
-        satisfaction: 'የደንበኛ እርካታ',
-      },
-      panelLabel: 'ዋና መፍትሄዎች',
-      cards: {
-        web: {
-          title: 'ዌብ ልማት',
-        },
-        mobile: {
-          title: 'ሞባይል መተግበሪያዎች',
-        },
-        saas: {
-          title: 'SaaS መፍትሄዎች',
-        },
-      },
-    },
-    about: {
-      header: {
-        tag: 'ስለ እኛ',
-        title: 'ብራንድዎን በተሟላ ዲጂታል መፍትሄዎች እናጎለብታለን',
-      },
-      cards: {
-        who: {
-          title: 'እኛ ማን ነን',
-        },
-        what: {
-          title: 'ምን እንሰራለን',
-        },
-        market: {
-          title: 'ለአካባቢያዊ እና ለዓለም አቀፍ ገበያ የተገነባ',
-        },
-      },
-    },
-    services: {
-      header: {
-        tag: 'አገልግሎቶቻችን',
-        title: 'ተሟላ ዲጂታል መፍትሄዎች',
-      },
-      cards: {
-        web: {
-          title: 'የዌብ ዲዛይን እና ልማት',
-        },
-        mobile: {
-          title: 'የሞባይል መተግበሪያ ልማት',
-        },
-        saas: {
-          title: 'SaaS ክላውድ መፍትሄዎች',
-        },
-        additional: {
-          title: 'ብራንዲንግ እና ተጨማሪ',
-        },
-      },
-    },
-    roi: {
-      title: 'ከመወሰንዎ በፊት የገቢ ተፅዕኖን ይገምቱ',
-    },
-    testimonials: {
-      header: {
-        tag: 'ምስክርነቶች',
-        title: 'ደንበኞቻችን የሚሉት',
-      },
-      rating: '5.0 ደረጃ',
-    },
-    process: {
-      header: {
-        tag: 'የስራ ሂደታችን',
-        title: 'እንዴት እንሰራለን',
-      },
-      steps: {
-        discovery: {
-          title: 'ግኝት',
-        },
-        design: {
-          title: 'ዲዛይን',
-        },
-        develop: {
-          title: 'ልማት',
-        },
-        deploy: {
-          title: 'ማስጀመር',
-        },
-      },
-    },
-    portfolio: {
-      header: {
-        tag: 'ስራችን',
-        title: 'የተመረጡ ፕሮጀክቶች',
-      },
-      comingSoon: 'ሙሉ የፖርትፎሊዮ ገፅ በቅርቡ ይገኛል።',
-    },
-    contact: {
-      header: {
-        tag: 'ያግኙን',
-        title: 'ፕሮጀክትዎን እንጀምር',
-      },
-      form: {
-        title: 'መልእክት ይላኩልን',
-        fullName: 'ሙሉ ስም',
-        email: 'የኢሜይል አድራሻ',
-        message: 'መልእክትዎ',
-        submit: 'መልእክት ላክ',
-      },
-    },
-    bottomCta: {
-      title: 'ንግድዎን ለመቀየር ዝግጁ ነዎት?',
-    },
-  },
-  caseStudies: {
-    hero: {
-      title: 'የስራ ጥናቶች',
-    },
-  },
-  portfolio: {
-    hero: {
-      title: 'ፖርትፎሊዮ',
-    },
-    actions: {
-      viewPlaybook: 'የኢንዱስትሪ መመሪያ ይመልከቱ',
-      viewRelated: 'ተዛማጅ ስራ ይመልከቱ',
-    },
-  },
   instantQuote: {
     hero: {
       title: 'ፈጣን የዋጋ መለኪያ',
@@ -840,8 +516,6 @@ const omOverrides = {
     saas: 'SaaS',
     services: 'Tajaajiloota',
     policy: 'Seera',
-    caseStudies: 'Qo annoo Hojii',
-    portfolio: 'Portfolio',
     instantQuote: 'Qorannoo Gatii',
     bookCall: 'Bilbilaa Qabadhu',
     openMenu: 'Menu banaa',
@@ -886,141 +560,6 @@ const omOverrides = {
       linkedin: 'LinkedIn',
     },
   },
-  home: {
-    hero: {
-      badge: "Tarree tajaajilaa 2026 qophaa'eera",
-      title: 'Marsariitii gaarii saffisaan ijaaraa',
-      subtitle: 'Marsariitii bareedaa irraa kaasee hanga SaaS guddaadhaatti, furmaata dijitaalaa guutuu Itoophiyaa fi alaaf ni dhiyeessina.',
-      trustAria: 'Qabxiilee amanamummaa ijoo',
-      panelAria: 'Furmaata ijoo tajaajilaa',
-      trust: {
-        telebirr: 'Walitti hidhamiinsa Telebirr fi Chapa',
-        multilingual: 'Gareewwan oomishaa afaan hedduu',
-        launchSupport: 'Deeggarsa eegalchiisa dabalameera',
-      },
-      stats: {
-        projects: 'Pirojektoota xumuraman',
-        clients: 'Maamiltoota hojii irra jiran',
-        satisfaction: 'Qulqullina maamilaa',
-      },
-      panelLabel: 'Furmaata Ijoo',
-      cards: {
-        web: {
-          title: 'Misooma Web',
-        },
-        mobile: {
-          title: 'Appii Moobaayilaa',
-        },
-        saas: {
-          title: 'Furmaata SaaS',
-        },
-      },
-    },
-    about: {
-      header: {
-        tag: "Waa'ee keenya",
-        title: 'Furmaata dijitaalaa guutuun maqaa keessan ni cimsina',
-      },
-      cards: {
-        who: {
-          title: 'Nu eenyu',
-        },
-        what: {
-          title: 'Maal hojjanna',
-        },
-        market: {
-          title: 'Gabaa biyya keessaa fi addunyaaf ijaarame',
-        },
-      },
-    },
-    services: {
-      header: {
-        tag: 'Tajaajiloota keenya',
-        title: 'Furmaata Dijitaalaa Guutuu',
-      },
-      cards: {
-        web: {
-          title: 'Dizaayinii fi Misooma Web',
-        },
-        mobile: {
-          title: 'Misooma Appii Moobaayilaa',
-        },
-        saas: {
-          title: 'Furmaata SaaS Cloud',
-        },
-        additional: {
-          title: 'Branding fi Dabalataa',
-        },
-      },
-    },
-    roi: {
-      title: 'Utuu hin murteessin buʼaa galii tilmaami',
-    },
-    testimonials: {
-      header: {
-        tag: 'Ragaa Maamilaa',
-        title: 'Maamiltoonni keenya maal jedhu',
-      },
-      rating: 'Sadarkaa 5.0',
-    },
-    process: {
-      header: {
-        tag: 'Adeemsa keenya',
-        title: 'Akkaataa itti hojjennu',
-      },
-      steps: {
-        discovery: {
-          title: 'Qorannoo',
-        },
-        design: {
-          title: 'Dizaayinii',
-        },
-        develop: {
-          title: 'Misooma',
-        },
-        deploy: {
-          title: 'Eegalchiisa',
-        },
-      },
-    },
-    portfolio: {
-      header: {
-        tag: 'Hojii keenya',
-        title: 'Pirojektoota filatamoo',
-      },
-      comingSoon: 'Fuulli portfolio guutuun yeroo dhiyootti ni dhufa.',
-    },
-    contact: {
-      header: {
-        tag: 'Nu qunnamaa',
-        title: 'Pirojektii keessan haa jalqabnu',
-      },
-      form: {
-        title: 'Ergaa nuuf ergaa',
-        fullName: 'Maqaa guutuu',
-        email: 'Imeelii',
-        message: 'Ergaa keessan',
-        submit: 'Ergaa Ergi',
-      },
-    },
-    bottomCta: {
-      title: 'Daldala keessan jijjiiruuf qophaaʼaa?',
-    },
-  },
-  caseStudies: {
-    hero: {
-      title: "Qo'annoolee Hojii",
-    },
-  },
-  portfolio: {
-    hero: {
-      title: 'Portfolio',
-    },
-    actions: {
-      viewPlaybook: 'Kitaaba Qajeelfamaa Industirii ilaali',
-      viewRelated: 'Hojii wal-fakkaataa ilaali',
-    },
-  },
   instantQuote: {
     hero: {
       title: 'Qorannoo Gatii Saffisaa',
@@ -1051,7 +590,6 @@ const amContentOverrides = {
   states: {
     sending: 'በመላክ ላይ...',
     loadingPackages: 'ፓኬጆች በመጫን ላይ...',
-    loadingMarketingAddons: 'የማርኬቲንግ ተጨማሪዎች በመጫን ላይ...',
     loadingCloudPlatforms: 'የክላውድ መድረኮች በመጫን ላይ...',
     loadingServices: 'አገልግሎቶች በመጫን ላይ...',
     loadingFeaturedAddons: 'ተመራጭ ተጨማሪዎች በመጫን ላይ...',
@@ -1067,8 +605,6 @@ const amContentOverrides = {
       mobile: 'ሰላም NovaTech፣ የሞባይል መተግበሪያ እቅድ አለኝ እና የማቅረቢያ ጊዜ ግምት እፈልጋለሁ።',
       saas: 'ሰላም NovaTech፣ ለድርጅቴ የSaaS አማራጮችን ልወያይ እፈልጋለሁ።',
       additional: 'ሰላም NovaTech፣ ለተጨማሪ አገልግሎቶች ብጁ ጥቅስ እፈልጋለሁ።',
-      caseStudies: 'ሰላም NovaTech፣ የእናንተን የስራ ጥናቶች አይቻለሁ እና ተመሳሳይ ውጤት ስለማግኘት ልወያይ እፈልጋለሁ።',
-      portfolio: 'ሰላም NovaTech፣ ፖርትፎሊዮዎን እመለከታለሁ እና ለኢንዱስትሪዬ ምክር እፈልጋለሁ።',
       instantQuote: 'ሰላም NovaTech፣ ፈጣን የዋጋ መለኪያውን እሞላለሁ እና የክልል እና በጀት ማረጋገጫ እፈልጋለሁ።',
       bookCall: 'ሰላም NovaTech፣ ለግኝት ጥሪ ተስማሚ ጊዜ እና አጀንዳ ለመምረጥ እገዛ እፈልጋለሁ።',
       policy: 'ሰላም NovaTech፣ ስለ ክፍያ እና ኦፕሬሽን ፖሊሲዎ ጥያቄ አለኝ።',
@@ -1089,7 +625,7 @@ const amContentOverrides = {
     },
     pricing_guide: {
       title: 'NovaTechAI 2026 የService Menu & Pricing Guide ያግኙ',
-      subtitle: 'የAI አውቶሜሽን፣ ዌብ፣ ሞባይል፣ SaaS እና ማርኬቲንግ ዋጋዎችን በETB እና USD የያዘውን መደበኛ NovaTechAI 2026 መመሪያ ያውርዱ።',
+      subtitle: 'የAI አውቶሜሽን፣ ዌብ፣ ሞባይል እና SaaS ዋጋዎችን በETB የያዘውን መደበኛ NovaTechAI 2026 መመሪያ ያውርዱ።',
       submitLabel: 'NovaTechAI መመሪያ አውርድ',
       successTitle: 'እናመሰግናለን!',
       successSubtitle: 'የNovaTechAI 2026 Service Menu & Pricing Guide በአዲስ ታብ ተከፍቷል። ከታች ደግሞ እንደገና መክፈት ይችላሉ።',
@@ -1127,225 +663,6 @@ const amContentOverrides = {
       currentRevenue: 'የአሁኑ ገቢ (ETB)',
       projectedRevenue: 'ተገመተ ገቢ (ETB)',
       revenueLift: 'የገቢ ጭማሪ (ETB)',
-    },
-  },
-  home: {
-    hero: {
-      cards: {
-        web: {
-          text: 'በሁሉም መሳሪያዎች ላይ ፍጥነትና ቅየራ የተመቻቸ ዘመናዊ ብጁ ድር ጣቢያዎች።',
-        },
-        mobile: {
-          text: 'ከኦፍላይን-መጀመሪያ አርክቴክቸር እና የአካባቢ ክፍያ ውህደቶች ጋር የiOS እና Android መተግበሪያዎች።',
-        },
-        saas: {
-          text: 'ለትምህርት ቤቶች፣ ሆስፒታሎች እና ሪል እስቴት ድርጅቶች ኪራይ ላይ የሚውሉ የክላውድ ስርዓቶች።',
-        },
-      },
-    },
-    about: {
-      header: {
-        subtitle: 'በመለኪያ የሚለካ እድገት የሚያመጡ ዘመናዊ ልማት፣ በመረጃ የተመራ ማርኬቲንግ እና ስኬላብል SaaS መድረኮች።',
-      },
-      cards: {
-        who: {
-          text: 'በከፍተኛ የዌብ አዋቂነት፣ በመድረክ-አቋራጭ የሞባይል ልማት እና በኢንተርፕራይዝ የሶፍትዌር መፍትሄዎች የምንሰራ ዋና የቴክኖሎጂ እና የዲጂታል ማርኬቲንግ ኤጀንሲ ነን።',
-        },
-        what: {
-          text: 'ከአካባቢ ስታርትአፕ እስከ ትልቅ ኩባንያ ድረስ ከተለያዩ ደንበኞች ጋር እንሰራለን፣ እና ፓኬጆቻችን ኦፕሬሽንዎን ለማሻሻል የተገነቡ ናቸው።',
-        },
-        market: {
-          text: 'ለኢትዮጵያ ገበያ እና ከዚያ በላይ የተጣጣመ ሶፍትዌር እንገነባለን። የብዙ ቋንቋ ድጋፍ እና የTelebirr/Chapa/CBE Birr ውህደት እናቀርባለን።',
-        },
-      },
-    },
-    services: {
-      header: {
-        subtitle: 'ዲጂታል መገኘትዎን ለመጀመር፣ ለማሳደግ እና ለመግዛት የሚያስፈልጉ ሁሉንም ነገር።',
-      },
-      cards: {
-        web: {
-          text: 'ከጀማሪ ድር ጣቢያ እስከ የኢንተርፕራይዝ መድረኮች፣ በዘመናዊ ቴክኖሎጂ የተገነባ መፍትሄ።',
-        },
-        mobile: {
-          text: 'በFlutter እና React Native የተገነቡ የiOS እና Android መተግበሪያዎች።',
-        },
-        saas: {
-          text: 'ለትምህርት ቤቶች፣ ሆስፒታሎች እና ሪል እስቴት የኪራይ ስርዓት መፍትሄዎች።',
-        },
-        additional: {
-          text: 'ሎጎ ዲዛይን፣ ፎቶግራፊ፣ ኮፒራይቲንግ፣ ዶሜይን ሆስቲንግ እና ዓመታዊ ጥገና ፓኬጆች።',
-        },
-      },
-    },
-    roi: {
-      subtitle: 'በተለመደው የሊድ እና የመቀየር መረጃዎ ላይ ተመስርተው የእድገት ግምት ያድርጉ።',
-    },
-    testimonials: {
-      header: {
-        subtitle: 'ከእኛ የተሻለ የሚናገሩት ከእኛ ጋር የሰሩ ድርጅቶች ናቸው።',
-      },
-      items: [
-        {
-          quote: 'NovaTech የእኛን የመስመር ላይ መገኘት ሙሉ በሙሉ ቀይሯል። ድር ጣቢያችን በ3x ፍጥነት ይጫናል እና ቅየራ በ40% ጨምሯል።',
-          role: 'CEO, Habesha Brands',
-        },
-        {
-          quote: 'ለትምህርት ቤታችን የተገነባው የSaaS መድረክ ከተገኝነት እስከ ውጤት ሪፖርት ድረስ ሂደቶችን አቀላጥፏል።',
-          role: 'Director, Bright Future Academy',
-        },
-        {
-          quote: 'Telebirr የተዋሃደበት የሞባይል መተግበሪያቸው ለዴሊቨሪ አገልግሎታችን ትልቅ ለውጥ አመጣ።',
-          role: 'Founder, QuickDeliver ET',
-        },
-      ],
-    },
-    process: {
-      header: {
-        subtitle: 'ፕሮጀክትዎን ከሀሳብ እስከ ማስጀመር የሚያደርስ የ4 እርምጃ የተረጋገጠ ሂደት።',
-      },
-      steps: {
-        discovery: {
-          text: 'ንግድዎን፣ ግቦችዎን እና ተወዳዳሪዎችን እንመርምራለን።',
-        },
-        design: {
-          text: 'ለብራንድዎ ተስማሚ ዋይርፍሬሞች እና ከፍተኛ ጥራት ሞክአፕ እንሰራለን።',
-        },
-        develop: {
-          text: 'በዘመናዊ ፍሬምወርኮች ንፁህ እና ስኬላብል ኮድ እንገነባለን።',
-        },
-        deploy: {
-          text: 'በመተማመን እንለቃለን። ሆስቲንግ፣ SEO እና ቀጣይ ድጋፍ እንሰጣለን።',
-        },
-      },
-    },
-    portfolio: {
-      header: {
-        subtitle: 'በኢትዮጵያ እና ከዚያ በላይ ለቢዝነሶች የሰራናቸው የዲጂታል ልምዶች ናሙና።',
-      },
-      cards: {
-        web: {
-          tag: 'የዌብ መድረክ',
-          title: 'ኢ-ኮሜርስ ማርኬትፕሌስ',
-          text: 'ከChapa ክፍያ ውህደት እና የአማርኛ ድጋፍ ጋር የባለብዙ ሻጭ መድረክ።',
-        },
-        mobile: {
-          tag: 'ሞባይል መተግበሪያ',
-          title: 'የዴሊቨሪ አገልግሎት መተግበሪያ',
-          text: 'በቀጥታ መከታተያ እና Telebirr ክፍያ ያለው መተግበሪያ።',
-        },
-        saas: {
-          tag: 'SaaS መድረክ',
-          title: 'የትምህርት ቤት አስተዳደር ስርዓት',
-          text: 'ለ50+ ትምህርት ቤቶች የሚያገለግል የክላውድ ERP ስርዓት።',
-        },
-      },
-      comingSoon: 'በዝርዝር የስራ ጥናት ያለው ሙሉ ፖርትፎሊዮ ገጽ በቅርቡ ይመጣል።',
-    },
-    contact: {
-      header: {
-        subtitle: 'ፕሮጀክት ካለዎት መልእክት ይላኩ፣ በ24 ሰዓት ውስጥ እንመልሳለን።',
-      },
-      form: {
-        fullNamePlaceholder: 'ሀና በቀለ',
-        emailPlaceholder: 'team@company.et',
-        messagePlaceholder: 'ስለ ፕሮጀክትዎ ይንገሩን...',
-        feedback: {
-          sent: 'እናመሰግናለን። መልእክትዎ ተልኳል እና ቡድናችን በ24 ሰዓት ውስጥ ይመልሳል።',
-          fallback: 'API ጋር መገናኘት አልተቻለም፣ ስለዚህ የኢሜይል መተግበሪያዎን ከፍተናል።',
-          error: 'እባክዎ ስም፣ ኢሜይል እና መልእክትዎን ያረጋግጡ እና ድጋሚ ይሞክሩ።',
-          sending: 'ጥያቄዎን በደህንነት ወደ API በመላክ ላይ...',
-          idle: 'አብዛኛውን ጊዜ በአንድ የስራ ቀን ውስጥ እንመልሳለን።',
-        },
-      },
-    },
-    bottomCta: {
-      subtitle: 'ለእርስዎ ተስማሚ ፓኬጅ ለማግኘት የ2026 ሙሉ የአገልግሎት እና ዋጋ መመሪያችንን ያውርዱ።',
-    },
-  },
-  caseStudies: {
-    hero: {
-      subtitle: 'በቅድሚያ እና በኋላ የሚለኩ ውጤቶችን የሚያሳዩ እውነተኛ የማቅረቢያ ታሪኮች።',
-    },
-    header: {
-      tag: 'የደንበኛ ውጤቶች',
-      title: 'ተለክቷ የተመዘገበ ተፅዕኖ',
-      subtitle: 'እያንዳንዱ የስራ ጥናት የቢዝነስ አውድ፣ የአፈጻጸም መንገድ እና የተለኩ ውጤቶችን ያቀርባል።',
-    },
-    delivery: 'ማቅረቢያ',
-    labels: {
-      challenge: 'ችግኝ',
-      solution: 'መፍትሄ',
-      stack: 'ቴክ ስታክ',
-    },
-    items: {
-      'habesha-marketplace': {
-        title: 'የHabesha Marketplace ዳግም መድረክ',
-        industry: 'ኢ-ኮሜርስ',
-        summary: 'ፍጥነት፣ ቼክአውት እና ባለሁለት ቋንቋ UX ላይ ያተኮረ የባለብዙ ሻጭ ማርኬትፕሌስ ሽግግር።',
-        challenge: 'የቀድሞ ስቶርፍሮንት የሞባይል ፍጥነት ዝቅተኛ እና የቼክአውት ጨርስ መጠን ዝቅተኛ ነበር።',
-        solution: 'በVite React ዳግም ተገንብቶ የቼክአውት ፍሰቶች ተሻሽለው Chapa ውህደት ተፈጥሯል።',
-        timeline: '10 ሳምንት',
-        results: [
-          { label: 'የገጽ ፍጥነት ውጤት', delta: '+116%' },
-          { label: 'የቼክአውት ቅየራ', delta: '+117%' },
-          { label: 'የተተወ ጋሪ መመለስ', delta: '+14 ነጥብ' },
-        ],
-        testimonial: 'እንደገና መለቀቁ በአንድ ሩብ ውስጥ እራሱን አከፍሏል እና ለስኬል እምነት ሰጠን።',
-      },
-      'bright-future-academy': {
-        title: 'የBright Future Academy SaaS ማስጀመሪያ',
-        industry: 'ትምህርት',
-        summary: 'የትምህርት ቤት አስተዳደር መድረክ ከተገኝነት እና ውጤት እስከ የወላጅ ግንኙነት።',
-        challenge: 'በክፍሎች መካከል የተበታተነ መረጃ እና በእጅ ሪፖርት ሂደት።',
-        solution: 'በሚና-ተመራ ዳሽቦርድ እና የወላጅ አዘምኖች የተዋቀረ ሞዱላር SaaS ተሰጠ።',
-        timeline: '12 ሳምንት',
-        results: [
-          { label: 'የሪፖርት ዝግጅት ጊዜ', delta: '-84%' },
-          { label: 'የዘገየ ክፍያ ስብስብ', delta: '+24 ነጥብ' },
-          { label: 'የወላጅ እርካታ', delta: '+26 ነጥብ' },
-        ],
-      },
-      'mercy-health-network': {
-        title: 'Mercy Health ዲጂታል መግቢያ',
-        industry: 'ጤና',
-        summary: 'በብዙ ቋንቋ ድጋፍ የክሊኒክ መግቢያ እና ቀጠሮ ማዘመን።',
-        challenge: 'በእጅ ስኬጁሊንግ ምክንያት ረዥም ረድፍ እና የቀጠሮ አለመገኘት።',
-        solution: 'ዲጂታል መግቢያ፣ ራስ-ሰር አስታዋሽ እና የክትትል ፍሰቶች ተግባራዊ ተደረጉ።',
-        timeline: '9 ሳምንት',
-        results: [
-          { label: 'አማካይ የመግቢያ ጊዜ', delta: '-62%' },
-          { label: 'የአለመታየት መጠን', delta: '-10 ነጥብ' },
-          { label: 'የፊት ዴስክ አቅም', delta: '+56%' },
-        ],
-      },
-    },
-  },
-  portfolio: {
-    hero: {
-      subtitle: 'በኢንዱስትሪ መርጠው ከንግድ ሞዴልዎ ጋር የሚጣጣሙ ፕሮጀክቶችን ይመልከቱ።',
-    },
-    header: {
-      tag: 'የፕሮጀክት ቤተ-መጽሐፍት',
-      title: 'በኢንዱስትሪ ይምረጡ',
-      subtitle: 'ከኦፕሬሽንዎ ጋር የሚቀርቡ ምሳሌዎችን ለማተኮር ማጣሪያዎችን ይጠቀሙ።',
-    },
-    filters: {
-      aria: 'የፖርትፎሊዮ የኢንዱስትሪ ማጣሪያዎች',
-      all: 'ሁሉም',
-      ecommerce: 'ኢ-ኮሜርስ',
-      education: 'ትምህርት',
-      healthcare: 'ጤና',
-      'real-estate': 'ሪል እስቴት',
-      logistics: 'ሎጂስቲክስ',
-    },
-    items: {
-      'proj-1': { category: 'የዌብ መድረክ', outcome: 'ከቼክአውት ዳግም ዲዛይን በኋላ ቅየራ በእጥፍ ጨምሯል።' },
-      'proj-2': { category: 'SaaS መድረክ', outcome: 'የውጤት ሪፖርት ከቀናት ወደ ሰዓታት ቀንሷል።' },
-      'proj-3': { category: 'የኦፕሬሽን መድረክ', outcome: 'የታካሚ መግቢያ ሂደት በ60%+ ተሻሽሏል።' },
-      'proj-4': { category: 'CRM እና ሊዝ', outcome: 'በ2,000+ ክፍሎች ላይ የሊዝ እድሳት ፍሰቶች ራስ-ሰር ሆነዋል።' },
-      'proj-5': { category: 'ሞባይል መተግበሪያ', outcome: 'የዴሊቨሪ SLA ማሟላት በ31% ጨምሯል።' },
-      'proj-6': { category: 'Headless Commerce', outcome: 'ከምክር ፍሰቶች በኋላ AOV በ19% ጨምሯል።' },
     },
   },
   industry: {
@@ -1501,15 +818,6 @@ const amContentOverrides = {
         title: 'ፓኬጅዎን ይምረጡ',
         subtitle: 'ሁሉም ፓኬጆች ሪስፖንሲቭ ዲዛይን፣ SEO እና 3 ወር ነፃ ድጋፍ ያካትታሉ።',
       },
-      addons: {
-        tag: 'የማርኬቲንግ ተጨማሪዎች',
-        title: 'ወርሃዊ ዲጂታል ማርኬቲንግ ፓኬጆች',
-        subtitle: 'ድር ጣቢያዎን ከማርኬቲንግ ፓኬጅ ጋር ያጣምሩ፣ ሊድ ያመነጩ።',
-      },
-    },
-    addons: {
-      managementFee: 'የአስተዳደር ክፍያ /ወር',
-      adSpend: 'የማስታወቂያ ወጪ',
     },
     faq: {
       title: 'የዌብ ልማት ተደጋጋሚ ጥያቄዎች',
@@ -1538,16 +846,6 @@ const amContentOverrides = {
         title: 'የሞባይል መተግበሪያዎን ይገንቡ',
         subtitle: 'ከቀላል መተግበሪያ እስከ ውስብስብ FinTech መድረክ ድረስ።',
       },
-      marketing: {
-        tag: 'የመተግበሪያ ማርኬቲንግ',
-        title: 'የሞባይል አፕ ዲጂታል ማርኬቲንግ',
-        subtitle: 'የመጫኛ ቁጥር ያሳድጉ፣ የስቶር መግለጫን ያሻሽሉ።',
-      },
-    },
-    addons: {
-      managementFee: 'የአስተዳደር ክፍያ /ወር',
-      cpi: 'CPI',
-      adSpend: 'የማስታወቂያ ወጪ',
     },
     faq: {
       title: 'የሞባይል ልማት ተደጋጋሚ ጥያቄዎች',
@@ -1644,26 +942,30 @@ const amContentOverrides = {
           body: 'የመጨረሻ ክፍያ በኋላ ደንበኛው የኮድ እና የዲዛይን ባለቤትነት 100% ይወስዳል።',
         },
       },
-      marketing: {
-        title: 'የዲጂታል ማርኬቲንግ ደንቦች',
-        intro: 'የዲጂታል ማርኬቲንግ ፓኬጆች በቅድሚያ ወርሃዊ ክፍያ ይሰራሉ።',
+      payments: {
+        title: 'የክፍያ ዘዴዎች',
+        intro: 'የቢዝነስ ፍቃዱ እስኪገኝ ድረስ ክፍያ በባንክ ማስተላለፍ (CBE Birr) ብቻ ይቀበላል።',
         cards: {
-          billing: { title: 'ቅድሚያ ወርሃዊ ክፍያ', body: 'የአስተዳደር ክፍያ እና የማስታወቂያ በጀት በወሩ መጀመሪያ ይከፈላሉ።' },
-          scaling: { title: 'ተለዋዋጭ ስኬል', body: 'የማስታወቂያ በጀት እንደ ውጤት ወራት ላይ ማስተካከል ይችላሉ።' },
-          reporting: { title: 'ግልጽ ሪፖርት', body: 'የወርሃዊ ዝርዝር ሪፖርት በበጀት እና በውጤት ላይ ይሰጣል።' },
+          bankTransfer: { title: 'የባንክ ማስተላለፍ (CBE Birr)', body: 'ክፍያ በኢትዮጵያ ብር በቀጥታ በባንክ ማስተላለፍ ይከፈላል። የቢዝነስ ፍቃዱ እስኪገኝ ድረስ ይህ ብቸኛው ተቀባይነት ያለው የክፍያ ዘዴ ነው።' },
+          telebirr: { title: 'Telebirr ነጋዴ (በእቅድ)', body: 'ከፍቃድ በኋላ ደንበኞች በሞባይል ገንዘብ እንዲከፍሉ የTelebirr merchant ክፍያ ለመጨመር እቅድ አለን። ይህ እቅድ ነው እንጂ የአሁኑ አቅም አይደለም።' },
+          chapa: { title: 'Chapa እና ካርድ ክፍያ (በእቅድ)', body: 'ከፍቃድ በኋላ ለአካባቢያዊ እና አለም አቀፍ ደንበኞች የChapa እና የካርድ ክፍያ ለመጨመር እቅድ አለን። ይህ እቅድ ነው እንጂ የአሁኑ አቅም አይደለም።' },
         },
         note: {
-          title: 'ዓለም አቀፍ ካርድ አስተዳደር:',
-          body: 'የውጭ ካርድ ካልኖረ የad spend ክፍያ በእኛ በ15-20% አስተዳደር ክፍያ እናስኬዳለን።',
+          title: 'የክፍያ እቅድ:',
+          body: 'Telebirr merchant፣ Chapa እና የካርድ ክፍያዎች የቢዝነስ ፍቃዱ ከተገኘ በኋላ ይጨመራሉ። እስከዚያ ድረስ የባንክ ማስተላለፍ (CBE Birr) ብቸኛው ተቀባይነት ያለው የክፍያ ዘዴ ነው።',
         },
       },
       saas: {
         title: 'የSaaS የደንበኝነት ደንቦች',
-        intro: 'የክላውድ አስተዳደር ስርዓቶቻችን እነዚህን ደንቦች ይከተላሉ።',
+        intro: 'የክላውድ አስተዳደር ስርዓቶቻችን (SMS፣ HMS፣ PMS) በግንባታ ላይ ናቸው — ይፈልጋሉ ከሆነ ይንገሩን እና ወደ የጥበቃ ዝርዝሩ እንጨምርዎታለን።',
         cards: {
-          setup: { title: 'ማስዋቀር እና ስልጠና', body: 'የአንድ ጊዜ ክፍያ ማስተካከል፣ ዳታ ማስገባት እና ስልጠና ያካትታል።' },
-          billing: { title: 'የደንበኝነት ክፍያ', body: 'ወርሃዊ ወይም ዓመታዊ ክፍያ ይምረጡ፣ ዓመታዊ 2 ወር ቅናሽ አለው።' },
-          support: { title: 'ድጋፍ እና አዘምን', body: 'ሁሉም ስብስክሪፕሽኖች አዘምን፣ ደህንነት እና ቴክኒክ ድጋፍ ያካትታሉ።' },
+          setup: { title: 'የጥበቃ ዝርዝር ብቻ', body: 'እውነተኛ ምርት እስኪኖር ድረስ SaaS ምርቶች ዋጋ እና ክፍያ አይታዩም። ወደ የጥበቃ ዝርዝሩ ይቀላቀሉ እና ምርት ሲዘጋጅ እናገኝዎታለን።' },
+          billing: { title: 'በግንባታ ላይ', body: 'የትምህርት ቤት አስተዳደር፣ ክሊኒክ/ሆስፒታል ERP እና ሪል እስቴት CRM እየተገነቡ ናቸው። ዛሬ ወርሃዊ ወይም ዓመታዊ ክፍያ የለም።' },
+          support: { title: 'እስከ ማስጀመር ድረስ ክፍያ የለም', body: 'ምርት ሲገኝ ውሎቹ ማንኛውም ክፍያ ከመጠየቁ በፊት ይታተማሉ። ላልተጀመረ ምርት በጭራሽ አይከፍሉም።' },
+        },
+        waitlistNote: {
+          title: 'ይፈልጋሉ?',
+          body: 'ይንገሩን እና ያለምንም ክፍያ እና ግዴታ በጥበቃ ዝርዝሩ ላይ እናቆይዎታለን።',
         },
       },
       general: {
@@ -1742,7 +1044,6 @@ const omContentOverrides = {
   states: {
     sending: 'Ergaa jirra...',
     loadingPackages: 'Pakeejjii feenaa jira...',
-    loadingMarketingAddons: 'Dabalata marketing feenaa jira...',
     loadingCloudPlatforms: 'Platfoormii cloud feenaa jira...',
     loadingServices: 'Tajaajila feenaa jira...',
     loadingFeaturedAddons: 'Dabalata filatamoo feenaa jira...',
@@ -1759,8 +1060,6 @@ const omContentOverrides = {
       mobile: 'Akkam NovaTech, appii moobaayilaa karoorfadheera, tilmaama yeroo barbaada.',
       saas: 'Akkam NovaTech, dhaabbata kooaf filannoo SaaS irratti marii barbaada.',
       additional: 'Akkam NovaTech, tajaajila dabalataaf quote dhuunfaa barbaada.',
-      caseStudies: 'Akkam NovaTech, case study keessan ilaaleera; buaa walfakkaataa daldala kooaf mariadhuu barbaada.',
-      portfolio: 'Akkam NovaTech, portfolio keessan daawwachaa jira; industirii kooaf gorsa barbaada.',
       instantQuote: 'Akkam NovaTech, wizard quote guutaa jira; scope fi budget mirkaneessuuf gargaarsa barbaada.',
       bookCall: 'Akkam NovaTech, yeroo bilbilaa marii filachuuf gargaarsa barbaada.',
       policy: 'Akkam NovaTech, seera kaffaltii fi hojii irratti gaaffii qaba.',
@@ -1781,7 +1080,7 @@ const omContentOverrides = {
     },
     pricing_guide: {
       title: 'NovaTechAI 2026 Service Menu & Pricing Guide argadhaa',
-      subtitle: 'Qajeelfama seera qabeessa NovaTechAI 2026 kan gatii AI automation, web, mobile, SaaS fi marketing ETB fi USD keessatti qabate buufadhaa.',
+      subtitle: 'Qajeelfama seera qabeessa NovaTechAI 2026 kan gatii AI automation, web, mobile fi SaaS ETB keessatti qabate buufadhaa.',
       submitLabel: 'Qajeelfama NovaTechAI Buusi',
       successTitle: 'Galatoomaa!',
       successSubtitle: 'NovaTechAI 2026 Service Menu & Pricing Guide kee tab haaraa keessatti banameera. Asii gaditti irra deebitee banuu dandeessa.',
@@ -1822,207 +1121,11 @@ const omContentOverrides = {
       estimatedRoi: 'ROI tilmaamaa',
     },
   },
-  home: {
-    hero: {
-      cards: {
-        web: { text: 'Marsariitii dhuunfaa tekinooloojii ammayyaan ijaaraman, saffisa fi conversionf fooyya an.' },
-        mobile: { text: 'Appii iOS fi Android architecture offline-first fi kaffaltii biyya keessaa waliin.' },
-        saas: { text: 'Sirna cloud kiraaf kennamu manneen barnootaa, hospitaalaa fi real estatef.' },
-      },
-    },
-    about: {
-      header: {
-        subtitle: 'Misooma ammayyaa, marketing data irratti hundaae fi platfoormii SaaS guddachuu danda u.',
-      },
-      cards: {
-        who: {
-          text: 'Agency tekinoolojii fi marketing dijitaalaa olaanaa, web architecture, appii moobaayilaa fi software enterprise irratti hojjennu dha.',
-        },
-        what: {
-          text: 'Startup irraa hanga dhaabbata guddaatti maamiltoota garaagaraa waliin hojjanna; pakeejji keenya hojii keessan guddisuuf qophaa an.',
-        },
-        market: {
-          text: 'Furmaata Itoophiyaa fi gabaa addunyaaf tolu ni ijaarra. Deggersa afaan hedduu fi walitti hidhiinsa Telebirr, Chapa, CBE Birr ni kennina.',
-        },
-      },
-    },
-    services: {
-      header: {
-        subtitle: 'Argama dijitaalaa keessan jalqabuuf, guddisuuf fi cimsuuf waan isin barbaachisu hunda.',
-      },
-      cards: {
-        web: { text: 'Marsariitii jalqabaa irraa hanga platfoormii enterprise tekniolojii ammayyaan ijaarame.' },
-        mobile: { text: 'Appii iOS fi Android Flutter fi React Native n ijaaraman.' },
-        saas: { text: 'Sirna kiraa bulchiinsaaf manneen barnootaa, hospitaalaa fi real estate.' },
-        additional: { text: 'Logo design, suuraa, copywriting, domain hosting fi maintenance waggaa.' },
-      },
-    },
-    roi: {
-      subtitle: 'Data leads fi conversion ammaa keessaniin buaa guddinaaf tilmaama godhaa.',
-    },
-    testimonials: {
-      header: {
-        subtitle: 'Dubbiin keenya qofa miti; daldaltoonni waliin hojjenne maal akka jedhan dhaga aa.',
-      },
-      items: [
-        {
-          quote: 'NovaTech argama online keenya guutummaatti jijjiire. Marsariitiin keenya saffisa 3x ta ee fi conversion 40% dabale.',
-          role: 'CEO, Habesha Brands',
-        },
-        {
-          quote: 'Platfoormiin SaaS mana barumsaa keenyaaf ijaarame adeemsa hojii keenya hunda salphise.',
-          role: 'Director, Bright Future Academy',
-        },
-        {
-          quote: 'Appiin moobaayilaa Telebirr waliin walitti hidhame tajaajila keenyaaf jijjiirama guddaa fide.',
-          role: 'Founder, QuickDeliver ET',
-        },
-      ],
-    },
-    process: {
-      header: {
-        subtitle: 'Adeemsa tarkaanfii 4 pirojektii yaada irraa hanga launch geessu.',
-      },
-      steps: {
-        discovery: { text: 'Daldala, kaayyoo, maamilaa fi dorgommii keessan ni qoranna.' },
-        design: { text: 'Wireframe fi mockup sadarkaa olaanaa maqaa keessaniif ni qopheessina.' },
-        develop: { text: 'Code qulqulluu fi scale godhamu framework ammayyaan ni ijaarra.' },
-        deploy: { text: 'Amanamummaadhaan ni eegalna; hosting, SEO fi deeggarsa itti fufiinsa ni kennina.' },
-      },
-    },
-    portfolio: {
-      header: {
-        subtitle: 'Muuxannoo dijitaalaa daldala Itoophiyaa fi alaaaf ijaarre keessaa muraasa.',
-      },
-      cards: {
-        web: {
-          tag: 'Platfoormii Web',
-          title: 'Marketplace E-Commerce',
-          text: 'Platfoormii multi-vendor Chapa kaffaltii fi deggersa afaan Amaaraa waliin.',
-        },
-        mobile: {
-          tag: 'Appii Moobaayilaa',
-          title: 'Appii Tajaajila Geejjibaa',
-          text: 'Appii tracking live fi kaffaltii Telebirr waliin.',
-        },
-        saas: {
-          tag: 'Platfoormii SaaS',
-          title: 'Sirna Bulchiinsa Mana Barumsaa',
-          text: 'ERP cloud manneen barnootaa 50+ tajaajilu.',
-        },
-      },
-      comingSoon: 'Fuulli portfolio guutuu case study balinaa waliin yeroo dhiyootti ni dhufa.',
-    },
-    contact: {
-      header: {
-        subtitle: 'Yoo pirojektii qabdan ergaa nuuf dhiyeessaa; sa a 24 keessatti ni deebina.',
-      },
-      form: {
-        fullNamePlaceholder: 'Hana Bekele',
-        emailPlaceholder: 'team@company.et',
-        messagePlaceholder: 'Waa ee pirojektii keessanii nuu himaa...',
-        feedback: {
-          sent: 'Galatoomaa. Ergaan keessan galmaaheera; gareen keenya sa a 24 keessatti ni deebisa.',
-          fallback: 'API ga uu hin dandeenye; kanaaf appii imeelii banuun gaaffii xumurra.',
-          error: 'Maqaa, imeelii fi ergaa mirkaneessaa; itti aansee yaali.',
-          sending: 'Gaaffii keessan karaa API nageenyaa ergaa jirra...',
-          idle: 'Yeroo baayyee guyyaa hojii tokko keessatti ni deebina.',
-        },
-      },
-    },
-    bottomCta: {
-      subtitle: 'Pakeejii sirrii filachuuf qajeelfama tajaajilaa fi gatii 2026 guutuu buufadhaa.',
-    },
-  },
-  caseStudies: {
-    hero: {
-      subtitle: 'Seenaa hojii dhugaa buaa duraa fi boodaa safaramuun mul atan.',
-    },
-    header: {
-      tag: 'Buaa Maamilaa',
-      title: 'Dhiibbaa Safarame',
-      subtitle: 'Case study hundi haala daldalaa, karaa hojii fi buaa lakkoofsaan ni agarsiisa.',
-    },
-    delivery: 'Yeroo geessii',
-    labels: {
-      challenge: 'Rakkoo',
-      solution: 'Furmaata',
-      stack: 'Stack',
-    },
-    items: {
-      'habesha-marketplace': {
-        title: 'Habesha Marketplace Replatform',
-        industry: 'E-commerce',
-        summary: 'Jijjiirama marketplace multi-vendor saffisa fi checkout irratti xiyyeeffate.',
-        challenge: 'Storefront duraanii saffisa moobaayilaa gadi aanaa fi checkout xiqqaa qaba ture.',
-        solution: 'Storefront Vite Reactn ijaarree checkout fooyyesinee Chapa walitti hidhame dabalne.',
-        timeline: 'Torban 10',
-        results: [
-          { label: 'Saffisa Fuulaa', delta: '+116%' },
-          { label: 'Checkout Conversion', delta: '+117%' },
-          { label: 'Cart Deebisuu', delta: '+14 pts' },
-        ],
-      },
-      'bright-future-academy': {
-        title: 'Bright Future Academy SaaS Rollout',
-        industry: 'Barnoota',
-        summary: 'Platfoormii bulchiinsa mana barumsaa attendance, grading fi walqunnamtii maatii waliin.',
-        challenge: 'Reporting harkaan fi records gargar ciccitan.',
-        solution: 'SaaS modular dashboard role-based fi update maatii ofumaan geessu diriirsine.',
-        timeline: 'Torban 12',
-        results: [
-          { label: 'Yeroo Qopheessa Reportii', delta: '-84%' },
-          { label: 'Walitti Qabuu Kaffaltii Dheeraa', delta: '+24 pts' },
-          { label: 'Qulqullina Maatii', delta: '+26 pts' },
-        ],
-      },
-      'mercy-health-network': {
-        title: 'Mercy Health Digital Intake',
-        industry: 'Fayyaa',
-        summary: 'Intake fi appointment dijitaalaa deggersa afaan hedduu waliin.',
-        challenge: 'Hiriira dheeraa fi no-show baay ee scheduling harkaan irraa ka e.',
-        solution: 'Intake dijitaalaa, yaadachiisa ofumaan fi workflow follow-up hojiirra oolche.',
-        timeline: 'Torban 9',
-        results: [
-          { label: 'Yeroo Intake Giddugaleessa', delta: '-62%' },
-          { label: 'No-Show Rate', delta: '-10 pts' },
-          { label: 'Bu aalee Front Desk', delta: '+56%' },
-        ],
-      },
-    },
-  },
-  portfolio: {
-    hero: {
-      subtitle: 'Industiriidhaan calalanii pirojektootaa fi pattern architecture daldala keessaniif barbaachisan ilaalaa.',
-    },
-    header: {
-      tag: 'Kuusaa Pirojektii',
-      title: 'Industiriidhaan Calali',
-      subtitle: 'Misaalota hojii keessaniif dhihoo ta an irratti xiyyeeffachuuf filter fayyadamaa.',
-    },
-    filters: {
-      aria: 'Filter industirii portfolio',
-      all: 'Hunda',
-      ecommerce: 'E-commerce',
-      education: 'Barnoota',
-      healthcare: 'Fayyaa',
-      'real-estate': 'Real Estate',
-      logistics: 'Loojistikii',
-    },
-    items: {
-      'proj-1': { category: 'Platfoormii Web', outcome: 'Checkout redesign booda conversion dachaan dabale.' },
-      'proj-2': { category: 'Platfoormii SaaS', outcome: 'Reporting grade guyyoota irraa gara sa aa dhufe.' },
-      'proj-3': { category: 'Platfoormii Operations', outcome: 'Cycle intake patient 60% ol fooyya e.' },
-      'proj-4': { category: 'CRM fi Leasing', outcome: 'Workflow renewal lease unit 2,000+ irratti ofumaan ta e.' },
-      'proj-5': { category: 'Appii Moobaayilaa', outcome: 'SLA geejjibaa 31% dabale.' },
-      'proj-6': { category: 'Headless Commerce', outcome: 'AOV recommendation booda 19% dabale.' },
-    },
-  },
   industry: {
     notFound: {
       title: 'Fuulli industirii kanaa amma hin jiru',
-      subtitle: 'Playbook industirii kana ijaaruu irratti jirra. Yeroo kana portfolio guutuu ilaalaa.',
-      action: 'Gara Portfolio deemi',
+      subtitle: 'Playbook industirii kana ijaaruu irratti jirra. Yeroo kana tajaajiloota keenya ilaalaa.',
+      action: 'Tajaajiloota Ilaali',
     },
     header: {
       tag: 'Playbook Industirii',
@@ -2184,15 +1287,6 @@ const omContentOverrides = {
         title: 'Pakeejjii kee filadhu',
         subtitle: 'Pakeejjii hundi responsive design, SEO fi deeggarsa baatii 3 of keessaa qaba.',
       },
-      addons: {
-        tag: 'Dabalata Marketing',
-        title: 'Pakeejjii Marketing Dijitaalaa Jihaa',
-        subtitle: 'Marsariitii kee marketing waliin qindeesii leads fi traffic dabali.',
-      },
-    },
-    addons: {
-      managementFee: 'Kaffaltii bulchiinsaa /ji a',
-      adSpend: 'Baasi beeksisaa',
     },
     faq: {
       title: 'Gaaffilee Misooma Web',
@@ -2222,16 +1316,6 @@ const omContentOverrides = {
         title: 'Appii Moobaayilaa kee ijaari',
         subtitle: 'Appii salphaa irraa hanga platfoormii FinTech walxaxaa tti.',
       },
-      marketing: {
-        tag: 'Marketing Appii',
-        title: 'Marketing Dijitaalaa Appii Moobaayilaa',
-        subtitle: 'Install dabali, listing store fooyyessi, base fayyadamaa guddisi.',
-      },
-    },
-    addons: {
-      managementFee: 'Kaffaltii bulchiinsaa /ji a',
-      cpi: 'CPI',
-      adSpend: 'Baasi beeksisaa',
     },
     faq: {
       title: 'Gaaffilee Misooma Moobaayilaa',
@@ -2338,6 +1422,7 @@ const omContentOverrides = {
       chip1: 'Kaffaltii milestone irratti hundaa e',
       chip2: 'Abbummaa IP maamilaa',
       chip3: 'Waadaa deeggarsa ifaa',
+      chip4: 'Daddabarsa Baankii Qofa',
     },
     proof: {
       0: { title: 'Ifa waliigaltee dura', text: 'Engagement hundi milestone ifaa fi deliverable beekamaa irratti ijaarama.' },
@@ -2360,26 +1445,30 @@ const omContentOverrides = {
           body: 'Kaffaltii xumuraa booda maamilaan asset design, source code fi IP hundaa 100% ni qabaata.',
         },
       },
-      marketing: {
-        title: 'Seera Marketing Dijitaalaa',
-        intro: 'Pakeejjiin marketing dijitaalaa hundi prepaid jihaa ta ee ni hojjeta.',
+      payments: {
+        title: 'Maloota Kaffaltii',
+        intro: 'Hanga liisensii daldalaa argamutti kaffaltiin daddabarsa baankii (CBE Birr) qofaan fudhatama.',
         cards: {
-          billing: { title: 'Billing Prepaid Jihaa', body: 'Kaffaltii bulchiinsaa fi budget ad spend jalqaba ji aatti dursanii ni kaffalamu.' },
-          scaling: { title: 'Scaling laafaa', body: 'Ad spend jihaan ol yookaan gadi sirreessuu dandeessu; ROI irratti gorsa ni kennina.' },
-          reporting: { title: 'Reporting ifaa', body: 'Jihaan report balinaa baasi fi performance agarsiisu ni argattu.' },
+          bankTransfer: { title: 'Daddabarsa Baankii (CBE Birr)', body: 'Kaffaltiin birrii Itoophiyaa keessatti daddabarsa baankii qajeelaa ta een kan godhamu dha. Hanga liisensii daldalaa argamutti karaan kaffaltii fudhatamu qofa kan ta e dha.' },
+          telebirr: { title: 'Daldalaa Telebirr (Karoora)', body: 'Liisensii booda maamiltoonni maallaqa moobaayilaatiin akka kaffalan karaa daldalaa Telebirr dabaluuf karoorra qabna. Kun karoora dha, dandeettii ammaa miti.' },
+          chapa: { title: 'Kaffaltii Chapa fi Kaardii (Karoora)', body: 'Liisensii booda maamiltoota biyya keessaa fi alaa fiif kaffaltii Chapa fi kaardii dabaluuf karoorra qabna. Kun karoora dha, dandeettii ammaa miti.' },
         },
         note: {
-          title: 'Qabannaa kaardii idil-addunyaa:',
-          body: 'Yoo kaardii Visa/Mastercard hin qabne ad spend bakka keessan kaffaluu dandeenya; kaffaltii bulchiinsaa 15-20% ni jiraata.',
+          title: 'Karoora kaffaltii:',
+          body: 'Daldalaan Telebirr, Chapa fi kaffaltii kaardii liisensii daldalaa erga argamee booda ni dabalamu. Hanga hojiirra oolutti daddabarsa baankii (CBE Birr) karaa kaffaltii fudhatamu qofa dha.',
         },
       },
       saas: {
         title: 'Seera Subscription SaaS',
-        intro: 'Sirnoonni cloud keenya (SMS, HMS, PMS) seerota armaan gadii irratti kennamu.',
+        intro: 'Sirnoonni cloud keenya (SMS, HMS, PMS) miseensaaf jiraa jiru — isin barbaadda yoo ta e nu himaa; tartiiba eeggachaa irratti isin galchina.',
         cards: {
-          setup: { title: 'Setup fi Training', body: 'Kaffaltiin yeroo tokkoo setup, migration data fi leenjii hojjettootaa guutuu of keessaa qaba.' },
-          billing: { title: 'Kaffaltii Subscription', body: 'Kaffaltii jihaa yookaan waggaa filadhaa; waggaan discount ji a lama qaba.' },
-          support: { title: 'Deeggarsa fi Update', body: 'Subscription hundi update itti fufiinsa, patch nageenyaa, backup fi deeggarsa teknikaa ni qaba.' },
+          setup: { title: 'Tartiiba Eeggachaa Qofa', body: 'Hanga oomisha dhugaa argamutti SaaS gatii fi kaffaltii hin agarsiisu. Tartiiba eeggachaa irratti galmaa aa; yeroo oomishni qophaa u deemnu isin qunnamna.' },
+          billing: { title: 'Miseensa Jira', body: 'Sirna Bulchiinsa Mana Barumsaa, Clinic/Hospital ERP fi Real Estate CRM miseensaaf jiraa jiru. Har a kaffaltii ji aa yookaan waggaa hin jiru.' },
+          support: { title: 'Hanga Launch tti Kaffaltii Hin Jiru', body: 'Yeroo oomishni argamutti haalli isaa kaffaltii isaan gaafachuu dura maxxanfama. Oomisha hin jirreef gonkumaa hin kaffaltan.' },
+        },
+        waitlistNote: {
+          title: 'Barbaaddaa?',
+          body: 'Nu himaa; kaffaltii fi waadaa malee tartiiba eeggachaa irratti isin ni eegna.',
         },
       },
       general: {
@@ -2491,8 +1580,6 @@ const amFinalOverrides = {
       mobile: 'ሰላም NovaTech AI፣ ለAI-ተመራ የመስክ ኦፕሬሽኖች የሞባይል ኢንተርፌስ እንፈልጋለን።',
       saas: 'ሰላም NovaTech AI፣ ለSaaS ኦፕሬሽኖቻችን ኦርኬስትሬሽን እና ዲፕሎይመንት ስርዓት ላይ መወያየት እፈልጋለሁ።',
       additional: 'ሰላም NovaTech AI፣ በIntegration እና የAutomation Reliability ዙሪያ የኢንጂነሪንግ ድጋፍ እፈልጋለሁ።',
-      caseStudies: 'ሰላም NovaTech AI፣ የእናንተን ውጤቶች አይቻለሁ፣ ተመሳሳይ Automation ROI ለቡድናችን ማስተካከል እፈልጋለሁ።',
-      portfolio: 'ሰላም NovaTech AI፣ አርክቴክቸር ሞዴሎቻችሁን እመለከታለሁ እና ለኢንዱስትሪያችን መመሪያ እፈልጋለሁ።',
       instantQuote: 'ሰላም NovaTech AI፣ Automation Brief እሞላለሁ እና ስኮፕ/በጀት ለማረጋገጥ እገዛ እፈልጋለሁ።',
       bookCall: 'ሰላም NovaTech AI፣ ተስማሚ የWorkflow Audit ጊዜ እና አጀንዳ ለመምረጥ እገዛ እፈልጋለሁ።',
       policy: 'ሰላም NovaTech AI፣ ስለ ዲፕሎይመንት፣ ደህንነት እና ኦፕሬሽን ፖሊሲ ጥያቄ አለኝ።',
@@ -2514,29 +1601,6 @@ const amFinalOverrides = {
       secondary: 'ብጁ ዋጋ ይጠይቁ',
     },
   },
-  home: {
-    contact: {
-      form: {
-        emailPlaceholder: 'team@company.et (ለምሳሌ)',
-      },
-    },
-    testimonials: {
-      items: [
-        {
-          quote: 'NovaTech የእኛን የመስመር ላይ መገኘት በሙሉ ቀይሯል። አዲሱ ድር ጣቢያችን በ3x ፍጥነት እየተጫነ ቅየራ በ40% ጨምሯል።',
-          role: 'ዋና ሥራ አስኪያጅ, Habesha Brands',
-        },
-        {
-          quote: 'ለትምህርት ቤታችን የተገነባው የSaaS መድረክ ከተገኝነት እስከ ውጤት ሪፖርት ድረስ ሁሉንም አስቀላጥፏል።',
-          role: 'ዳይሬክተር, Bright Future Academy',
-        },
-        {
-          quote: 'Telebirr የተዋሃደበት የሞባይል መተግበሪያቸው ለእኛ የዴሊቨሪ አገልግሎት ትልቅ ለውጥ አምጥቷል።',
-          role: 'መስራች, QuickDeliver ET',
-        },
-      ],
-    },
-  },
   industry: {
     header: {
       tag: 'የኢንዱስትሪ መመሪያ',
@@ -2544,7 +1608,7 @@ const amFinalOverrides = {
     },
     notFound: {
       subtitle: 'ይህን የኢንዱስትሪ መመሪያ አሁንም በመገንባት ላይ ነን።',
-      action: 'ወደ ፖርትፎሊዮ ይሂዱ',
+      action: 'አገልግሎቶቻችንን ይመልከቱ',
     },
     pains: {
       title: 'የተለመዱ የህመም ነጥቦች',
@@ -2577,6 +1641,7 @@ const amFinalOverrides = {
       chip1: 'በማይልስቶን ላይ የተመሰረተ ክፍያ',
       chip2: 'የደንበኛ IP ባለቤትነት',
       chip3: 'ግልፅ የድጋፍ ቃል ኪዳኖች',
+      chip4: 'የባንክ ማስተላለፍ ብቻ',
     },
     cta: {
       title: 'ከመጀመርዎ በፊት ማብራሪያ ይፈልጋሉ?',
@@ -2615,7 +1680,6 @@ const amFinalOverrides = {
 
 const omFinalOverrides = {
   nav: {
-    portfolio: 'Portifooliyoo',
     services: 'Furmaata AI',
     web: 'Interfeesii Web',
     mobile: 'Interfeesii Moobaayilaa',
@@ -2659,17 +1723,10 @@ const omFinalOverrides = {
       mobile: 'Akkam NovaTech AI, hojii field AI-poweredf interfeesii moobaayilaa barbaanna.',
       saas: 'Akkam NovaTech AI, orchestration fi deployment pattern SaaS operations keenyaaf marii barbaada.',
       additional: 'Akkam NovaTech AI, integrations fi automation reliability irratti engineering support barbaada.',
-      caseStudies: 'Akkam NovaTech AI, outcomes keessan ilaaleera; automation ROI walfakkaataa garee keenyaaf madaalu barbaada.',
-      portfolio: 'Akkam NovaTech AI, architecture patterns keessan ilaalaa jira; industirii keenyaaf gorsa barbaada.',
       instantQuote: 'Akkam NovaTech AI, automation brief guutaa jira; scope fi budget mirkaneessuuf gargaarsa barbaada.',
       bookCall: 'Akkam NovaTech AI, yeroo workflow audit call fi agenda filachuuf gargaarsa barbaada.',
       policy: 'Akkam NovaTech AI, deployment, security fi seera operations irratti gaaffii qaba.',
       default: 'Akkam NovaTech AI, workflows harkaan hojjetaman gara agentic systems dhuunfaatti jijjiiruuf marii barbaada.',
-    },
-  },
-  caseStudies: {
-    labels: {
-      stack: 'Teek Staakii',
     },
   },
   additional: {
@@ -2683,30 +1740,6 @@ const omFinalOverrides = {
   discovery: {
     header: {
       tag: 'Sagantaalee',
-    },
-  },
-  home: {
-    contact: {
-      form: {
-        fullNamePlaceholder: 'Hana Bekele (fakkeenya)',
-        emailPlaceholder: 'team@company.et (fakkeenya)',
-      },
-    },
-    testimonials: {
-      items: [
-        {
-          quote: 'NovaTech argama online keenya guutummaatti jijjiire. Marsariitiin haaraan saffisa 3x qabaatee conversion 40% dabale.',
-          role: 'Hogganaa Olaanaa, Habesha Brands',
-        },
-        {
-          quote: 'Platfoormiin SaaS mana barumsaa keenyaaf ijaarame adeemsa attendance irraa hanga report grade salphise.',
-          role: 'Daarektaraa, Bright Future Academy',
-        },
-        {
-          quote: 'Appiin moobaayilaa Telebirr waliin walitti hidhame tajaajila keenyaaf jijjiirama guddaa fide.',
-          role: 'Hundeesaa, QuickDeliver ET',
-        },
-      ],
     },
   },
   leadCapture: {
@@ -2727,11 +1760,6 @@ const omFinalOverrides = {
   policy: {
     hero: {
       title: 'Seera Kaffaltii fi Hojii',
-    },
-  },
-  portfolio: {
-    hero: {
-      title: 'Portifooliyoo',
     },
   },
   roi: {

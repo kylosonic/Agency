@@ -21,7 +21,7 @@ const FOCUSABLE_SELECTOR = [
 const VARIANT_CONTENT = {
     pricing_guide: {
         title: 'Get the NovaTechAI 2026 Service Menu & Pricing Guide',
-        subtitle: 'Download the official NovaTechAI 2026 Service Menu & Pricing Guide with AI automation, web, mobile, SaaS, and marketing pricing in ETB and USD.',
+        subtitle: 'Download the official NovaTechAI 2026 Service Menu & Pricing Guide with AI automation, web, mobile, and SaaS pricing in ETB.',
         submitLabel: 'Download NovaTechAI Guide',
         successTitle: 'Thank You!',
         successSubtitle: 'Your NovaTechAI 2026 Service Menu & Pricing Guide is open in a new tab. You can reopen it below.',

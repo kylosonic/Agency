@@ -136,43 +136,15 @@ const SEO_BY_ROUTE = {
   '/policy': {
     en: {
       title: 'Payment and Operational Policy | NovaTech',
-      description: 'Review development payment milestones, marketing terms, SaaS subscription rules, and support commitments.',
+      description: 'Review development payment milestones, payment methods, and SaaS waitlist status.',
     },
     am: {
       title: 'የክፍያ እና ኦፕሬሽን ፖሊሲ | NovaTech',
-      description: 'የልማት ክፍያ ደረጃዎችን፣ የማርኬቲንግ እና SaaS ውሎችን ይመልከቱ።',
+      description: 'የልማት ክፍያ ደረጃዎችን፣ የክፍያ ዘዴዎችን እና የSaaS የጥበቃ ዝርዝር ሁኔታን ይመልከቱ።',
     },
     om: {
       title: 'Imaammata Kaffaltii fi Hojii | NovaTech',
-      description: 'Milestone kaffaltii, haala marketing fi seera SaaS keessatti ibsa guutuu argadhu.',
-    },
-  },
-  '/case-studies': {
-    en: {
-      title: 'Case Studies | NovaTech',
-      description: 'Explore measurable outcomes from NovaTech projects across e-commerce, healthcare, education, and logistics.',
-    },
-    am: {
-      title: 'የስራ ምሳሌዎች | NovaTech',
-      description: 'ከተለያዩ ኢንዱስትሪዎች ውጤት የተመዘኑ የNovaTech ፕሮጀክቶችን ይመልከቱ።',
-    },
-    om: {
-      title: 'Case Studies | NovaTech',
-      description: 'Pirojektoota NovaTech keessaa buaa madaalame e-commerce, health fi education keessatti ilaali.',
-    },
-  },
-  '/portfolio': {
-    en: {
-      title: 'Portfolio | NovaTech',
-      description: 'Filter our portfolio by industry and discover digital products tailored for specific business domains.',
-    },
-    am: {
-      title: 'ፖርትፎሊዮ | NovaTech',
-      description: 'በኢንዱስትሪ የተደረገ ማጣሪያ በመጠቀም የስራ ምሳሌዎቻችንን ይመልከቱ።',
-    },
-    om: {
-      title: 'Portfolio | NovaTech',
-      description: 'Portfolio keenya industry irratti filachuun hojiiwwan garaagaraa ilaali.',
+      description: 'Milestone kaffaltii, maloota kaffaltii fi haala tartiiba eeggachaa SaaS keessatti ibsa guutuu argadhu.',
     },
   },
   '/instant-quote': {
@@ -262,7 +234,7 @@ const FAQ_SCHEMA_BY_ROUTE = {
     },
     {
       question: 'Are SaaS subscriptions available monthly and annually?',
-      answer: 'Yes. SaaS offerings support monthly and annual billing, and annual plans include a two-month discount.',
+      answer: 'No. SaaS products are in development and offered as a waitlist only. No pricing or billing exists until a real product is live.',
     },
   ],
 };

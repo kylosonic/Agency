@@ -1,9 +1,8 @@
-import { lazy, Suspense, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
-import AnimatedMetric from '../components/AnimatedMetric';
 import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
@@ -13,32 +12,11 @@ import {
   trackContactFormOutcome,
 } from '../services/analyticsService';
 
-const AgentOpsShowcase = lazy(() => import('../components/AgentOpsShowcase'));
-const AutomationImpactCalculator = lazy(() => import('../components/AutomationImpactCalculator'));
-
 const INITIAL_CONTACT_FORM = {
   name: '',
   email: '',
   message: '',
 };
-
-const HERO_METRICS = [
-  {
-    label: 'Hours Reclaimed',
-    value: 1800,
-    suffix: '+',
-  },
-  {
-    label: 'Systems Integrated',
-    value: 40,
-    suffix: '+',
-  },
-  {
-    label: 'Manual Steps Removed',
-    value: 92,
-    suffix: '%',
-  },
-];
 
 const SOLUTION_PREVIEWS = [
   {
@@ -191,21 +169,8 @@ export default function Home() {
               </div>
               <div className="hero-trust-row" aria-label="Delivery assurances">
                 <span className="trust-pill">Audit blueprint in 5 business days</span>
-                <span className="trust-pill">ETB and USD pricing</span>
+                <span className="trust-pill">ETB pricing · International engagements quoted individually</span>
                 <span className="trust-pill">Private deployment options</span>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.25}>
-              <div className="hero-stats ai-hero-stats" aria-label="Operational performance metrics">
-                {HERO_METRICS.map((metric) => (
-                  <div key={metric.label} className="hero-stat glass-card ai-hero-stat">
-                    <div className="hero-stat-value">
-                      <AnimatedMetric value={metric.value} suffix={metric.suffix} />
-                    </div>
-                    <div className="hero-stat-label">{metric.label}</div>
-                  </div>
-                ))}
               </div>
             </ScrollReveal>
           </div>
@@ -225,25 +190,6 @@ export default function Home() {
                 ))}
               </div>
             </aside>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      <section className="section ai-agent-demo-section" id="agent-demo">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              tag="Agentic Replay"
-              title="Watch an End-to-End Agent Pipeline Execute"
-              subtitle="A sample autonomous sequence from data collection to reporting, visualized as an operational control surface."
-              align="left"
-            />
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <Suspense fallback={<div className="section-loader" aria-hidden="true" />}>
-              <AgentOpsShowcase />
-            </Suspense>
           </ScrollReveal>
         </div>
       </section>
@@ -345,25 +291,6 @@ export default function Home() {
                 </article>
               ))}
             </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      <section className="section ai-impact-section" id="impact-calculator">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              tag="ROI Modeling"
-              title="Quantify Recoverable Margin Before You Commit"
-              subtitle="Dial in your current operational drag and estimate the projected savings from automation-first implementation."
-              align="left"
-            />
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.12}>
-            <Suspense fallback={<div className="section-loader" aria-hidden="true" />}>
-              <AutomationImpactCalculator />
-            </Suspense>
           </ScrollReveal>
         </div>
       </section>

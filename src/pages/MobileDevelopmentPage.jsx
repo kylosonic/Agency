@@ -3,30 +3,24 @@ import InteractivePricing from '../components/InteractivePricing';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
-import IconGlyph from '../components/IconGlyph';
 import RoiEstimator from '../components/RoiEstimator';
 import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
-import { getMobilePackages, getMarketingAddons } from '../services/pricingData';
+import { getMobilePackages } from '../services/pricingData';
 import { useLanguage } from '../i18n/useLanguage';
 
 export default function MobileDevelopmentPage({ onDownloadClick }) {
     const { t } = useLanguage();
     const [packages, setPackages] = useState([]);
-    const [addons, setAddons] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [mobileData, addonData] = await Promise.all([
-                    getMobilePackages(),
-                    getMarketingAddons()
-                ]);
+                const mobileData = await getMobilePackages();
                 setPackages(mobileData);
-                setAddons(addonData);
             } catch (error) {
                 console.error("Failed to load mobile pricing data:", error);
             } finally {
@@ -96,47 +90,6 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
                                 onDownloadClick={onDownloadClick}
                                 packages={packages}
                             />
-                        </ScrollReveal>
-                    )}
-                </div>
-            </section>
-
-            {/* Mobile Marketing Packages */}
-            <section className="section">
-                <div className="container">
-                    <ScrollReveal>
-                        <SectionHeader
-                            tag={t('mobile.sections.marketing.tag', 'App Marketing')}
-                            title={t('mobile.sections.marketing.title', 'Mobile App Digital Marketing')}
-                            subtitle={t('mobile.sections.marketing.subtitle', 'Drive installs, optimize your store listing, and scale your user base with our specialized app marketing services.')}
-                        />
-                    </ScrollReveal>
-
-                    {loading ? (
-                        <div className="loading-state">
-                            <p>{t('states.loadingMarketingAddons', 'Loading Marketing Add-ons...')}</p>
-                        </div>
-                    ) : (
-                        <ScrollReveal stagger>
-                            <div className="addon-grid">
-                                {addons.map((addon) => (
-                                    <div key={addon.id} className={`addon-card ${addon.featured ? 'addon-card-featured' : ''}`}>
-                                        <h4>
-                                            <span className="addon-card-icon" aria-hidden="true"><IconGlyph name={addon.icon} size={16} /></span>
-                                            {addon.title}
-                                        </h4>
-                                        <div className="price">
-                                            {addon.fee} ETB<span className="detail">{addon.id === 'launch' ? addon.adSpend : t('mobile.addons.managementFee', 'Management Fee /month')}</span>
-                                            {addon.id !== 'launch' && <span className="detail">+ {addon.adSpend} ETB {addon.id === 'growth' ? t('mobile.addons.cpi', 'CPI') + ' ' : ''}{t('mobile.addons.adSpend', 'Ad Spend')}</span>}
-                                        </div>
-                                        <ul>
-                                            {addon.features.map((feature, i) => (
-                                                <li key={i}><span className="check" aria-hidden="true"><IconGlyph name="check" size={14} /></span> {feature}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                ))}
-                            </div>
                         </ScrollReveal>
                     )}
                 </div>
