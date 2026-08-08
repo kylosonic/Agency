@@ -31,22 +31,11 @@
 > Code shipped; NB-10/12/13/14 remain OPEN in the behavior ledger pending owner actions OA-1…OA-9 (domain email, GA4 ID, webhooks, SiteSpeak ID, PDF human-diff, deployment runtime).
 > Owner action log: see `docs/plans/phase5-ops-launch-config.md` §5 (OA-1…OA-9 with deadlines).
 
-## Phase 6 — Post-Launch (P2)
+## ✅ DONE — Phase 6 — Post-Launch Docs (P2)
 
-### TECH-11 — Real internal lead-pipeline demo system
-- **Maps to:** NB-11 remainder (B3)
-- **Scope:** Build a real internal system (lead triage/follow-up automation on the business's own pipeline); record a real run; publish as the demo/case-study replacement
-- **Acceptance:** The demo shown to visitors is a real running system with real data.
-
-### TECH-12 — Marketing launch kit rewrite
-- **Maps to:** NB-17
-- **Scope:** Rewrite `docs/marketing-launch-kit.md` to contract-first, published-prices, payment-reliability positioning; remove fabricated proof references; add pilot program
-- **Acceptance:** Launch kit contains no claim the site cannot prove.
-
-### TECH-13 — QA checklist completion
-- **Maps to:** NB-16
-- **Scope:** Complete manual route walkthroughs, accessibility checks, analytics spot-checks
-- **Acceptance:** `docs/qa-checklist.md` fully checked.
+> TECH-12, TECH-13 resolved in commit `57847de` (QA APPROVED).
+> NB-17 marked [IMPLEMENTED]; NB-16 code-side complete, owner-executed items remain open pre-launch.
+> TECH-11 (real internal demo system) — DEFERRED to its own dedicated sprint (product build, not a site change). NB-11 remains OPEN until then.
 
 ## Deferred
 
