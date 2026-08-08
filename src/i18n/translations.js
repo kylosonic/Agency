@@ -157,6 +157,7 @@ const en = {
       successTitle: 'Great, You Are In!',
       successSubtitle: 'Your request was saved. Continue to the quote wizard for your tailored estimate.',
       successPrimaryLabel: 'Open Instant Quote',
+      successSla: 'We respond within one business day, schedule your discovery call within three, and deliver a proposal within five business days of discovery.',
     },
     book_call_offer: {
       title: 'Book a Discovery Call',
@@ -165,6 +166,7 @@ const en = {
       successTitle: 'Almost Done!',
       successSubtitle: 'Your request was captured. Select your preferred session slot on the booking page.',
       successPrimaryLabel: 'Open Booking Page',
+      successSla: 'We respond within one business day, schedule your discovery call within three, and deliver a proposal within five business days of discovery.',
     },
   },
   industry: {
@@ -230,7 +232,8 @@ const en = {
     },
     result: {
       title: 'Your estimated range',
-      subtitle: 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.',
+      subtitle: 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.',
+      sla: 'We respond within one business day and deliver a written proposal within five business days of our discovery call.',
       waitlistTitle: 'SaaS is in development — tell us you want it',
       waitlistSubtitle: 'We will add you to the waitlist and contact you when a product is ready for your organization. No prices are published until a real product exists.',
     },
@@ -308,6 +311,7 @@ const en = {
       agendaPlaceholder: 'Share project goals, blockers, and timeline expectations.',
       submit: 'Confirm Session',
       success: 'Thanks. Your booking details were captured and our team will send a calendar invite shortly.',
+      sla: 'We respond within one business day, schedule your discovery call within three, and deliver a proposal within five business days of discovery.',
       hint: 'You will receive confirmation by email with next steps and preparation notes.',
     },
     booking: {
@@ -654,6 +658,7 @@ const amContentOverrides = {
       successTitle: 'በጣም ጥሩ!',
       successSubtitle: 'ጥያቄዎ ተመዝግቧል። ለብጁ ግምት ወደ መለኪያው ይቀጥሉ።',
       successPrimaryLabel: 'ፈጣን ዋጋ ክፈት',
+      successSla: 'በአንድ የስራ ቀን ውስጥ እንመልሳለን፣ የግኝት ጥሪዎን በሶስት ቀን ውስጥ እንያዝልዎታለን፣ እና ፕሮፖዛልን ከግኝቱ በአምስት የስራ ቀን ውስጥ እናቀርባለን።',
     },
     book_call_offer: {
       title: 'የስትራቴጂ ግኝት ጥሪ ያስይዙ',
@@ -662,6 +667,7 @@ const amContentOverrides = {
       successTitle: 'በቅርቡ ይጠናቀቃል!',
       successSubtitle: 'ጥያቄዎ ተመዝግቧል። በቦታ ማስያዣ ገጽ ተመራጭ ጊዜዎን ይምረጡ።',
       successPrimaryLabel: 'የቦታ ማስያዣ ገጽ ክፈት',
+      successSla: 'በአንድ የስራ ቀን ውስጥ እንመልሳለን፣ የግኝት ጥሪዎን በሶስት ቀን ውስጥ እንያዝልዎታለን፣ እና ፕሮፖዛልን ከግኝቱ በአምስት የስራ ቀን ውስጥ እናቀርባለን።',
     },
   },
   roi: {
@@ -755,7 +761,8 @@ const amContentOverrides = {
       generate: 'ግምት አመንጭ',
     },
     result: {
-      subtitle: 'ይህ ክልል በመረጡት ክልል፣ ጊዜ እና የውህደት ውስብስብነት ላይ የተመሰረተ ነው።',
+      subtitle: 'ይህ ክልል በመረጡት ክልል፣ ጊዜ እና የውህደት ውስብስብነት ላይ የተመሰረተ ነው። ቡድናችን ከ30 ደቂቃ የግኝት ክፍለ ጊዜ በኋላ የጽሁፍ ፕሮፖዛል ያቀርባል።',
+      sla: 'በአንድ የስራ ቀን ውስጥ እንመልሳለን እና ከግኝት ጥሪያችን በአምስት የስራ ቀን ውስጥ የጽሁፍ ፕሮፖዛል እናቀርባለን።',
       waitlistTitle: 'SaaS በግንባታ ላይ ነው — ይፈልጋሉ ከሆነ ይንገሩን',
       waitlistSubtitle: 'ወደ የጥበቃ ዝርዝሩ እንጨምርዎታለን እና ምርት ሲዘጋጅ እናገኝዎታለን። እውነተኛ ምርት እስካልተገኘ ድረስ ምንም ዋጋ አይታተምም።',
     },
@@ -824,6 +831,7 @@ const amContentOverrides = {
       agendaPlaceholder: 'የፕሮጀክት ግቦች፣ ችግኝነቶች እና የጊዜ ተስፋዎችን ያካፍሉ።',
       submit: 'ክፍለ ጊዜ አረጋግጥ',
       success: 'እናመሰግናለን። የቦታ ማስያዣ ዝርዝሮችዎ ተመዝግበዋል እና ቡድናችን የካሌንደር ግብዣ ይልካል።',
+      sla: 'በአንድ የስራ ቀን ውስጥ እንመልሳለን፣ የግኝት ጥሪዎን በሶስት ቀን ውስጥ እንያዝልዎታለን፣ እና ፕሮፖዛልን ከግኝቱ በአምስት የስራ ቀን ውስጥ እናቀርባለን።',
       hint: 'የማረጋገጫ ኢሜይል ከቀጣይ እርምጃዎች ጋር ይደርስዎታል።',
     },
     booking: {
@@ -1125,6 +1133,7 @@ const omContentOverrides = {
       successTitle: 'Baayyee gaarii!',
       successSubtitle: 'Gaaffiin kee galmaaheera. Tilmaama dhuunfaaaf itti fufi.',
       successPrimaryLabel: 'Instant Quote Bani',
+      successSla: 'Guyyoota hojii tokko keessatti deebii kennina, bilbila marii keessan guyyoota sadii keessatti qopheessina, piroposal-ittis guyyoota hojii shan keessatti dhiheessina.',
     },
     book_call_offer: {
       title: 'Bilbila marii strategy qabadhu',
@@ -1133,6 +1142,7 @@ const omContentOverrides = {
       successTitle: 'Xiqqoo hafee jira!',
       successSubtitle: 'Gaaffiin kee qabameera. Fuula booking irratti yeroo filadhu.',
       successPrimaryLabel: 'Fuula Booking Bani',
+      successSla: 'Guyyoota hojii tokko keessatti deebii kennina, bilbila marii keessan guyyoota sadii keessatti qopheessina, piroposal-ittis guyyoota hojii shan keessatti dhiheessina.',
     },
   },
   roi: {
@@ -1240,7 +1250,8 @@ const omContentOverrides = {
     },
     result: {
       title: 'Daangaa gatii tilmaamaa kee',
-      subtitle: 'Daangaan kun scope, timeline fi complexity integration filattan irratti hundaa eera.',
+      subtitle: 'Daangaan kun scope, timeline fi complexity integration filattan irratti hundaa eera. Gareen keenya kuta discovery daqiiqaa 30 booda piroposal barreeffamaa dhiheessa.',
+      sla: 'Guyyoota hojii tokko keessatti deebii kennina; bilbila marii keenya booda guyyoota hojii shan keessatti piroposal barreeffamaa dhiheessina.',
       waitlistTitle: 'SaaS miseensaaf jira — isin barbaadda yoo ta e nu himaa',
       waitlistSubtitle: 'Tartiiba eeggachaa irratti isin galchina; oomishni qophaa u yeroo ta u isin qunnamna. Hanga oomisha dhugaa argamutti gatii hin maxxanfamu.',
     },
@@ -1309,6 +1320,7 @@ const omContentOverrides = {
       agendaPlaceholder: 'Kaayyoo pirojektii, rakkina fi eeggannoo yeroo qoodi.',
       submit: 'Kuta Mirkaneessi',
       success: 'Galatoomaa. Odeeffannoon booking keessan qabameera; invite calendar yeroodhaaf ni ergame.',
+      sla: 'Guyyoota hojii tokko keessatti deebii kennina, bilbila marii keessan guyyoota sadii keessatti qopheessina, piroposal-ittis guyyoota hojii shan keessatti dhiheessina.',
       hint: 'Mirkaneessi fi tarkaanfii itti aanan imeeliidhaan isin ga a.',
     },
     booking: {

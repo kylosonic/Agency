@@ -5,6 +5,7 @@ import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
 import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
+import { submitLeadIntake } from '../services/leadIntakeService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import PilotOfferSection from '../components/PilotOfferSection';
 import {
@@ -105,6 +106,26 @@ export default function Home() {
     event.preventDefault();
     setContactStatus('sending');
     trackContactFormAttempt('home_contact_form');
+
+    // Best-effort, non-blocking durable mirror (TECH-08 G3): the formsubmit rail
+    // remains the primary delivery path; this mirror POSTs to /api/leads so the
+    // inquiry is also stored in the lead store. Failures are silently ignored —
+    // the UI and the primary flow are never blocked or re-routed by it.
+    submitLeadIntake({
+      type: 'contact_form',
+      source: 'home_contact_form',
+      channel: 'contact_form',
+      routePath: '/',
+      lead: contactForm,
+      context: { delivery: 'durable_mirror' },
+      consent: {
+        type: 'contact_form_mirror',
+        capturedAt: new Date().toISOString(),
+        copy: 'Durable mirror of the homepage contact form submission.',
+      },
+    }).catch(() => {
+      // Silently ignore mirror failures.
+    });
 
     const submission = await submitContactInquiry(contactForm);
 

@@ -17,7 +17,9 @@ export const SITE_URL = normalizeSiteUrl(getEnvValue(import.meta.env.VITE_SITE_U
 export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20260512`;
 export const PRICING_GUIDE_ASSET_PATH = '/NovaTechAI_2026_Service_Menu_and_Pricing_Guide.pdf';
 
-const CONTACT_EMAIL = getEnvValue(import.meta.env.VITE_CONTACT_EMAIL, 'nahomgwmichael@gmail.com');
+// Domain mailbox (OA-1) plugs in via VITE_CONTACT_EMAIL. Empty until the owner
+// provides the final address — no personal inbox remains as a default anywhere.
+const CONTACT_EMAIL = getEnvValue(import.meta.env.VITE_CONTACT_EMAIL, '');
 const PHONE_DISPLAY = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_DISPLAY, '+251 944 191 603');
 const PHONE_HREF = getEnvValue(import.meta.env.VITE_CONTACT_PHONE_HREF, toTelephoneHref(PHONE_DISPLAY));
 const WHATSAPP_NUMBER = getEnvValue(import.meta.env.VITE_WHATSAPP_NUMBER, '251944191603');

@@ -58,12 +58,21 @@ Configure these in .env (see .env.example):
 	- Optional API endpoint for form submissions.
 	- If missing or unavailable, homepage contact form falls back to mail client submission.
 
+- VITE_CONTACT_FORM_SUBMIT_ENDPOINT
+	- Optional override for the formsubmit.co endpoint used by the homepage contact form.
+	- When empty, the URL is derived from VITE_CONTACT_EMAIL as `https://formsubmit.co/ajax/<email>`.
+	- No personal email address is hardcoded anywhere; both values are owner-supplied before launch (OA-1/OA-3).
+
 - VITE_CONTACT_API_KEY
 	- Optional API key sent as X-Api-Key when submitting contact form payloads.
 
 - VITE_CONTACT_TIMEOUT_MS
 	- Optional request timeout in milliseconds.
 	- Default: 9000.
+
+- VITE_GA4_MEASUREMENT_ID
+	- GA4 Measurement ID for production analytics (owner action OA-4).
+	- Unset today: production currently has no analytics sink unless VITE_ANALYTICS_ENDPOINT is provided.
 
 - VITE_MAILING_LIST_ENDPOINT
 	- Nocatechai guide capture endpoint.
@@ -80,9 +89,14 @@ Configure these in .env (see .env.example):
 - MAILING_LIST_WEBHOOK_URL
 	- Optional server-side webhook that receives every captured lead after local storage succeeds.
 	- Use this to sync into a unified CRM, newsletter, or marketing automation list.
+	- Required before launch (OA-6): this is the durable delivery rail for B18.
+
+- MAILING_LIST_WEBHOOK_PENDING_PATH
+	- Bounded pending-retry file (default: storage/mailing-list-webhook-pending.jsonl) for webhook forwards that failed.
+	- Rows are re-forwarded oldest-first (up to 5 per request) and deleted only on a 2xx response.
 
 - VITE_LEAD_INTAKE_ENDPOINT
-	- Endpoint used by the instant quote wizard and discovery booking form.
+	- Endpoint used by the instant quote wizard, discovery booking form, and the homepage contact mirror.
 	- Default: /api/leads.
 
 - VITE_LEAD_INTAKE_API_KEY / LEAD_INTAKE_API_KEY
@@ -94,6 +108,11 @@ Configure these in .env (see .env.example):
 
 - LEAD_INTAKE_WEBHOOK_URL
 	- Optional server-side webhook for CRM, calendar, or automation handoff.
+	- Required before launch (OA-6): this is the durable delivery rail for B18.
+
+- LEAD_INTAKE_WEBHOOK_PENDING_PATH
+	- Bounded pending-retry file (default: storage/leads-webhook-pending.jsonl) for webhook forwards that failed.
+	- Rows are re-forwarded oldest-first (up to 5 per request) and deleted only on a 2xx response.
 
 - VITE_ANALYTICS_ENDPOINT
 	- Optional endpoint for custom analytics events.
@@ -113,8 +132,9 @@ Configure these in .env (see .env.example):
 Homepage contact form behavior:
 
 1. Attempts API submission first via VITE_CONTACT_API_ENDPOINT.
-2. On success, shows API success status.
-3. On endpoint issues (unconfigured/network/timeout/request failure), falls back to a prefilled mailto flow.
+2. In parallel, a best-effort non-blocking durable mirror POSTs the same inquiry to /api/leads (type `contact_form`). Mirror failures are silently ignored and never block the primary flow.
+3. On success, shows API success status.
+4. On endpoint issues (unconfigured/network/timeout/request failure), falls back to a prefilled mailto flow.
 
 Implementation references:
 
@@ -128,14 +148,22 @@ NovaTechAI pricing guide downloads now use a dedicated lead-capture path:
 1. The modal validates the email address.
 2. The frontend posts the lead to VITE_MAILING_LIST_ENDPOINT.
 3. The server function at api/mailing-list.js appends the record to MAILING_LIST_STORAGE_PATH.
-4. If MAILING_LIST_WEBHOOK_URL is configured, the same record is forwarded to that unified mailing list.
-5. If the endpoint is temporarily unavailable in the browser, the lead is queued in localStorage under novatech-mailing-list:fallback for manual recovery.
+4. If MAILING_LIST_WEBHOOK_URL is configured, the same record is forwarded to that unified mailing list. Failed forwards land in MAILING_LIST_WEBHOOK_PENDING_PATH and are retried on later requests.
+5. If the endpoint is temporarily unavailable in the browser, the lead is queued in localStorage under novatech-mailing-list:fallback and is flushed automatically on the next page load (oldest-first, deleted only on success).
 
 Captured server records are ignored from git by storage/.gitignore.
 
 ## Lead Intake Flow
 
-Quote and booking forms submit to api/leads.js first. The handler validates the email, stores a JSONL lead record, and can forward the same payload to LEAD_INTAKE_WEBHOOK_URL. If the browser cannot reach the endpoint, the frontend stores a bounded local fallback under novatech-lead-intake:fallback so the visitor still sees a clear status instead of silently losing the request.
+Quote, booking, and home-contact-mirror submissions post to api/leads.js first. The handler validates the email, stores a JSONL lead record, and can forward the same payload to LEAD_INTAKE_WEBHOOK_URL. If the browser cannot reach the endpoint, the frontend stores a bounded local fallback under novatech-lead-intake:fallback so the visitor still sees a clear status instead of silently losing the request. On the next page load the fallback queue is re-posted oldest-first; rows are removed only after a successful (2xx) submission, and a per-session budget prevents hammering a down endpoint.
+
+## Lead Delivery & SLA
+
+Delivery guarantees (B18–B19) and how they are enforced:
+
+- Every inquiry (quote request, booking request, contact form, guide download) is stored server-side as JSONL and forwarded to the team inbox via the configured webhook (OA-6). The webhook pending-retry file covers transient failures; the browser fallback queues cover frontend outages.
+- Published SLA copy: we respond within one business day, schedule the discovery call within three, and deliver a proposal within five business days of discovery. This copy is present on the discovery booking success message, the instant quote result card, and the lead-capture modal success state (quote/booking variants) in English, Amharic, and Afaan Oromo.
+- Server handlers log a startup warning when webhook URLs are unset; the dev client logs a launch-config table when required VITE_* variables are missing.
 
 ## Analytics Tracking
 

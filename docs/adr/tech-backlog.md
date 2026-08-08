@@ -20,16 +20,10 @@
 > TECH-06 resolved in commit `a2d7d1a` (QA APPROVED, 67/67 E2E with byte-identical spec, lint + build clean, 31 screenshots).
 > NB-08 marked [IMPLEMENTED] in the behavior ledger.
 
-## Phase 4 — Copy Humanization (P1)
+## ✅ DONE — Phase 4 — Copy Humanization (P1)
 
-### TECH-07 — Copy humanization pass EN/AM/OM
-- **Maps to:** NB-09 (B23)
-- **Scope:**
-  - Rewrite FAQ answers so openings vary (no uniform "Yes." pattern)
-  - Remove filler words (elevate, seamless, unleash, next-gen, unlock) across copy
-  - Vary section rhythms; remove placeholder-sounding names/numbers (e.g., "Hana Bekele" placeholder, "team@company.et")
-  - Audit Amharic and Afaan Oromo translations for the same tells
-- **Acceptance:** A reader cannot find the listed AI tells in any language; copy reads local and specific.
+> TECH-07 resolved in commit `963ba8c` (QA APPROVED, 67/67 E2E with byte-identical spec, lint + build clean).
+> NOTE: NB-09 remains OPEN in the behavior ledger until the owner records the native Amharic + Afaan Oromo review gate.
 
 ## Phase 5 — Ops & Launch Config (P1)
 

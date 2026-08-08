@@ -352,6 +352,11 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                 </div>
                                 <h3 id="pricing-guide-title">{activeVariant.successTitle}</h3>
                                 <p className="modal-subtitle" id="pricing-guide-subtitle">{activeVariant.successSubtitle}</p>
+                                {(variant === 'quote_offer' || variant === 'book_call_offer') && (
+                                    <p className="modal-sla-note" role="note">
+                                        {t('leadCapture.quote_offer.successSla', 'We respond within one business day, schedule your discovery call within three, and deliver a proposal within five business days of discovery.')}
+                                    </p>
+                                )}
                                 <div className="modal-success-actions">
                                     <button type="button" className="btn btn-primary" onClick={() => openVariantPrimaryAction('lead_modal_success_primary')}>
                                         {activeVariant.successPrimaryLabel}

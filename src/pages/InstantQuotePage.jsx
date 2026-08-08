@@ -136,7 +136,7 @@ export default function InstantQuotePage() {
       },
       consent: {
         type: 'quote_follow_up',
-        copy: t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.'),
+        copy: t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.'),
       },
     });
 
@@ -340,7 +340,7 @@ export default function InstantQuotePage() {
               <p>
                 {submissionStatus === 'fallback'
                   ? t('instantQuote.result.fallback', 'This estimate was generated and saved locally because the intake endpoint is temporarily unavailable. Please book a discovery call or message us if this request is urgent.')
-                  : t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.')}
+                  : `${t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.')} ${t('instantQuote.result.sla', 'We respond within one business day and deliver a written proposal within five business days of our discovery call.')}`}
               </p>
               <div className="quote-result-actions">
                 <Link className="btn btn-primary" to="/book-discovery-call">{t('actions.bookDiscoveryCall', 'Book Discovery Call')}</Link>
