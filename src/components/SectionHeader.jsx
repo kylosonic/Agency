@@ -1,6 +1,6 @@
 import IconGlyph from './IconGlyph';
 
-export default function SectionHeader({ tag, title, subtitle, gradient = false, align = 'center' }) {
+export default function SectionHeader({ tag, title, subtitle, align = 'center' }) {
     const alignmentClass = align === 'left' ? '' : 'center';
 
     return (
@@ -11,7 +11,7 @@ export default function SectionHeader({ tag, title, subtitle, gradient = false, 
                     {tag}
                 </div>
             )}
-            <h2 className={gradient ? 'gradient-text' : ''}>{title}</h2>
+            <h2>{title}</h2>
             {subtitle && <p>{subtitle}</p>}
         </div>
     );

@@ -188,6 +188,11 @@ export default function InstantQuotePage() {
         <div className="container page-hero-content">
           <h1>{t('instantQuote.hero.title', 'Instant Quote Wizard')}</h1>
           <p>{t('instantQuote.hero.subtitle', 'Answer a few questions and get a working estimate range in under two minutes.')}</p>
+          <div className="page-hero-meta" aria-label="Instant quote process notes">
+            <span className="page-hero-chip">ETB-only pricing</span>
+            <span className="page-hero-chip">Directional estimate</span>
+            <span className="page-hero-chip">SaaS currently in development</span>
+          </div>
         </div>
       </section>
 

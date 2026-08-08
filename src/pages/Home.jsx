@@ -168,7 +168,7 @@ export default function Home() {
         <div className="container hero-shell ai-hero-shell">
           <div className="hero-copy ai-hero-copy">
             <ScrollReveal delay={0.1}>
-              <div className="hero-badge ai-hero-badge">
+              <div className="hero-badge ai-hero-badge page-hero-meta">
                 <span className="hero-badge-dot"></span>
                 AI-First Automation Consultancy
               </div>
@@ -190,7 +190,6 @@ export default function Home() {
                 </a>
               </div>
               <div className="hero-trust-row" aria-label="Delivery assurances">
-                <span className="trust-pill">Audit blueprint in 5 business days</span>
                 <span className="trust-pill">ETB pricing · International engagements quoted individually</span>
                 <span className="trust-pill">Private deployment options</span>
               </div>
@@ -198,20 +197,22 @@ export default function Home() {
           </div>
 
           <ScrollReveal delay={0.18}>
-            <aside className="hero-panel glass-card ai-hero-panel" aria-label="Core AI operational capabilities">
-              <div className="hero-panel-label">Execution Surface</div>
-              <div className="hero-features ai-hero-features">
-                {SOLUTION_PREVIEWS.map((item) => (
-                  <article key={item.title} className="hero-feature-card glass ai-signal-card">
-                    <div className="card-icon" aria-hidden="true">
-                      <IconGlyph name={item.icon} size={20} />
+            <div className="hero-facts" aria-label="Core AI operational capabilities">
+              <div className="hero-facts-label">Audit blueprint in 5 business days</div>
+              <ol className="hero-facts-list">
+                {SOLUTION_PREVIEWS.map((item, index) => (
+                  <li key={item.title} className="hero-fact-row">
+                    <span className="hero-fact-number" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div className="hero-fact-body">
+                      <span className="hero-fact-title">{item.title}</span>
+                      <span className="hero-fact-text">{item.text}</span>
                     </div>
-                    <h3>{item.title}</h3>
-                    <p>{item.text}</p>
-                  </article>
+                  </li>
                 ))}
-              </div>
-            </aside>
+              </ol>
+            </div>
           </ScrollReveal>
         </div>
       </section>

@@ -65,7 +65,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
             {/* Page Hero */}
             <section className="page-hero">
                 <div className="container page-hero-content">
-                    <h1 className="gradient-text">
+                    <h1>
                         <StaggeredText text={t('saas.hero.title', 'SaaS Cloud Solutions')} delay={0.1} />
                     </h1>
                     <p>{t('saas.hero.subtitle', 'Rent-to-use cloud management systems — zero IT overhead, fast deployment, and full support. Pay monthly and scale at your pace.')}</p>

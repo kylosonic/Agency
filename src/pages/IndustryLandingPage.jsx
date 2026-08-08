@@ -39,6 +39,11 @@ export default function IndustryLandingPage({ onDownloadClick }) {
         <div className="container page-hero-content">
           <h1>{title}</h1>
           <p>{hero}</p>
+          <div className="page-hero-meta" aria-label="Industry playbook details">
+            <span className="page-hero-chip">Industry-specific playbook</span>
+            <span className="page-hero-chip">ETB-only pricing</span>
+            <span className="page-hero-chip">International engagements quoted individually</span>
+          </div>
         </div>
       </section>
 
