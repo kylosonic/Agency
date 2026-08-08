@@ -3333,29 +3333,46 @@ h2 {
   border-top: 1px solid var(--border-subtle);
 }
 
-.ai-data-layer-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.82rem;
-}
-
+/* TECH-18: Searchable-brain delivery steps → compact ruled rows inside band-1 (B33).
+   Equal glass boxes in a service context are replaced by thin rules + mono numerals;
+   band borders keep the rows legible on the dark band. */
 .ai-data-layer-list {
   margin-top: 1rem;
+  display: block;
+  border-top: 1px solid var(--band-border);
+  counter-reset: data-layer-row;
 }
 
 .ai-data-layer-item {
-  padding: 0.95rem;
-  border-radius: var(--radius-lg);
+  position: relative;
+  padding: 0.9rem 0 0.9rem calc(2.6rem + 0.8rem);
   display: grid;
-  gap: 0.44rem;
-  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.7rem;
+  row-gap: 0.28rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  border-bottom: 1px solid var(--band-border);
 }
 
-.ai-data-layer-item:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
-  background: var(--surface-2);
-  box-shadow: var(--shadow-sm);
+.ai-data-layer-item::before {
+  counter-increment: data-layer-row;
+  content: counter(data-layer-row, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.ai-data-layer-item .ai-data-layer-icon {
+  grid-column: 1;
 }
 
 .ai-data-layer-icon {
@@ -3366,55 +3383,80 @@ h2 {
   align-items: center;
   justify-content: center;
   color: var(--accent-deep);
-  border: 1px solid var(--accent-tint-border);
-  background: var(--accent-tint);
+  border: 1px solid var(--band-border);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-
 .ai-data-layer-item h3 {
+  grid-column: 2;
   font-size: 0.96rem;
 }
 
 .ai-data-layer-item p {
+  grid-column: 2;
   color: var(--text-secondary);
   font-size: 0.86rem;
   line-height: 1.58;
 }
 
-.ai-preview-grid {
+/* TECH-18: Home service listings become a ruled editorial index (B33).
+   #ai-solutions + #product-engineering: block rows separated by thin rules with
+   mono numerals; the glass-card box is stripped for these rows (row boundaries
+   are not earned for service listings). */
+#ai-solutions .ai-preview-grid,
+.ai-product-track-section .ai-preview-grid {
+  display: block;
+  border-top: 1px solid var(--border-strong);
+  counter-reset: preview-row;
+}
+
+#ai-solutions .ai-preview-card,
+.ai-product-track-section .ai-preview-card {
+  position: relative;
+  padding: 1.15rem 0 1.15rem calc(3rem + 1rem);
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.85rem;
+  row-gap: 0.32rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* Home AI solutions (3 cards): lead card spans 6, flankers 3 each */
-.ai-preview-grid > :nth-child(1) {
-  grid-column: span 6;
+#ai-solutions .ai-preview-card::before,
+.ai-product-track-section .ai-preview-card::before {
+  counter-increment: preview-row;
+  content: counter(preview-row, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1.28rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
 }
 
-.ai-preview-grid > :nth-child(2),
-.ai-preview-grid > :nth-child(3) {
-  grid-column: span 3;
+#ai-solutions .ai-preview-card .ai-preview-icon,
+.ai-product-track-section .ai-preview-card .ai-preview-icon {
+  grid-column: 1;
 }
 
-/* Home product tracks (3 cards): declining emphasis 5 / 4 / 3 */
-.ai-preview-grid:has(.ai-product-track-card) > :nth-child(1) {
-  grid-column: span 5;
+#ai-solutions .ai-preview-card h3,
+.ai-product-track-section .ai-preview-card h3 {
+  grid-column: 2;
+  font-size: 1.04rem;
 }
 
-.ai-preview-grid:has(.ai-product-track-card) > :nth-child(2) {
-  grid-column: span 4;
-}
-
-.ai-preview-grid:has(.ai-product-track-card) > :nth-child(3) {
-  grid-column: span 3;
-}
-
-.ai-preview-card {
-  padding: 1.12rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.62rem;
+#ai-solutions .ai-preview-card p,
+.ai-product-track-section .ai-preview-card p {
+  grid-column: 2;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.62;
 }
 
 .ai-preview-icon {
@@ -3429,43 +3471,13 @@ h2 {
   color: var(--accent-deep);
 }
 
-.ai-preview-card h3 {
-  font-size: 1.04rem;
-}
-
-.ai-preview-card p {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.62;
-}
-
 .ai-product-track-section {
   border-top: 1px solid var(--border-subtle);
 }
 
-.ai-product-track-card {
-  position: relative;
-  overflow: hidden;
-}
-
-.ai-product-track-card::before {
-  content: '';
-  position: absolute;
-  inset: auto -20% -40% auto;
-  width: 210px;
-  height: 210px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(28, 25, 23, 0.04) 0%, transparent 66%);
-  pointer-events: none;
-}
-
-.ai-product-track-card > * {
-  position: relative;
-  z-index: 1;
-}
-
 .ai-product-track-link {
-  margin-top: auto;
+  grid-column: 2;
+  margin-top: 0.28rem;
   display: inline-flex;
   align-items: center;
   width: fit-content;
@@ -3475,7 +3487,6 @@ h2 {
   border-bottom: 1px solid color-mix(in srgb, var(--accent), transparent 40%);
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
-
 
 .ai-product-track-link:hover {
   color: var(--accent-deep);
@@ -3598,17 +3609,49 @@ h2 {
   max-width: 920px;
 }
 
+/* TECH-18: Services page core-offering index → ruled editorial rows (B33).
+   Rows separated by thin rules with mono numerals 01–04; the old glass-card
+   box is stripped for these rows (a row listing does not earn box boundaries). */
 .ai-service-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  display: block;
+  border-top: 1px solid var(--border-strong);
+  counter-reset: service-row;
 }
 
-.ai-service-card {
-  padding: 1.18rem;
+.ai-service-grid .ai-service-card {
+  position: relative;
+  padding: 1.2rem 0 1.2rem calc(3.2rem + 1rem);
   display: flex;
   flex-direction: column;
-  gap: 0.72rem;
+  gap: 0.55rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: opacity var(--transition-fast);
+}
+
+.ai-service-grid .ai-service-card::before {
+  counter-increment: service-row;
+  content: counter(service-row, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1.35rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.ai-service-grid .ai-service-card.is-focus {
+  opacity: 1;
+}
+
+.ai-service-grid .ai-service-card.is-muted {
+  opacity: 0.62;
 }
 
 .ai-service-card-top {
@@ -3630,9 +3673,9 @@ h2 {
   flex-shrink: 0;
 }
 
-
-.ai-service-card h3 {
+.ai-service-card-top h3 {
   font-size: 1.06rem;
+  margin-top: 0.1rem;
 }
 
 .ai-service-card p {
@@ -3690,23 +3733,53 @@ h2 {
   line-height: 1.66;
 }
 
+/* TECH-18: use-case cards → ruled rows inside the earned panel boundary (B33).
+   The panel box stays (curated module), the individual workflow cards become
+   thin-ruled rows with mono numerals — no equal boxes in a service row. */
 .automation-use-case-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 0.82rem;
-}
-
-.automation-use-case-grid > :nth-child(3) {
-  grid-column: 1 / -1;
+  display: block;
+  border-top: 1px solid var(--border-strong);
+  counter-reset: use-case-row;
 }
 
 .automation-use-case-card {
-  border-radius: var(--radius-lg);
-  padding: 0.95rem;
+  position: relative;
+  padding: 1.05rem 0 1.05rem calc(3rem + 0.9rem);
   display: grid;
-  align-content: start;
-  gap: 0.54rem;
-  min-height: 100%;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.8rem;
+  row-gap: 0.4rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  min-height: 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.automation-use-case-card::before {
+  counter-increment: use-case-row;
+  content: counter(use-case-row, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1.2rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.automation-use-case-card .automation-use-case-icon {
+  grid-column: 1;
+}
+
+.automation-use-case-card h4,
+.automation-use-case-card p,
+.automation-use-case-card strong,
+.automation-use-case-card .automation-use-case-flow {
+  grid-column: 2;
 }
 
 .automation-use-case-icon {
@@ -3761,11 +3834,6 @@ h2 {
   border-top: 1px solid var(--border-subtle);
 }
 
-.ai-supporting-service-card {
-  padding: clamp(1.2rem, 3.7vw, 2.1rem);
-  border-radius: var(--radius-2xl);
-}
-
 .ai-supporting-service-header {
   display: flex;
   align-items: center;
@@ -3813,36 +3881,53 @@ h2 {
   gap: 0.7rem;
 }
 
+/* TECH-18: supporting-track pills → compact ruled rows inside band-2 (B33).
+   Pills become thin-ruled rows with gold mono numerals and band borders. */
 .ai-supporting-track-grid {
-  margin-top: 0.88rem;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.62rem;
+  margin-top: 1.15rem;
+  display: block;
+  border-top: 1px solid var(--band-border);
+  counter-reset: track-row;
 }
 
 .ai-supporting-track-pill {
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--surface-1), transparent 6%);
-  padding: 0.58rem;
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 0.48rem;
-  color: var(--text-secondary);
-  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0 0.75rem calc(2.5rem + 0.75rem);
+  border: 0;
+  border-radius: 0;
+  background: none;
+  border-bottom: 1px solid var(--band-border);
+  color: var(--band-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.ai-supporting-track-pill::before {
+  counter-increment: track-row;
+  content: counter(track-row, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--accent);
 }
 
 .ai-supporting-track-pill:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--accent), var(--accent) 46%);
-  background: color-mix(in srgb, var(--accent-tint), transparent 72%);
+  color: var(--band-text);
 }
 
 .ai-supporting-track-icon {
   width: 30px;
   height: 30px;
   border-radius: 10px;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--band-border);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3851,14 +3936,14 @@ h2 {
 
 .ai-supporting-track-pill strong {
   display: block;
-  color: var(--text-primary);
+  color: var(--band-text);
   font-size: 0.84rem;
 }
 
 .ai-supporting-track-pill small {
   display: block;
   margin-top: 0.1rem;
-  color: var(--text-tertiary);
+  color: var(--band-text-secondary);
   line-height: 1.45;
   font-size: 0.75rem;
 }
@@ -4250,28 +4335,18 @@ h2 {
     display: none;
   }
 
-  .ai-preview-grid,
-  .ai-data-layer-list,
-  .ai-supporting-track-grid,
-  .ai-service-grid,
   .methodology-timeline,
   .ai-pricing-tier-grid,
-  .automation-use-case-grid,
   .ai-interface-pricing-grid,
   .pricing-grid {
     grid-template-columns: 1fr;
   }
 
   /* Span resets — every asymmetric grid collapses to single column */
-  .ai-preview-grid > :nth-child(n),
   .ai-pricing-tier-grid > :nth-child(n),
   .ai-interface-pricing-grid > :nth-child(n),
   .ai-interface-pricing-grid > :only-child,
   .pricing-grid > :nth-child(n) {
-    grid-column: auto;
-  }
-
-  .automation-use-case-grid > :nth-child(3) {
     grid-column: auto;
   }
 
@@ -4296,13 +4371,10 @@ h2 {
   }
 
   .ai-home-cta-inner,
-  .ai-supporting-service-card,
   .automation-use-case-panel,
   .ai-pricing-audit-card,
   .ai-pricing-tier-card,
   .ai-audit-card,
-  .ai-service-card,
-  .ai-preview-card,
   .searchable-brain-proof {
     padding: 0.95rem;
   }
@@ -4421,20 +4493,6 @@ h2 {
 .ai-service-objective-meta {
   color: var(--text-tertiary);
   font-size: 0.8rem;
-}
-
-.ai-service-card {
-  transition: opacity var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.ai-service-card.is-focus {
-  border-color: color-mix(in srgb, var(--accent), var(--accent) 45%);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-}
-
-.ai-service-card.is-muted {
-  opacity: 0.62;
 }
 
 .pricing-scenario-planner {
@@ -5110,15 +5168,17 @@ h2 {
   border-color: var(--band-border);
 }
 
+.band-dark .ai-supporting-track-pill,
+.band-dark .ai-data-layer-item {
+  background: none;
+}
+
 .band-dark .ai-supporting-track-pill {
-  background: var(--band-bg);
-  border-color: var(--band-border);
   color: var(--band-text-secondary);
 }
 
 .band-dark .ai-supporting-track-pill:hover {
-  border-color: color-mix(in srgb, var(--accent), var(--accent) 46%);
-  background: color-mix(in srgb, var(--accent-tint), transparent 72%);
+  color: var(--band-text);
 }
 
 .band-dark .ai-supporting-track-pill strong {
@@ -5127,6 +5187,17 @@ h2 {
 
 .band-dark .ai-supporting-track-pill small {
   color: var(--band-text-secondary);
+}
+
+/* TECH-18: band-2 supporting-track module — the glass-strong box is stripped
+   (service-listing context; the band itself is the boundary). Declared after
+   the .band-dark .glass-strong rule so the box kill wins the tie. */
+.band-dark .ai-supporting-service-card {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
 }
 
 /* Policy — closing terms block (band-1) */
