@@ -5,6 +5,7 @@ import { queueLeadFollowups } from '../services/leadAutomationService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
+import BandCta from '../components/BandCta';
 
 const INITIAL_FORM = {
   name: '',
@@ -214,7 +215,12 @@ export default function DiscoveryCallPage() {
         </div>
       </section>
 
-      <section className="section discovery-section">
+      {/* band-1 (TECH-15/B27): no separate post-form block exists on this
+          page (the booking form stays mounted after submission), so the
+          booking-form section itself is the band-1 slot. This keeps the
+          exactly-two-bands invariant (N2) true on first paint; band-2 is the
+          shared BandCta rendered below. */}
+      <section className="section discovery-section band-dark band-1">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -279,6 +285,8 @@ export default function DiscoveryCallPage() {
           </div>
         </div>
       </section>
+
+      <BandCta />
     </>
   );
 }

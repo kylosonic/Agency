@@ -287,7 +287,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section methodology-section" id="methodology">
+      <section className="section methodology-section band-dark band-1" id="methodology">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -446,7 +446,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section section-sm ai-home-cta" id="workflow-audit-cta">
+      <section className="section section-sm ai-home-cta band-dark band-2" id="workflow-audit-cta">
         <div className="container">
           <div className="ai-home-cta-inner glass-strong">
             <h2>Ready to automate operations or ship a new software product?</h2>

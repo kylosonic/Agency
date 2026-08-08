@@ -96,6 +96,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
             </section>
 
             <RoiEstimator
+                band="1"
                 title={t('mobile.roi.title', 'Mobile Acquisition ROI Estimator')}
                 subtitle={t('mobile.roi.subtitle', 'Estimate expected gain from app-store readiness, paid acquisition, and retention improvements.')}
             />
@@ -107,7 +108,7 @@ export default function MobileDevelopmentPage({ onDownloadClick }) {
             />
 
             {/* CTA */}
-            <section className="section-sm cta-section">
+            <section className="section-sm cta-section band-dark band-2">
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">

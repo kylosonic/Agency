@@ -268,7 +268,7 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="section searchable-brain-section ai-service-data-section" id="searchable-brain" aria-labelledby="searchable-brain-title">
+      <section className="section searchable-brain-section ai-service-data-section band-dark band-1" id="searchable-brain" aria-labelledby="searchable-brain-title">
         <div className="container searchable-brain-shell">
           <ScrollReveal>
             <div className="searchable-brain-copy">
@@ -305,7 +305,7 @@ export default function Services() {
         </div>
       </section>
 
-      <section className="section ai-supporting-service" id="engineering">
+      <section className="section ai-supporting-service band-dark band-2" id="engineering">
         <div className="container">
           <ScrollReveal>
             <div className="ai-supporting-service-card glass-strong">

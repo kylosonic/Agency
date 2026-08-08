@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import IconGlyph from './IconGlyph';
 
-export default function FaqAccordion({ title, subtitle, items = [] }) {
+export default function FaqAccordion({ title, subtitle, items = [], band }) {
   const [openIndex, setOpenIndex] = useState(0);
 
   if (!items.length) {
@@ -9,7 +9,10 @@ export default function FaqAccordion({ title, subtitle, items = [] }) {
   }
 
   return (
-    <section className="section faq-section" aria-label={title || 'Frequently asked questions'}>
+    <section
+      className={`section faq-section${band ? ' band-dark band-1' : ''}`}
+      aria-label={title || 'Frequently asked questions'}
+    >
       <div className="container">
         {title ? <h2 className="faq-title">{title}</h2> : null}
         {subtitle ? <p className="faq-subtitle">{subtitle}</p> : null}

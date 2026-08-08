@@ -96,6 +96,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
             </section>
 
             <RoiEstimator
+                band="1"
                 title={t('web.roi.title', 'Web Growth ROI Estimator')}
                 subtitle={t('web.roi.subtitle', 'Estimate potential monthly revenue lift from improved conversion architecture and campaign readiness.')}
             />
@@ -107,7 +108,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
             />
 
             {/* CTA */}
-            <section className="section-sm cta-section">
+            <section className="section-sm cta-section band-dark band-2">
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">

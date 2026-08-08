@@ -34,6 +34,15 @@ const en = {
     closeMenu: 'Close menu',
     mobileNavigation: 'Mobile navigation',
   },
+  // Band CTA (TECH-15, B27): shared pre-footer near-black CTA band copy.
+  // Locked keys — arbitration 2 (minimal NEW-copy surface). AM/OM values are
+  // machine-translated and flagged for the existing native-review gate (NB-09).
+  band: {
+    cta: {
+      title: 'Every project starts with a clear scope.',
+      subtitle: 'Get a working estimate from the instant quote wizard, book a discovery call for a strategy session, or review the pricing guide.',
+    },
+  },
   labels: {
     language: 'Language',
     languageShort: 'Lang',
@@ -1609,6 +1618,15 @@ const amFinalOverrides = {
     instantQuote: 'Automation Brief',
     bookCall: 'Workflow Audit Call',
   },
+  // NATIVE-REVIEW FLAG (NB-09): `band.cta.*` Amharic values below are
+  // machine-translated (TECH-15, arbitration 2) and require native review
+  // before launch. They mirror the locked EN keys 1:1 — no new claims.
+  band: {
+    cta: {
+      title: 'እያንዳንዱ ፕሮጀክት ግልፅ በሆነ ስኮፕ ይጀምራል።',
+      subtitle: 'የስራ ግምት ለማግኘት የInstant Quote ዊዛርዱን ይጠቀሙ፣ ለስትራቴጂ ክፍለ-ጊዜ የDiscovery Call ያስይዙ፣ ወይም የዋጋ መመሪያውን ይመልከቱ።',
+    },
+  },
   footer: {
     description: 'AI-first አውቶሜሽን ኮንሰልታንሲ፣ በብጁ ኤጀንቲክ ዎርክፍሎዎች እና በዌብ፣ ሞባይል እና SaaS የሶፍትዌር ልማት ላይ እኩል ትኩረት ያደርጋል።',
     rights: '© 2026 NovaTech AI Systems. መብቶች ሁሉ የተጠበቁ ናቸው።',
@@ -1747,6 +1765,15 @@ const omFinalOverrides = {
     policy: 'Seera Operations',
     instantQuote: 'Automation Brief',
     bookCall: 'Workflow Audit Call',
+  },
+  // NATIVE-REVIEW FLAG (NB-09): `band.cta.*` Afaan Oromoo values below are
+  // machine-translated (TECH-15, arbitration 2) and require native review
+  // before launch. They mirror the locked EN keys 1:1 — no new claims.
+  band: {
+    cta: {
+      title: 'Pirojektiin hundi sadarkaa ifaatiin jalqaba.',
+      subtitle: 'Qorannoo gatii argachuuf wizard instant quote fayyadamaa, walgaʼii discovery call qopheessaa, yookaan qajeelfama gatii ilaalaa.',
+    },
   },
   channels: {
     telegram: 'Telegiraamii',

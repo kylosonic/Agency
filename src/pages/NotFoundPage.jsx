@@ -1,12 +1,21 @@
 import { Link } from 'react-router-dom';
 import IconGlyph from '../components/IconGlyph';
 import { useLanguage } from '../i18n/useLanguage';
+import BandCta from '../components/BandCta';
 
+/**
+ * 404 page — B27 documented exception (TECH-15): band-1 is intentionally
+ * absent on the error page (there is no services index / content block to
+ * follow); only the shared band-2 pre-footer BandCta renders. The E2E
+ * exactly-two-bands invariant (N2) covers live routes only, which never
+ * include a 404 page.
+ */
 export default function NotFoundPage() {
   const { t } = useLanguage();
 
   return (
-    <section className="section not-found-section">
+    <>
+      <section className="section not-found-section">
       <div className="container">
         <div className="not-found-card glass-card">
           <span className="not-found-status" aria-hidden="true">404</span>
@@ -33,6 +42,9 @@ export default function NotFoundPage() {
           </div>
         </div>
       </div>
-    </section>
+      </section>
+
+      <BandCta />
+    </>
   );
 }

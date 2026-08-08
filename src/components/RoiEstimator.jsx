@@ -5,7 +5,7 @@ function roundCurrency(value) {
   return Math.max(0, Math.round(value));
 }
 
-export default function RoiEstimator({ title, subtitle }) {
+export default function RoiEstimator({ title, subtitle, band }) {
   const { t } = useLanguage();
 
   const resolvedTitle = title || t('roi.title', 'ROI Estimator');
@@ -47,7 +47,10 @@ export default function RoiEstimator({ title, subtitle }) {
   };
 
   return (
-    <section className="section roi-section" aria-label={t('roi.aria', 'ROI estimator')}>
+    <section
+      className={`section roi-section${band ? ' band-dark band-1' : ''}`}
+      aria-label={t('roi.aria', 'ROI estimator')}
+    >
       <div className="container roi-grid">
         <div className="roi-card roi-input-card">
           <h2>{resolvedTitle}</h2>

@@ -5,6 +5,7 @@ import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
 import PricingScenarioPlanner from '../components/PricingScenarioPlanner';
 import PilotOfferSection from '../components/PilotOfferSection';
+import BandCta from '../components/BandCta';
 import { getPricingGuideSummary } from '../services/pricingData';
 
 const PRICING_SUMMARY = getPricingGuideSummary();
@@ -259,7 +260,9 @@ export default function Pricing() {
         </div>
       </section>
 
-      <PilotOfferSection source="pricing_pilot_offer" />
+      <PilotOfferSection band="1" source="pricing_pilot_offer" />
+
+      <BandCta />
     </>
   );
 }

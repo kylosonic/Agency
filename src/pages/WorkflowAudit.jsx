@@ -3,6 +3,7 @@ import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
 import PilotOfferSection from '../components/PilotOfferSection';
+import BandCta from '../components/BandCta';
 import { getPricingGuideSummary } from '../services/pricingData';
 
 const WORKFLOW_AUDIT = getPricingGuideSummary().workflowAudit;
@@ -74,7 +75,9 @@ export default function WorkflowAudit() {
         </div>
       </section>
 
-      <PilotOfferSection source="audit_pilot_offer" />
+      <PilotOfferSection band="1" source="audit_pilot_offer" />
+
+      <BandCta />
     </>
   );
 }

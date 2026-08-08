@@ -8,6 +8,7 @@ import { queueLeadFollowups } from '../services/leadAutomationService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
+import BandCta from '../components/BandCta';
 
 const SERVICE_TYPE_LABEL_KEYS = {
   'Web Development': 'instantQuote.options.service.web',
@@ -190,7 +191,11 @@ export default function InstantQuotePage() {
         </div>
       </section>
 
-      <section className="section quote-wizard-section">
+      {/* band-1 (TECH-15/B27): the quote-wizard section hosts the result /
+          waitlist block, which only renders after submission — the section
+          itself is the always-present band-1 slot so the band invariant
+          (exactly two near-black bands per page) holds on first paint. */}
+      <section className="section quote-wizard-section band-dark band-1">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -373,6 +378,8 @@ export default function InstantQuotePage() {
           )}
         </div>
       </section>
+
+      <BandCta />
     </>
   );
 }

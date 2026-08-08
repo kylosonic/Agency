@@ -12,13 +12,24 @@ const EXCHANGE_ITEM_KEYS = [
  * Founding-client pilot offer (B10): first three implementation clients at
  * 15–20% off, exchanged for case study rights, a testimonial, and referral
  * permission. Copy is fully i18n-driven; the section accepts an analytics
- * `source` so every placement reports where the CTA was clicked.
+ * `source` so every placement reports where the CTA was clicked, and an
+ * optional `band` marker ("1" | "2") that turns the section into a near-black
+ * band (band-dark) while preserving the `data-testid="pilot-offer"` hook.
  */
-export default function PilotOfferSection({ source }) {
+export default function PilotOfferSection({ source, band }) {
   const { t } = useLanguage();
 
+  const sectionClassName = [
+    'section',
+    'pilot-offer-section',
+    band ? 'band-dark' : '',
+    band ? `band-${band}` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <section className="section pilot-offer-section" data-testid="pilot-offer">
+    <section className={sectionClassName} data-testid="pilot-offer">
       <div className="container">
         <div className="pilot-offer-card glass-card">
           <p className="pilot-offer-kicker">{t('pilotOffer.tag')}</p>

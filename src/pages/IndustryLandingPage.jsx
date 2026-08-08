@@ -3,6 +3,7 @@ import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import { industryLandingContent } from '../config/contentData';
 import { useLanguage } from '../i18n/useLanguage';
+import BandCta from '../components/BandCta';
 
 function toTitleCase(value) {
   return value
@@ -41,7 +42,8 @@ export default function IndustryLandingPage({ onDownloadClick }) {
         </div>
       </section>
 
-      <section className="section">
+      {/* band-1 (TECH-15/B27): first section after the hero content. */}
+      <section className="section band-dark band-1">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
@@ -79,6 +81,8 @@ export default function IndustryLandingPage({ onDownloadClick }) {
           </div>
         </div>
       </section>
+
+      <BandCta />
     </>
   );
 }

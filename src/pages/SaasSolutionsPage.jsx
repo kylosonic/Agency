@@ -163,6 +163,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
             </section>
 
             <RoiEstimator
+                band="1"
                 title={t('saas.roi.title', 'SaaS Operations ROI Estimator')}
                 subtitle={t('saas.roi.subtitle', 'Model the business impact of process automation, reduced admin workload, and better collection discipline.')}
             />
@@ -174,7 +175,7 @@ export default function SaasSolutionsPage({ onDownloadClick }) {
             />
 
             {/* CTA */}
-            <section className="section-sm cta-section">
+            <section className="section-sm cta-section band-dark band-2">
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">

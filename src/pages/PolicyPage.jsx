@@ -184,9 +184,11 @@ export default function PolicyPage({ onDownloadClick }) {
                         </div>
                     </ScrollReveal>
 
-                    {/* General Terms */}
+                    {/* General Terms — band-1 slot (TECH-15/B27): the closing
+                        policy-terms block, last content block inside the policy
+                        body before the .cta-section band-2. */}
                     <ScrollReveal>
-                        <div className="policy-section">
+                        <div className="policy-section band-dark band-1">
                             <h3 className="policy-heading">
                                 <span className="policy-heading-icon" aria-hidden="true"><IconGlyph name="book" size={17} /></span>
                                 <span>{t('policy.sections.general.title', 'General Terms')}</span>
@@ -216,7 +218,7 @@ export default function PolicyPage({ onDownloadClick }) {
                 </div>
             </section>
 
-            <section className="section-sm cta-section">
+            <section className="section-sm cta-section band-dark band-2">
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">

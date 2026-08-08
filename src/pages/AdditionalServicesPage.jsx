@@ -157,13 +157,14 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
             </section>
 
             <FaqAccordion
+                band="1"
                 title={t('additional.faq.title', 'Additional Services FAQs')}
                 subtitle={t('additional.faq.subtitle', 'Understand billing models, bundle flexibility, and custom scoping options.')}
                 items={localizedFaqItems}
             />
 
             {/* CTA */}
-            <section className="section-sm cta-section">
+            <section className="section-sm cta-section band-dark band-2">
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">
