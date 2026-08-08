@@ -25,22 +25,11 @@
 > TECH-07 resolved in commit `963ba8c` (QA APPROVED, 67/67 E2E with byte-identical spec, lint + build clean).
 > NOTE: NB-09 remains OPEN in the behavior ledger until the owner records the native Amharic + Afaan Oromo review gate.
 
-## Phase 5 — Ops & Launch Config (P1)
+## ✅ DONE — Phase 5 — Ops & Launch Config (P1)
 
-### TECH-08 — Lead delivery verification
-- **Maps to:** NB-10 (B18–B19)
-- **Scope:** Verify lead intake + mailing-list flows store and forward to a working inbox; verify discovery-call booking flow; confirm fallback behavior; align SLA copy (1-day response / 3-day discovery / 5-day proposal)
-- **Acceptance:** A test submission through each form is stored, forwarded, and confirmed; no silent loss path remains.
-
-### TECH-09 — Contact & launch configuration hardening
-- **Maps to:** NB-13, NB-14 (ops)
-- **Scope:** Domain email decision + swap in siteConfig/env; confirm canonical domain, robots.txt, sitemap.xml, SiteSpeak bot ID, analytics endpoint/GA4, webhook targets
-- **Acceptance:** All production env values verified on the real domain; no personal Gmail remains as primary contact.
-
-### TECH-10 — Pricing guide PDF sync
-- **Maps to:** NB-12
-- **Scope:** Human diff PDF vs new ETB table; regenerate PDF if divergent (out of repo — flag to owner)
-- **Acceptance:** PDF matches the site table exactly, or a regeneration task is queued to the owner.
+> TECH-08, TECH-09, TECH-10 resolved in commit `660ac49` (QA APPROVED, 67/67 E2E byte-identical spec, 21/21 handler-harness checks).
+> Code shipped; NB-10/12/13/14 remain OPEN in the behavior ledger pending owner actions OA-1…OA-9 (domain email, GA4 ID, webhooks, SiteSpeak ID, PDF human-diff, deployment runtime).
+> Owner action log: see `docs/plans/phase5-ops-launch-config.md` §5 (OA-1…OA-9 with deadlines).
 
 ## Phase 6 — Post-Launch (P2)
 
