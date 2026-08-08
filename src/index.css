@@ -66,8 +66,12 @@
   --transition-slow: 0.65s var(--ease-out);
   --transition-spring: 0.55s var(--ease-spring);
 
-  --font-heading: 'Space Grotesk', 'Noto Sans Ethiopic', 'Kefa', 'Segoe UI', 'Ebrima', sans-serif;
-  --font-body: 'Manrope', 'Noto Sans Ethiopic', 'Kefa', 'Segoe UI', 'Ebrima', sans-serif;
+  /* B29: Latin-first stacks — 'Neue Montreal'/'Manrope' first, Ethiopic
+     families AFTER (serif Ethiopic for Amharic headlines, sans for body),
+     then OS fallbacks. Latin-first guarantees digits/prices always render
+     from the Latin families in every language (B30). */
+  --font-heading: 'Neue Montreal', 'Noto Serif Ethiopic', 'Noto Sans Ethiopic', Georgia, 'Segoe UI', sans-serif;
+  --font-body: 'Manrope', 'Noto Sans Ethiopic', 'Noto Serif Ethiopic', 'Segoe UI', 'Ebrima', sans-serif;
   --font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --container-max: 1280px;
@@ -765,7 +769,7 @@ h2 {
 }
 
 .hero h1 {
-  font-size: 4.2rem;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   margin: 0 0 var(--space-md);
   max-width: 15ch;
   text-wrap: balance;
@@ -1268,6 +1272,15 @@ h2 {
   font-weight: 600;
 }
 
+/* Addon prices (Additional Services): mono + tabular-nums per B29 — the
+   addon-card box styles were dropped in TECH-15; the price surface keeps
+   the mono numeral treatment. */
+.featured-addon-price {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
 .services-table-description {
   color: var(--text-secondary);
 }
@@ -1649,7 +1662,7 @@ h2 {
 }
 
 .page-hero h1 {
-  font-size: 3.05rem;
+  font-size: clamp(2.4rem, 4.6vw, 3.4rem);
   margin-bottom: 0.5rem;
 }
 
@@ -5116,4 +5129,77 @@ h2 {
   color: var(--band-text);
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* ── Amharic glyph integrity (B30) ─────────────────────────────────
+   Ethiopic script has no case and no italics, and its tall glyphs
+   clip or collide at tight line-heights and negative tracking. When
+   the document language is Amharic (html lang="am"):
+   · body copy line-height 1.8, headings 1.3
+   · letter-spacing forced to 0 — overrides every uppercase/tracked
+     label rule (0.06–0.12em)
+   · no uppercase transforms and no italics anywhere in the chain
+   Digits/prices still render from the Latin families via the
+   Latin-first --font-heading/--font-body/--font-mono stacks —
+   never Ethiopic numerals. Placed at the end of the stylesheet so
+   these overrides win any same-specificity tie against base label
+   rules. */
+:lang(am) body {
+  line-height: 1.8;
+}
+
+:lang(am) p {
+  line-height: 1.8;
+}
+
+:lang(am) h1,
+:lang(am) h2,
+:lang(am) h3,
+:lang(am) h4,
+:lang(am) h5,
+:lang(am) h6 {
+  line-height: 1.3;
+  /* Tiny positive tracking (not 0): Blink computes letter-spacing: 0 as
+     "normal", which the B30 guard asserts against via parseFloat — a
+     positive value keeps tracking strictly ≥ 0 and never tightens below
+     zero. Visually imperceptible (0.16px at 16px). */
+  letter-spacing: 0.01em;
+  font-style: normal;
+}
+
+/* No fake italics in Amharic text (B30) */
+:lang(am) em,
+:lang(am) i {
+  font-style: normal;
+}
+
+/* Label rules with uppercase transforms and/or tracked letter-spacing
+   (0.06–0.12em) + the explicit B30 label set: neutralized for Amharic. */
+:lang(am) .section-tag,
+:lang(am) .hero-badge,
+:lang(am) .page-hero-chip,
+:lang(am) .pilot-offer-kicker,
+:lang(am) .language-switcher-label,
+:lang(am) .pricing-badge,
+:lang(am) .saas-card-header .tag,
+:lang(am) .saas-price-item .label,
+:lang(am) .services-table th,
+:lang(am) .form-group label,
+:lang(am) .footer h4,
+:lang(am) .mobile-nav-group-title,
+:lang(am) .searchable-brain-kicker,
+:lang(am) .searchable-brain-proof-label,
+:lang(am) .automation-use-case-kicker,
+:lang(am) .ai-supporting-kicker,
+:lang(am) .ai-pricing-audit-kicker,
+:lang(am) .ai-pricing-values span,
+:lang(am) .ai-pricing-card-kicker,
+:lang(am) .ai-service-objective-kicker,
+:lang(am) .pricing-scenario-controls span,
+:lang(am) .pricing-scenario-values span,
+:lang(am) .route-loader-text,
+:lang(am) .methodology-step-number {
+  text-transform: none;
+  letter-spacing: 0;
+  font-style: normal;
 }
