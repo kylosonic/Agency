@@ -182,7 +182,7 @@ export default function DiscoveryCallPage() {
 
   const feedbackMessage = (() => {
     if (status === 'submitted') {
-      return t('discovery.form.success', 'Thanks. Your booking details were captured and our team will send a calendar invite shortly.');
+      return `${t('discovery.form.success', 'Thanks. Your booking details were captured and our team will send a calendar invite shortly.')} ${t('discovery.form.sla', 'We respond within one business day, schedule your discovery call within three, and deliver a proposal within five business days of discovery.')}`;
     }
 
     if (status === 'fallback') {

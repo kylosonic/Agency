@@ -1,32 +1,95 @@
 /**
  * src/services/pricingData.js
  * 
- * STATIC PRICING DATA
+ * STATIC PRICING DATA — ETB ONLY (ADR-001, launch-readiness B4–B9, B11, B12)
  * 
- * Static pricing package data with optional remote overrides.
- * By default, this module returns local arrays immediately.
+ * The locked launch table lives here as the single source of truth:
+ *   - Workflow Audit: fixed 85,000 ETB (credited toward implementation)
+ *   - AI automation tiers: from 250,000 / 750,000 / 1,500,000+ ETB
+ *   - Monthly AI support band: 30,000 - 70,000 ETB / month
+ *   - Web: from 45,000 / 150,000 / 250,000 ETB
+ *   - Mobile: from 200,000 / 400,000 ETB
+ *   - Maintenance: 5,000 - 15,000 ETB / month (monthly only, with commitment)
+ *   - SaaS: waitlist only — no prices
+ * No USD or dual-currency fields exist anywhere in this module.
  *
  * Optional remote source:
  * - Set VITE_PRICING_DATA_ENDPOINT to a JSON endpoint that returns:
  *   { webPackages: [...] }
- * - When available and valid, webPackages from the endpoint are used.
- * - On any failure or invalid payload, local static fallback is used.
+ * - The remote payload is validated to be ETB-only: any payload containing
+ *   global-prefixed or local-prefixed keys, '$' or 'USD' is rejected and the static fallback is used.
  */
 
-const PRICING_DATA_ENDPOINT = (import.meta.env.VITE_PRICING_DATA_ENDPOINT || '').trim();
+const PRICING_DATA_ENDPOINT_KEY = 'VITE_PRICING_DATA_ENDPOINT';
 let remoteWebPackagesCache = null;
 let remoteWebPackagesLoaded = false;
 const SAAS_AVAILABILITY_STATUS = 'Coming soon';
+
+/**
+ * Numeric anchors derived from the locked ETB table (ADR-001, B5–B9).
+ * Index i anchors the i-th published tier; `saas` is intentionally null
+ * because SaaS shows no prices (B11).
+ */
+export const QUOTE_ANCHORS = {
+  web: [45000, 150000, 250000],
+  mobile: [200000, 400000],
+  ai: [250000, 750000, 1500000],
+  saas: null,
+};
+
+/**
+ * The Workflow Audit entry offer (B5): the hard floor below which no
+ * wizard estimate may quote (B17, arbitration decision 4).
+ */
+export const ENTRY_OFFER_FLOOR = 85000;
+
+/** Budget bands offered by the wizard, aligned to the locked table tiers. */
+export const QUOTE_BUDGET_BANDS = ['85k - 150k ETB', '150k - 400k ETB', '400k - 1M ETB', '1M+ ETB'];
+
+const BUDGET_BAND_TIER_INDEX = {
+  '85k - 150k ETB': 0,
+  '150k - 400k ETB': 1,
+  '400k - 1M ETB': 2,
+  '1M+ ETB': 3,
+};
+
+const SERVICE_TO_FAMILY = {
+  'Web Development': 'web',
+  'Mobile App Development': 'mobile',
+  'AI Invoice Processing': 'ai',
+  'Engineering Knowledge Assistant': 'ai',
+  'Sales Order Automation': 'ai',
+  'SaaS Platform': 'saas',
+};
+
+/**
+ * Pure derivation of the directional ETB estimate band for a wizard scope
+ * (B16 parity, B17 floor). Returns `{ min, max }` in ETB integers, or
+ * `null` for SaaS (B11 — no numeric estimate).
+ */
+export function deriveEstimateBand(formState) {
+  const family = SERVICE_TO_FAMILY[formState?.serviceType];
+  if (!family || family === 'saas') {
+    return null;
+  }
+
+  const anchors = QUOTE_ANCHORS[family];
+  const requestedIndex = BUDGET_BAND_TIER_INDEX[formState?.budgetRange] ?? 1;
+  const tierIndex = Math.min(requestedIndex, anchors.length - 1);
+
+  const min = Math.max(anchors[tierIndex], ENTRY_OFFER_FLOOR);
+  const max = anchors[tierIndex + 1] ?? 2 * anchors[tierIndex];
+
+  return { min, max };
+}
 
 const WEB_PACKAGES = [
     {
         icon: 'rocket',
         title: 'Digital Presence',
         subtitle: 'Starter',
-        price: '20,000 - 35,000',
+        price: 'from 45,000 ETB',
         timeline: '2-3 Weeks Delivery',
-        globalPrice: '$1,000 - $3,000',
-        localPrice: '20,000 - 35,000 ETB',
         idealFor: 'Consultants, personal brands, small NGOs, and local startups',
         features: [
             '5-7 core pages',
@@ -43,10 +106,8 @@ const WEB_PACKAGES = [
         icon: 'chart',
         title: 'Growth & Conversion',
         subtitle: 'Recommended',
-        price: '45,000 - 75,000',
+        price: 'from 150,000 ETB',
         timeline: '4-5 Weeks Delivery',
-        globalPrice: '$5,000 - $12,000',
-        localPrice: '45,000 - 75,000 ETB',
         idealFor: 'Tour operators, real estate, construction, and import/export teams',
         recommended: true,
         badgeText: 'Most Popular',
@@ -65,10 +126,8 @@ const WEB_PACKAGES = [
         icon: 'building',
         title: 'Enterprise',
         subtitle: 'Custom',
-        price: '90,000 - 150,000+',
+        price: 'from 250,000 ETB',
         timeline: '6-8 Weeks Delivery',
-        globalPrice: '$20,000 - $50,000',
-        localPrice: '90,000 - 150,000+ ETB',
         idealFor: 'E-commerce, hotels, bureaus, and larger organizations',
         features: [
             'Custom UI/UX',
@@ -86,12 +145,10 @@ const WEB_PACKAGES = [
 const MOBILE_PACKAGES = [
     {
         icon: 'mobile',
-        title: 'Basic Utility / Informational App',
+        title: 'Basic / Informational App',
         subtitle: 'Starter',
-        price: '120,000 - 180,000',
+        price: 'from 200,000 ETB',
         timeline: '4-6 Weeks Delivery',
-        globalPrice: '$15,000 - $25,000',
-        localPrice: '120,000 - 180,000 ETB',
         idealFor: 'Content creators, media brands, directories, and service catalogs',
         features: [
             'Cross-platform (iOS & Android)',
@@ -107,10 +164,8 @@ const MOBILE_PACKAGES = [
         icon: 'lightning',
         title: 'Business & E-Commerce Application',
         subtitle: 'Recommended',
-        price: '250,000 - 450,000',
+        price: 'from 400,000 ETB',
         timeline: '8-12 Weeks Delivery',
-        globalPrice: '$30,000 - $50,000',
-        localPrice: '250,000 - 450,000 ETB',
         idealFor: 'Retail, delivery, booking, ride-hailing, and food delivery platforms',
         recommended: true,
         badgeText: 'Best Value',
@@ -124,26 +179,6 @@ const MOBILE_PACKAGES = [
         ],
         ctaText: 'Build Your Platform',
     },
-    {
-        icon: 'building',
-        title: 'Enterprise / FinTech / Custom SaaS App',
-        subtitle: 'Custom',
-        price: '500,000+',
-        timeline: '16+ Weeks Delivery',
-        globalPrice: '$120,000+',
-        localPrice: '500,000+ ETB',
-        idealFor: 'Tech startups, FinTech teams, and complex enterprise operations',
-        features: [
-            'Secure custom backend',
-            'Role-based access',
-            'Real-time sync',
-            'Biometric login',
-            'Advanced analytics',
-            'Third-party API integrations',
-            'QA and penetration testing',
-        ],
-        ctaText: 'Plan Enterprise Build',
-    },
 ];
 
 const SAAS_PACKAGES = [
@@ -155,8 +190,6 @@ const SAAS_PACKAGES = [
         setupFee: SAAS_AVAILABILITY_STATUS,
         monthlyFrom: SAAS_AVAILABILITY_STATUS,
         monthlyTo: SAAS_AVAILABILITY_STATUS,
-        globalPricing: SAAS_AVAILABILITY_STATUS,
-        localPricing: SAAS_AVAILABILITY_STATUS,
         period: '',
         billingNote: SAAS_AVAILABILITY_STATUS,
         features: [
@@ -178,8 +211,6 @@ const SAAS_PACKAGES = [
         setupFee: SAAS_AVAILABILITY_STATUS,
         monthlyFrom: SAAS_AVAILABILITY_STATUS,
         monthlyTo: SAAS_AVAILABILITY_STATUS,
-        globalPricing: SAAS_AVAILABILITY_STATUS,
-        localPricing: SAAS_AVAILABILITY_STATUS,
         period: '',
         billingNote: SAAS_AVAILABILITY_STATUS,
         recommended: true,
@@ -201,8 +232,6 @@ const SAAS_PACKAGES = [
         setupFee: SAAS_AVAILABILITY_STATUS,
         monthlyFrom: SAAS_AVAILABILITY_STATUS,
         monthlyTo: SAAS_AVAILABILITY_STATUS,
-        globalPricing: SAAS_AVAILABILITY_STATUS,
-        localPricing: SAAS_AVAILABILITY_STATUS,
         period: '',
         billingNote: SAAS_AVAILABILITY_STATUS,
         features: [
@@ -216,120 +245,19 @@ const SAAS_PACKAGES = [
     }
 ];
 
-const MARKETING_ADDONS = [
-    {
-        id: 'visibility_boost',
-        icon: 'chart',
-        title: 'Visibility Boost',
-        focus: 'Brand awareness and local reach',
-        globalPrice: '$300 / month',
-        localPrice: '8,000 ETB / month',
-        spendStructure: '$200 or 5,000 ETB ad spend + $100 or 3,000 ETB management',
-        fee: '3,000',
-        adSpend: '5,000',
-        featured: true,
-        features: [
-            '1 active Meta campaign',
-            'Basic audience targeting',
-            'Monthly performance report',
-        ],
-    },
-    {
-        id: 'lead_generator',
-        icon: 'search',
-        title: 'Lead Generator',
-        focus: 'Traffic and lead capture',
-        globalPrice: '$1,000 / month',
-        localPrice: '28,000 ETB / month',
-        spendStructure: '$700 or 20,000 ETB ad spend + $300 or 8,000 ETB management',
-        fee: '8,000',
-        adSpend: '20,000',
-        features: [
-            '2-3 campaigns',
-            'Meta Pixel and Google Tag Manager',
-            'Basic retargeting',
-            'Bi-weekly optimization',
-        ],
-    },
-    {
-        id: 'market_dominator',
-        icon: 'chart',
-        title: 'Market Dominator',
-        focus: 'Sales and ROAS optimization',
-        globalPrice: '$3,000+ / month',
-        localPrice: '65,000+ ETB / month',
-        spendStructure: '$2,500+ or 50,000+ ETB ad spend + $500 or 15,000 ETB management',
-        fee: '15,000',
-        adSpend: '50,000+',
-        features: [
-            'Unlimited Meta and Google campaigns',
-            'A/B testing',
-            'Conversion tracking',
-            'Weekly calls',
-            'Looker Studio dashboards',
-        ],
-    },
-];
-
-const APP_MARKETING_PACKAGES = [
-    {
-        id: 'app_launch_visibility',
-        icon: 'rocket',
-        title: 'App Launch & Visibility Setup',
-        focus: 'ASO and first install campaigns',
-        globalPrice: '$400 / month',
-        localPrice: '10,000 ETB / month',
-        spendStructure: '$200 or 5,000 ETB ad spend + $200 or 5,000 ETB management',
-        features: [
-            'Basic ASO for Google Play and Apple App Store',
-            '1 install-focused Meta campaign',
-        ],
-    },
-    {
-        id: 'app_growth_acquisition',
-        icon: 'chart',
-        title: 'Growth & Acquisition',
-        focus: 'Paid installs and tracking',
-        globalPrice: '$1,000 / month',
-        localPrice: '30,000 ETB / month',
-        spendStructure: '$700 or 20,000 ETB ad spend + $300 or 10,000 ETB management',
-        features: [
-            'Advanced ASO',
-            'Meta + Google App Campaigns',
-            'AppsFlyer/Firebase tracking setup',
-        ],
-    },
-    {
-        id: 'app_scaling_retention',
-        icon: 'lightning',
-        title: 'App Scaling & User Retention',
-        focus: 'Retention and re-engagement',
-        globalPrice: '$3,000+ / month',
-        localPrice: '65,000+ ETB / month',
-        spendStructure: '$2,500+ or 50,000+ ETB ad spend + $500 or 15,000 ETB management',
-        features: [
-            'Influencer support',
-            'Event tracking',
-            'Retargeting campaigns',
-            'Push-notification optimization',
-        ],
-    },
-];
-
 const ADDITIONAL_SERVICES = [
-    { service: 'Domain & Cloud Hosting', description: 'Domain, SSL certificate and high-speed cloud server.', globalPrice: '$100 - $200 / year', price: '4,000 - 8,000 ETB / year', type: 'Recurring' },
-    { service: 'Annual Web Maintenance', description: 'Security patches, plugin updates, daily backups and minor content changes.', globalPrice: '$500 - $1,000 / year', price: '10,000 - 20,000 ETB / year', type: 'Recurring' },
-    { service: 'App Store Developer Accounts', description: 'Apple App Store and Google Play Store setup fees.', globalPrice: '$125 / year', price: 'About 4,500 ETB / year', type: 'Recurring' },
-    { service: 'Logo & Visual Identity', description: 'Logo, typography, color palette and brand guidelines.', globalPrice: '$300 - $800', price: '8,000 - 15,000 ETB', type: 'One-Time' },
-    { service: 'Professional Copywriting', description: 'SEO-optimized conversion-focused writing in English and Amharic.', globalPrice: '$50 - $150 / page', price: '800 - 1,500 ETB / page', type: 'One-Time' },
-    { service: 'Commercial Photography', description: 'On-location professional shoots for products, staff or real estate.', globalPrice: 'Custom quote', price: 'Custom quote', type: 'One-Time' },
+    { service: 'Domain & Cloud Hosting', description: 'Domain, SSL certificate and high-speed cloud server.', price: '4,000 - 8,000 ETB / year', type: 'Recurring' },
+    { service: 'Monthly Web Maintenance', description: 'Security patches, plugin updates, daily backups and minor content changes. Written commitment: 5 support hours per month and next-business-day response on critical issues.', price: '5,000 - 15,000 ETB / month', type: 'Recurring' },
+    { service: 'Logo & Visual Identity', description: 'Logo, typography, color palette and brand guidelines.', price: '8,000 - 15,000 ETB', type: 'One-Time' },
+    { service: 'Professional Copywriting', description: 'SEO-optimized conversion-focused writing in English and Amharic.', price: '800 - 1,500 ETB / page', type: 'One-Time' },
+    { service: 'Commercial Photography', description: 'On-location professional shoots for products, staff or real estate.', price: 'Custom quote', type: 'One-Time' },
 ];
 
 const FEATURED_ADDONS = [
-    { icon: 'globe', title: 'Domain & Cloud Hosting', description: 'Domain, SSL certificate and high-speed cloud server.', globalPrice: '$100 - $200 / year', price: '4,000 - 8,000 ETB / year' },
-    { icon: 'palette', title: 'Logo & Visual Identity', description: 'Logo, typography, color palette, and brand guideline starter kit.', globalPrice: '$300 - $800', price: '8,000 - 15,000 ETB' },
-    { icon: 'camera', title: 'Professional Photography', description: 'On-location commercial shoots for products, teams, or properties.', globalPrice: 'Custom quote', price: 'Custom quote' },
-    { icon: 'wrench', title: 'Annual Web Maintenance', description: 'Security patches, plugin updates, daily backups and minor content changes.', globalPrice: '$500 - $1,000 / year', price: '10,000 - 20,000 ETB / year' },
+    { icon: 'globe', title: 'Domain & Cloud Hosting', description: 'Domain, SSL certificate and high-speed cloud server.', price: '4,000 - 8,000 ETB / year' },
+    { icon: 'palette', title: 'Logo & Visual Identity', description: 'Logo, typography, color palette, and brand guideline starter kit.', price: '8,000 - 15,000 ETB' },
+    { icon: 'camera', title: 'Professional Photography', description: 'On-location commercial shoots for products, teams, or properties.', price: 'Custom quote' },
+    { icon: 'wrench', title: 'Monthly Web Maintenance', description: 'Security patches, plugin updates, daily backups and minor content changes.', price: '5,000 - 15,000 ETB / month' },
 ];
 
 const AI_IMPLEMENTATION_TIERS = [
@@ -337,75 +265,79 @@ const AI_IMPLEMENTATION_TIERS = [
         title: 'Tier 1: Foundational Automation',
         bestFor: 'Small businesses',
         timeline: '2-4 weeks',
-        scope: 'Customer support chatbots, lead-routing tools, FAQ assistants, and simple internal workflow automation.',
-        globalSetup: '$2,000 - $15,000',
-        globalMonthly: '$200 - $1,000/mo',
-        localSetup: '120,000 - 900,000 ETB',
-        localMonthly: '12,000 - 60,000 ETB/mo',
+        setupPrice: 'from 250,000 ETB',
+        monthlySupport: '30,000 - 70,000 ETB / month',
+        scope: 'Customer support chatbots, lead-routing tools, FAQ assistants, and simple internal workflow automation. Scope drivers that raise the price: the number of workflows, conversation volume, and how deeply the automation integrates with your existing tools.',
         includes: [
             'Customer support chatbots',
             'Lead routing tools',
             'FAQ assistants',
             'Basic internal workflow automation',
+            'Integration with up to 3 existing tools',
+        ],
+        supportIncludes: [
+            'Hosting and infrastructure management',
+            'Model usage and API costs',
+            'Monitoring and alerting',
+            '15 support hours per month',
+            'Next-business-day response commitment',
         ],
     },
     {
         title: 'Tier 2: Operational Intelligence',
         bestFor: 'Mid-market firms',
         timeline: '2-4 months',
-        scope: 'Multi-department automation, CRM integration, document generators, agent handoffs, and analytics workflows.',
-        globalSetup: '$20,000 - $80,000',
-        globalMonthly: '$2,000 - $8,000/mo',
-        localSetup: '1,200,000 - 4,800,000 ETB',
-        localMonthly: '120,000 - 480,000 ETB/mo',
+        setupPrice: 'from 750,000 ETB',
+        monthlySupport: '30,000 - 70,000 ETB / month',
+        scope: 'Multi-department automation, CRM integration, document generators, agent handoffs, and analytics workflows. Scope drivers that raise the price: the number of departments, third-party system count, document volume, and custom reporting depth.',
         includes: [
             'Multi-agent systems',
             'Department workflows',
             'CRM integrations',
             'Document generation',
+            'Custom analytics dashboards',
+            'Agent handoff and escalation paths',
+        ],
+        supportIncludes: [
+            'Hosting and infrastructure management',
+            'Model usage and API costs',
+            'Monitoring and alerting',
+            '25 support hours per month',
+            'Same-business-day response commitment',
         ],
     },
     {
         title: 'Tier 3: Enterprise Agentic Systems',
         bestFor: 'Large organizations',
         timeline: '6-12 months',
-        scope: 'Autonomous workflows, local models, air-gapped deployments, enterprise governance, and strict data protection.',
-        globalSetup: '$100,000 - $300,000+',
-        globalMonthly: '$10,000 - $25,000+/mo',
-        localSetup: '6,000,000+ ETB',
-        localMonthly: '600,000+ ETB/mo',
+        setupPrice: 'from 1,500,000+ ETB',
+        monthlySupport: '30,000 - 70,000 ETB / month',
+        scope: 'Autonomous workflows, local models, air-gapped deployments, enterprise governance, and strict data protection. Scope drivers that raise the price: data isolation requirements, model size and hosting, compliance audits, and cross-department orchestration breadth.',
         includes: [
             'Autonomous workflows',
             'Private deployment options',
             'Enterprise governance and audit trails',
             'Cross-department orchestration',
+            'Data protection and compliance reviews',
+            'Local model deployment where required',
+        ],
+        supportIncludes: [
+            'Hosting and infrastructure management',
+            'Model usage and API costs',
+            'Monitoring and alerting',
+            '40 support hours per month',
+            '4-hour response commitment for critical issues',
         ],
     },
 ];
 
-const AI_PREMIUM_PRICING = [
-    {
-        title: 'Basic AI App Integration',
-        globalPrice: '$10,000 - $50,000',
-        localPrice: '600,000 - 3,000,000 ETB',
-        note: 'Adds AI assistants, recommendations, document workflows, or lightweight automation to a custom app.',
-    },
-    {
-        title: 'Deep Architectural AI Integration',
-        globalPrice: '$50,000 - $150,000',
-        localPrice: '3,000,000 - 9,000,000 ETB',
-        note: 'Adds multi-agent flows, custom data pipelines, advanced model orchestration, or secure deployment needs.',
-    },
-];
-
 export const getPricingGuideSummary = () => ({
-    geographicPolicy: 'Global clients are billed in USD. Ethiopia and East Africa are billed in ETB using purchasing-power parity.',
+    geographicPolicy: 'All prices are quoted in Ethiopian Birr (ETB). International engagements are quoted individually.',
     workflowAudit: {
         title: 'Workflow Audit',
         kicker: 'Entry Point',
-        globalPrice: '$2,500 - $10,000 USD',
-        localPrice: '150,000 - 600,000 ETB',
-        description: 'Workflow analysis, automation roadmap, system blueprint, and implementation recommendation.',
+        price: '85,000 ETB',
+        description: 'Workflow analysis, automation roadmap, system blueprint, and implementation recommendation. Fixed fee, delivered within 5 business days, and the full fee is credited toward any implementation project that follows.',
         outputs: [
             'Current-state process map',
             'Priority automation shortlist',
@@ -420,31 +352,40 @@ export const getPricingGuideSummary = () => ({
             category: 'Web Development',
             title: item.title,
             timeline: item.timeline,
-            globalPrice: item.globalPrice,
-            localPrice: item.localPrice,
+            price: item.price,
             note: item.idealFor,
         })),
         ...MOBILE_PACKAGES.map((item) => ({
             category: 'Mobile Apps',
             title: item.title,
             timeline: item.timeline,
-            globalPrice: item.globalPrice,
-            localPrice: item.localPrice,
+            price: item.price,
             note: item.idealFor,
         })),
         ...SAAS_PACKAGES.map((item) => ({
             category: 'Management SaaS',
             title: item.title,
             timeline: item.availabilityStatus || item.billingNote,
-            globalPrice: item.availabilityStatus || item.globalPricing,
-            localPrice: item.availabilityStatus || item.localPricing,
+            price: item.availabilityStatus,
             note: item.features.slice(0, 3).join(', '),
         })),
     ],
-    aiPremiumPricing: AI_PREMIUM_PRICING,
-    growthRetainers: [...MARKETING_ADDONS, ...APP_MARKETING_PACKAGES],
     additionalServices: ADDITIONAL_SERVICES,
 });
+
+function isEtbOnlyPackage(pkg) {
+    if (!pkg || typeof pkg !== 'object' || Array.isArray(pkg)) {
+        return false;
+    }
+
+    const hasForbiddenKeys = Object.keys(pkg).some((key) => /^(global|local)/.test(key));
+    if (hasForbiddenKeys) {
+        return false;
+    }
+
+    const serialized = JSON.stringify(pkg);
+    return !serialized.includes('$') && !serialized.includes('USD');
+}
 
 async function getRemoteWebPackages() {
     if (remoteWebPackagesLoaded) {
@@ -453,12 +394,16 @@ async function getRemoteWebPackages() {
 
     remoteWebPackagesLoaded = true;
 
-    if (!PRICING_DATA_ENDPOINT) {
+    // Lazy environment read so this module can be imported in Node-side
+    // tests without `import.meta.env` (R1). Browser behavior is identical.
+    const pricingDataEndpoint = (import.meta.env?.[PRICING_DATA_ENDPOINT_KEY] || '').trim();
+
+    if (!pricingDataEndpoint) {
         return null;
     }
 
     try {
-        const response = await fetch(PRICING_DATA_ENDPOINT, {
+        const response = await fetch(pricingDataEndpoint, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -472,6 +417,10 @@ async function getRemoteWebPackages() {
         const payload = await response.json();
         if (!Array.isArray(payload?.webPackages)) {
             throw new Error('Pricing endpoint payload missing webPackages[]');
+        }
+
+        if (!payload.webPackages.every(isEtbOnlyPackage)) {
+            throw new Error('Pricing endpoint payload contains non-ETB pricing; static ETB table used instead');
         }
 
         remoteWebPackagesCache = payload.webPackages;
@@ -500,10 +449,6 @@ export const getSaasPackages = async () => {
     return SAAS_PACKAGES;
 };
 
-export const getMarketingAddons = async () => {
-    return MARKETING_ADDONS;
-};
-
 export const getAddonsGrid = async () => {
     return [
         {
@@ -530,8 +475,8 @@ export const getAddonsGrid = async () => {
         {
             id: 'featured-4',
             icon: 'wrench',
-            title: "Annual Maintenance",
-            price: '10,000 - 20,000 ETB / year',
+            title: "Monthly Web Maintenance",
+            price: '5,000 - 15,000 ETB / month',
             description: 'Security patches, plugin updates, daily backups, and minor content changes.',
         },
         {

@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { appendFile, mkdir } from 'node:fs/promises';
+import { appendFile, mkdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const DEFAULT_STORAGE_PATH = path.join(process.cwd(), 'storage', 'leads.jsonl');
@@ -8,6 +8,18 @@ const WEBHOOK_URL = process.env.LEAD_INTAKE_WEBHOOK_URL || '';
 const API_KEY = process.env.LEAD_INTAKE_API_KEY || '';
 const ALLOWED_ORIGIN = process.env.LEAD_INTAKE_ALLOWED_ORIGIN || '*';
 const MAX_BODY_BYTES = 32_768;
+
+const DEFAULT_WEBHOOK_PENDING_PATH = path.join(process.cwd(), 'storage', 'leads-webhook-pending.jsonl');
+const WEBHOOK_PENDING_PATH = process.env.LEAD_INTAKE_WEBHOOK_PENDING_PATH || DEFAULT_WEBHOOK_PENDING_PATH;
+const WEBHOOK_MAX_PENDING_RECORDS = 500;
+const WEBHOOK_DRAIN_BATCH_SIZE = 5;
+const WEBHOOK_MAX_ATTEMPTS = 5;
+
+if (!WEBHOOK_URL) {
+  console.warn(
+    '[api/leads] LEAD_INTAKE_WEBHOOK_URL is not set. Leads are stored locally but are NOT forwarded to the team inbox (B18 rail). Set it before launch (owner action OA-6).'
+  );
+}
 
 const ALLOWED_TYPES = new Set([
   'discovery_booking',
@@ -180,9 +192,117 @@ async function forwardRecord(record) {
     });
 
     return { configured: true, ok: response.ok, status: response.status };
+  } catch (error) {
+    // Network-level failures must never bubble up: the lead is already stored,
+    // and the pending-retry file keeps the record until the webhook recovers.
+    return {
+      configured: true,
+      ok: false,
+      status: 0,
+      error: error.name === 'AbortError' ? 'timeout' : 'network',
+    };
   } finally {
     clearTimeout(timeoutId);
   }
+}
+
+async function readPendingWebhookRecords() {
+  try {
+    const raw = await readFile(WEBHOOK_PENDING_PATH, 'utf8');
+    return raw
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        try {
+          return JSON.parse(line);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+async function writePendingWebhookRecords(records) {
+  if (!records.length) {
+    try {
+      await unlink(WEBHOOK_PENDING_PATH);
+    } catch {
+      // No pending file yet — nothing to clean up.
+    }
+    return;
+  }
+
+  // Bounded: keep the oldest records first (delivery priority), cap at 500.
+  const bounded = records.slice(0, WEBHOOK_MAX_PENDING_RECORDS);
+  await mkdir(path.dirname(WEBHOOK_PENDING_PATH), { recursive: true });
+  await writeFile(
+    WEBHOOK_PENDING_PATH,
+    `${bounded.map((record) => JSON.stringify(record)).join('\n')}\n`,
+    'utf8'
+  );
+}
+
+async function queuePendingWebhookRecord(record) {
+  const records = await readPendingWebhookRecords();
+
+  if (records.length >= WEBHOOK_MAX_PENDING_RECORDS) {
+    const dropped = records.shift();
+    console.warn(
+      `[api/leads] webhook pending file at capacity (${WEBHOOK_MAX_PENDING_RECORDS}); dropped oldest record ${dropped?.id || '(unknown)'}.`
+    );
+  }
+
+  records.push({
+    ...record,
+    webhookQueuedAt: new Date().toISOString(),
+    webhookAttempts: 1,
+  });
+
+  await writePendingWebhookRecords(records);
+}
+
+// Re-forwards up to WEBHOOK_DRAIN_BATCH_SIZE oldest pending records.
+// 2xx deletes the pending row; failures bump webhookAttempts and are kept
+// until WEBHOOK_MAX_ATTEMPTS is reached, then dropped with a warning.
+async function drainPendingWebhookRecords() {
+  const records = await readPendingWebhookRecords();
+
+  if (!records.length) {
+    return { drained: 0, remaining: 0, failed: 0 };
+  }
+
+  const batch = records.slice(0, WEBHOOK_DRAIN_BATCH_SIZE);
+  const rest = records.slice(WEBHOOK_DRAIN_BATCH_SIZE);
+  let drained = 0;
+  const kept = [];
+
+  for (const pending of batch) {
+    const { webhookQueuedAt, webhookAttempts, ...record } = pending;
+    const result = await forwardRecord(record);
+
+    if (result.ok) {
+      drained += 1;
+      continue;
+    }
+
+    if (webhookAttempts >= WEBHOOK_MAX_ATTEMPTS) {
+      console.warn(
+        `[api/leads] dropping pending webhook record ${record.id || '(unknown)'} after ${webhookAttempts} failed attempts.`
+      );
+      continue;
+    }
+
+    kept.push({ ...record, webhookQueuedAt, webhookAttempts: webhookAttempts + 1 });
+  }
+
+  const remaining = rest.length + kept.length;
+  await writePendingWebhookRecords([...rest, ...kept]);
+
+  return { drained, remaining, failed: kept.length };
 }
 
 export default async function handler(req, res) {
@@ -208,13 +328,30 @@ export default async function handler(req, res) {
     const payload = await readJsonBody(req);
     const record = buildRecord(payload, req);
     await storeRecord(record);
+
+    // Drain older pending forwards first (oldest-first, bounded batch).
+    const webhookDrain = await drainPendingWebhookRecords();
+
     const webhook = await forwardRecord(record);
+    let retriesRemaining = null;
+    let pendingCount = 0;
+
+    if (WEBHOOK_URL && !webhook.ok) {
+      await queuePendingWebhookRecord(record);
+      retriesRemaining = WEBHOOK_MAX_ATTEMPTS - 1;
+      pendingCount = (await readPendingWebhookRecords()).length;
+    }
 
     sendJson(res, 200, {
       ok: true,
       id: record.id,
       stored: true,
-      webhook,
+      webhook: {
+        ...webhook,
+        retriesRemaining,
+        pendingCount,
+      },
+      webhookDrain,
     });
   } catch (error) {
     const statusCode = Number(error.statusCode) || 400;

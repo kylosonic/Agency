@@ -1,44 +1,24 @@
-import { lazy, Suspense, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
-import AnimatedMetric from '../components/AnimatedMetric';
 import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
+import { submitLeadIntake } from '../services/leadIntakeService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
+import PilotOfferSection from '../components/PilotOfferSection';
 import {
   trackContactChannelClick,
   trackContactFormAttempt,
   trackContactFormOutcome,
 } from '../services/analyticsService';
 
-const AgentOpsShowcase = lazy(() => import('../components/AgentOpsShowcase'));
-const AutomationImpactCalculator = lazy(() => import('../components/AutomationImpactCalculator'));
-
 const INITIAL_CONTACT_FORM = {
   name: '',
   email: '',
   message: '',
 };
-
-const HERO_METRICS = [
-  {
-    label: 'Hours Reclaimed',
-    value: 1800,
-    suffix: '+',
-  },
-  {
-    label: 'Systems Integrated',
-    value: 40,
-    suffix: '+',
-  },
-  {
-    label: 'Manual Steps Removed',
-    value: 92,
-    suffix: '%',
-  },
-];
 
 const SOLUTION_PREVIEWS = [
   {
@@ -70,7 +50,7 @@ const METHODOLOGY_STEPS = [
     step: '02',
     title: 'The Architecture',
     description:
-      'We design a streamlined technical blueprint detailing exactly where custom agents, local models, and autonomous browser scripts will replace manual labor.',
+      'We design a technical blueprint that shows exactly where custom agents, local models, and autonomous browser scripts replace manual labor.',
     icon: 'idea',
   },
   {
@@ -126,6 +106,26 @@ export default function Home() {
     event.preventDefault();
     setContactStatus('sending');
     trackContactFormAttempt('home_contact_form');
+
+    // Best-effort, non-blocking durable mirror (TECH-08 G3): the formsubmit rail
+    // remains the primary delivery path; this mirror POSTs to /api/leads so the
+    // inquiry is also stored in the lead store. Failures are silently ignored —
+    // the UI and the primary flow are never blocked or re-routed by it.
+    submitLeadIntake({
+      type: 'contact_form',
+      source: 'home_contact_form',
+      channel: 'contact_form',
+      routePath: '/',
+      lead: contactForm,
+      context: { delivery: 'durable_mirror' },
+      consent: {
+        type: 'contact_form_mirror',
+        capturedAt: new Date().toISOString(),
+        copy: 'Durable mirror of the homepage contact form submission.',
+      },
+    }).catch(() => {
+      // Silently ignore mirror failures.
+    });
 
     const submission = await submitContactInquiry(contactForm);
 
@@ -191,21 +191,8 @@ export default function Home() {
               </div>
               <div className="hero-trust-row" aria-label="Delivery assurances">
                 <span className="trust-pill">Audit blueprint in 5 business days</span>
-                <span className="trust-pill">ETB and USD pricing</span>
+                <span className="trust-pill">ETB pricing · International engagements quoted individually</span>
                 <span className="trust-pill">Private deployment options</span>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.25}>
-              <div className="hero-stats ai-hero-stats" aria-label="Operational performance metrics">
-                {HERO_METRICS.map((metric) => (
-                  <div key={metric.label} className="hero-stat glass-card ai-hero-stat">
-                    <div className="hero-stat-value">
-                      <AnimatedMetric value={metric.value} suffix={metric.suffix} />
-                    </div>
-                    <div className="hero-stat-label">{metric.label}</div>
-                  </div>
-                ))}
               </div>
             </ScrollReveal>
           </div>
@@ -229,31 +216,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section ai-agent-demo-section" id="agent-demo">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              tag="Agentic Replay"
-              title="Watch an End-to-End Agent Pipeline Execute"
-              subtitle="A sample autonomous sequence from data collection to reporting, visualized as an operational control surface."
-              align="left"
-            />
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <Suspense fallback={<div className="section-loader" aria-hidden="true" />}>
-              <AgentOpsShowcase />
-            </Suspense>
-          </ScrollReveal>
-        </div>
-      </section>
-
       <section className="section" id="ai-solutions">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
               tag="AI Solutions"
-              title="Systems Built for Throughput, Not Busywork"
+              title="Automation built for the work your team does every day"
               subtitle="We engineer targeted automation layers that remove repetitive labor, delivered as one of two core tracks alongside full software product engineering."
               align="left"
             />
@@ -294,7 +262,7 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               tag="Product Engineering"
-              title="Web, Mobile, and SaaS Product Engineering Is an Equal Core Track"
+              title="The same delivery standard applies to web, mobile, and SaaS builds"
               subtitle="After the AI-led opening strategy, we execute automation systems and full software products in parallel to ship measurable outcomes."
               align="left"
             />
@@ -323,8 +291,7 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="The Methodology"
-              title="How We Engineer Production-Grade AI Workflows"
+              title="What happens after the audit?"
               subtitle="A transparent three-step implementation model designed for reliability, accountability, and measurable operational gains."
               align="left"
             />
@@ -349,31 +316,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section ai-impact-section" id="impact-calculator">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              tag="ROI Modeling"
-              title="Quantify Recoverable Margin Before You Commit"
-              subtitle="Dial in your current operational drag and estimate the projected savings from automation-first implementation."
-              align="left"
-            />
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.12}>
-            <Suspense fallback={<div className="section-loader" aria-hidden="true" />}>
-              <AutomationImpactCalculator />
-            </Suspense>
-          </ScrollReveal>
-        </div>
-      </section>
+      <PilotOfferSection source="home_pilot_offer" />
 
       <section className="section ai-contact-section" id="contact">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Contact"
-              title="Start Your AI or Software Project"
+              title="Tell us where the manual work lives."
               subtitle="Share your workflow bottlenecks or product goals and we will reply with next steps within one business day."
               align="left"
             />
@@ -392,7 +341,7 @@ export default function Home() {
                       name="name"
                       value={contactForm.name}
                       onChange={handleContactChange}
-                      placeholder="Hana Bekele"
+                      placeholder="Sara Tesfaye"
                       required
                     />
                   </div>
@@ -405,7 +354,7 @@ export default function Home() {
                       name="email"
                       value={contactForm.email}
                       onChange={handleContactChange}
-                      placeholder="team@company.et"
+                      placeholder="sara.tesfaye@example.com"
                       required
                     />
                   </div>

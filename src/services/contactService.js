@@ -1,8 +1,12 @@
 const CONTACT_API_ENDPOINT = (import.meta.env.VITE_CONTACT_API_ENDPOINT || '').trim();
 const CONTACT_API_KEY = (import.meta.env.VITE_CONTACT_API_KEY || '').trim();
 const DEFAULT_TIMEOUT_MS = Number(import.meta.env.VITE_CONTACT_TIMEOUT_MS || 9000);
-const DEFAULT_CONTACT_EMAIL = 'nahomgwmichael@gmail.com';
-const FALLBACK_CONTACT_ENDPOINT = `https://formsubmit.co/ajax/${DEFAULT_CONTACT_EMAIL}`;
+const CONTACT_EMAIL = (import.meta.env.VITE_CONTACT_EMAIL || '').trim();
+const CONTACT_FORM_SUBMIT_ENDPOINT = (import.meta.env.VITE_CONTACT_FORM_SUBMIT_ENDPOINT || '').trim();
+
+// Formsubmit fallback URL derives from the configured contact email (OA-3) or an
+// explicit override. No personal address is hardcoded anywhere in the codebase.
+const FALLBACK_CONTACT_ENDPOINT = CONTACT_FORM_SUBMIT_ENDPOINT || `https://formsubmit.co/ajax/${CONTACT_EMAIL}`;
 
 function normalizeValue(value) {
   return typeof value === 'string' ? value.trim() : '';

@@ -1,108 +1,3 @@
-export const caseStudies = [
-  {
-    slug: 'habesha-marketplace',
-    title: 'Habesha Marketplace Replatform',
-    industry: 'ecommerce',
-    summary: 'A multi-vendor marketplace migration focused on speed, checkout completion, and bilingual UX.',
-    challenge: 'Legacy storefront had poor mobile speed and low checkout completion.',
-    solution: 'Rebuilt storefront with Vite React, optimized checkout funnels, and integrated Chapa with recovery flows.',
-    stack: ['React', 'Node API', 'Chapa API', 'Cloudflare'],
-    timeline: '10 weeks',
-    results: [
-      { label: 'Page Speed Score', before: '42', after: '91', delta: '+116%' },
-      { label: 'Checkout Conversion', before: '1.8%', after: '3.9%', delta: '+117%' },
-      { label: 'Abandoned Cart Recovery', before: '0%', after: '14%', delta: '+14 pts' },
-    ],
-    testimonial: 'The relaunch paid for itself within one quarter and gave us confidence to scale.',
-    contact: 'Abel Kebede, COO',
-  },
-  {
-    slug: 'bright-future-academy',
-    title: 'Bright Future Academy SaaS Rollout',
-    industry: 'education',
-    summary: 'School management platform with attendance, grading, and parent communication.',
-    challenge: 'Manual reporting and fragmented records across departments.',
-    solution: 'Deployed a modular SaaS platform with role-based dashboards and automated parent updates.',
-    stack: ['React', 'PostgreSQL', 'Queue Workers', 'Telegram Bot'],
-    timeline: '12 weeks',
-    results: [
-      { label: 'Report Preparation Time', before: '3 days', after: '4 hours', delta: '-84%' },
-      { label: 'Late Fee Collections', before: '63%', after: '87%', delta: '+24 pts' },
-      { label: 'Parent Satisfaction', before: '68%', after: '94%', delta: '+26 pts' },
-    ],
-    testimonial: 'The system gave us visibility and discipline we could not maintain before.',
-    contact: 'Sara Tesfaye, Director',
-  },
-  {
-    slug: 'mercy-health-network',
-    title: 'Mercy Health Digital Intake',
-    industry: 'healthcare',
-    summary: 'Clinic intake and appointment modernization with multilingual support.',
-    challenge: 'Long queues and appointment no-shows due to manual scheduling.',
-    solution: 'Implemented digital intake, automated reminders, and patient follow-up workflows.',
-    stack: ['React', 'Express', 'SMS Gateway', 'Analytics Pipeline'],
-    timeline: '9 weeks',
-    results: [
-      { label: 'Average Intake Time', before: '24 min', after: '9 min', delta: '-62%' },
-      { label: 'No-Show Rate', before: '21%', after: '11%', delta: '-10 pts' },
-      { label: 'Front Desk Throughput', before: '100/day', after: '156/day', delta: '+56%' },
-    ],
-    testimonial: 'We reduced pressure on staff while improving patient communication.',
-    contact: 'Dr. Hana Alemu, Operations Lead',
-  },
-];
-
-export const portfolioProjects = [
-  {
-    id: 'proj-1',
-    name: 'Habesha Marketplace',
-    industry: 'ecommerce',
-    category: 'Web Platform',
-    outcome: 'Marketplace conversion doubled after checkout redesign.',
-    path: '/case-studies',
-  },
-  {
-    id: 'proj-2',
-    name: 'Bright Future Academy',
-    industry: 'education',
-    category: 'SaaS Platform',
-    outcome: 'Grade reporting reduced from days to hours.',
-    path: '/case-studies',
-  },
-  {
-    id: 'proj-3',
-    name: 'Mercy Health Network',
-    industry: 'healthcare',
-    category: 'Operations Platform',
-    outcome: 'Patient intake cycle improved by over 60%.',
-    path: '/case-studies',
-  },
-  {
-    id: 'proj-4',
-    name: 'Addis Property Hub',
-    industry: 'real-estate',
-    category: 'CRM and Leasing',
-    outcome: 'Lease renewal workflows automated across 2,000+ units.',
-    path: '/industries/real-estate',
-  },
-  {
-    id: 'proj-5',
-    name: 'FastCart Delivery',
-    industry: 'logistics',
-    category: 'Mobile App',
-    outcome: 'Delivery SLA compliance increased by 31%.',
-    path: '/portfolio',
-  },
-  {
-    id: 'proj-6',
-    name: 'Nile Retail Suite',
-    industry: 'ecommerce',
-    category: 'Headless Commerce',
-    outcome: 'AOV increased by 19% after recommendation flows.',
-    path: '/portfolio',
-  },
-];
-
 export const industryLandingContent = {
   education: {
     title: 'Education Digital Systems',
@@ -138,7 +33,7 @@ export const serviceFaqs = {
   web: [
     {
       question: 'Do I own the source code and design files after launch?',
-      answer: 'Yes. Once final milestone payment is completed, ownership transfers fully to your team.',
+      answer: 'Once the final milestone payment clears, ownership of the source code and design files transfers fully to your team.',
     },
     {
       question: 'How long does a typical web project take?',
@@ -146,21 +41,21 @@ export const serviceFaqs = {
     },
     {
       question: 'Can we continue support after launch?',
-      answer: 'Yes. We offer annual maintenance and growth retainers with SLA-backed support.',
+      answer: 'After launch, annual maintenance and growth retainers backed by an SLA keep the system stable — and we stay on hand for the next build.',
     },
   ],
   mobile: [
     {
       question: 'Do you build for both Android and iOS?',
-      answer: 'Yes. We use cross-platform frameworks and native bridges when required for performance-critical modules.',
+      answer: 'Both platforms ship from the same codebase using cross-platform frameworks, with native bridges reserved for performance-critical modules.',
     },
     {
       question: 'Do you handle store submission and compliance?',
-      answer: 'Yes. We prepare submission artifacts, policy compliance checks, and release checklists for both stores.',
+      answer: 'Store submission is part of the build — we prepare the submission artifacts, policy compliance checks, and release checklists for both stores.',
     },
     {
       question: 'Can local payment gateways be integrated?',
-      answer: 'Yes. Telebirr, Chapa, and card-processing gateways can be integrated based on business model.',
+      answer: 'Telebirr, Chapa, and card gateways can be integrated; the right choice depends on your business model and where your users pay.',
     },
   ],
   saas: [
@@ -170,7 +65,7 @@ export const serviceFaqs = {
     },
     {
       question: 'Is there an annual billing advantage?',
-      answer: 'Yes. Annual subscriptions are discounted and include planned optimization checkpoints.',
+      answer: 'Annual subscriptions are discounted and include planned optimization checkpoints.',
     },
     {
       question: 'How is data backup handled?',
@@ -180,7 +75,7 @@ export const serviceFaqs = {
   additional: [
     {
       question: 'Can add-on services be purchased separately?',
-      answer: 'Yes. Each add-on can be scoped independently or bundled with your development package.',
+      answer: 'Each add-on can be scoped on its own or bundled with your development package.',
     },
     {
       question: 'Are there recurring commitments for one-time services?',
@@ -188,7 +83,7 @@ export const serviceFaqs = {
     },
     {
       question: 'Do you provide custom service bundles?',
-      answer: 'Yes. We can assemble bundle pricing based on your launch timeline and growth priorities.',
+      answer: 'Bundles are built around your launch timeline and growth priorities, so pricing follows the scope you actually need.',
     },
   ],
 };
@@ -201,9 +96,8 @@ export const quoteWizardOptions = {
     'AI Invoice Processing',
     'Engineering Knowledge Assistant',
     'Sales Order Automation',
-    'Branding and Additional Services',
   ],
-  budgetRanges: ['Under 50k ETB', '50k - 120k ETB', '120k - 250k ETB', '250k+ ETB'],
+  budgetRanges: ['85k - 150k ETB', '150k - 400k ETB', '400k - 1M ETB', '1M+ ETB'],
   timelineRanges: ['2-4 weeks', '1-2 months', '2-4 months', 'Flexible timeline'],
   integrations: [
     'Telebirr',
@@ -223,8 +117,6 @@ export const liveChatPromptsByRoute = {
   '/mobile-development': 'Hi NovaTech, I am planning a mobile app and want a delivery estimate.',
   '/saas-solutions': 'Hi NovaTech, I want to discuss SaaS options for my organization.',
   '/additional-services': 'Hi NovaTech, I need a custom quote for additional services and add-ons.',
-  '/case-studies': 'Hi NovaTech, I reviewed your case studies and want to discuss similar outcomes for my business.',
-  '/portfolio': 'Hi NovaTech, I am browsing your portfolio and want recommendations for my industry.',
   '/instant-quote': 'Hi NovaTech, I am completing the quote wizard and need help validating scope and budget.',
   '/book-discovery-call': 'Hi NovaTech, I want help choosing the best discovery call slot and agenda.',
   '/policy': 'Hi NovaTech, I have a question about your payment and operational policy.',

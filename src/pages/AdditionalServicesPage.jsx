@@ -81,7 +81,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                         <SectionHeader
                             tag={t('additional.sections.catalog.tag', 'Service Catalog')}
                             title={t('additional.sections.catalog.title', 'One-Time & Recurring Services')}
-                            subtitle={t('additional.sections.catalog.subtitle', 'Everything you need to launch, maintain, and elevate your digital products.')}
+                            subtitle={t('additional.sections.catalog.subtitle', 'Everything you need to launch, keep running, and grow your digital products.')}
                         />
                     </ScrollReveal>
 
@@ -167,7 +167,7 @@ export default function AdditionalServicesPage({ onDownloadClick }) {
                 <div className="container">
                     <ScrollReveal>
                         <div className="cta-inner">
-                            <h2>{t('additional.cta.title', 'Need Something Custom?')}</h2>
+                            <h2>{t('additional.cta.title', 'Custom requirements?')}</h2>
                             <p>{t('additional.cta.subtitle', 'Contact us for custom quotes on any service. Download our full pricing guide for the complete breakdown.')}</p>
                             <div className="cta-actions">
                                 <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('additional_page_cta_pricing')}>

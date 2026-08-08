@@ -16,7 +16,7 @@ export default function ScrollReveal({ children, className = '', stagger = false
             y: 0,
             transition: prefersReducedMotion
                 ? { duration: 0 }
-                : { type: 'spring', damping: 25, stiffness: 80, delay, mass: 0.8 },
+                : { type: 'spring', damping: 20, stiffness: 100, delay, mass: 0.8 },
         },
     };
 

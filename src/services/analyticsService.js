@@ -92,6 +92,10 @@ export function trackDiscoveryCallClick(source) {
   trackEvent('discovery_call_clicked', { source });
 }
 
+export function trackPilotOfferClick(source) {
+  trackEvent('pilot_offer_cta_clicked', { source });
+}
+
 export function trackContactFormAttempt(source) {
   trackEvent('contact_form_attempt', { source });
 }

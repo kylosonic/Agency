@@ -3,30 +3,24 @@ import InteractivePricing from '../components/InteractivePricing';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import RouteProofStrip from '../components/RouteProofStrip';
-import IconGlyph from '../components/IconGlyph';
 import RoiEstimator from '../components/RoiEstimator';
 import FaqAccordion from '../components/FaqAccordion';
 import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
 import { serviceFaqs } from '../config/contentData';
 import { trackDiscoveryCallClick } from '../services/analyticsService';
-import { getWebPackages, getMarketingAddons } from '../services/pricingData';
+import { getWebPackages } from '../services/pricingData';
 import { useLanguage } from '../i18n/useLanguage';
 
 export default function WebDevelopmentPage({ onDownloadClick }) {
     const { t } = useLanguage();
     const [packages, setPackages] = useState([]);
-    const [addons, setAddons] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [webData, addonData] = await Promise.all([
-                    getWebPackages(),
-                    getMarketingAddons()
-                ]);
+                const webData = await getWebPackages();
                 setPackages(webData);
-                setAddons(addonData);
             } catch (error) {
                 console.error("Failed to load web pricing data:", error);
             } finally {
@@ -49,7 +43,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
             <section className="page-hero">
                 <div className="container page-hero-content">
                     <h1>{t('web.hero.title', 'Web Design & Development')}</h1>
-                    <p>{t('web.hero.subtitle', 'Three tailored packages to match your business stage — from establishing your digital presence to dominating your market.')}</p>
+                    <p>{t('web.hero.subtitle', 'Three tailored packages to match your business stage — from establishing your digital presence to a platform your operation depends on.')}</p>
                     <div className="page-hero-meta" aria-label={t('web.hero.metaAria', 'Web delivery highlights')}>
                         <span className="page-hero-chip">{t('web.hero.chip1', 'Conversion-Focused IA')}</span>
                         <span className="page-hero-chip">{t('web.hero.chip2', 'SEO and Analytics Baseline')}</span>
@@ -61,7 +55,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
             <RouteProofStrip
                 items={[
                     {
-                        title: t('web.proof.0.title', 'Kickoff In 48 Hours'),
+                        title: t('web.proof.0.title', 'Two Business Days to Kickoff'),
                         text: t('web.proof.0.text', 'Once scope is approved, we start discovery and wireframing within two business days.'),
                     },
                     {
@@ -69,7 +63,7 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                         text: t('web.proof.1.text', 'You review clear progress checkpoints every week before we move to the next sprint.'),
                     },
                     {
-                        title: t('web.proof.2.title', 'Launch Readiness Included'),
+                        title: t('web.proof.2.title', 'Launch readiness is included'),
                         text: t('web.proof.2.text', 'Every package includes performance checks, indexing setup, and handover guidance.'),
                     },
                 ]}
@@ -96,47 +90,6 @@ export default function WebDevelopmentPage({ onDownloadClick }) {
                                 onDownloadClick={onDownloadClick}
                                 packages={packages}
                             />
-                        </ScrollReveal>
-                    )}
-                </div>
-            </section>
-
-            {/* Monthly Ad Add-Ons */}
-            <section className="section">
-                <div className="container">
-                    <ScrollReveal>
-                        <SectionHeader
-                            tag={t('web.sections.addons.tag', 'Marketing Add-Ons')}
-                            title={t('web.sections.addons.title', 'Monthly Digital Marketing Packages')}
-                            subtitle={t('web.sections.addons.subtitle', 'Pair your website with a marketing package to generate leads, drive traffic, and dominate search results.')}
-                        />
-                    </ScrollReveal>
-
-                    {loading ? (
-                        <div className="loading-state">
-                            <p>{t('states.loadingMarketingAddons', 'Loading Marketing Add-ons...')}</p>
-                        </div>
-                    ) : (
-                        <ScrollReveal stagger>
-                            <div className="addon-grid">
-                                {addons.map((addon) => (
-                                    <div key={addon.id} className={`addon-card ${addon.featured ? 'addon-card-featured' : ''}`}>
-                                        <h4>
-                                            <span className="addon-card-icon" aria-hidden="true"><IconGlyph name={addon.icon} size={16} /></span>
-                                            {addon.title}
-                                        </h4>
-                                        <div className="price">
-                                            {addon.fee} ETB<span className="detail">{t('web.addons.managementFee', 'Management Fee /month')}</span>
-                                            <span className="detail">+ {addon.adSpend} ETB {t('web.addons.adSpend', 'Ad Spend')}</span>
-                                        </div>
-                                        <ul>
-                                            {addon.features.map((feature, i) => (
-                                                <li key={i}><span className="check" aria-hidden="true"><IconGlyph name="check" size={14} /></span> {feature}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                ))}
-                            </div>
                         </ScrollReveal>
                     )}
                 </div>

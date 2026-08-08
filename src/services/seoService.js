@@ -38,15 +38,15 @@ const SEO_BY_ROUTE = {
   '/services': {
     en: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
+      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery.',
     },
     am: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
+      description: 'ብጁ ኤጀንቲክ ሲስተሞችን እና ከእነሱ ጋር እኩል የሆነ የዌብ፣ ሞባይል እና SaaS የምርት ኢንጂነሪንግ አቅርቦትን ያስሱ።',
     },
     om: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery for full operational transformation.',
+      description: 'Sirna agentic dhuunfaa fi geessii engineering oomisha web, mobile fi SaaS qixa tokkoon ilaali.',
     },
   },
   '/pricing': {
@@ -80,15 +80,15 @@ const SEO_BY_ROUTE = {
   '/web-development': {
     en: {
       title: 'Web Development | NovaTech AI',
-      description: 'Conversion-focused web platforms and portals that operationalize your workflows with AI-ready architecture.',
+      description: 'Websites, portals, and dashboards built with conversion-focused information architecture, an SEO and analytics baseline, and weekly sprint reviews — typically delivered in 3 to 8 weeks.',
     },
     am: {
       title: 'የዌብ ልማት | NovaTech AI',
-      description: 'SEO እና የማስጀመሪያ ድጋፍ ያላቸውን የዌብ ፓኬጆች ይምረጡ።',
+      description: 'ቅየራ-ተኮር የመረጃ አደረጃጀት፣ የSEO እና አናሊቲክስ መሠረት እና ሳምንታዊ የስፕሪንት ግምገማ ያላቸው ዌብሳይቶች፣ ፖርታሎች እና ዳሽቦርዶች — አብዛኛውን ጊዜ በ3 እስከ 8 ሳምንት የሚደርሱ።',
     },
     om: {
       title: 'Web Development | NovaTech AI',
-      description: 'Paakeejii web kan jijjiirraa dabalu, SEO fi deeggarsa launch waliin filadhu.',
+      description: "Websaayitii, portalii fi dashboard kan IA conversion irratti xiyyeeffate, bu'uura SEO fi analytics fi gamaaggama sprint torbeetuma qaban — baay'inaan torban 3 hanga 8 keessatti.",
     },
   },
   '/mobile-development': {
@@ -136,43 +136,15 @@ const SEO_BY_ROUTE = {
   '/policy': {
     en: {
       title: 'Payment and Operational Policy | NovaTech',
-      description: 'Review development payment milestones, marketing terms, SaaS subscription rules, and support commitments.',
+      description: 'Review development payment milestones, payment methods, and SaaS waitlist status.',
     },
     am: {
       title: 'የክፍያ እና ኦፕሬሽን ፖሊሲ | NovaTech',
-      description: 'የልማት ክፍያ ደረጃዎችን፣ የማርኬቲንግ እና SaaS ውሎችን ይመልከቱ።',
+      description: 'የልማት ክፍያ ደረጃዎችን፣ የክፍያ ዘዴዎችን እና የSaaS የጥበቃ ዝርዝር ሁኔታን ይመልከቱ።',
     },
     om: {
       title: 'Imaammata Kaffaltii fi Hojii | NovaTech',
-      description: 'Milestone kaffaltii, haala marketing fi seera SaaS keessatti ibsa guutuu argadhu.',
-    },
-  },
-  '/case-studies': {
-    en: {
-      title: 'Case Studies | NovaTech',
-      description: 'Explore measurable outcomes from NovaTech projects across e-commerce, healthcare, education, and logistics.',
-    },
-    am: {
-      title: 'የስራ ምሳሌዎች | NovaTech',
-      description: 'ከተለያዩ ኢንዱስትሪዎች ውጤት የተመዘኑ የNovaTech ፕሮጀክቶችን ይመልከቱ።',
-    },
-    om: {
-      title: 'Case Studies | NovaTech',
-      description: 'Pirojektoota NovaTech keessaa buaa madaalame e-commerce, health fi education keessatti ilaali.',
-    },
-  },
-  '/portfolio': {
-    en: {
-      title: 'Portfolio | NovaTech',
-      description: 'Filter our portfolio by industry and discover digital products tailored for specific business domains.',
-    },
-    am: {
-      title: 'ፖርትፎሊዮ | NovaTech',
-      description: 'በኢንዱስትሪ የተደረገ ማጣሪያ በመጠቀም የስራ ምሳሌዎቻችንን ይመልከቱ።',
-    },
-    om: {
-      title: 'Portfolio | NovaTech',
-      description: 'Portfolio keenya industry irratti filachuun hojiiwwan garaagaraa ilaali.',
+      description: 'Milestone kaffaltii, maloota kaffaltii fi haala tartiiba eeggachaa SaaS keessatti ibsa guutuu argadhu.',
     },
   },
   '/instant-quote': {
@@ -258,11 +230,11 @@ const FAQ_SCHEMA_BY_ROUTE = {
     },
     {
       question: 'Do clients own their deliverables after project completion?',
-      answer: 'Yes. After final payment, clients receive full ownership of custom design assets, source code, and project intellectual property.',
+      answer: 'Once the final payment clears, clients receive full ownership of custom design assets, source code, and project intellectual property.',
     },
     {
       question: 'Are SaaS subscriptions available monthly and annually?',
-      answer: 'Yes. SaaS offerings support monthly and annual billing, and annual plans include a two-month discount.',
+      answer: 'No. SaaS products are in development and offered as a waitlist only. No pricing or billing exists until a real product is live.',
     },
   ],
 };

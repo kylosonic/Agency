@@ -9,8 +9,16 @@ import LiveChatDock from './components/LiveChatDock';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import PageTransition from './components/PageTransition';
 import ErrorBoundary from './components/ErrorBoundary';
-import { trackPageView, trackPricingGuideIntent } from './services/analyticsService';
+import { trackPageView, trackPricingGuideIntent, trackEvent } from './services/analyticsService';
 import { setDocumentMetadata } from './services/seoService';
+import {
+  flushFallbackQueue as flushLeadIntakeFallbackQueue,
+  getFallbackQueueStats as getLeadIntakeFallbackQueueStats,
+} from './services/leadIntakeService';
+import {
+  flushFallbackQueue as flushMailingListFallbackQueue,
+  getFallbackQueueStats as getMailingListFallbackQueueStats,
+} from './services/mailingListService';
 import { LanguageProvider } from './i18n/LanguageContext';
 import { useLanguage } from './i18n/useLanguage';
 
@@ -46,8 +54,6 @@ const MobileDevelopmentPage = lazyWithRetry(() => import('./pages/MobileDevelopm
 const SaasSolutionsPage = lazyWithRetry(() => import('./pages/SaasSolutionsPage'));
 const AdditionalServicesPage = lazyWithRetry(() => import('./pages/AdditionalServicesPage'));
 const PolicyPage = lazyWithRetry(() => import('./pages/PolicyPage'));
-const CaseStudiesPage = lazyWithRetry(() => import('./pages/CaseStudiesPage'));
-const PortfolioPage = lazyWithRetry(() => import('./pages/PortfolioPage'));
 const IndustryLandingPage = lazyWithRetry(() => import('./pages/IndustryLandingPage'));
 const InstantQuotePage = lazyWithRetry(() => import('./pages/InstantQuotePage'));
 const DiscoveryCallPage = lazyWithRetry(() => import('./pages/DiscoveryCallPage'));
@@ -116,7 +122,6 @@ function getLeadCaptureVariant(pathname, trigger) {
     normalized.includes('mobile-development') ||
     normalized.includes('saas-solutions') ||
     normalized.includes('additional-services') ||
-    normalized.includes('portfolio') ||
     normalized.includes('industries')
   ) {
     return 'quote_offer';
@@ -178,6 +183,62 @@ function AppContent() {
     routePath: '/',
   });
   const location = useLocation();
+
+  // First-mount fire-and-forget flush of both fallback queues (TECH-08 G1).
+  // Re-POSTs oldest-first on app load, deletes only on 2xx, keeps on failure.
+  // The backlog warning event is emitted at most once per page session.
+  useEffect(() => {
+    let cancelled = false;
+    let backlogWarningFired = false;
+
+    const flushQueues = async () => {
+      const leadStats = getLeadIntakeFallbackQueueStats();
+      const mailingListStats = getMailingListFallbackQueueStats();
+      const total = (leadStats?.count || 0) + (mailingListStats?.count || 0);
+
+      if (total > 0 && !backlogWarningFired) {
+        backlogWarningFired = true;
+        console.warn(
+          `[novatech] ${total} queued fallback submission(s) detected (leads: ${leadStats?.count || 0}, mailing list: ${mailingListStats?.count || 0}). Attempting background flush.`
+        );
+        trackEvent('fallback_backlog_detected', {
+          leadCount: leadStats?.count || 0,
+          mailingListCount: mailingListStats?.count || 0,
+        });
+      }
+
+      const results = await Promise.allSettled([
+        flushLeadIntakeFallbackQueue(),
+        flushMailingListFallbackQueue(),
+      ]);
+
+      if (cancelled) {
+        return;
+      }
+
+      const [leadResult, mailingListResult] = results;
+
+      if (leadResult.status === 'fulfilled' && leadResult.value.attempted > 0) {
+        console.warn(
+          `[novatech] lead intake fallback flush: ${leadResult.value.flushed} re-submitted, ${leadResult.value.failed} kept, ${leadResult.value.remaining} remaining.`
+        );
+      }
+
+      if (mailingListResult.status === 'fulfilled' && mailingListResult.value.attempted > 0) {
+        console.warn(
+          `[novatech] mailing list fallback flush: ${mailingListResult.value.flushed} re-submitted, ${mailingListResult.value.failed} kept, ${mailingListResult.value.remaining} remaining.`
+        );
+      }
+    };
+
+    flushQueues().catch(() => {
+      // Fire-and-forget: a failed flush must never block first paint.
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     setDocumentMetadata({
@@ -342,8 +403,6 @@ function AppContent() {
                   <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/additional-services" element={<AdditionalServicesPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/policy" element={<PolicyPage onDownloadClick={openLeadCapture} />} />
-                  <Route path="/case-studies" element={<CaseStudiesPage />} />
-                  <Route path="/portfolio" element={<PortfolioPage />} />
                   <Route path="/industries/:industrySlug" element={<IndustryLandingPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/instant-quote" element={<InstantQuotePage />} />
                   <Route path="/book-discovery-call" element={<DiscoveryCallPage />} />

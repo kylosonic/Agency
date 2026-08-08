@@ -9,7 +9,6 @@ const PRIMARY_LINKS = [
   { to: '/services', labelKey: 'nav.aiAutomation', fallback: 'AI Automation' },
   { to: '/web-development', labelKey: 'nav.productEngineeringShort', fallback: 'Product Engineering' },
   { to: '/pricing', labelKey: 'footer.links.pricing', fallback: 'Pricing' },
-  { to: '/case-studies', labelKey: 'nav.results', fallback: 'Results' },
 ];
 
 const SERVICE_LINKS = [
@@ -17,13 +16,10 @@ const SERVICE_LINKS = [
   { to: '/mobile-development', labelKey: 'mobile.hero.title', fallback: 'Mobile App Development' },
   { to: '/saas-solutions', labelKey: 'saas.hero.title', fallback: 'SaaS Cloud Solutions' },
   { to: '/additional-services', labelKey: 'additional.hero.title', fallback: 'Additional Services' },
-  { to: '/case-studies', labelKey: 'nav.caseStudies', fallback: 'Case Studies' },
-  { to: '/portfolio', labelKey: 'nav.portfolio', fallback: 'Portfolio' },
   { to: '/policy', labelKey: 'nav.policy', fallback: 'Operations Policy' },
 ];
 
 const PRODUCT_ROUTES = new Set(['/web-development', '/mobile-development', '/saas-solutions', '/additional-services']);
-const RESULTS_ROUTES = new Set(['/case-studies', '/portfolio']);
 
 export default function Navbar() {
   const { t } = useLanguage();
@@ -166,10 +162,6 @@ export default function Navbar() {
   const isPrimaryLinkActive = (to) => {
     if (to === '/web-development') {
       return PRODUCT_ROUTES.has(location.pathname);
-    }
-
-    if (to === '/case-studies') {
-      return RESULTS_ROUTES.has(location.pathname) || location.pathname.startsWith('/industries/');
     }
 
     return location.pathname === to;

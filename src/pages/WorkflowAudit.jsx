@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
+import PilotOfferSection from '../components/PilotOfferSection';
+import { getPricingGuideSummary } from '../services/pricingData';
+
+const WORKFLOW_AUDIT = getPricingGuideSummary().workflowAudit;
 
 const AUDIT_OUTPUTS = [
   'Operational map of human handoffs and manual data movement',
@@ -20,9 +24,9 @@ export default function WorkflowAudit() {
             We run a technical discovery sprint to expose where manual labor, fragmented data, and delayed handoffs are costing your team time and margin.
           </p>
           <div className="page-hero-meta" aria-label="Workflow audit details">
-            <span className="page-hero-chip">1-2 week audit cycle</span>
-            <span className="page-hero-chip">Systems + process mapping</span>
-            <span className="page-hero-chip">Implementation blueprint included</span>
+            <span className="page-hero-chip">Fixed fee {WORKFLOW_AUDIT.price}</span>
+            <span className="page-hero-chip">Delivered within 5 business days</span>
+            <span className="page-hero-chip">Full fee credited toward your implementation project</span>
           </div>
         </div>
       </section>
@@ -37,6 +41,9 @@ export default function WorkflowAudit() {
                 subtitle="Every engagement produces a concrete implementation plan your team can execute immediately."
                 align="left"
               />
+              <p className="ai-audit-price-line">
+                Fixed fee {WORKFLOW_AUDIT.price} — the full fee is credited toward your implementation project.
+              </p>
               <ul className="ai-audit-list">
                 {AUDIT_OUTPUTS.map((item) => (
                   <li key={item}>
@@ -66,6 +73,8 @@ export default function WorkflowAudit() {
           </ScrollReveal>
         </div>
       </section>
+
+      <PilotOfferSection source="audit_pilot_offer" />
     </>
   );
 }

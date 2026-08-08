@@ -4,6 +4,7 @@ import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
 import PricingScenarioPlanner from '../components/PricingScenarioPlanner';
+import PilotOfferSection from '../components/PilotOfferSection';
 import { getPricingGuideSummary } from '../services/pricingData';
 
 const PRICING_SUMMARY = getPricingGuideSummary();
@@ -41,10 +42,10 @@ export default function Pricing() {
     workflowAudit,
     automationTiers,
     productEngineering,
-    aiPremiumPricing,
-    growthRetainers,
     additionalServices,
   } = PRICING_SUMMARY;
+
+  const aiSupportIncludes = automationTiers[0]?.supportIncludes || [];
 
   return (
     <>
@@ -52,12 +53,12 @@ export default function Pricing() {
         <div className="container page-hero-content ai-pricing-hero-content">
           <h1>Comprehensive Pricing Guide</h1>
           <p>
-            Pricing is structured around operational impact: we start with workflow audits, then scope AI automation, web/mobile/SaaS product engineering, and growth retainers with clear global and local ranges.
+            Pricing is structured around operational impact: we start with workflow audits, then scope AI automation, web/mobile/SaaS product engineering, and monthly support — all quoted in Ethiopian Birr.
           </p>
           <div className="page-hero-meta" aria-label="Pricing model notes">
-            <span className="page-hero-chip">Global USD + local ETB</span>
+            <span className="page-hero-chip">ETB-only pricing</span>
+            <span className="page-hero-chip">International engagements quoted individually</span>
             <span className="page-hero-chip">Scope tied to integration depth</span>
-            <span className="page-hero-chip">Product engineering co-equal track</span>
             <span className="page-hero-chip">Audit-first engagement model</span>
           </div>
         </div>
@@ -69,7 +70,7 @@ export default function Pricing() {
             <SectionHeader
               tag="Pricing Structure"
               title="AI Automation + Product Engineering"
-              subtitle="Use the selector to inspect the active 2026 service menu: automation systems, product builds, growth retainers, and operational add-ons."
+              subtitle="Use the selector to inspect the active 2026 service menu: automation systems, product builds, monthly support, and operational add-ons."
               align="left"
             />
           </ScrollReveal>
@@ -105,13 +106,13 @@ export default function Pricing() {
               <button
                 type="button"
                 role="tab"
-                aria-selected={activeTrack === 'growth'}
-                aria-controls="growth-pricing-panel"
-                id="growth-pricing-tab"
-                className={activeTrack === 'growth' ? 'active' : ''}
-                onClick={() => setActiveTrack('growth')}
+                aria-selected={activeTrack === 'support'}
+                aria-controls="support-pricing-panel"
+                id="support-pricing-tab"
+                className={activeTrack === 'support' ? 'active' : ''}
+                onClick={() => setActiveTrack('support')}
               >
-                Growth & Add-ons
+                Support & Add-ons
               </button>
             </div>
           </ScrollReveal>
@@ -133,8 +134,7 @@ export default function Pricing() {
                     <h3>{workflowAudit.title}</h3>
                     <PriceValues
                       values={[
-                        { label: 'Global', value: workflowAudit.globalPrice },
-                        { label: 'Local', value: workflowAudit.localPrice },
+                        { label: 'Fixed fee', value: workflowAudit.price },
                       ]}
                     />
                     <p>{workflowAudit.description}</p>
@@ -152,13 +152,14 @@ export default function Pricing() {
                       <div className="ai-pricing-card-note">{tier.scope}</div>
                       <PriceValues
                         values={[
-                          { label: 'Global setup', value: tier.globalSetup },
-                          { label: 'Global monthly', value: tier.globalMonthly },
-                          { label: 'Local setup', value: tier.localSetup },
-                          { label: 'Local monthly', value: tier.localMonthly },
+                          { label: 'From', value: tier.setupPrice },
+                          { label: 'Monthly support', value: tier.monthlySupport },
                         ]}
                       />
+                      <h4 className="ai-pricing-subheading">What the setup includes</h4>
                       <FeatureList items={tier.includes} />
+                      <h4 className="ai-pricing-subheading">What monthly support includes</h4>
+                      <FeatureList items={tier.supportIncludes} />
                     </article>
                   </ScrollReveal>
                 ))}
@@ -185,8 +186,7 @@ export default function Pricing() {
                       <h3>{item.title}</h3>
                       <PriceValues
                         values={[
-                          { label: 'Global', value: item.globalPrice },
-                          { label: 'Local', value: item.localPrice },
+                          { label: 'Price', value: item.price },
                         ]}
                       />
                       <div className="ai-pricing-card-meta">{item.timeline}</div>
@@ -195,61 +195,33 @@ export default function Pricing() {
                   </ScrollReveal>
                 ))}
               </div>
-
-              <ScrollReveal delay={0.14}>
-                <h3 className="ai-pricing-subheading">AI integration premium for custom apps</h3>
-              </ScrollReveal>
-
-              <div className="ai-interface-pricing-grid ai-interface-pricing-grid-compact">
-                {aiPremiumPricing.map((item) => (
-                  <ScrollReveal key={item.title}>
-                    <article className="ai-interface-pricing-card glass-card">
-                      <div className="ai-pricing-card-kicker">AI Premium</div>
-                      <h3>{item.title}</h3>
-                      <PriceValues
-                        values={[
-                          { label: 'Global', value: item.globalPrice },
-                          { label: 'Local', value: item.localPrice },
-                        ]}
-                      />
-                      <div className="ai-pricing-card-note">{item.note}</div>
-                    </article>
-                  </ScrollReveal>
-                ))}
-              </div>
             </div>
           ) : (
             <div
-              id="growth-pricing-panel"
+              id="support-pricing-panel"
               role="tabpanel"
-              aria-labelledby="growth-pricing-tab"
+              aria-labelledby="support-pricing-tab"
               className="ai-pricing-panel"
             >
               <ScrollReveal delay={0.12}>
-                <div className="ai-interface-disclaimer glass-card">
-                  Marketing totals combine ad spend and management. Ad spend is paid to Meta or Google; local handling fees can apply if NovaTech processes spend on the client&apos;s behalf.
-                </div>
-              </ScrollReveal>
-
-              <div className="ai-interface-pricing-grid">
-                {growthRetainers.map((item) => (
-                  <ScrollReveal key={item.id}>
+                <div className="ai-interface-pricing-grid">
+                  <ScrollReveal>
                     <article className="ai-interface-pricing-card glass-card">
-                      <div className="ai-pricing-card-kicker">Growth Retainer</div>
-                      <h3>{item.title}</h3>
+                      <div className="ai-pricing-card-kicker">AI Support Retainers</div>
+                      <h3>Monthly Support & Maintenance</h3>
                       <PriceValues
                         values={[
-                          { label: 'Global', value: item.globalPrice },
-                          { label: 'Local', value: item.localPrice },
+                          { label: 'Monthly band', value: '30,000 - 70,000 ETB / month' },
                         ]}
                       />
-                      <div className="ai-pricing-card-meta">{item.focus}</div>
-                      <div className="ai-pricing-card-note">{item.spendStructure}</div>
-                      <FeatureList items={item.features} />
+                      <div className="ai-pricing-card-note">
+                        Every AI engagement includes a monthly support retainer. What it covers:
+                      </div>
+                      <FeatureList items={aiSupportIncludes} />
                     </article>
                   </ScrollReveal>
-                ))}
-              </div>
+                </div>
+              </ScrollReveal>
 
               <ScrollReveal delay={0.14}>
                 <h3 className="ai-pricing-subheading">Operational add-ons</h3>
@@ -263,8 +235,7 @@ export default function Pricing() {
                       <h3>{item.service}</h3>
                       <PriceValues
                         values={[
-                          { label: 'Global', value: item.globalPrice },
-                          { label: 'Local', value: item.price },
+                          { label: 'Price', value: item.price },
                         ]}
                       />
                       <div className="ai-pricing-card-note">{item.description}</div>
@@ -287,6 +258,8 @@ export default function Pricing() {
           </ScrollReveal>
         </div>
       </section>
+
+      <PilotOfferSection source="pricing_pilot_offer" />
     </>
   );
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
 import { quoteWizardOptions } from '../config/contentData';
+import { deriveEstimateBand } from '../services/pricingData';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
@@ -15,14 +16,13 @@ const SERVICE_TYPE_LABEL_KEYS = {
   'AI Invoice Processing': 'instantQuote.options.service.invoiceProcessing',
   'Engineering Knowledge Assistant': 'instantQuote.options.service.engineeringKnowledge',
   'Sales Order Automation': 'instantQuote.options.service.salesOrderAutomation',
-  'Branding and Additional Services': 'instantQuote.options.service.additional',
 };
 
 const BUDGET_LABEL_KEYS = {
-  'Under 50k ETB': 'instantQuote.options.budget.under50',
-  '50k - 120k ETB': 'instantQuote.options.budget.mid',
-  '120k - 250k ETB': 'instantQuote.options.budget.high',
-  '250k+ ETB': 'instantQuote.options.budget.enterprise',
+  '85k - 150k ETB': 'instantQuote.options.budget.entry',
+  '150k - 400k ETB': 'instantQuote.options.budget.mid',
+  '400k - 1M ETB': 'instantQuote.options.budget.high',
+  '1M+ ETB': 'instantQuote.options.budget.enterprise',
 };
 
 const TIMELINE_LABEL_KEYS = {
@@ -61,36 +61,8 @@ const INITIAL_STATE = {
   phone: '',
 };
 
-const SERVICE_BASE_RANGES = {
-  'Web Development': [35000, 90000],
-  'Mobile App Development': [95000, 220000],
-  'SaaS Platform': [140000, 320000],
-  'AI Invoice Processing': [85000, 190000],
-  'Engineering Knowledge Assistant': [120000, 280000],
-  'Sales Order Automation': [95000, 240000],
-  'Branding and Additional Services': [20000, 70000],
-};
-
-const BUDGET_MODIFIER = {
-  'Under 50k ETB': 0.7,
-  '50k - 120k ETB': 1,
-  '120k - 250k ETB': 1.25,
-  '250k+ ETB': 1.55,
-};
-
 function formatCurrency(value) {
   return `${Math.round(value).toLocaleString()} ETB`;
-}
-
-function calculateRange(formState) {
-  const base = SERVICE_BASE_RANGES[formState.serviceType] || [40000, 100000];
-  const modifier = BUDGET_MODIFIER[formState.budgetRange] || 1;
-  const integrationLoad = formState.integrations.length * 0.06;
-
-  const min = base[0] * modifier * (1 + integrationLoad);
-  const max = base[1] * modifier * (1 + integrationLoad);
-
-  return [min, max];
 }
 
 export default function InstantQuotePage() {
@@ -100,7 +72,8 @@ export default function InstantQuotePage() {
   const [submissionStatus, setSubmissionStatus] = useState('idle');
   const [formState, setFormState] = useState(INITIAL_STATE);
 
-  const quoteRange = useMemo(() => calculateRange(formState), [formState]);
+  const estimateBand = useMemo(() => deriveEstimateBand(formState), [formState]);
+  const quoteRange = estimateBand ? [estimateBand.min, estimateBand.max] : null;
 
   const updateValue = (field) => (event) => {
     const value = event.target.value;
@@ -133,7 +106,6 @@ export default function InstantQuotePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const [minEstimate, maxEstimate] = quoteRange;
     setSubmissionStatus('submitting');
 
     const lead = {
@@ -155,12 +127,16 @@ export default function InstantQuotePage() {
         timelineRange: formState.timelineRange,
         integrations: formState.integrations,
         goals: formState.goals,
-        minEstimate: Math.round(minEstimate),
-        maxEstimate: Math.round(maxEstimate),
+        ...(quoteRange
+          ? {
+              minEstimate: Math.round(quoteRange[0]),
+              maxEstimate: Math.round(quoteRange[1]),
+            }
+          : {}),
       },
       consent: {
         type: 'quote_follow_up',
-        copy: t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.'),
+        copy: t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.'),
       },
     });
 
@@ -185,8 +161,12 @@ export default function InstantQuotePage() {
       serviceType: formState.serviceType,
       budgetRange: formState.budgetRange,
       timelineRange: formState.timelineRange,
-      minEstimate: Math.round(minEstimate),
-      maxEstimate: Math.round(maxEstimate),
+      ...(quoteRange
+        ? {
+            minEstimate: Math.round(quoteRange[0]),
+            maxEstimate: Math.round(quoteRange[1]),
+          }
+        : {}),
       delivery: submission.type,
     });
 
@@ -250,6 +230,9 @@ export default function InstantQuotePage() {
                           onChange={updateValue('serviceType')}
                         />
                         <span>{t(SERVICE_TYPE_LABEL_KEYS[serviceType], serviceType)}</span>
+                        {serviceType === 'SaaS Platform' ? (
+                          <span className="quote-option-note">{t('instantQuote.options.service.saasWaitlist', 'In development — tell us you want it')}</span>
+                        ) : null}
                       </label>
                     ))}
                   </div>
@@ -350,15 +333,31 @@ export default function InstantQuotePage() {
                 </p>
               ) : null}
             </form>
-          ) : (
+          ) : quoteRange ? (
             <div className="quote-result-card glass-card" role="status" aria-live="polite">
               <h3>{t('instantQuote.result.title', 'Your estimated range')}</h3>
               <p className="quote-result-range">{formatCurrency(quoteRange[0])} - {formatCurrency(quoteRange[1])}</p>
               <p>
                 {submissionStatus === 'fallback'
                   ? t('instantQuote.result.fallback', 'This estimate was generated and saved locally because the intake endpoint is temporarily unavailable. Please book a discovery call or message us if this request is urgent.')
-                  : t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team has queued a follow-up and can deliver a final proposal after a 30-minute discovery session.')}
+                  : `${t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.')} ${t('instantQuote.result.sla', 'We respond within one business day and deliver a written proposal within five business days of our discovery call.')}`}
               </p>
+              <div className="quote-result-actions">
+                <Link className="btn btn-primary" to="/book-discovery-call">{t('actions.bookDiscoveryCall', 'Book Discovery Call')}</Link>
+                <button type="button" className="btn btn-secondary" onClick={() => {
+                  setSubmitted(false);
+                  setStep(0);
+                  setSubmissionStatus('idle');
+                  setFormState(INITIAL_STATE);
+                }}>
+                  {t('actions.startAgain', 'Start Again')}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="quote-result-card glass-card" role="status" aria-live="polite">
+              <h3>{t('instantQuote.result.waitlistTitle', 'SaaS is in development — tell us you want it')}</h3>
+              <p>{t('instantQuote.result.waitlistSubtitle', 'We will add you to the waitlist and contact you when a product is ready for your organization. No prices are published until a real product exists.')}</p>
               <div className="quote-result-actions">
                 <Link className="btn btn-primary" to="/book-discovery-call">{t('actions.bookDiscoveryCall', 'Book Discovery Call')}</Link>
                 <button type="button" className="btn btn-secondary" onClick={() => {
