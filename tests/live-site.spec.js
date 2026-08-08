@@ -1,3 +1,20 @@
+/**
+ * ================================================================
+ * RE-BASELINE DIFF RECORD — TECH-21 (Phase 7: Fortune-500 Visual System)
+ * ----------------------------------------------------------------
+ * Date: 2026-08-08
+ * Ticket: TECH-21 — E2E re-baseline (executed FIRST, in its TDD red state)
+ * Direction: dark-only expectations → light-first expectations (B26/B38)
+ * Governance: NB-24 (B38) — the automated visitor checks are deliberately
+ *             updated, written down, and reviewed before the redesign
+ *             counts as done. Contract: docs/plans/phase7-fortune500-visual-system.md §4,
+ *             docs/behaviors/visual-system-fortune500.md (B26–B38),
+ *             docs/behaviors/pending-behaviors.md (NB-24).
+ * Delta: 67 → 76 tests (2 MUTATE + 9 NEW N1..N9, 0 DELETE)
+ * QA-review: pending
+ * ================================================================
+ */
+
 import { readFileSync } from 'node:fs';
 import { test, expect } from '@playwright/test';
 import { deriveEstimateBand, ENTRY_OFFER_FLOOR, QUOTE_BUDGET_BANDS } from '../src/services/pricingData';
@@ -110,7 +127,7 @@ test.describe('Live site responsive smoke', () => {
     }
   }
 
-  test('mobile nav works and the site remains dark-only on home page', async ({ page }) => {
+  test('mobile nav works and the site defaults light-first on home page', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
 
@@ -127,7 +144,17 @@ test.describe('Live site responsive smoke', () => {
     await expect(page.locator('.mobile-nav.open')).toBeHidden();
 
     await expect(page.locator('.dark-mode-toggle')).toHaveCount(0);
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+
+    const bodyBackground = await page.locator('body').evaluate((element) => {
+      const color = window.getComputedStyle(element).backgroundColor;
+      const channels = color.match(/\d+(\.\d+)?/g)?.map(Number) ?? [];
+      return { color, sum: channels.slice(0, 3).reduce((total, channel) => total + channel, 0) };
+    });
+    expect(
+      bodyBackground.sum,
+      `body background must be light (rgb sum > 600), got ${bodyBackground.color}`
+    ).toBeGreaterThan(600);
   });
 
   test('additional services table scrolls inside wrapper on small screens without page overflow', async ({ page }) => {
@@ -283,7 +310,7 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     expect(supportBodyText, 'support tab must not render $').not.toContain('$');
   });
 
-  test('homepage proof strip removed while split hero is retained', async ({ page }) => {
+  test('homepage hero is typography-led with real-facts strip', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
@@ -293,7 +320,8 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     await expect(page.locator('#impact-calculator')).toHaveCount(0);
 
     await expect(page.locator('.hero-copy')).toBeVisible();
-    await expect(page.locator('.hero-panel')).toBeVisible();
+    await expect(page.locator('.hero-facts')).toBeVisible();
+    await expect(page.locator('.hero-facts')).toContainText('5 business days');
 
     const trustRowText = await page.locator('.hero-trust-row').innerText();
     expect(trustRowText, 'trust row must not mention USD').not.toContain('USD');
@@ -680,5 +708,213 @@ test.describe('Phase 2 — founding-client pilot offer (TECH-05)', () => {
     await expect(page.getByText('credited toward').first()).toBeVisible();
     await expect(page.getByText('1-2 week audit cycle')).toHaveCount(0);
     await expect(page.getByTestId('pilot-offer')).toBeVisible();
+  });
+});
+
+test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
+  test('N1 — every matrix route defaults light-first with no dark-mode toggle', async ({ page }) => {
+    for (const route of routes) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+
+      await expect(page.locator('html'), `${route} must default to the light theme`).toHaveAttribute('data-theme', 'light');
+      await expect(page.locator('.dark-mode-toggle'), `${route} must have no dark-mode toggle`).toHaveCount(0);
+
+      const bodyBackground = await page.locator('body').evaluate((element) => {
+        const color = window.getComputedStyle(element).backgroundColor;
+        const channels = color.match(/\d+(\.\d+)?/g)?.map(Number) ?? [];
+        return { color, sum: channels.slice(0, 3).reduce((total, channel) => total + channel, 0) };
+      });
+      expect(
+        bodyBackground.sum,
+        `${route} body background must be light (rgb sum > 600), got ${bodyBackground.color}`
+      ).toBeGreaterThan(600);
+    }
+  });
+
+  test('N2 — every route renders exactly two near-black bands in fixed positions', async ({ page }) => {
+    const bandRoutes = [...routes, '/services', '/workflow-audit'];
+
+    for (const route of bandRoutes) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+
+      const bandCount = await page.locator('.band-dark').count();
+      expect(bandCount, `${route} must render exactly two dark bands, got ${bandCount}`).toBe(2);
+
+      const positions = await page.evaluate(() => {
+        const hero = document.querySelector('section#hero, section.page-hero');
+        const footer = document.querySelector('footer');
+        const bands = Array.from(document.querySelectorAll('.band-dark'));
+        const follows = (reference, target) =>
+          !!reference
+          && !!target
+          && (reference.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+
+        return {
+          firstBandAfterHero: bands.length > 0 && follows(hero, bands[0]),
+          lastBandBeforeFooter: bands.length > 0 && follows(bands[bands.length - 1], footer),
+        };
+      });
+
+      expect(positions.firstBandAfterHero, `${route}: the first dark band must sit after the hero`).toBe(true);
+      expect(positions.lastBandBeforeFooter, `${route}: the last dark band must be the final block before the footer`).toBe(true);
+    }
+  });
+
+  test('N3 — nav exposes five destinations, the services dropdown, and an instant-quote CTA', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+
+    const navLinks = page.locator('.navbar-links');
+    await expect(navLinks).toBeVisible();
+    await expect(navLinks.getByRole('button', { name: 'Services', exact: true })).toBeVisible();
+    await expect(navLinks.getByRole('link', { name: 'Pricing', exact: true })).toBeVisible();
+    await expect(navLinks.getByRole('link', { name: 'Instant Quote', exact: true })).toBeVisible();
+    await expect(navLinks.getByRole('link', { name: 'Policy', exact: true })).toBeVisible();
+    await expect(navLinks.getByRole('link', { name: 'Contact', exact: true })).toBeVisible();
+
+    const cta = page.locator('.navbar-cta');
+    await expect(cta, 'nav CTA must be labeled "Start a project"').toHaveText('Start a project');
+    await expect(cta, 'nav CTA must lead to Instant Quote').toHaveAttribute('href', '/instant-quote');
+
+    await navLinks.getByRole('button', { name: 'Services', exact: true }).click();
+    const dropdown = page.locator('.navbar-services-menu');
+    await expect(dropdown).toBeVisible();
+    for (const label of ['Web', 'Mobile', 'SaaS', 'AI Automation', 'Workflow Audit']) {
+      await expect(dropdown.getByText(label, { exact: true }), `dropdown must contain ${label}`).toBeVisible();
+    }
+    await expect(dropdown.locator('a'), 'dropdown must contain exactly five service destinations').toHaveCount(5);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(page.locator('.navbar-mobile-actions .language-switcher-select')).toBeVisible();
+  });
+
+  test('N4 — zero imagery: no img elements and no url() background images', async ({ page }) => {
+    const imageryRoutes = [...routes, '/services', '/workflow-audit'];
+
+    for (const route of imageryRoutes) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+
+      const imagery = await page.evaluate(() => {
+        const imgCount = document.querySelectorAll('img').length;
+        const urlBackgrounds = Array.from(document.querySelectorAll('body *')).filter((element) =>
+          window.getComputedStyle(element).backgroundImage.includes('url(')
+        );
+        return { imgCount, urlBackgroundCount: urlBackgrounds.length };
+      });
+
+      expect(imagery.imgCount, `${route} must render no img elements`).toBe(0);
+      expect(imagery.urlBackgroundCount, `${route} must render no url() background images`).toBe(0);
+    }
+  });
+
+  test('N5 — price ranges and amounts render in JetBrains Mono', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
+    for (let index = 0; index < 3; index += 1) {
+      await dismissLeadModalIfOpen(page);
+      await page.getByRole('button', { name: 'Continue' }).click();
+    }
+    await dismissLeadModalIfOpen(page);
+    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
+    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
+    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+    await expect(page.locator('.quote-result-range')).toBeVisible();
+
+    const rangeFont = await page.locator('.quote-result-range').evaluate((element) =>
+      window.getComputedStyle(element).fontFamily
+    );
+    expect(rangeFont, '.quote-result-range must render in JetBrains Mono').toContain('JetBrains Mono');
+
+    await page.goto(`${BASE_URL}/web-development`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    const pricingFont = await page.locator('.pricing-amount').first().evaluate((element) =>
+      window.getComputedStyle(element).fontFamily
+    );
+    expect(pricingFont, '.pricing-amount must render in JetBrains Mono').toContain('JetBrains Mono');
+  });
+
+  test('N6 — dual-mode accent: gold on dark bands, bronze on light surfaces', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+
+    const bandAccent = await page.locator('.band-dark .btn-primary, .band-dark a').first().evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return { color: style.color, backgroundColor: style.backgroundColor };
+    });
+    const isGold = bandAccent.color === 'rgb(232, 185, 98)'
+      || bandAccent.backgroundColor === 'rgb(232, 185, 98)';
+    expect(isGold, `dark-band accent must be gold, got ${JSON.stringify(bandAccent)}`).toBe(true);
+
+    const lightAccent = await page.locator('.section-tag').first().evaluate((element) =>
+      window.getComputedStyle(element).color
+    );
+    expect(lightAccent, 'light-surface accent must be bronze').toBe('rgb(138, 90, 43)');
+  });
+
+  test('N7 — Amharic headlines render in Noto Serif Ethiopic without transforms', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/policy`, { waitUntil: 'networkidle' });
+    await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption('am');
+    await expect.poll(async () => page.getAttribute('html', 'lang')).toBe('am');
+
+    const h1Styles = await page.locator('h1').first().evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return {
+        fontFamily: style.fontFamily,
+        fontStyle: style.fontStyle,
+        textTransform: style.textTransform,
+        letterSpacing: style.letterSpacing,
+      };
+    });
+
+    expect(h1Styles.fontFamily, 'Amharic h1 must use Noto Serif Ethiopic').toContain('Noto Serif Ethiopic');
+    expect(h1Styles.fontStyle, 'Amharic h1 must not be italicized').toBe('normal');
+    expect(h1Styles.textTransform, 'Amharic h1 must not be uppercased').toBe('none');
+    expect(
+      parseFloat(h1Styles.letterSpacing),
+      'Amharic h1 letter-spacing must not tighten below zero'
+    ).toBeGreaterThanOrEqual(0);
+  });
+
+  test('N8 — reduced motion renders a static page with no page-open transition', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+
+    await expect(page.locator('h1').first()).toBeVisible();
+
+    const transitionStyles = await page.locator('.page-transition').evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return { transitionDuration: style.transitionDuration, opacity: style.opacity };
+    });
+    const isStatic = transitionStyles.transitionDuration === '0s'
+      || transitionStyles.transitionDuration === '0ms'
+      || Number(transitionStyles.opacity) === 1;
+    expect(
+      isStatic,
+      `page-open must be static under reduced motion, got ${JSON.stringify(transitionStyles)}`
+    ).toBe(true);
+  });
+
+  test('N9 — every hero is three-level: label, one headline, one supporting line', async ({ page }) => {
+    for (const route of routes) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+
+      const hero = page.locator('section#hero, section.page-hero').first();
+      await expect(hero, `${route} must render a hero section`).toBeVisible();
+
+      await expect(hero.locator('.page-hero-meta'), `${route} hero must contain the label level`).toHaveCount(1);
+      await expect(hero.locator('h1'), `${route} hero must contain exactly one headline`).toHaveCount(1);
+      await expect(hero.locator('p'), `${route} hero must contain exactly one supporting line`).toHaveCount(1);
+
+      if (route === '/') {
+        await expect(hero.locator('.hero-facts'), 'home hero must include the real-facts strip').toBeVisible();
+      }
+    }
   });
 });
