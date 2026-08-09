@@ -4,6 +4,9 @@ import { trackContactChannelClick } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
 import LogoMark from './LogoMark';
 
+// TECH-19 (B35): lean, ordered footer — brand row, four link columns,
+// legal bar. Zero new copy: every label reuses an existing footer.links.*
+// key. The Connect column keeps the mailto: anchor FIRST (E2E hook).
 export default function Footer() {
     const { t } = useLanguage();
 
@@ -43,6 +46,12 @@ export default function Footer() {
                             <li><Link to="/mobile-development">{t('mobile.hero.title', 'Mobile App Development')}</Link></li>
                             <li><Link to="/saas-solutions">{t('saas.hero.title', 'SaaS Cloud Solutions')}</Link></li>
                             <li><Link to="/policy">{t('nav.policy', 'Payment Policy')}</Link></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4>{t('footer.links.aboutUs', 'Methodology')}</h4>
+                        <ul className="footer-links">
                             <li><a href="/#methodology">{t('footer.links.methodology', 'Methodology')}</a></li>
                             <li><Link to="/services#searchable-brain">{t('footer.links.searchableBrain', 'The Searchable Brain')}</Link></li>
                         </ul>

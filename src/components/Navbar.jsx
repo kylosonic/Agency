@@ -5,21 +5,23 @@ import LanguageSwitcher from './LanguageSwitcher';
 import LogoMark from './LogoMark';
 import { useLanguage } from '../i18n/useLanguage';
 
+// TECH-19 (B34): five destinations — the Services dropdown trigger is rendered
+// separately (`.navbar-services`), so PRIMARY_LINKS holds the four flat links.
 const PRIMARY_LINKS = [
-  { to: '/services', labelKey: 'nav.aiAutomation', fallback: 'AI Automation' },
-  { to: '/web-development', labelKey: 'nav.productEngineeringShort', fallback: 'Product Engineering' },
   { to: '/pricing', labelKey: 'footer.links.pricing', fallback: 'Pricing' },
+  { to: '/instant-quote', labelKey: 'nav.instantQuote', fallback: 'Instant Quote' },
+  { to: '/policy', labelKey: 'nav.policy', fallback: 'Policy' },
+  { to: '/book-discovery-call', labelKey: 'nav.contact', fallback: 'Contact' },
 ];
 
+// TECH-19 (B34): the single Services dropdown — exactly five destinations.
 const SERVICE_LINKS = [
-  { to: '/web-development', labelKey: 'web.hero.title', fallback: 'Web Design & Development' },
-  { to: '/mobile-development', labelKey: 'mobile.hero.title', fallback: 'Mobile App Development' },
-  { to: '/saas-solutions', labelKey: 'saas.hero.title', fallback: 'SaaS Cloud Solutions' },
-  { to: '/additional-services', labelKey: 'additional.hero.title', fallback: 'Additional Services' },
-  { to: '/policy', labelKey: 'nav.policy', fallback: 'Operations Policy' },
+  { to: '/web-development', labelKey: 'nav.dropdownWeb', fallback: 'Web' },
+  { to: '/mobile-development', labelKey: 'nav.dropdownMobile', fallback: 'Mobile' },
+  { to: '/saas-solutions', labelKey: 'nav.dropdownSaas', fallback: 'SaaS' },
+  { to: '/services', labelKey: 'nav.aiAutomation', fallback: 'AI Automation' },
+  { to: '/workflow-audit', labelKey: 'nav.workflowAudit', fallback: 'Workflow Audit' },
 ];
-
-const PRODUCT_ROUTES = new Set(['/web-development', '/mobile-development', '/saas-solutions', '/additional-services']);
 
 export default function Navbar() {
   const { t } = useLanguage();
@@ -114,9 +116,8 @@ export default function Navbar() {
     label: t(link.labelKey, link.fallback),
   }));
 
-  const servicesLabel = t('nav.explore', 'Explore');
+  const servicesLabel = t('nav.services', 'Services');
   const servicesMenuLabel = t('nav.exploreMenu', 'Explore services and proof');
-  const workflowAuditLabel = t('nav.workflowAudit', 'Workflow Audit');
 
   const canUseHoverMenu = () => (
     typeof window !== 'undefined'
@@ -159,13 +160,7 @@ export default function Navbar() {
     }
   };
 
-  const isPrimaryLinkActive = (to) => {
-    if (to === '/web-development') {
-      return PRODUCT_ROUTES.has(location.pathname);
-    }
-
-    return location.pathname === to;
-  };
+  const isPrimaryLinkActive = (to) => location.pathname === to;
 
   return (
     <>
@@ -178,16 +173,6 @@ export default function Navbar() {
 
           <div className="navbar-desktop">
             <div className="navbar-links">
-              {primaryLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={isPrimaryLinkActive(link.to) ? 'active' : ''}
-                >
-                  {link.label}
-                </Link>
-              ))}
-
               <div
                 className={`navbar-services ${servicesOpen ? 'open' : ''}`}
                 ref={servicesRef}
@@ -227,12 +212,22 @@ export default function Navbar() {
                   ))}
                 </div>
               </div>
+
+              {primaryLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className={isPrimaryLinkActive(link.to) ? 'active' : ''}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
 
             <div className="navbar-controls">
               <LanguageSwitcher compact />
-              <Link to="/workflow-audit" className="btn btn-primary btn-sm navbar-cta">
-                {workflowAuditLabel}
+              <Link to="/instant-quote" className="btn btn-primary btn-sm navbar-cta">
+                {t('nav.startProject', 'Start a project')}
               </Link>
             </div>
           </div>
@@ -288,8 +283,8 @@ export default function Navbar() {
           ))}
         </div>
 
-        <Link to="/workflow-audit" className="btn btn-primary" onClick={closeMobileNav}>
-          {workflowAuditLabel}
+        <Link to="/instant-quote" className="btn btn-primary" onClick={closeMobileNav}>
+          {t('nav.startProject', 'Start a project')}
         </Link>
       </nav>
     </>

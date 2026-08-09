@@ -19,7 +19,7 @@ const en = {
     web: 'Web Interfaces',
     mobile: 'Mobile Interfaces',
     saas: 'SaaS Interfaces',
-    services: 'AI Solutions',
+    services: 'Services',
     aiAutomation: 'AI Automation',
     productEngineeringShort: 'Product Engineering',
     explore: 'Explore',
@@ -27,8 +27,16 @@ const en = {
     workflowAudit: 'Workflow Audit',
     engineering: 'Product Engineering',
     engineeringLinks: 'Product engineering links',
-    policy: 'Operations Policy',
-    instantQuote: 'Automation Brief',
+    policy: 'Policy',
+    instantQuote: 'Instant Quote',
+    // TECH-19 (B34): five-destination nav label delta. Locked keys — the only
+    // new nav copy this phase adds. AM/OM values are machine-translated and
+    // flagged for the existing native-review gate (NB-09).
+    contact: 'Contact',
+    startProject: 'Start a project',
+    dropdownWeb: 'Web',
+    dropdownMobile: 'Mobile',
+    dropdownSaas: 'SaaS',
     bookCall: 'Workflow Audit Call',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -462,6 +470,14 @@ const amOverrides = {
     services: 'አገልግሎቶች',
     policy: 'ፖሊሲ',
     instantQuote: 'ፈጣን ዋጋ',
+    // NATIVE-REVIEW FLAG (NB-09): `nav.contact|startProject|dropdown*` Amharic
+    // values below are machine-translated (TECH-19, B34) and require native
+    // review before launch. They mirror the locked EN keys 1:1 — no new claims.
+    contact: 'አግኙን',
+    startProject: 'ፕሮጀክት ጀምር',
+    dropdownWeb: 'ዌብ',
+    dropdownMobile: 'ሞባይል',
+    dropdownSaas: 'SaaS',
     bookCall: 'ጥሪ ያስይዙ',
     openMenu: 'ሜኑ ክፈት',
     closeMenu: 'ሜኑ ዝጋ',
@@ -541,11 +557,20 @@ const omOverrides = {
   nav: {
     home: 'Fuula Jalqabaa',
     web: 'Web',
-    mobile: 'Moobaayila',
+    mobile: 'Moobaayilaa',
     saas: 'SaaS',
     services: 'Tajaajiloota',
     policy: 'Seera',
     instantQuote: 'Qorannoo Gatii',
+    // NATIVE-REVIEW FLAG (NB-09): `nav.contact|startProject|dropdown*` Afaan
+    // Oromoo values below are machine-translated (TECH-19, B34) and require
+    // native review before launch. They mirror the locked EN keys 1:1 — no
+    // new claims.
+    contact: 'Qunnamtii',
+    startProject: 'Piroojektii jalqabi',
+    dropdownWeb: 'Web',
+    dropdownMobile: 'Moobaayilaa',
+    dropdownSaas: 'SaaS',
     bookCall: 'Bilbilaa Qabadhu',
     openMenu: 'Menu banaa',
     closeMenu: 'Menu cufi',
@@ -1610,12 +1635,22 @@ const omContentOverrides = {
 
 const amFinalOverrides = {
   nav: {
-    services: 'AI መፍትሄዎች',
+    // TECH-19 (B34): changed nav keys realigned to their verified Amharic
+    // values (see amOverrides.nav), keeping this final layer consistent.
+    services: 'አገልግሎቶች',
     web: 'የዌብ ኢንተርፌስ',
     mobile: 'የሞባይል ኢንተርፌስ',
     saas: 'SaaS መፍትሄ',
-    policy: 'ኦፕሬሽን ፖሊሲ',
-    instantQuote: 'Automation Brief',
+    policy: 'ፖሊሲ',
+    instantQuote: 'ፈጣን ዋጋ',
+    // NATIVE-REVIEW FLAG (NB-09): `nav.contact|startProject|dropdown*` Amharic
+    // values below are machine-translated (TECH-19, B34) and require native
+    // review before launch. They mirror the locked EN keys 1:1 — no new claims.
+    contact: 'አግኙን',
+    startProject: 'ፕሮጀክት ጀምር',
+    dropdownWeb: 'ዌብ',
+    dropdownMobile: 'ሞባይል',
+    dropdownSaas: 'SaaS',
     bookCall: 'Workflow Audit Call',
   },
   // NATIVE-REVIEW FLAG (NB-09): `band.cta.*` Amharic values below are
@@ -1758,12 +1793,23 @@ const amFinalOverrides = {
 
 const omFinalOverrides = {
   nav: {
-    services: 'Furmaata AI',
+    // TECH-19 (B34): changed nav keys realigned to their verified Afaan
+    // Oromoo values (see omOverrides.nav), keeping this final layer consistent.
+    services: 'Tajaajiloota',
     web: 'Interfeesii Web',
     mobile: 'Interfeesii Moobaayilaa',
     saas: 'Furmaata SaaS',
-    policy: 'Seera Operations',
-    instantQuote: 'Automation Brief',
+    policy: 'Seera',
+    instantQuote: 'Qorannoo Gatii',
+    // NATIVE-REVIEW FLAG (NB-09): `nav.contact|startProject|dropdown*` Afaan
+    // Oromoo values below are machine-translated (TECH-19, B34) and require
+    // native review before launch. They mirror the locked EN keys 1:1 — no
+    // new claims.
+    contact: 'Qunnamtii',
+    startProject: 'Piroojektii jalqabi',
+    dropdownWeb: 'Web',
+    dropdownMobile: 'Moobaayilaa',
+    dropdownSaas: 'SaaS',
     bookCall: 'Workflow Audit Call',
   },
   // NATIVE-REVIEW FLAG (NB-09): `band.cta.*` Afaan Oromoo values below are

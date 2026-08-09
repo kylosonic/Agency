@@ -416,17 +416,22 @@ h2 {
   background: var(--bg-secondary);
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   padding: 0.45rem 0.9rem;
   transition: box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
 }
 
+/* TECH-19 (B35): quiet header on light — the soft blur applies ONLY after
+   scrolling (.scrolled), never on the base rule. */
 .navbar.scrolled .navbar-inner {
   border-color: var(--border-strong);
   background: color-mix(in srgb, var(--bg-secondary), transparent 8%);
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
+  /* Unprefixed only: Chromium ignores the -webkit- alias (CSS.supports is
+     false) and the production minifier drops an unprefixed twin next to its
+     -webkit- copy — the single unprefixed declaration is the only form that
+     survives the build and renders (B35 scroll blur). */
+  backdrop-filter: blur(16px);
 }
 
 .navbar-logo {
@@ -616,8 +621,9 @@ h2 {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.72);
+  /* Unprefixed only — the -webkit- alias is ignored by Chromium and the
+     minifier strips unprefixed twins (see .navbar.scrolled .navbar-inner). */
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   z-index: 1080;
   opacity: 0;
   pointer-events: none;
@@ -1791,8 +1797,9 @@ h2 {
   inset: 0;
   z-index: 3000;
   background: rgba(9, 9, 11, 0.72);
+  /* Unprefixed only — the -webkit- alias is ignored by Chromium and the
+     minifier strips unprefixed twins (see .navbar.scrolled .navbar-inner). */
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   display: flex;
   justify-content: flex-end;
 }
@@ -1920,9 +1927,18 @@ h2 {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-bottom: 1.2rem;
+}
+
+/* TECH-19 (B35): brand block sits as a full-width row above the four link
+   columns; a thin rule keeps the footer ordered. */
+.footer-brand {
+  grid-column: 1 / -1;
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .footer-brand p {
@@ -3175,8 +3191,9 @@ h2 {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-strong);
   background: var(--bg-secondary);
+  /* Unprefixed only — the -webkit- alias is ignored by Chromium and the
+     minifier strips unprefixed twins (see .navbar.scrolled .navbar-inner). */
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   box-shadow: var(--shadow-lg);
   padding: 0.5rem;
   display: grid;
