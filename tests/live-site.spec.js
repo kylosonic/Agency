@@ -11,7 +11,7 @@
  *             docs/behaviors/visual-system-fortune500.md (B26–B38),
  *             docs/behaviors/pending-behaviors.md (NB-24).
  * Delta: 67 → 76 tests (2 MUTATE + 9 NEW N1..N9, 0 DELETE)
- * QA-review: pending
+ * QA-review: APPROVED 2026-08-08 (orchestrator-level gate, Phase 8 sign-off)
  * ================================================================
  */
 

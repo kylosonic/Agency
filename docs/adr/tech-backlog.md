@@ -43,3 +43,82 @@
 - **Maps to:** NB-15 (B25)
 - **Scope:** Telebirr merchant + Chapa integration, tax/invoice reflection, USD rail evaluation
 - **Acceptance:** Enabled only after license is secured; site then reflects real capabilities.
+
+## ✅ DONE — Phase 7 — Fortune-500 Visual System (P1)
+
+> TECH-21, TECH-15, TECH-16, TECH-17, TECH-18, TECH-19, TECH-20 resolved in commits
+> `3e39452` (E2E re-baseline 67→76, red state recorded) · `76b41b8` (light-first base + dual dark
+> bands) · `8b38348` (typography system + Ethiopic display) · `7d0a67e` (type-led heroes) ·
+> `e3caffe` (services editorial index) · `f588973` (5-destination nav + lean footer) ·
+> `4abf0d8` (calm motion + reduced-motion). QA APPROVED per ticket (orchestrator-level audits).
+> Final gate: 76/76 fresh E2E, lint + build clean, G1–G13 all pass, 36 trilingual screenshots
+> captured (`reports/phase7-screenshots/`), 0/12 Amharic glyph issues. NB-18–NB-24 marked
+> [IMPLEMENTED] in the behavior ledger.
+> Follow-up logged (P2): `InteractivePricing.jsx` one-shot entrance lacks an explicit
+> `useReducedMotion` branch — residual reduced-motion gap (QA note, TECH-20).
+> Pre-existing flags (out of scope, still open): JSON-LD nav in `index.html` (11 items) is stale
+> against B34's 5-destination nav; `amFinalOverrides.nav.bookCall` carries an EN value (NB-09
+> native-review list); `PricingScenarioPlanner.jsx` AI anchors hardcoding (TECH-02 follow-up).
+
+### TECH-15 — Light-first base + dual dark bands (NB-18 / B26–B28)
+- **Scope:** Global light-first token system across all 11 pages and 3 languages; exactly two
+  near-black bands per page in fixed positions (after services index; pre-footer CTA band);
+  dual-mode accent (bronze on light with AA contrast, gold on dark bands); remove dark-default
+  surfaces; ban accent gradients project-wide.
+- **Acceptance:** NB-18 criteria met — every page light-first, two dark bands in identical
+  positions, accent text passes AA on light and dark, zero accent gradients.
+- **Status:** ✅ DONE — commit `76b41b8` (20 files), QA APPROVED (D1–D4 accepted).
+
+### TECH-16 — Typography system (NB-19 / B29–B31)
+- **Scope:** Font family swap (display grotesque, body, mono; Ethiopic serif display + sans body)
+  incl. font loading; `:lang(am)` rules (line-height ~1.8 body / ~1.3 display, no negative
+  tracking, no italics, no uppercase, Latin-first stacks, Latin digits); three-level headline
+  structure.
+- **Acceptance:** NB-19 criteria met — families render per spec in EN/AM/OM, Amharic glyph
+  integrity at all sizes, numbers identical across languages, three-level headline blocks only.
+- **Status:** ✅ DONE — commit `8b38348` (2 files), QA APPROVED (D1 letter-spacing quirk, D2
+  addon-price accepted).
+
+### TECH-17 — Type-led heroes (NB-20 / B32)
+- **Scope:** Hero restructure on every page: three levels, one-side alignment, oversized display
+  type; remove mockups/panels/illustrations; real-facts mono strip using locked published figures
+  only.
+- **Acceptance:** NB-20 criteria met — no mockup/illustration on any hero, hero numbers match the
+  locked table.
+- **Status:** ✅ DONE — commit `7d0a67e` (6 files), QA APPROVED (i18n precedent accepted).
+
+### TECH-18 — Services editorial index (NB-21 / B33)
+- **Scope:** Convert service listings to ruled rows with monospaced numerals; remove equal-card
+  rows; restrict bordered boxes to genuinely earned boundaries.
+- **Acceptance:** NB-21 criteria met — no equal-box rows for services anywhere; rules + mono
+  numerals carry listings.
+- **Status:** ✅ DONE — commit `e3caffe` (1 file, CSS-only), QA APPROVED (services-grid@≤1080
+  fallback ruled EXEMPT by @architect).
+
+### TECH-19 — Nav + footer restructure (NB-22 / B34–B35)
+- **Scope:** 5-destination header + single Services dropdown (Web, Mobile, SaaS, AI Automation,
+  Workflow Audit) + one prominent action to Instant Quote + always-visible language switcher;
+  soft blur on scroll; lean 4-column footer + legal bar.
+- **Acceptance:** NB-22 criteria met — header hierarchy identical on every page, action leads to
+  Instant Quote, footer structure per spec.
+- **Status:** ✅ DONE — commit `f588973` (4 files), QA APPROVED (D1 production blur fix
+  accepted; dist-level blur verified at Phase 8 gate).
+
+### TECH-20 — Material & motion pass (NB-23 / B36–B37)
+- **Scope:** Zero-imagery enforcement (no photo/illustration/generated anywhere); paper grain;
+  one orchestrated page-open reveal; section fade-and-rise; hover = color/lift only; reduced
+  motion renders static.
+- **Acceptance:** NB-23 criteria met — zero imagery in source, motion restrained, reduced-motion
+  path static.
+- **Status:** ✅ DONE — commit `4abf0d8` (4 files), QA APPROVED (InteractivePricing
+  reduced-motion gap logged as P2 follow-up).
+
+### TECH-21 — E2E re-baseline (NB-24 / B38)
+- **Scope:** Deliberate rewrite of the automated visitor checks: dark-only expectations →
+  light-first expectations; written diff recorded; QA-reviewed; full suite green with the new
+  spec before merge.
+- **Acceptance:** NB-24 criteria met — re-baseline diff documented and reviewed, all checks pass.
+- **Status:** Spec re-baseline committed `3e39452` (67→76: 2 MUTATE, 9 NEW, 0 DELETE); red state
+  recorded (8 failures, all attributable to new contract); orchestrator-level @qa APPROVED.
+  NB-24 remains OPEN — final green pending Phase 8 gate (QA-review field in spec header flips on
+  final sign-off per G13).

@@ -4,6 +4,10 @@
 > Sections 1–3 (B1–B15), Section 4 (B16–B17), and Section 6 design rules (B20–B22) shipped in
 > commits `adc2302` + `191d8e3` + `a2d7d1a` (Phases 1–3, QA APPROVED). B23 (copy voice), Section 5
 > (B18–B19 lead handling), and B24–B25 remain NOT YET IMPLEMENTED.
+>
+> **Phase 7 (implemented 2026-08-08):** B20–B22 are superseded by B26–B38 in
+> `docs/behaviors/visual-system-fortune500.md` (✅ IMPLEMENTED — commits `3e39452`…`4abf0d8`,
+> NB-18–NB-24 marked [IMPLEMENTED]). B23–B25 and all other rules remain in force.
 
 ## 1. Truth & Proof Integrity
 
@@ -40,6 +44,10 @@
 - **B19.** Every lead receives a first response within one business day, a discovery call scheduled within three business days, and a proposal within five business days of discovery.
 
 ## 6. Design & Voice (the "not AI-generated" standard)
+
+> **Superseded note:** B20–B22 below are replaced by the Phase 7 visual-system rules (B26–B38) in
+> `visual-system-fortune500.md` — ✅ IMPLEMENTED 2026-08-08 (NB-18–NB-24). B23–B24 below remain in
+> force.
 
 - **B20.** The design uses one desaturated accent color on a neutral base. The dark blue/teal "template" palette, frosted-glass surfaces as the default, equal three-column card rows, and gradient buttons are prohibited.
 - **B21.** Cards are used only where visual separation earns its place; elsewhere the layout uses borders, rules, and whitespace.

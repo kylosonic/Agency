@@ -1,0 +1,122 @@
+[
+  {
+    "route": "/",
+    "viewport": "1440x900",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "93.6px",
+    "letterSpacing": "0.72px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/services",
+    "viewport": "1440x900",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "70.72px",
+    "letterSpacing": "0.544px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/pricing",
+    "viewport": "1440x900",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "70.72px",
+    "letterSpacing": "0.544px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/instant-quote",
+    "viewport": "1440x900",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "70.72px",
+    "letterSpacing": "0.544px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/policy",
+    "viewport": "1440x900",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "70.72px",
+    "letterSpacing": "0.544px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/web-development",
+    "viewport": "1440x900",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "70.72px",
+    "letterSpacing": "0.544px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/",
+    "viewport": "390x844",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "46.8px",
+    "letterSpacing": "0.36px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/services",
+    "viewport": "390x844",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "42.64px",
+    "letterSpacing": "0.328px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/pricing",
+    "viewport": "390x844",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "42.64px",
+    "letterSpacing": "0.328px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/instant-quote",
+    "viewport": "390x844",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "42.64px",
+    "letterSpacing": "0.328px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/policy",
+    "viewport": "390x844",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "42.64px",
+    "letterSpacing": "0.328px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  },
+  {
+    "route": "/web-development",
+    "viewport": "390x844",
+    "ok": true,
+    "overflowX": 0,
+    "clipped": false,
+    "lineHeight": "42.64px",
+    "letterSpacing": "0.328px",
+    "font": "\"Neue Montreal\", \"Noto Serif Ethiopic\", \"Noto Sans Ethiopic\""
+  }
+]
