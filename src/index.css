@@ -59,12 +59,10 @@
   --shadow-hover: 0 36px 58px rgba(0, 0, 0, 0.16);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: cubic-bezier(0.34, 1.45, 0.64, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: 0.2s var(--ease-out);
   --transition-base: 0.35s var(--ease-out);
   --transition-slow: 0.65s var(--ease-out);
-  --transition-spring: 0.55s var(--ease-spring);
 
   /* B29: Latin-first stacks — 'Neue Montreal'/'Manrope' first, Ethiopic
      families AFTER (serif Ethiopic for Amharic headlines, sans for body),
@@ -347,13 +345,13 @@ h2 {
 .fade-up,
 .fade-in,
 .stagger-children > * {
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
 }
 
 .fade-up,
 .stagger-children > * {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(12px);
 }
 
 .fade-in {
@@ -368,23 +366,23 @@ h2 {
 }
 
 .stagger-children.visible > *:nth-child(2) {
-  transition-delay: 70ms;
+  transition-delay: 60ms;
 }
 
 .stagger-children.visible > *:nth-child(3) {
-  transition-delay: 140ms;
+  transition-delay: 120ms;
 }
 
 .stagger-children.visible > *:nth-child(4) {
-  transition-delay: 210ms;
+  transition-delay: 180ms;
 }
 
 .stagger-children.visible > *:nth-child(5) {
-  transition-delay: 280ms;
+  transition-delay: 240ms;
 }
 
 .stagger-children.visible > *:nth-child(6) {
-  transition-delay: 350ms;
+  transition-delay: 300ms;
 }
 
 .staggered-text {
@@ -443,6 +441,8 @@ h2 {
   font-weight: 700;
 }
 
+/* B37 (TECH-20): calm hover lift — 0.25s ease-smooth (within the 150–300ms
+   hover window), no overshoot ease anywhere in the system. */
 .brand-mark,
 .logo-icon {
   width: 34px;
@@ -453,7 +453,7 @@ h2 {
   border-radius: 12px;
   flex-shrink: 0;
   box-shadow: 0 9px 20px rgba(0, 0, 0, 0.2);
-  transition: transform var(--transition-spring), box-shadow var(--transition-fast);
+  transition: transform 0.25s var(--ease-smooth), box-shadow var(--transition-fast);
 }
 
 .brand-mark {
@@ -767,20 +767,6 @@ h2 {
   height: 7px;
   border-radius: 50%;
   background: var(--accent);
-  animation: pulse-dot 1.9s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(0.6);
-    opacity: 0.55;
-  }
 }
 
 .hero h1 {
@@ -2004,6 +1990,8 @@ h2 {
   font-weight: 800;
   letter-spacing: 0;
   padding: 0.76rem 1.22rem;
+  /* B37 (TECH-20): calm hover within the 150–300ms window */
+  transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .floating-cta-btn:hover {
@@ -4504,7 +4492,6 @@ h2 {
   height: 2px;
   background: color-mix(in srgb, var(--accent), var(--accent) 48%);
   opacity: 0.75;
-  animation: ai-flow-pulse 1.8s ease-in-out infinite;
 }
 
 .ai-service-objective-meta {

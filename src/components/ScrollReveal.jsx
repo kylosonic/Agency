@@ -9,14 +9,17 @@ export default function ScrollReveal({ children, className = '', stagger = false
     const prefersReducedMotion = useReducedMotion();
     const isVisible = inView || prefersReducedMotion;
 
+    /* B37 (TECH-20): gentle fade-and-rise — hidden y 12, tween 0.45s ease-out
+       (no spring overshoot), stagger 0.06. The reduced-motion branch renders
+       everything visible with duration 0 (static page). */
     const baseVariants = {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 0, y: 12 },
         visible: {
             opacity: 1,
             y: 0,
             transition: prefersReducedMotion
                 ? { duration: 0 }
-                : { type: 'spring', damping: 20, stiffness: 100, delay, mass: 0.8 },
+                : { type: 'tween', duration: 0.45, ease: [0.22, 1, 0.36, 1], delay },
         },
     };
 
@@ -25,8 +28,8 @@ export default function ScrollReveal({ children, className = '', stagger = false
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.12,
-                delayChildren: delay,
+                staggerChildren: prefersReducedMotion ? 0 : 0.06,
+                delayChildren: prefersReducedMotion ? 0 : delay,
             },
         },
     };
