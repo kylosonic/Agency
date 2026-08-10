@@ -33,10 +33,10 @@ export default function ScrollToTopButton() {
             {isVisible && (
                 <MotionButton
                     type="button"
-                    initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     onClick={scrollToTop}
                     className="scroll-to-top-btn"
                     aria-label={t('actions.scrollTop', 'Scroll to top')}
