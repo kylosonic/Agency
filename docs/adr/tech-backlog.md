@@ -122,3 +122,73 @@
   recorded (8 failures, all attributable to new contract); orchestrator-level @qa APPROVED.
   NB-24 remains OPEN — final green pending Phase 8 gate (QA-review field in spec header flips on
   final sign-off per G13).
+
+## 🔄 IN PROGRESS — Phase 8 — Lumen Night Visual System (P0/P1)
+
+> Owner mandate 2026-08-10: complete 180° visual replacement — the Phase 7 light-first look was
+> rejected ("I hate how everything looks"). Governed by `design.md` (root), B39–B48 in
+> `docs/behaviors/visual-system-lumen.md`, NB-25–35 in the behavior ledger. Execution plan:
+> `docs/plans/phase8-lumen-visual-system.md` (per-ticket steps, grep gates G1–G10, §7 design lock).
+> Branch: `phase8-lumen-night`. E2E-first per the TECH-21 precedent: TECH-22 lands the red state,
+> TECH-29 flips it green.
+
+### TECH-22 — E2E re-baseline (NB-25–35 / B38 convention)
+- **Scope:** Mutate `tests/live-site.spec.js`: light/band/typography assertions → Lumen Night
+  expectations (dark canvas, brass accent, lowercase serif display, mono UPPERCASE eyebrows,
+  receipt rows, apparatus, meter strip, flat nav, statement footer, reduced-motion); add 9 NEW
+  (N1–N9 per blueprint §4); record the diff in the spec header (TECH-21 convention); run the
+  suite against the current light site → RED on the new dark assertions, untouched assertions
+  still pass.
+- **Acceptance:** Recorded red state attributable to the new contract; header diff record in place.
+- **Status:** 🔄 IN PROGRESS
+
+### TECH-23 — Dark canvas + tokens (NB-25 / B39)
+- **Scope:** `index.html` meta/theme/fonts (Instrument Serif + Geist in, Manrope + Neue Montreal
+  out); `index.css` full token rewrite per `design.md` §Exports + §2 rename map; body lowercase +
+  tabular-nums; delete light tokens + grain overlay; blueprint grid + emission wash on `.hero`;
+  `.btn` brass/hairline re-skin; `.glass*` → hairline cards with inner emission; form controls;
+  focus ring; accent gradient audit. Gates G1–G5 → 0.
+- **Acceptance:** NB-25 criteria met; gates clean.
+- **Status:** ⏳ PENDING
+
+### TECH-24 — Two-register typography (NB-26 / B40)
+- **Scope:** Font stacks + `:lang(am)` block; label-class UPPERCASE sweep; display scale; brass
+  verb landmark per §7.1 (3 h1 AMENDs flagged for QA); eyebrow system per §7.4. Gates G6–G7.
+- **Acceptance:** NB-26/NB-27 criteria met; every h1 exactly one brass verb; every section head
+  `NN · ROLE`.
+- **Status:** ⏳ PENDING
+
+### TECH-25 — Heroes + apparatus + meter (NB-28 / B42, NB-30/B44, NB-31/B45)
+- **Scope:** CREATE `Apparatus.jsx` (topology/filament/dial, §7.2 callouts) + `MeterStrip.jsx`
+  (§7.3 labels); Home Marquee Hero restructure; subpage heroes re-skinned; meter under every
+  marketing hero.
+- **Acceptance:** NB-28/30/31 criteria met — one apparatus per marketing hero, no orb, real
+  callouts, static meter.
+- **Status:** ⏳ PENDING
+
+### TECH-26 — Receipt rate sheets + services (NB-29 / B43)
+- **Scope:** Pricing page → ruled receipt rows; InteractivePricing/PricingCard re-skin;
+  AdditionalServices add-ons → receipt rows; Services page ruled rows with mono numerals; Home
+  facts/offer ladder → receipt rows. Gate G8 (locked figures).
+- **Acceptance:** NB-29 criteria met — no tier-card icons, no invented numbers.
+- **Status:** ⏳ PENDING
+
+### TECH-27 — Nav + footer + chrome (NB-32 / B46)
+- **Scope:** Navbar flat hairline (no blur/pill); Footer → Ft5 statement (§7.4 keeps `mailto:`
+  anchor first in Connect); FloatingCTA/LiveChatDock/LeadCaptureModal/ScrollToTopButton/BandCta
+  re-skins; MagneticButton neutralised.
+- **Acceptance:** NB-32 criteria met.
+- **Status:** ⏳ PENDING
+
+### TECH-28 — Motion + reduced-motion (NB-33 / B47)
+- **Scope:** PageTransition/ScrollReveal/StaggeredText per B47; pulse + underline gated by
+  `prefers-reduced-motion`; full-page reduced-motion pass. Gates G9–G10.
+- **Acceptance:** NB-33 criteria met — everything static under reduced motion.
+- **Status:** ⏳ PENDING
+
+### TECH-29 — E2E green + full sweep (NB-24–35 close-out)
+- **Scope:** Run re-baselined suite → green; fix drift; full route walk × 3 languages; QA review
+  per B38; flip QA-review field to APPROVED; mark NB-25–35 [IMPLEMENTED] in the behavior ledger.
+- **Acceptance:** Fresh suite full green; ledger updated; Phase 8 counts as done only after owner
+  UAT (merge + push only on explicit approval).
+- **Status:** ⏳ PENDING
