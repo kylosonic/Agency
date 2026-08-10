@@ -114,6 +114,12 @@ body {
   transition: background 0.4s ease, color 0.4s ease;
 }
 
+/* G2 guard (B40): no italics anywhere. The emphasised word in a headline is
+   the brass verb landmark — rendered upright by this global rule. */
+em {
+  font-style: normal;
+}
+
 /* Blueprint grid (B44): ruled ground at --rule-blueprint (4%) over the whole
    canvas. Replaces the Phase 7 feTurbulence grain (deleted). Static. */
 body::before {
@@ -739,42 +745,82 @@ h2 {
   align-content: start;
 }
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-rule-2);
-  background: var(--color-paper-emit);
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.79rem;
-  padding: 0.38rem 0.86rem;
-  margin-bottom: var(--space-md);
+/* B41 eyebrow (TECH-24): mono 11px, 0.10em tracking, muted ink at the locked
+   0.55–0.72 opacity band (--color-ink-3 carries /0.72), UPPERCASE via CSS,
+   NO pill (pills are CTA-only). Rendered above every section head and on
+   page heroes in the `NN · ROLE` register. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+  line-height: 1.4;
+  margin-bottom: 0.95rem;
 }
 
-/* The home badge doubles as the hero label level (B31/N9): neutralize the
-   centered block behaviour of the shared .page-hero-meta container so the
-   left-aligned hero badge keeps its inline pill look. */
-.hero-badge.page-hero-meta {
-  display: inline-flex;
-  justify-content: flex-start;
-  margin-top: 0;
+.hero .eyebrow,
+.page-hero .eyebrow {
+  margin-bottom: var(--space-sm);
 }
 
+/* B40 verb landmark: the one brass word per headline — upright, weight 400,
+   nowrap (never splits), 1px brass underline drawn in once (320ms @ 900ms).
+   Exactly one .verb per h1 (G6). */
+.hero h1 .verb,
+.page-hero h1 .verb,
+h1 .verb {
+  color: var(--color-accent);
+  font-style: normal;
+  font-weight: 400;
+  white-space: nowrap;
+  position: relative;
+}
 
-.hero-badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
+.hero h1 .verb::after,
+.page-hero h1 .verb::after,
+h1 .verb::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: verb-underline 320ms var(--ease-out) 900ms forwards;
+  animation-fill-mode: forwards;
+}
+
+@keyframes verb-underline {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Reduced-motion (B47): underline static at full draw, no animation. */
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 .verb::after,
+  .page-hero h1 .verb::after,
+  h1 .verb::after {
+    animation: none;
+    transform: scaleX(1);
+  }
 }
 
 .hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.032em;
+  line-height: 1.02;
+  font-size: var(--text-display);
   margin: 0 0 var(--space-sm);
   max-width: 15ch;
   text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .hero p {
@@ -881,32 +927,10 @@ h2 {
   text-align: center;
 }
 
-.section-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.42rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-rule-2);
-  background: var(--color-paper-emit);
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  padding: 0.36rem 0.86rem;
-  margin-bottom: 0.95rem;
-}
-
-.section-tag-icon {
-  color: var(--accent);
-}
-
-
-
 .section-header h2 {
   font-size: 2.55rem;
   margin-bottom: 0.72rem;
+  text-wrap: balance;
 }
 
 .section-header p {
@@ -1722,8 +1746,15 @@ h2 {
 }
 
 .page-hero h1 {
-  font-size: clamp(2.4rem, 4.6vw, 3.4rem);
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.032em;
+  line-height: 1.02;
+  font-size: clamp(2.25rem, 3.8vw + 1rem, 3.9rem);
   margin-bottom: 0.5rem;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .page-hero p {
@@ -2723,8 +2754,7 @@ h2 {
 .band-dark .editorial-card h3,
 .band-dark .editorial-step-card h3,
 .band-dark .section-header p,
-.band-dark .section-header h2,
-.band-dark .section-header .section-tag {
+.band-dark .section-header h2 {
   color: var(--color-ink);
 }
 
@@ -3053,14 +3083,6 @@ h2 {
     padding: calc(72px + var(--space-2xl)) 0 clamp(2.3rem, 7vw, 3rem);
   }
 
-  .hero h1 {
-    font-size: 3rem;
-  }
-
-  .page-hero h1 {
-    font-size: 2.55rem;
-  }
-
   .hero p,
   .page-hero p {
     font-size: 0.98rem;
@@ -3308,15 +3330,6 @@ h2 {
     padding-bottom: var(--space-2xl);
   }
 
-  .hero h1 {
-    font-size: 2.25rem;
-    max-width: 13ch;
-  }
-
-  .page-hero h1 {
-    font-size: 2.05rem;
-  }
-
   .section {
     padding: clamp(2.8rem, 11vw, 3.4rem) 0;
   }
@@ -3336,7 +3349,6 @@ h2 {
     font-size: 1.8rem;
   }
 
-  .hero-badge,
   .trust-pill,
   .page-hero-chip {
     font-size: 0.67rem;
@@ -3564,12 +3576,6 @@ h2 {
 
 .ai-hero-copy p {
   max-width: 66ch;
-}
-
-.ai-hero-badge {
-  border-color: var(--color-rule-2);
-  background: var(--color-paper-emit);
-  color: var(--color-accent);
 }
 
 /* Always band-1 (Services page): the section background is the band surface —
@@ -5191,10 +5197,6 @@ h2 {
   color: var(--color-ink-3);
 }
 
-.band-dark .section-tag {
-  color: var(--accent);
-}
-
 /* Cards inside bands re-surface to the band-soft tier */
 .band-dark .glass,
 .band-dark .glass-card,
@@ -5619,8 +5621,8 @@ h2 {
 
 /* Label rules with uppercase transforms and/or tracked letter-spacing
    (0.06–0.12em) + the explicit B30 label set: neutralized for Amharic. */
-:lang(am) .section-tag,
-:lang(am) .hero-badge,
+:lang(am) .eyebrow,
+:lang(am) .verb,
 :lang(am) .page-hero-chip,
 :lang(am) .hero-facts-label,
 :lang(am) .pilot-offer-kicker,

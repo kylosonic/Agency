@@ -208,19 +208,19 @@ export default function Home() {
         <div className="container hero-shell ai-hero-shell">
           <div className="hero-copy ai-hero-copy">
             <ScrollReveal delay={0.08}>
-              <div className="hero-badge ai-hero-badge page-hero-meta">
-                <span className="hero-badge-dot"></span>
-                Founder-led digital systems for Ethiopian operators
-              </div>
+              <div className="eyebrow">01 · ENTRY</div>
             </ScrollReveal>
 
-            <h1 id="home-hero-title">Fix the workflow before you commission the build.</h1>
+            <h1 id="home-hero-title">
+              <em className="verb">fix</em>&nbsp;the workflow before you commission the build.
+            </h1>
 
             <ScrollReveal delay={0.16}>
               <p>
-                NovaTech starts with one paid first step: the Workflow Audit. It is a fixed 85,000 ETB
-                engagement delivered in 5 business days. You leave with a clear map of the bottlenecks,
-                the right implementation path, and the audit fee is credited if we build the system.
+                Founder-led digital systems for Ethiopian operators. NovaTech starts with one paid first step:
+                the Workflow Audit. It is a fixed 85,000 ETB engagement delivered in 5 business days. You leave
+                with a clear map of the bottlenecks, the right implementation path, and the audit fee is credited
+                if we build the system.
               </p>
 
               <div className="hero-actions">
@@ -266,7 +266,7 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Why the audit comes first"
+              eyebrow="02 · WHY AUDIT"
               title="A premium site or automation stack is only useful when it fixes the real point of friction."
               subtitle="We do not start by selling a generic package. We start by understanding where work is delayed, duplicated, or left to chance."
               align="left"
@@ -296,7 +296,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="editorial-panel glass-card">
               <SectionHeader
-                tag="What you leave with"
+                eyebrow="03 · DELIVERABLES"
                 title="A practical blueprint, not a vague discovery summary."
                 subtitle={PRICING_SUMMARY.workflowAudit.description}
                 align="left"
@@ -338,7 +338,7 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="After the audit"
+              eyebrow="04 · TRACKS"
               title="We build the system the audit proves you actually need."
               subtitle="The audit can lead into AI automation, a web operating layer, a mobile product, or a combination of them. SaaS stays waitlist-only until a real product exists."
               align="left"
@@ -373,7 +373,7 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Offer ladder"
+              eyebrow="05 · LADDER"
               title="The commercial path is simple on purpose."
               subtitle="One paid first step. Then the right implementation tier. Then the right level of support. No fake urgency, no hidden currency logic, and no live SaaS pricing where no live product exists."
               align="left"
@@ -410,7 +410,7 @@ export default function Home() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Talk to us"
+              eyebrow="06 · CONTACT"
               title="Tell us where work breaks today."
               subtitle="If the bottleneck is obvious, we will tell you whether the Workflow Audit is the right first step or whether you already have enough clarity to scope a build."
               align="left"

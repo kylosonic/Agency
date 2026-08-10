@@ -154,7 +154,10 @@ export default function InstantQuotePage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>Get a working range without a long intake flow.</h1>
+          <div className="eyebrow">01 · QUOTE</div>
+          <h1>
+            <em className="verb">get</em>&nbsp;a working range without a long intake flow.
+          </h1>
           <p>
             Use this form when you already have a direction and want a fast estimate. If you are still unsure what should be built first, stop here and book the Workflow Audit instead.
           </p>
@@ -170,7 +173,7 @@ export default function InstantQuotePage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Fast estimate"
+              eyebrow="02 · FAST ESTIMATE"
               title="A simpler quote path"
               subtitle="Choose the project type, budget band, timeline, and key notes. We will use that to prepare the right follow-up instead of forcing a long questionnaire."
             />

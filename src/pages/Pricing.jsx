@@ -28,7 +28,10 @@ export default function Pricing({ onDownloadClick }) {
     <>
       <section className="page-hero ai-pricing-hero">
         <div className="container page-hero-content ai-pricing-hero-content">
-          <h1>Live pricing and engagement model</h1>
+          <div className="eyebrow">01 · RATES</div>
+          <h1>
+            <em className="verb">read</em>&nbsp;the live pricing and engagement model.
+          </h1>
           <p>
             This page is the current ETB source of truth. The downloadable guide is being refreshed, so use the live pricing here when you need an accurate quote path.
           </p>
@@ -57,7 +60,7 @@ export default function Pricing({ onDownloadClick }) {
         <div className="container editorial-two-column">
           <ScrollReveal>
             <article className="editorial-panel glass-strong">
-              <p className="editorial-kicker">Start here</p>
+              <div className="eyebrow">02 · AUDIT</div>
               <h2>{workflowAudit.title}</h2>
               <p className="editorial-hero-price">{workflowAudit.price}</p>
               <p>{workflowAudit.description}</p>
@@ -84,7 +87,7 @@ export default function Pricing({ onDownloadClick }) {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="AI automation"
+              eyebrow="03 · AUTOMATION"
               title="Implementation pricing is anchored, then scoped honestly."
               subtitle="We publish starting prices, the monthly support band, and the scope drivers that raise the work above the starting point."
               align="left"
@@ -117,7 +120,7 @@ export default function Pricing({ onDownloadClick }) {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Product builds"
+              eyebrow="04 · BUILDS"
               title="Web and mobile are quoted from fixed ETB anchors."
               subtitle="These are not filler side offers. They are scoped from the same commercial discipline: clear starting prices, clear audience fit, and no fake live SaaS catalog."
               align="left"
@@ -165,7 +168,7 @@ export default function Pricing({ onDownloadClick }) {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Support and add-ons"
+              eyebrow="05 · SUPPORT"
               title="Recurring support is explicit. Supporting services stay secondary."
               subtitle="No buried marketing retainers, no annual maintenance phrasing where the live policy is monthly, and no dual-currency confusion."
               align="left"
@@ -233,6 +236,7 @@ export default function Pricing({ onDownloadClick }) {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Recommended first move</p>
+            <div className="eyebrow">06 · NEXT</div>
             <h2>If you are still clarifying scope, book the Workflow Audit.</h2>
             <p>
               If you already know the build direction and just need a directional number, use the instant quote tool. Otherwise, let the audit set the commercial path properly.

@@ -30,6 +30,7 @@ export default function IndustryLandingPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
+          <div className="eyebrow">01 · INDUSTRY</div>
           <h1>{content.title}</h1>
           <p>{content.hero}</p>
           <div className="page-hero-meta" aria-label="Industry playbook details">
@@ -44,7 +45,7 @@ export default function IndustryLandingPage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Sector view"
+              eyebrow="02 · SECTOR VIEW"
               title="What usually breaks first in this sector"
               subtitle={content.scope}
             />

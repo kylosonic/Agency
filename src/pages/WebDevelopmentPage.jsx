@@ -43,7 +43,10 @@ export default function WebDevelopmentPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>Web systems that help the business move, not just look presentable.</h1>
+          <div className="eyebrow">01 · WEB</div>
+          <h1>
+            web systems that help the business <em className="verb">move</em>,&nbsp;not just look presentable.
+          </h1>
           <p>
             We build websites, portals, and dashboard layers when the business needs a clearer commercial path,
             better intake, or a cleaner operating surface around the workflow.
@@ -73,7 +76,7 @@ export default function WebDevelopmentPage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Package anchors"
+              eyebrow="02 · PACKAGE ANCHORS"
               title="The web pricing ladder is straightforward."
               subtitle="Choose the size of build that fits the actual business need. If the answer is still fuzzy, go back one step and start with the Workflow Audit."
               align="left"
@@ -113,6 +116,7 @@ export default function WebDevelopmentPage() {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Best next step</p>
+            <div className="eyebrow">03 · FIRST STEP</div>
             <h2>Book the Workflow Audit if the website is tied to a bigger operational issue.</h2>
             <p>
               If you already know the exact web scope, use the instant quote tool. If the site is part of a larger quoting, intake, or internal workflow problem, the audit is the better starting point.

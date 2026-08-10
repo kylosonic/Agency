@@ -33,7 +33,10 @@ export default function WorkflowAudit() {
     <>
       <section className="page-hero ai-audit-hero">
         <div className="container page-hero-content ai-audit-hero-content">
-          <h1>Workflow Audit</h1>
+          <div className="eyebrow">01 · ENTRY</div>
+          <h1>
+            <em className="verb">audit</em>&nbsp;the workflow before the build.
+          </h1>
           <p>
             This is the first engagement we want most teams to buy. It gives you a clear operating map,
             a scoped implementation path, and a commercial decision based on what is actually broken.
@@ -51,7 +54,7 @@ export default function WorkflowAudit() {
           <ScrollReveal>
             <div className="editorial-panel glass-card">
               <SectionHeader
-                tag="What you receive"
+                eyebrow="02 · RECEIVE"
                 title="A real blueprint for the next move."
                 subtitle={WORKFLOW_AUDIT.description}
                 align="left"
@@ -89,7 +92,7 @@ export default function WorkflowAudit() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Five-day flow"
+              eyebrow="03 · TIMELINE"
               title="What happens between kickoff and the blueprint."
               subtitle="We keep the audit short, structured, and commercial. The goal is clarity, not theater."
               align="left"
@@ -119,6 +122,7 @@ export default function WorkflowAudit() {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Book the first session</p>
+            <div className="eyebrow">04 · FIRST STEP</div>
             <h2>Use the audit when you want the right answer before the expensive answer.</h2>
             <p>
               If you already know the implementation lane, you can still use the instant quote tool. If you do not, the audit saves time, money, and avoidable rework.

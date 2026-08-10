@@ -74,7 +74,10 @@ export default function Services() {
     <>
       <section className="page-hero ai-services-hero" aria-labelledby="services-hero-title">
         <div className="container page-hero-content ai-services-hero-content">
-          <h1 id="services-hero-title">What we actually build after the Workflow Audit.</h1>
+          <div className="eyebrow">01 · OFFER</div>
+          <h1 id="services-hero-title">
+            what we actually <em className="verb">build</em>&nbsp;after the Workflow Audit.
+          </h1>
           <p>
             NovaTech is not selling abstract AI transformation. We build specific operating systems for teams that
             need work to move faster, more accurately, and with less dependence on one overloaded person.
@@ -91,7 +94,7 @@ export default function Services() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Core work"
+              eyebrow="02 · LANES"
               title="Three kinds of work come up most often."
               subtitle="Not because they are trendy, but because these are the places where time, accuracy, and commercial trust usually break first."
               align="left"
@@ -125,7 +128,7 @@ export default function Services() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="How the work moves"
+              eyebrow="03 · MODEL"
               title="The point is clarity first, implementation second."
               subtitle="We keep the process intentionally narrow so scope, commercial terms, and delivery expectations are explicit before a build starts."
               align="left"
@@ -155,7 +158,7 @@ export default function Services() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Commercial tracks"
+              eyebrow="04 · TRACKS"
               title="The audit tells us which lane the project belongs in."
               subtitle="This is the whole ladder: a paid audit, the right implementation path, then support only where it is actually needed."
               align="left"
@@ -188,7 +191,7 @@ export default function Services() {
       <section className="section-sm">
         <div className="container">
           <div className="page-closing-card glass-strong">
-            <p className="editorial-kicker">Start with the right first step</p>
+            <div className="eyebrow">05 · FIRST STEP</div>
             <h2>If the bottleneck is real, the Workflow Audit is where we begin.</h2>
             <p>
               It gives both sides a clean commercial decision: build now, sequence later, or avoid building the wrong thing.

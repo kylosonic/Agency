@@ -33,7 +33,10 @@ export default function AdditionalServicesPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>Supporting services, quoted plainly.</h1>
+          <div className="eyebrow">01 · ADD-ONS</div>
+          <h1>
+            supporting services, <em className="verb">quoted</em>&nbsp;plainly.
+          </h1>
           <p>
             These are add-ons around the main build: hosting, maintenance, brand work, copy, and launch support. They are not the first thing we try to sell.
           </p>
@@ -49,7 +52,7 @@ export default function AdditionalServicesPage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Service table"
+              eyebrow="02 · SERVICE TABLE"
               title="Use these when they support the real project, not as filler scope."
               subtitle="The table below reflects the live ETB ranges in the project."
               align="left"
@@ -95,7 +98,7 @@ export default function AdditionalServicesPage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Common additions"
+              eyebrow="03 · COMMON ADDITIONS"
               title="These are the line items teams ask for most often."
               subtitle="They are useful when tied to a real launch or operating need, not as automatic upsells."
               align="left"
@@ -131,6 +134,7 @@ export default function AdditionalServicesPage() {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Custom need?</p>
+            <div className="eyebrow">04 · FIRST STEP</div>
             <h2>If it supports a real workflow or launch, we can scope it.</h2>
             <p>
               If the add-on request is attached to a larger operational problem, start with the Workflow Audit so the main decision is made correctly first.

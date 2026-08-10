@@ -211,7 +211,10 @@ export default function DiscoveryCallPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>Book a discovery call</h1>
+          <div className="eyebrow">01 · DISCOVERY</div>
+          <h1>
+            <em className="verb">book</em>&nbsp;a discovery call.
+          </h1>
           <p>
             Use this if you want a direct conversation before choosing the Workflow Audit or a scoped implementation path. We will keep the call practical and specific.
           </p>
@@ -227,7 +230,7 @@ export default function DiscoveryCallPage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Booking"
+              eyebrow="02 · BOOKING"
               title="Choose a slot and tell us what the business is trying to fix."
               subtitle={`Detected timezone: ${timezone}`}
             />

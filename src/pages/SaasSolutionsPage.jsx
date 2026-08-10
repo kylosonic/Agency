@@ -26,7 +26,10 @@ export default function SaasSolutionsPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>SaaS is waitlist only right now.</h1>
+          <div className="eyebrow">01 · SAAS</div>
+          <h1>
+            <em className="verb">get</em>&nbsp;on the SaaS waitlist.
+          </h1>
           <p>
             We are not presenting a live SaaS catalog or charging for products that do not exist yet. If your team wants one of these systems, register interest and we will talk when there is a truthful offer to discuss.
           </p>
@@ -42,7 +45,7 @@ export default function SaasSolutionsPage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Where interest exists"
+              eyebrow="02 · INTEREST"
               title="These are the three SaaS areas people ask us about most often."
               subtitle="We list them as areas of demand, not as live subscription products."
               align="left"
@@ -72,6 +75,7 @@ export default function SaasSolutionsPage() {
           <ScrollReveal>
             <article className="editorial-panel glass-card">
               <p className="editorial-kicker">What we will not do</p>
+              <div className="eyebrow">03 · RULES</div>
               <h2>No placeholder pricing. No fake availability.</h2>
               <ul className="editorial-checklist compact">
                 <li>
@@ -106,6 +110,7 @@ export default function SaasSolutionsPage() {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Choose the honest path</p>
+            <div className="eyebrow">04 · FIRST STEP</div>
             <h2>Need a system now? Book the audit. Want a future SaaS product? Register interest.</h2>
             <p>
               We would rather under-sell a non-live offer than weaken trust by pretending a waitlist is a finished product.

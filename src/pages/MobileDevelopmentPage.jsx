@@ -43,7 +43,10 @@ export default function MobileDevelopmentPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>Mobile products for teams that work in motion.</h1>
+          <div className="eyebrow">01 · MOBILE</div>
+          <h1>
+            mobile products for teams that <em className="verb">work</em>&nbsp;in motion.
+          </h1>
           <p>
             We build mobile apps for field teams, approvals, customer actions, and operational workflows that need to move beyond desktop or chat-based coordination.
           </p>
@@ -72,7 +75,7 @@ export default function MobileDevelopmentPage() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Package anchors"
+              eyebrow="02 · PACKAGE ANCHORS"
               title="Two mobile tiers, scoped from the live ETB table."
               subtitle="The difference between them is not decoration. It is the operational depth behind the app: users, payments, maps, admin logic, and integrations."
               align="left"
@@ -112,6 +115,7 @@ export default function MobileDevelopmentPage() {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Before you commit</p>
+            <div className="eyebrow">03 · FIRST STEP</div>
             <h2>If the app depends on a messy workflow underneath, start with the audit.</h2>
             <p>
               Mobile builds go better when the process, integrations, and data flow are clear first. That is exactly what the Workflow Audit is for.

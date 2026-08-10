@@ -8,7 +8,10 @@ export default function PolicyPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>Commercial terms, plainly stated.</h1>
+          <div className="eyebrow">01 · POLICY</div>
+          <h1>
+            commercial terms, plainly <em className="verb">stated</em>.
+          </h1>
           <p>
             This page exists to remove ambiguity before a project starts: how payment works, when ownership transfers, what is available now, and what is still future-facing.
           </p>
@@ -25,7 +28,7 @@ export default function PolicyPage() {
           <ScrollReveal>
             <article className="editorial-panel glass-card">
               <SectionHeader
-                tag="Development payment terms"
+                eyebrow="02 · PAYMENT TERMS"
                 title="Custom projects follow milestone billing."
                 subtitle="We use visible checkpoints so both sides know what is being approved and what payment unlocks next."
                 align="left"
@@ -70,7 +73,7 @@ export default function PolicyPage() {
           <ScrollReveal delay={0.1}>
             <article className="editorial-panel glass-card">
               <SectionHeader
-                tag="Payment methods"
+                eyebrow="03 · PAYMENT METHODS"
                 title="Bank transfer is the only live payment method today."
                 subtitle="We would rather state the current truth clearly than imply payment capabilities we do not have yet."
                 align="left"
@@ -103,6 +106,7 @@ export default function PolicyPage() {
           <ScrollReveal>
             <article className="editorial-panel glass-card">
               <p className="editorial-kicker">SaaS policy</p>
+              <div className="eyebrow">04 · SAAS</div>
               <h2>SaaS is waitlist only until a real product exists.</h2>
               <ul className="editorial-checklist compact">
                 <li>
@@ -152,6 +156,7 @@ export default function PolicyPage() {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Need clarity before committing?</p>
+            <div className="eyebrow">05 · FIRST STEP</div>
             <h2>Book a call and we will walk through the commercial path with you.</h2>
             <p>
               If the real question is still what should be built first, go back one step and use the Workflow Audit as the starting point.
