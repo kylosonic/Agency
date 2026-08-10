@@ -19,17 +19,17 @@ export default function BandCta() {
     <section className="band-cta band-dark band-2" aria-labelledby="band-cta-title">
       <div className="container">
         <div className="cta-inner">
-          <h2 id="band-cta-title">{t('band.cta.title')}</h2>
-          <p>{t('band.cta.subtitle')}</p>
+          <h2 id="band-cta-title">{t('band.audit.title', 'Start with the Workflow Audit.')}</h2>
+          <p>{t('band.audit.subtitle', 'We map the bottlenecks, define the right implementation path, and credit the audit fee toward the build if you continue.')}</p>
           <div className="cta-actions">
-            <Link to="/instant-quote" className="btn btn-primary btn-lg">
+            <Link to="/workflow-audit" className="btn btn-primary btn-lg">
+              {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
+            </Link>
+            <Link to="/instant-quote" className="btn btn-secondary btn-lg">
               {t('actions.startQuote')}
             </Link>
-            <Link to="/book-discovery-call" className="btn btn-secondary btn-lg">
-              {t('actions.bookDiscoveryCall')}
-            </Link>
             <Link to="/pricing" className="btn btn-secondary btn-lg">
-              {t('actions.pricingGuide')}
+              {t('footer.links.pricing', 'Pricing')}
             </Link>
           </div>
         </div>

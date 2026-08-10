@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import IconGlyph from './IconGlyph';
 import { useLanguage } from '../i18n/useLanguage';
 
 const MotionDiv = motion.div;
 
-export default function FloatingCTA({ onClick }) {
+export default function FloatingCTA() {
     const { t } = useLanguage();
     const [isVisible, setIsVisible] = useState(false);
     const lastScrollY = useRef(0);
@@ -38,12 +39,12 @@ export default function FloatingCTA({ onClick }) {
                     transition={{ type: "spring", stiffness: 200, damping: 25 }}
                     className="floating-cta-container"
                 >
-                    <button type="button" className="floating-cta-btn" onClick={() => onClick('floating_cta')}>
+                    <Link to="/workflow-audit" className="floating-cta-btn">
                         <span className="icon" aria-hidden="true">
-                            <IconGlyph name="download" size={16} />
+                            <IconGlyph name="search" size={16} />
                         </span>
-                        {t('actions.pricingGuide')}
-                    </button>
+                        {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
+                    </Link>
                 </MotionDiv>
             )}
         </AnimatePresence>

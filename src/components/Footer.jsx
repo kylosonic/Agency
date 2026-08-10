@@ -20,10 +20,7 @@ export default function Footer() {
                             <span>{t('brand.name', 'NovaTech AI')}</span>
                         </Link>
                         <p>
-                            {t(
-                                'footer.description',
-                                'AI-first automation consultancy delivering custom agentic workflows while actively building web platforms, mobile apps, and SaaS products for scaling teams.',
-                            )}
+                            Founder-led digital systems studio for Ethiopian teams that need clearer workflows, sharper commercial surfaces, and builds grounded in real operating constraints.
                         </p>
                     </div>
 
@@ -34,26 +31,26 @@ export default function Footer() {
                             <li><Link to="/workflow-audit">{t('footer.links.workflowAudit', 'Workflow Audit')}</Link></li>
                             <li><Link to="/pricing">{t('footer.links.pricing', 'Pricing')}</Link></li>
                             <li><Link to="/book-discovery-call">{t('footer.links.strategyCall', 'Discovery Call')}</Link></li>
-                            <li><Link to="/instant-quote">{t('footer.links.automationBrief', 'Automation Brief Wizard')}</Link></li>
+                            <li><Link to="/instant-quote">Instant Quote</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h4>{t('footer.company', 'Company')}</h4>
                         <ul className="footer-links">
-                            <li><Link to="/services#engineering">{t('footer.links.engineeringLayer', 'Product Engineering (Web, Mobile, SaaS)')}</Link></li>
-                            <li><Link to="/web-development">{t('web.hero.title', 'Web Design & Development')}</Link></li>
-                            <li><Link to="/mobile-development">{t('mobile.hero.title', 'Mobile App Development')}</Link></li>
-                            <li><Link to="/saas-solutions">{t('saas.hero.title', 'SaaS Cloud Solutions')}</Link></li>
-                            <li><Link to="/policy">{t('nav.policy', 'Payment Policy')}</Link></li>
+                            <li><Link to="/services#delivery-tracks">Web, Mobile & SaaS</Link></li>
+                            <li><Link to="/web-development">Web systems</Link></li>
+                            <li><Link to="/mobile-development">Mobile products</Link></li>
+                            <li><Link to="/saas-solutions">SaaS waitlist</Link></li>
+                            <li><Link to="/policy">Policy</Link></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4>{t('footer.links.aboutUs', 'Methodology')}</h4>
+                        <h4>How we work</h4>
                         <ul className="footer-links">
-                            <li><a href="/#methodology">{t('footer.links.methodology', 'Methodology')}</a></li>
-                            <li><Link to="/services#searchable-brain">{t('footer.links.searchableBrain', 'The Searchable Brain')}</Link></li>
+                            <li><a href="/#why-audit-first">Why the audit comes first</a></li>
+                            <li><a href="/#offer-ladder">Offer ladder</a></li>
                         </ul>
                     </div>
 

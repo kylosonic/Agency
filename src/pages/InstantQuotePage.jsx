@@ -7,55 +7,44 @@ import { deriveEstimateBand } from '../services/pricingData';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
-import { useLanguage } from '../i18n/useLanguage';
-import BandCta from '../components/BandCta';
 
-const SERVICE_TYPE_LABEL_KEYS = {
-  'Web Development': 'instantQuote.options.service.web',
-  'Mobile App Development': 'instantQuote.options.service.mobile',
-  'SaaS Platform': 'instantQuote.options.service.saas',
-  'AI Invoice Processing': 'instantQuote.options.service.invoiceProcessing',
-  'Engineering Knowledge Assistant': 'instantQuote.options.service.engineeringKnowledge',
-  'Sales Order Automation': 'instantQuote.options.service.salesOrderAutomation',
-};
-
-const BUDGET_LABEL_KEYS = {
-  '85k - 150k ETB': 'instantQuote.options.budget.entry',
-  '150k - 400k ETB': 'instantQuote.options.budget.mid',
-  '400k - 1M ETB': 'instantQuote.options.budget.high',
-  '1M+ ETB': 'instantQuote.options.budget.enterprise',
-};
-
-const TIMELINE_LABEL_KEYS = {
-  '2-4 weeks': 'instantQuote.options.timeline.fast',
-  '1-2 months': 'instantQuote.options.timeline.standard',
-  '2-4 months': 'instantQuote.options.timeline.extended',
-  'Flexible timeline': 'instantQuote.options.timeline.flexible',
-};
-
-const INTEGRATION_LABEL_KEYS = {
-  Telebirr: 'instantQuote.options.integrations.telebirr',
-  Chapa: 'instantQuote.options.integrations.chapa',
-  'CRM Sync': 'instantQuote.options.integrations.crm',
-  'ERP/Accounting Sync': 'instantQuote.options.integrations.erpAccounting',
-  'Inventory Sync': 'instantQuote.options.integrations.inventory',
-  'Internal Knowledge Base': 'instantQuote.options.integrations.internalKnowledge',
-  'Analytics Dashboard': 'instantQuote.options.integrations.analytics',
-  'Multilingual Content': 'instantQuote.options.integrations.multilingual',
-};
-
-const STEP_LABELS = [
-  { titleKey: 'instantQuote.progress.projectType', fallback: 'Project' },
-  { titleKey: 'instantQuote.progress.budget', fallback: 'Budget' },
-  { titleKey: 'instantQuote.progress.requirements', fallback: 'Details' },
-  { titleKey: 'instantQuote.progress.contact', fallback: 'Contact' },
+const SERVICE_OPTIONS = [
+  {
+    value: 'Web Development',
+    label: 'Web system',
+    note: 'Sites, portals, dashboards, and quote flows.',
+  },
+  {
+    value: 'Mobile App Development',
+    label: 'Mobile product',
+    note: 'Field operations, approvals, customer flows, and apps.',
+  },
+  {
+    value: 'AI Invoice Processing',
+    label: 'AI automation',
+    note: 'Document, process, and back-office workflow automation.',
+  },
+  {
+    value: 'Engineering Knowledge Assistant',
+    label: 'Knowledge assistant',
+    note: 'Internal search, retrieval, and governed business knowledge.',
+  },
+  {
+    value: 'Sales Order Automation',
+    label: 'Revenue workflow automation',
+    note: 'Lead, quote, order, and fulfillment automation.',
+  },
+  {
+    value: 'SaaS Platform',
+    label: 'Future SaaS interest',
+    note: 'Waitlist only. No live pricing is published.',
+  },
 ];
 
 const INITIAL_STATE = {
-  serviceType: quoteWizardOptions.serviceTypes[0],
+  serviceType: 'Web Development',
   budgetRange: quoteWizardOptions.budgetRanges[1],
   timelineRange: quoteWizardOptions.timelineRanges[1],
-  integrations: [],
   goals: '',
   name: '',
   email: '',
@@ -67,8 +56,6 @@ function formatCurrency(value) {
 }
 
 export default function InstantQuotePage() {
-  const { t } = useLanguage();
-  const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState('idle');
   const [formState, setFormState] = useState(INITIAL_STATE);
@@ -88,45 +75,27 @@ export default function InstantQuotePage() {
     }
   };
 
-  const toggleIntegration = (integration) => {
-    setFormState((current) => {
-      const alreadyIncluded = current.integrations.includes(integration);
-      return {
-        ...current,
-        integrations: alreadyIncluded
-          ? current.integrations.filter((item) => item !== integration)
-          : [...current.integrations, integration],
-      };
-    });
-
-    if (submissionStatus === 'error') {
-      setSubmissionStatus('idle');
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setSubmissionStatus('submitting');
 
     const lead = {
       name: formState.name,
       email: formState.email,
       phone: formState.phone,
-      message: `${formState.serviceType} | ${formState.budgetRange} | ${formState.timelineRange} | Integrations: ${formState.integrations.join(', ') || t('common.none', 'None')} | ${t('instantQuote.labels.projectGoals', 'Project goals')}: ${formState.goals}`,
+      message: `${formState.serviceType} | ${formState.budgetRange} | ${formState.timelineRange} | Notes: ${formState.goals}`,
     };
 
     const submission = await submitLeadIntake({
       type: 'instant_quote',
-      source: 'instant_quote_wizard',
-      channel: 'quote_wizard',
+      source: 'instant_quote_form',
+      channel: 'quote_form',
       routePath: '/instant-quote',
       lead,
       context: {
         serviceType: formState.serviceType,
         budgetRange: formState.budgetRange,
         timelineRange: formState.timelineRange,
-        integrations: formState.integrations,
         goals: formState.goals,
         ...(quoteRange
           ? {
@@ -137,7 +106,7 @@ export default function InstantQuotePage() {
       },
       consent: {
         type: 'quote_follow_up',
-        copy: t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.'),
+        copy: 'We use this information to prepare a directional estimate and the right next conversation.',
       },
     });
 
@@ -151,8 +120,8 @@ export default function InstantQuotePage() {
 
     if (submission.type === 'local-fallback') {
       queueLeadFollowups({
-        source: 'instant_quote_wizard_fallback',
-        channel: 'quote_wizard',
+        source: 'instant_quote_form_fallback',
+        channel: 'quote_form',
         routePath: '/instant-quote',
         lead,
       });
@@ -179,212 +148,193 @@ export default function InstantQuotePage() {
     setSubmitted(true);
   };
 
-  const nextStep = () => setStep((current) => Math.min(current + 1, 3));
-  const previousStep = () => setStep((current) => Math.max(current - 1, 0));
+  const selectedService = SERVICE_OPTIONS.find((item) => item.value === formState.serviceType) || SERVICE_OPTIONS[0];
 
   return (
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>{t('instantQuote.hero.title', 'Instant Quote Wizard')}</h1>
-          <p>{t('instantQuote.hero.subtitle', 'Answer a few questions and get a working estimate range in under two minutes.')}</p>
+          <h1>Get a working range without a long intake flow.</h1>
+          <p>
+            Use this form when you already have a direction and want a fast estimate. If you are still unsure what should be built first, stop here and book the Workflow Audit instead.
+          </p>
           <div className="page-hero-meta" aria-label="Instant quote process notes">
-            <span className="page-hero-chip">ETB-only pricing</span>
-            <span className="page-hero-chip">Directional estimate</span>
-            <span className="page-hero-chip">SaaS currently in development</span>
+            <span className="page-hero-chip">Directional ETB estimate</span>
+            <span className="page-hero-chip">SaaS is waitlist only</span>
+            <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
           </div>
         </div>
       </section>
 
-      {/* band-1 (TECH-15/B27): the quote-wizard section hosts the result /
-          waitlist block, which only renders after submission — the section
-          itself is the always-present band-1 slot so the band invariant
-          (exactly two near-black bands per page) holds on first paint. */}
       <section className="section quote-wizard-section band-dark band-1">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag={t('instantQuote.header.tag', 'Fast Estimate')}
-              title={t('instantQuote.header.title', 'Plan Scope, Budget, and Timeline')}
-              subtitle={t('instantQuote.header.subtitle', 'This estimate is directional and helps us prepare the right architecture and proposal for your team.')}
+              tag="Fast estimate"
+              title="A simpler quote path"
+              subtitle="Choose the project type, budget band, timeline, and key notes. We will use that to prepare the right follow-up instead of forcing a long questionnaire."
             />
           </ScrollReveal>
 
-          <div className="quote-step-indicator" aria-label={t('instantQuote.progressAria', 'Quote wizard progress')}>
-            {STEP_LABELS.map((item, index) => (
-              <span
-                key={item.titleKey}
-                className={`quote-step-dot ${step >= index ? 'active' : ''}`.trim()}
-                aria-current={step === index ? 'step' : undefined}
-              >
-                <span className="quote-step-number">{index + 1}</span>
-                <span className="quote-step-label">{t(item.titleKey, item.fallback)}</span>
-              </span>
-            ))}
-          </div>
-
           {!submitted ? (
-            <form className="quote-wizard-card glass-card" onSubmit={handleSubmit}>
-              {step === 0 ? (
-                <div className="quote-step">
-                  <h3>{t('instantQuote.steps.projectType.title', 'Project Type')}</h3>
-                  <p>{t('instantQuote.steps.projectType.subtitle', 'Select the primary service for this estimate.')}</p>
+            <div className="editorial-two-column quote-redesign-layout">
+              <ScrollReveal>
+                <form className="editorial-panel glass-card quote-form-redesign" onSubmit={handleSubmit}>
+                  <h3>Project details</h3>
                   <div className="quote-option-grid">
-                    {quoteWizardOptions.serviceTypes.map((serviceType) => (
-                      <label key={serviceType} className={`quote-option ${formState.serviceType === serviceType ? 'selected' : ''}`.trim()}>
+                    {SERVICE_OPTIONS.map((service) => (
+                      <label key={service.value} className={`quote-option ${formState.serviceType === service.value ? 'selected' : ''}`.trim()}>
                         <input
                           type="radio"
                           name="serviceType"
-                          value={serviceType}
-                          checked={formState.serviceType === serviceType}
+                          value={service.value}
+                          checked={formState.serviceType === service.value}
                           onChange={updateValue('serviceType')}
                         />
-                        <span>{t(SERVICE_TYPE_LABEL_KEYS[serviceType], serviceType)}</span>
-                        {serviceType === 'SaaS Platform' ? (
-                          <span className="quote-option-note">{t('instantQuote.options.service.saasWaitlist', 'In development — tell us you want it')}</span>
-                        ) : null}
+                        <span>{service.label}</span>
+                        <span className="quote-option-note">{service.note}</span>
                       </label>
                     ))}
                   </div>
-                </div>
-              ) : null}
 
-              {step === 1 ? (
-                <div className="quote-step">
-                  <h3>{t('instantQuote.steps.budget.title', 'Budget and Timeline')}</h3>
                   <div className="quote-two-column">
                     <label>
-                      {t('instantQuote.labels.budgetRange', 'Budget range')}
+                      Budget range
                       <select value={formState.budgetRange} onChange={updateValue('budgetRange')}>
                         {quoteWizardOptions.budgetRanges.map((range) => (
-                          <option key={range} value={range}>{t(BUDGET_LABEL_KEYS[range], range)}</option>
+                          <option key={range} value={range}>{range}</option>
                         ))}
                       </select>
                     </label>
                     <label>
-                      {t('instantQuote.labels.deliveryTimeline', 'Delivery timeline')}
+                      Timeline
                       <select value={formState.timelineRange} onChange={updateValue('timelineRange')}>
                         {quoteWizardOptions.timelineRanges.map((range) => (
-                          <option key={range} value={range}>{t(TIMELINE_LABEL_KEYS[range], range)}</option>
+                          <option key={range} value={range}>{range}</option>
                         ))}
                       </select>
                     </label>
                   </div>
-                </div>
-              ) : null}
 
-              {step === 2 ? (
-                <div className="quote-step">
-                  <h3>{t('instantQuote.steps.requirements.title', 'Technical Requirements')}</h3>
-                  <p>{t('instantQuote.steps.requirements.subtitle', 'Choose integrations and notes that apply to your project.')}</p>
-                  <div className="quote-option-grid">
-                    {quoteWizardOptions.integrations.map((integration) => (
-                      <label key={integration} className={`quote-option ${formState.integrations.includes(integration) ? 'selected' : ''}`.trim()}>
-                        <input
-                          type="checkbox"
-                          checked={formState.integrations.includes(integration)}
-                          onChange={() => toggleIntegration(integration)}
-                        />
-                        <span>{t(INTEGRATION_LABEL_KEYS[integration], integration)}</span>
-                      </label>
-                    ))}
-                  </div>
                   <label>
-                    {t('instantQuote.labels.projectGoals', 'Project goals')}
+                    Key notes
                     <textarea
                       value={formState.goals}
                       onChange={updateValue('goals')}
-                      placeholder={t('instantQuote.labels.projectGoalsPlaceholder', 'Describe goals, priorities, and constraints.')}
+                      placeholder="What are you trying to fix, launch, or replace? Mention important constraints or systems if they matter."
                       rows={4}
                     />
                   </label>
-                </div>
-              ) : null}
 
-              {step === 3 ? (
-                <div className="quote-step">
-                  <h3>{t('instantQuote.steps.contact.title', 'Contact Details')}</h3>
                   <div className="quote-two-column">
                     <label>
-                      {t('instantQuote.labels.fullName', 'Full name')}
+                      Full name
                       <input type="text" value={formState.name} onChange={updateValue('name')} required />
                     </label>
                     <label>
-                      {t('instantQuote.labels.workEmail', 'Work email')}
+                      Work email
                       <input type="email" value={formState.email} onChange={updateValue('email')} required />
                     </label>
                   </div>
+
                   <label>
-                    {t('instantQuote.labels.phoneOptional', 'Phone (optional)')}
+                    Phone (optional)
                     <input type="text" value={formState.phone} onChange={updateValue('phone')} />
                   </label>
-                </div>
-              ) : null}
 
-              <div className="quote-navigation">
-                <button type="button" className="btn btn-secondary" onClick={previousStep} disabled={step === 0}>
-                  {t('actions.previous', 'Previous')}
-                </button>
-                {step < 3 ? (
-                  <button type="button" className="btn btn-primary" onClick={nextStep}>
-                    {t('actions.continue', 'Continue')}
+                  <button type="submit" className="btn btn-primary btn-lg" disabled={submissionStatus === 'submitting'}>
+                    {submissionStatus === 'submitting' ? 'Sending...' : 'Send Estimate Request'}
                   </button>
-                ) : (
-                  <button type="submit" className="btn btn-primary" disabled={submissionStatus === 'submitting'}>
-                    {submissionStatus === 'submitting'
-                      ? t('instantQuote.actions.generating', 'Generating...')
-                      : t('instantQuote.actions.generate', 'Generate Estimate')}
-                  </button>
-                )}
-              </div>
-              {submissionStatus === 'error' ? (
-                <p className="form-feedback error" role="status" aria-live="polite">
-                  {t('instantQuote.result.error', 'We could not save your estimate request. Please verify your email and try again.')}
-                </p>
-              ) : null}
-            </form>
+
+                  {submissionStatus === 'error' ? (
+                    <p className="form-feedback error" role="status" aria-live="polite">
+                      We could not save your estimate request. Please verify your email and try again.
+                    </p>
+                  ) : null}
+                </form>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.1}>
+                <div className="editorial-panel glass-strong quote-preview-panel">
+                  <p className="editorial-kicker">Live preview</p>
+                  <h3>{selectedService.label}</h3>
+                  <p>{selectedService.note}</p>
+
+                  {quoteRange ? (
+                    <>
+                      <p className="editorial-hero-price">{formatCurrency(quoteRange[0])} - {formatCurrency(quoteRange[1])}</p>
+                      <p>
+                        This is a directional estimate based on the current service and budget band. We use 85,000 ETB as the floor and then scope upward from the locked pricing table.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="editorial-hero-price">Waitlist only</p>
+                      <p>
+                        SaaS is not quoted like a live paid offer. We will capture interest and only publish pricing when a real product exists.
+                      </p>
+                    </>
+                  )}
+
+                  <div className="editorial-note-panel glass">
+                    <strong>Not sure yet?</strong> The Workflow Audit is the better first step when the build direction is still unclear.
+                  </div>
+                  <div className="cta-actions quote-side-actions">
+                    <Link className="btn btn-secondary" to="/workflow-audit">
+                      Review Workflow Audit
+                    </Link>
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
           ) : quoteRange ? (
             <div className="quote-result-card glass-card" role="status" aria-live="polite">
-              <h3>{t('instantQuote.result.title', 'Your estimated range')}</h3>
+              <h3>Your estimated range</h3>
               <p className="quote-result-range">{formatCurrency(quoteRange[0])} - {formatCurrency(quoteRange[1])}</p>
               <p>
                 {submissionStatus === 'fallback'
-                  ? t('instantQuote.result.fallback', 'This estimate was generated and saved locally because the intake endpoint is temporarily unavailable. Please book a discovery call or message us if this request is urgent.')
-                  : `${t('instantQuote.result.subtitle', 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.')} ${t('instantQuote.result.sla', 'We respond within one business day and deliver a written proposal within five business days of our discovery call.')}`}
+                  ? 'This estimate was generated and saved locally because the intake endpoint is temporarily unavailable. Please book a discovery call if the request is urgent.'
+                  : 'We will follow up with a written proposal path after reviewing your notes. If the details show that the workflow is still fuzzy, we may recommend the Workflow Audit before a direct build quote.'}
               </p>
               <div className="quote-result-actions">
-                <Link className="btn btn-primary" to="/book-discovery-call">{t('actions.bookDiscoveryCall', 'Book Discovery Call')}</Link>
-                <button type="button" className="btn btn-secondary" onClick={() => {
-                  setSubmitted(false);
-                  setStep(0);
-                  setSubmissionStatus('idle');
-                  setFormState(INITIAL_STATE);
-                }}>
-                  {t('actions.startAgain', 'Start Again')}
+                <Link className="btn btn-primary" to="/book-discovery-call">Book Discovery Call</Link>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setSubmitted(false);
+                    setSubmissionStatus('idle');
+                    setFormState(INITIAL_STATE);
+                  }}
+                >
+                  Start Again
                 </button>
               </div>
             </div>
           ) : (
             <div className="quote-result-card glass-card" role="status" aria-live="polite">
-              <h3>{t('instantQuote.result.waitlistTitle', 'SaaS is in development — tell us you want it')}</h3>
-              <p>{t('instantQuote.result.waitlistSubtitle', 'We will add you to the waitlist and contact you when a product is ready for your organization. No prices are published until a real product exists.')}</p>
+              <h3>SaaS is in development — tell us you want it</h3>
+              <p>
+                We will add you to the waitlist and contact you when a product is ready for your organization. No prices are published until a real product exists.
+              </p>
               <div className="quote-result-actions">
-                <Link className="btn btn-primary" to="/book-discovery-call">{t('actions.bookDiscoveryCall', 'Book Discovery Call')}</Link>
-                <button type="button" className="btn btn-secondary" onClick={() => {
-                  setSubmitted(false);
-                  setStep(0);
-                  setSubmissionStatus('idle');
-                  setFormState(INITIAL_STATE);
-                }}>
-                  {t('actions.startAgain', 'Start Again')}
+                <Link className="btn btn-primary" to="/book-discovery-call">Book Discovery Call</Link>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setSubmitted(false);
+                    setSubmissionStatus('idle');
+                    setFormState(INITIAL_STATE);
+                  }}
+                >
+                  Start Again
                 </button>
               </div>
             </div>
           )}
         </div>
       </section>
-
-      <BandCta />
     </>
   );
 }

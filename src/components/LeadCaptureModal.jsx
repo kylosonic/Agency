@@ -20,12 +20,21 @@ const FOCUSABLE_SELECTOR = [
 
 const VARIANT_CONTENT = {
     pricing_guide: {
-        title: 'Get the NovaTechAI 2026 Service Menu & Pricing Guide',
-        subtitle: 'Download the official NovaTechAI 2026 Service Menu & Pricing Guide with AI automation, web, mobile, and SaaS pricing in ETB.',
-        submitLabel: 'Download NovaTechAI Guide',
-        successTitle: 'Thank You!',
-        successSubtitle: 'Your NovaTechAI 2026 Service Menu & Pricing Guide is open in a new tab. You can reopen it below.',
-        successPrimaryLabel: 'Open NovaTechAI Guide Again',
+        title: 'Live pricing is more accurate than the PDF right now',
+        subtitle: 'The downloadable guide is being refreshed to match the current ETB pricing table. Use the live pricing page until that update is complete.',
+        submitLabel: 'Open Live Pricing',
+        successTitle: 'Use the live pricing page',
+        successSubtitle: 'The PDF is temporarily held back until it matches the current ETB table exactly.',
+        successPrimaryLabel: 'Open Live Pricing',
+        successPrimaryAction: 'pricing',
+    },
+    download_sheet: {
+        title: 'Download the current ETB pricing sheet',
+        subtitle: 'Leave your details and we will open the latest NovaTech pricing sheet built from the same ETB source used on the live site.',
+        submitLabel: 'Download Pricing Sheet',
+        successTitle: 'Pricing sheet ready',
+        successSubtitle: 'Your current ETB pricing sheet is open in a new tab. You can reopen it below.',
+        successPrimaryLabel: 'Open Pricing Sheet Again',
         successPrimaryAction: 'guide',
     },
     quote_offer: {
@@ -158,6 +167,11 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
 
         if (activeVariant.successPrimaryAction === 'booking') {
             window.location.assign('/book-discovery-call');
+            return;
+        }
+
+        if (activeVariant.successPrimaryAction === 'pricing') {
+            window.location.assign('/pricing');
         }
     };
 
@@ -283,7 +297,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                 type="button"
                                 className="modal-close-new"
                                 onClick={() => requestClose('close_button')}
-                                aria-label={t('leadCapture.closeAria', 'Close pricing guide modal')}
+                                aria-label={t('leadCapture.closeGenericAria', 'Close message')}
                             >
                                 <IconGlyph name="close" size={16} />
                             </button>

@@ -226,8 +226,8 @@ export default function Navbar() {
 
             <div className="navbar-controls">
               <LanguageSwitcher compact />
-              <Link to="/instant-quote" className="btn btn-primary btn-sm navbar-cta">
-                {t('nav.startProject', 'Start a project')}
+              <Link to="/workflow-audit" className="btn btn-primary btn-sm navbar-cta">
+                {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
               </Link>
             </div>
           </div>

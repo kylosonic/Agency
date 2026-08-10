@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "generate:pricing-guide": "node scripts/generate-pricing-guide.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test:e2e": "playwright test tests/live-site.spec.js --reporter=line",

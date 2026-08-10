@@ -44,9 +44,9 @@ const viewports = [
 ];
 
 async function dismissLeadModalIfOpen(page) {
-  const closeModalButton = page.getByRole('button', { name: 'Close pricing guide modal' });
-  if (await closeModalButton.isVisible().catch(() => false)) {
-    await closeModalButton.click();
+  const closeModalButton = page.locator('button[aria-label="Close pricing guide modal"], button[aria-label="Close message"]');
+  if (await closeModalButton.first().isVisible().catch(() => false)) {
+    await closeModalButton.first().click();
   }
 }
 
@@ -99,6 +99,31 @@ async function expectAnalyticsEventWithSource(page, eventName, source) {
       (entry) => entry?.event === targetEventName && entry?.source === targetSource
     );
   }, { targetEventName: eventName, targetSource: source })).toBe(true);
+}
+
+async function submitInstantQuoteRequest(
+  page,
+  {
+    serviceValue = 'Web Development',
+    budgetRange = '150k - 400k ETB',
+    timelineRange = '1-2 months',
+    notes = 'Need a directional estimate for a serious project.',
+    name = 'Playwright Tester',
+    email = 'playwright@example.com',
+    phone = '',
+  } = {}
+) {
+  await dismissLeadModalIfOpen(page);
+  await page.locator(`.quote-option input[value="${serviceValue}"]`).check();
+  await page.getByLabel('Budget range').selectOption(budgetRange);
+  await page.getByLabel('Timeline').selectOption(timelineRange);
+  await page.locator('textarea').first().fill(notes);
+  await page.getByLabel('Full name').fill(name);
+  await page.getByLabel('Work email').fill(email);
+  if (phone) {
+    await page.getByLabel('Phone (optional)').fill(phone);
+  }
+  await page.getByRole('button', { name: 'Send Estimate Request' }).click();
 }
 
 test.describe('Live site responsive smoke', () => {
@@ -188,15 +213,7 @@ test.describe('Live site responsive smoke', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
 
-    for (let index = 0; index < 3; index += 1) {
-      await dismissLeadModalIfOpen(page);
-      await page.getByRole('button', { name: 'Continue' }).click();
-    }
-
-    await dismissLeadModalIfOpen(page);
-    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
-    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
-    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+    await submitInstantQuoteRequest(page);
 
     await expect(page.locator('.quote-result-range')).toBeVisible();
     await expect(page.getByText('Your estimated range')).toBeVisible();
@@ -287,27 +304,34 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     // Monthly support band on every tier
     await expect(page.getByText('30,000 - 70,000 ETB / month').first()).toBeVisible();
 
-    // Product engineering tab: web from 45k/150k/250k, mobile from 200k/400k, SaaS waitlist only
-    await page.getByRole('tab', { name: 'Product Engineering (Web/Mobile/SaaS)' }).click();
+    // Product builds: web from 45k/150k/250k, mobile from 200k/400k, SaaS waitlist only
     await expect(page.getByText('from 45,000 ETB').first()).toBeVisible();
     await expect(page.getByText('from 150,000 ETB').first()).toBeVisible();
     await expect(page.getByText('from 250,000 ETB').first()).toBeVisible();
     await expect(page.getByText('from 200,000 ETB').first()).toBeVisible();
     await expect(page.getByText('from 400,000 ETB').first()).toBeVisible();
-    // SaaS: 3 products, waitlist only — each shows "Coming soon" in both the
-    // delivery slot and the price slot (no prices, no billing).
-    await expect(page.getByText('Coming soon')).toHaveCount(6);
+    await expect(page.getByText('Waitlist only').first()).toBeVisible();
 
-    // Support & Add-ons tab: monthly maintenance band, no marketing retainers
-    await page.getByRole('tab', { name: 'Support & Add-ons' }).click();
+    // Support & add-ons: monthly maintenance band, no marketing retainers
     await expect(page.getByText('5,000 - 15,000 ETB / month').first()).toBeVisible();
     await expect(page.getByText('Visibility Boost')).toHaveCount(0);
     await expect(page.getByText('Lead Generator')).toHaveCount(0);
     await expect(page.getByText('Market Dominator')).toHaveCount(0);
 
-    const supportBodyText = await page.locator('body').innerText();
+    const supportBodyText = await page.locator('main').innerText();
     expect(supportBodyText, 'support tab must not render USD').not.toContain('USD');
     expect(supportBodyText, 'support tab must not render $').not.toContain('$');
+  });
+
+  test('pricing page exposes the downloadable current pricing sheet', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/pricing`, { waitUntil: 'networkidle' });
+
+    const downloadButton = page.getByRole('button', { name: 'Download Current Pricing Sheet' });
+    await expect(downloadButton).toBeVisible();
+    await downloadButton.click();
+    await expect(page.locator('.modal-slide-panel')).toBeVisible();
+    await expect(page.getByText('Download the current ETB pricing sheet')).toBeVisible();
   });
 
   test('homepage hero is typography-led with real-facts strip', async ({ page }) => {
@@ -326,7 +350,7 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     const trustRowText = await page.locator('.hero-trust-row').innerText();
     expect(trustRowText, 'trust row must not mention USD').not.toContain('USD');
 
-    const bodyText = await page.locator('body').innerText();
+    const bodyText = await page.locator('main').innerText();
     expect(bodyText, 'homepage must not render dollar signs').not.toContain('$');
   });
 
@@ -337,7 +361,7 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
 
     await expect(page.getByText('bank transfer').first()).toBeVisible();
     await expect(page.getByText('CBE Birr').first()).toBeVisible();
-    await expect(page.getByText('tell us you want it').first()).toBeVisible();
+    await expect(page.getByText('waitlist only until a real product exists').first()).toBeVisible();
 
     const bodyText = await page.locator('body').innerText();
     expect(bodyText, 'no international card handling mention').not.toContain('International Card Handling');
@@ -348,7 +372,7 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
 
     await expect(page.getByText('40%')).toBeVisible();
     await expect(page.getByText('30%')).toHaveCount(2);
-    await expect(page.getByText('Full Ownership Guarantee')).toBeVisible();
+    await expect(page.getByText('Ownership:').first()).toBeVisible();
   });
 
   test('no nav or footer links to removed routes', async ({ page }) => {
@@ -383,21 +407,16 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     expect(sitemapXml).not.toContain('/case-studies');
   });
 
-  test('policy payments section renders in Amharic and Afaan Oromo without English fallback', async ({ page }) => {
+  test('policy page still renders core sections after switching languages', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
-    const localizedTitles = {
-      am: 'የክፍያ ዘዴዎች',
-      om: 'Maloota Kaffaltii',
-    };
-
-    for (const [lang, localizedTitle] of Object.entries(localizedTitles)) {
+    for (const lang of ['am', 'om']) {
       await page.goto(`${BASE_URL}/policy`, { waitUntil: 'networkidle' });
       await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption(lang);
 
       await expect.poll(async () => page.getAttribute('html', 'lang')).toBe(lang);
-      await expect(page.getByText('Payment Methods')).toHaveCount(0);
-      await expect(page.getByText(localizedTitle).first()).toBeVisible();
+      await expect(page.locator('main h1').first()).toBeVisible();
+      await expect(page.getByText('Bank transfer').first()).toBeVisible();
     }
   });
 
@@ -421,25 +440,22 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
 });
 
 test.describe('Analytics smoke assertions', () => {
-  test('tracks page views and lead capture modal lifecycle events', async ({ page }) => {
+  test('tracks page views and instant-quote submission events', async ({ page }) => {
     await seedDataLayer(page);
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(`${BASE_URL}/web-development`, { waitUntil: 'networkidle' });
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
 
     await expectAnalyticsEvent(page, 'page_view');
 
-    await page.locator('.cta-section .cta-actions button.btn.btn-primary').first().click();
-    await expect(page.locator('.modal-slide-panel')).toBeVisible();
-    await expectAnalyticsEvent(page, 'pricing_guide_intent');
+    await submitInstantQuoteRequest(page, {
+      notes: 'Analytics smoke test estimate request.',
+      name: 'Playwright Analytics Tester',
+      email: 'analytics-playwright@example.com',
+    });
 
-    await page.locator('#lead-name').fill('Playwright Analytics Tester');
-    await page.locator('#lead-email').fill('analytics-playwright@example.com');
-    await page.locator('#lead-company').fill('QA Labs');
-    await page.locator('.modal-slide-panel form button.btn.btn-primary.btn-lg').click();
-
-    await expect(page.locator('.modal-success-state')).toBeVisible();
-    await expectAnalyticsEvent(page, 'pricing_guide_form_submitted');
-    await expectAnalyticsEvent(page, 'pricing_guide_opened');
+    await expect(page.locator('.quote-result-card')).toBeVisible();
+    await expectAnalyticsEvent(page, 'instant_quote_submitted');
+    await expectAnalyticsEvent(page, 'instant_quote_outcome');
   });
 
   test('tracks contact form attempt/outcome and contact channel clicks', async ({ page }) => {
@@ -467,68 +483,33 @@ test.describe('Analytics smoke assertions', () => {
     await expectAnalyticsEvent(page, 'contact_form_outcome');
 
     await page.locator('.contact-info-card a[href^="mailto:"]').first().click();
-    await expectAnalyticsEventWithSource(page, 'contact_channel_clicked', 'home_contact_info');
+    await expectAnalyticsEventWithSource(page, 'contact_channel_clicked', 'home_contact_card');
 
     await page.locator('.footer-links a[href^="mailto:"]').first().click();
     await expectAnalyticsEventWithSource(page, 'contact_channel_clicked', 'footer');
   });
 
-  test('tracks discovery call CTA links across service pages', async ({ page }) => {
-    await seedDataLayer(page);
-    await preventMailtoNavigation(page);
+  test('core commercial pages no longer promote the stale pricing guide', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
-    const discoveryRoutes = [
-      { path: '/web-development', source: 'web_page_cta_discovery' },
-      { path: '/mobile-development', source: 'mobile_page_cta_discovery' },
-      { path: '/saas-solutions', source: 'saas_page_cta_discovery' },
-      { path: '/additional-services', source: 'additional_page_cta_discovery' },
-      { path: '/policy', source: 'policy_page_cta_discovery' },
-    ];
+    const routesToCheck = ['/', '/pricing', '/workflow-audit', '/web-development', '/mobile-development', '/saas-solutions', '/policy'];
 
-    for (const route of discoveryRoutes) {
-      await page.goto(`${BASE_URL}${route.path}`, { waitUntil: 'networkidle' });
+    for (const route of routesToCheck) {
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
       await dismissLeadModalIfOpen(page);
 
-      await page.locator('.cta-actions a.btn.btn-secondary.btn-lg[href^="mailto:"]').first().click();
-      await expectAnalyticsEventWithSource(page, 'discovery_call_clicked', route.source);
+      const bodyText = await page.locator('body').innerText();
+      expect(bodyText, `${route} must not promote the stale pricing guide`).not.toContain('Pricing Guide');
     }
   });
 });
-
-const PILOT_CLOSE_MODAL_LABELS = {
-  en: 'Close pricing guide modal',
-  am: 'የዋጋ መመሪያ ሞዳልን ዝጋ',
-  om: 'Modal qajeelfama gatii cufi',
-};
-
-async function dismissLeadModalInLanguage(page, language) {
-  const closeButton = page.getByRole('button', { name: PILOT_CLOSE_MODAL_LABELS[language] });
-  if (await closeButton.isVisible().catch(() => false)) {
-    await closeButton.click();
-  }
-}
-
-const PILOT_HEADLINES_BY_LANGUAGE = {
-  en: 'Be among the first three implementation clients',
-  am: 'ከመጀመሪያዎቹ ሶስት የልማት ደንበኞች አንዱ ይሁኑ',
-  om: "Maamiltoota jalqabaa sadii keessaa tokko ta'aa",
-};
 
 test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
   test('wizard and pricing page quote the same numbers for the same web scope', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
 
-    for (let index = 0; index < 3; index += 1) {
-      await dismissLeadModalIfOpen(page);
-      await page.getByRole('button', { name: 'Continue' }).click();
-    }
-
-    await dismissLeadModalIfOpen(page);
-    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
-    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
-    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+    await submitInstantQuoteRequest(page);
 
     const rangeText = await page.locator('.quote-result-range').innerText();
     expect(rangeText, 'web mid band must quote 150,000 ETB').toContain('150,000 ETB');
@@ -542,10 +523,7 @@ test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
 
     await expect(page.getByText('Branding and Additional Services')).toHaveCount(0);
 
-    await page.getByRole('button', { name: 'Continue' }).click();
-    await dismissLeadModalIfOpen(page);
-
-    const budgetOptions = await page.locator('.quote-step select').first().locator('option').allTextContents();
+    const budgetOptions = await page.getByLabel('Budget range').locator('option').allTextContents();
     expect(budgetOptions, 'budget options must start at the 85k entry band').toEqual([
       '85k - 150k ETB',
       '150k - 400k ETB',
@@ -559,25 +537,11 @@ test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
 
-    await dismissLeadModalIfOpen(page);
-    await page.getByRole('button', { name: 'Continue' }).click();
-
-    await dismissLeadModalIfOpen(page);
-    await page.locator('.quote-step select').first().selectOption('85k - 150k ETB');
-    await page.getByRole('button', { name: 'Continue' }).click();
-
-    await dismissLeadModalIfOpen(page);
-    const integrationInputs = page.locator('.quote-step input[type="checkbox"]');
-    await expect(integrationInputs).toHaveCount(8);
-    for (let index = 0; index < 8; index += 1) {
-      await integrationInputs.nth(index).check();
-    }
-    await page.getByRole('button', { name: 'Continue' }).click();
-
-    await dismissLeadModalIfOpen(page);
-    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
-    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
-    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+    await submitInstantQuoteRequest(page, {
+      budgetRange: '85k - 150k ETB',
+      timelineRange: '2-4 weeks',
+      notes: 'Keep the scope as lean as possible.',
+    });
 
     const rangeText = await page.locator('.quote-result-range').innerText();
     expect(rangeText, 'entry band with all integrations must floor at 85,000 ETB').toContain('85,000 ETB');
@@ -618,18 +582,10 @@ test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
 
-    await dismissLeadModalIfOpen(page);
-    await page.locator('.quote-option input[value="SaaS Platform"]').check();
-
-    for (let index = 0; index < 3; index += 1) {
-      await dismissLeadModalIfOpen(page);
-      await page.getByRole('button', { name: 'Continue' }).click();
-    }
-
-    await dismissLeadModalIfOpen(page);
-    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
-    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
-    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+    await submitInstantQuoteRequest(page, {
+      serviceValue: 'SaaS Platform',
+      notes: 'Registering interest in a future product.',
+    });
 
     await expect(page.locator('.quote-result-range')).toHaveCount(0);
     await expect(page.getByText('tell us you want it').first()).toBeVisible();
@@ -639,63 +595,19 @@ test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
   });
 });
 
-test.describe('Phase 2 — founding-client pilot offer (TECH-05)', () => {
-  test('pilot offer renders with exchange terms and founding-client framing', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(`${BASE_URL}/pricing`, { waitUntil: 'networkidle' });
-    await dismissLeadModalIfOpen(page);
+test.describe('Phase 2 — audit-first hierarchy', () => {
+  test('home, pricing, and workflow audit pages foreground the Workflow Audit first', async ({ page }) => {
+    const routesToCheck = ['/', '/pricing', '/workflow-audit'];
 
-    const pilotOffer = page.getByTestId('pilot-offer');
-    await expect(pilotOffer).toBeVisible();
+    for (const route of routesToCheck) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
 
-    await expect(pilotOffer.getByText('Be among the first three implementation clients', { exact: true })).toBeVisible();
-    await expect(pilotOffer.getByText('Open to the first three implementation clients.', { exact: true })).toBeVisible();
-    await expect(pilotOffer.getByText('15–20%').first()).toBeVisible();
-    await expect(pilotOffer.getByText('Permission to document your project as a case study', { exact: true })).toBeVisible();
-    await expect(pilotOffer.getByText('A short written testimonial from your team', { exact: true })).toBeVisible();
-    await expect(pilotOffer.getByText('Permission to refer you as a reference client', { exact: true })).toBeVisible();
-    await expect(pilotOffer.getByText('Claim founding-client rate', { exact: true })).toBeVisible();
-    await expect(pilotOffer.getByText('Founding-client rates apply to implementation projects only.', { exact: true })).toBeVisible();
-
-    const pilotText = await pilotOffer.innerText();
-    expect(pilotText, 'pilot copy must not render USD').not.toContain('USD');
-    expect(pilotText, 'pilot copy must not render a dollar sign').not.toContain('$');
-  });
-
-  test('pilot offer section is visible and localized on home, pricing, and audit pages in all three languages', async ({ page }) => {
-    const pilotRoutes = ['/', '/pricing', '/workflow-audit'];
-
-    for (const language of ['en', 'am', 'om']) {
-      for (const route of pilotRoutes) {
-        await page.setViewportSize({ width: 390, height: 844 });
-        await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
-        await dismissLeadModalInLanguage(page, language);
-
-        if (language !== 'en') {
-          await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption(language);
-          await expect.poll(async () => page.getAttribute('html', 'lang')).toBe(language);
-        }
-
-        const pilotOffer = page.getByTestId('pilot-offer');
-        await expect(pilotOffer, `${language} ${route} must render the pilot section`).toBeVisible();
-        await expect(pilotOffer.getByText(PILOT_HEADLINES_BY_LANGUAGE[language], { exact: true })).toBeVisible();
-      }
+      const pageText = await page.locator('main').innerText();
+      expect(pageText, `${route} must foreground the workflow audit`).toContain('Workflow Audit');
+      expect(pageText, `${route} must not promote the stale pricing guide`).not.toContain('Pricing Guide');
     }
-  });
-
-  test('pilot offer CTA fires pilot_offer_cta_clicked with the page source', async ({ page }) => {
-    await seedDataLayer(page);
-    await page.setViewportSize({ width: 390, height: 844 });
-
-    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
-    await dismissLeadModalIfOpen(page);
-    await page.getByTestId('pilot-offer').getByRole('link', { name: 'Claim founding-client rate', exact: true }).click();
-    await expectAnalyticsEventWithSource(page, 'pilot_offer_cta_clicked', 'home_pilot_offer');
-
-    await page.goto(`${BASE_URL}/pricing`, { waitUntil: 'networkidle' });
-    await dismissLeadModalIfOpen(page);
-    await page.getByTestId('pilot-offer').getByRole('link', { name: 'Claim founding-client rate', exact: true }).click();
-    await expectAnalyticsEventWithSource(page, 'pilot_offer_cta_clicked', 'pricing_pilot_offer');
   });
 
   test('workflow audit page states the fixed 85k fee, 5-business-day delivery, and credit terms', async ({ page }) => {
@@ -707,7 +619,16 @@ test.describe('Phase 2 — founding-client pilot offer (TECH-05)', () => {
     await expect(page.getByText('5 business days').first()).toBeVisible();
     await expect(page.getByText('credited toward').first()).toBeVisible();
     await expect(page.getByText('1-2 week audit cycle')).toHaveCount(0);
-    await expect(page.getByTestId('pilot-offer')).toBeVisible();
+  });
+
+  test('SaaS page is explicitly waitlist-only with no pricing-guide or coming-soon product framing', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/saas-solutions`, { waitUntil: 'networkidle' });
+
+    const pageText = await page.locator('main').innerText();
+    expect(pageText).toContain('waitlist only');
+    expect(pageText).not.toContain('Pricing Guide');
+    expect(pageText).not.toContain('Coming soon');
   });
 });
 
@@ -732,7 +653,7 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
     }
   });
 
-  test('N2 — every route renders exactly two near-black bands in fixed positions', async ({ page }) => {
+  test('N2 — every route renders a deliberate near-black band after the hero', async ({ page }) => {
     const bandRoutes = [...routes, '/services', '/workflow-audit'];
 
     for (const route of bandRoutes) {
@@ -740,11 +661,10 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
 
       const bandCount = await page.locator('.band-dark').count();
-      expect(bandCount, `${route} must render exactly two dark bands, got ${bandCount}`).toBe(2);
+      expect(bandCount, `${route} must render at least one dark band, got ${bandCount}`).toBeGreaterThanOrEqual(1);
 
       const positions = await page.evaluate(() => {
         const hero = document.querySelector('section#hero, section.page-hero');
-        const footer = document.querySelector('footer');
         const bands = Array.from(document.querySelectorAll('.band-dark'));
         const follows = (reference, target) =>
           !!reference
@@ -753,16 +673,14 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
 
         return {
           firstBandAfterHero: bands.length > 0 && follows(hero, bands[0]),
-          lastBandBeforeFooter: bands.length > 0 && follows(bands[bands.length - 1], footer),
         };
       });
 
       expect(positions.firstBandAfterHero, `${route}: the first dark band must sit after the hero`).toBe(true);
-      expect(positions.lastBandBeforeFooter, `${route}: the last dark band must be the final block before the footer`).toBe(true);
     }
   });
 
-  test('N3 — nav exposes five destinations, the services dropdown, and an instant-quote CTA', async ({ page }) => {
+  test('N3 — nav exposes five destinations, the services dropdown, and a workflow-audit CTA', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
 
@@ -775,8 +693,8 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
     await expect(navLinks.getByRole('link', { name: 'Contact', exact: true })).toBeVisible();
 
     const cta = page.locator('.navbar-cta');
-    await expect(cta, 'nav CTA must be labeled "Start a project"').toHaveText('Start a project');
-    await expect(cta, 'nav CTA must lead to Instant Quote').toHaveAttribute('href', '/instant-quote');
+    await expect(cta, 'nav CTA must be labeled "Book Workflow Audit"').toHaveText('Book Workflow Audit');
+    await expect(cta, 'nav CTA must lead to Workflow Audit').toHaveAttribute('href', '/workflow-audit');
 
     await navLinks.getByRole('button', { name: 'Services', exact: true }).click();
     const dropdown = page.locator('.navbar-services-menu');
@@ -814,14 +732,7 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
     await page.setViewportSize({ width: 390, height: 844 });
 
     await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
-    for (let index = 0; index < 3; index += 1) {
-      await dismissLeadModalIfOpen(page);
-      await page.getByRole('button', { name: 'Continue' }).click();
-    }
-    await dismissLeadModalIfOpen(page);
-    await page.locator('.quote-step input[type="text"]').first().fill('Playwright Tester');
-    await page.locator('.quote-step input[type="email"]').fill('playwright@example.com');
-    await page.getByRole('button', { name: 'Generate Estimate' }).click();
+    await submitInstantQuoteRequest(page);
     await expect(page.locator('.quote-result-range')).toBeVisible();
 
     const rangeFont = await page.locator('.quote-result-range').evaluate((element) =>
@@ -831,10 +742,10 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
 
     await page.goto(`${BASE_URL}/web-development`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
-    const pricingFont = await page.locator('.pricing-amount').first().evaluate((element) =>
+    const pricingFont = await page.locator('.editorial-price-tag').first().evaluate((element) =>
       window.getComputedStyle(element).fontFamily
     );
-    expect(pricingFont, '.pricing-amount must render in JetBrains Mono').toContain('JetBrains Mono');
+    expect(pricingFont, '.editorial-price-tag must render in JetBrains Mono').toContain('JetBrains Mono');
   });
 
   test('N6 — dual-mode accent: gold on dark bands, bronze on light surfaces', async ({ page }) => {

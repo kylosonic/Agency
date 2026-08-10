@@ -23,7 +23,7 @@
 const PRICING_DATA_ENDPOINT_KEY = 'VITE_PRICING_DATA_ENDPOINT';
 let remoteWebPackagesCache = null;
 let remoteWebPackagesLoaded = false;
-const SAAS_AVAILABILITY_STATUS = 'Coming soon';
+const SAAS_AVAILABILITY_STATUS = 'Waitlist only';
 
 /**
  * Numeric anchors derived from the locked ETB table (ADR-001, B5–B9).
@@ -105,12 +105,10 @@ const WEB_PACKAGES = [
     {
         icon: 'chart',
         title: 'Growth & Conversion',
-        subtitle: 'Recommended',
+        subtitle: 'Scope-led',
         price: 'from 150,000 ETB',
         timeline: '4-5 Weeks Delivery',
         idealFor: 'Tour operators, real estate, construction, and import/export teams',
-        recommended: true,
-        badgeText: 'Most Popular',
         features: [
             'Everything in Starter',
             '15-20 pages',
@@ -163,12 +161,10 @@ const MOBILE_PACKAGES = [
     {
         icon: 'lightning',
         title: 'Business & E-Commerce Application',
-        subtitle: 'Recommended',
+        subtitle: 'Scope-led',
         price: 'from 400,000 ETB',
         timeline: '8-12 Weeks Delivery',
         idealFor: 'Retail, delivery, booking, ride-hailing, and food delivery platforms',
-        recommended: true,
-        badgeText: 'Best Value',
         features: [
             'User and vendor profiles',
             'Cart and checkout',

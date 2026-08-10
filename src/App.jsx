@@ -107,7 +107,7 @@ function ScrollToTop() {
 function getLeadCaptureVariant(pathname, trigger) {
   const normalized = pathname.toLowerCase();
 
-  if (normalized.includes('workflow-audit') || normalized.includes('book-discovery-call')) {
+  if (normalized === '/' || normalized.includes('workflow-audit') || normalized.includes('book-discovery-call')) {
     return 'book_call_offer';
   }
 
@@ -127,7 +127,7 @@ function getLeadCaptureVariant(pathname, trigger) {
     return 'quote_offer';
   }
 
-  return 'pricing_guide';
+  return 'book_call_offer';
 }
 
 function isAutoLeadCaptureRoute(pathname) {
@@ -253,7 +253,7 @@ function AppContent() {
 
   const openLeadCapture = useCallback((eventOrSource, options = {}) => {
     let source = `route:${location.pathname}`;
-    let variant = options.variant || 'pricing_guide';
+    let variant = options.variant || getLeadCaptureVariant(location.pathname, 'manual');
 
     if (typeof eventOrSource === 'string' && eventOrSource) {
       source = eventOrSource;
@@ -268,7 +268,11 @@ function AppContent() {
     }
 
     if (options.trackIntent !== false) {
-      trackPricingGuideIntent(source);
+      if (variant === 'pricing_guide') {
+        trackPricingGuideIntent(source);
+      } else {
+        trackEvent('lead_capture_intent', { source, variant });
+      }
     }
 
     setLeadCapture({
@@ -396,7 +400,7 @@ function AppContent() {
                 <Routes location={location}>
                   <Route path="/" element={<Home />} />
                   <Route path="/services" element={<Services />} />
-                  <Route path="/pricing" element={<Pricing />} />
+                  <Route path="/pricing" element={<Pricing onDownloadClick={openLeadCapture} />} />
                   <Route path="/workflow-audit" element={<WorkflowAudit />} />
                   <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
@@ -414,7 +418,7 @@ function AppContent() {
         </AnimatePresence>
       </main>
       <Footer />
-      <FloatingCTA onClick={openLeadCapture} />
+      <FloatingCTA />
       <LiveChatDock />
       <ScrollToTopButton />
       <LeadCaptureModal
