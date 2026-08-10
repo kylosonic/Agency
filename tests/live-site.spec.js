@@ -1,17 +1,16 @@
 /**
  * ================================================================
- * RE-BASELINE DIFF RECORD — TECH-21 (Phase 7: Fortune-500 Visual System)
+ * RE-BASELINE DIFF RECORD — TECH-22 (Phase 8: Lumen Night Visual System)
  * ----------------------------------------------------------------
- * Date: 2026-08-08
- * Ticket: TECH-21 — E2E re-baseline (executed FIRST, in its TDD red state)
- * Direction: dark-only expectations → light-first expectations (B26/B38)
- * Governance: NB-24 (B38) — the automated visitor checks are deliberately
- *             updated, written down, and reviewed before the redesign
- *             counts as done. Contract: docs/plans/phase7-fortune500-visual-system.md §4,
- *             docs/behaviors/visual-system-fortune500.md (B26–B38),
- *             docs/behaviors/pending-behaviors.md (NB-24).
- * Delta: 67 → 76 tests (2 MUTATE + 9 NEW N1..N9, 0 DELETE)
- * QA-review: APPROVED 2026-08-08 (orchestrator-level gate, Phase 8 sign-off)
+ * Date: 2026-08-10
+ * Ticket: TECH-22 — E2E re-baseline (executed FIRST, in its TDD red state)
+ * Direction: light-first expectations → Lumen Night dark expectations (B39–B48)
+ * Governance: NB-25–35 (B38 convention) — the automated visitor checks are
+ *             deliberately updated, written down, and reviewed before the
+ *             redesign counts as done. Contract: docs/plans/phase8-lumen-visual-system.md §4,
+ *             docs/behaviors/visual-system-lumen.md (B39–B48), design.md (project root).
+ * Delta: 76 → 85 tests (6 MUTATE + 9 NEW N1..N9, 0 DELETE)
+ * QA-review: PENDING — flips on TECH-29 final green
  * ================================================================
  */
 
@@ -56,22 +55,45 @@ async function seedDataLayer(page) {
   });
 }
 
-async function preventMailtoNavigation(page) {
+/**
+ * TECH-22 (B39): the dark-canvas contract is expressed in OKLCH
+ * (oklch(13% 0.014 265)-family), which Chromium serialises as oklch() in
+ * computed styles. A plain rgb-sum check (Phase 7) cannot read those.
+ * This probe classifies a computed color string as a light or dark surface:
+ *  - rgb()/hex: light when the rgb sum exceeds 400
+ *  - oklch():   light when lightness exceeds 0.35
+ *  - transparent / alpha 0: not decisive (callers walk up the tree)
+ */
+async function installColorProbe(page) {
   await page.addInitScript(() => {
-    document.addEventListener(
-      'click',
-      (event) => {
-        if (!(event.target instanceof Element)) {
-          return;
+    window.__probeColor = (color) => {
+      const nums = (color || '').match(/-?\d+(\.\d+)?/g)?.map(Number) ?? [];
+      if (nums.length === 0) {
+        return { decisive: false, light: false, black: false };
+      }
+      if (/^oklch/i.test(color)) {
+        const lightness = nums[0];
+        const alpha = nums.length > 3 ? nums[3] : 1;
+        if (alpha === 0) {
+          return { decisive: false, light: false, black: false };
         }
-
-        const mailtoLink = event.target.closest('a[href^="mailto:"]');
-        if (mailtoLink) {
-          event.preventDefault();
+        return {
+          decisive: true,
+          light: lightness > 0.35,
+          black: lightness < 0.05,
+        };
+      }
+      if (/^rgb/i.test(color)) {
+        const alpha = nums.length > 3 ? nums[3] : 1;
+        if (alpha === 0) {
+          return { decisive: false, light: false, black: false };
         }
-      },
-      true
-    );
+        const sum = nums.slice(0, 3).reduce((total, channel) => total + channel, 0);
+        return { decisive: true, light: sum > 400, black: sum < 30 };
+      }
+      const sum = nums.slice(0, 3).reduce((total, channel) => total + channel, 0);
+      return { decisive: true, light: sum > 400, black: sum < 30 };
+    };
   });
 }
 
@@ -152,8 +174,9 @@ test.describe('Live site responsive smoke', () => {
     }
   }
 
-  test('mobile nav works and the site defaults light-first on home page', async ({ page }) => {
+  test('mobile nav works and the site defaults dark on home page', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
+    await installColorProbe(page);
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
 
     const mobileToggle = page.locator('.mobile-menu-toggle');
@@ -169,17 +192,16 @@ test.describe('Live site responsive smoke', () => {
     await expect(page.locator('.mobile-nav.open')).toBeHidden();
 
     await expect(page.locator('.dark-mode-toggle')).toHaveCount(0);
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
+    // B39 — the canvas is dark cool-violet (oklch(13% 0.014 265)-family), not pure black.
     const bodyBackground = await page.locator('body').evaluate((element) => {
       const color = window.getComputedStyle(element).backgroundColor;
-      const channels = color.match(/\d+(\.\d+)?/g)?.map(Number) ?? [];
-      return { color, sum: channels.slice(0, 3).reduce((total, channel) => total + channel, 0) };
+      const probe = window.__probeColor(color);
+      return { color, dark: probe.decisive && !probe.light, black: probe.black };
     });
-    expect(
-      bodyBackground.sum,
-      `body background must be light (rgb sum > 600), got ${bodyBackground.color}`
-    ).toBeGreaterThan(600);
+    expect(bodyBackground.dark, `body background must be dark, got ${bodyBackground.color}`).toBe(true);
+    expect(bodyBackground.black, `body background must not be pure black, got ${bodyBackground.color}`).toBe(false);
   });
 
   test('additional services table scrolls inside wrapper on small screens without page overflow', async ({ page }) => {
@@ -336,6 +358,7 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
 
   test('homepage hero is typography-led with real-facts strip', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
+    await installColorProbe(page);
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
 
@@ -346,6 +369,29 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     await expect(page.locator('.hero-copy')).toBeVisible();
     await expect(page.locator('.hero-facts')).toBeVisible();
     await expect(page.locator('.hero-facts')).toContainText('5 business days');
+
+    // B43/B40 — hero facts render as ruled receipt rows: no boxed panel chrome,
+    // hairline rules, mono UPPERCASE label. The Phase 7 editorial panel surface dies.
+    const factsReceipt = await page.locator('.hero-facts').evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      const label = element.querySelector('.hero-facts-label');
+      const labelStyle = label ? window.getComputedStyle(label) : null;
+      const firstRow = element.querySelector('.hero-fact-row');
+      const rowStyle = firstRow ? window.getComputedStyle(firstRow) : null;
+      const background = window.__probeColor(style.backgroundColor);
+      return {
+        borderRadius: style.borderRadius,
+        lightBackground: background.decisive && background.light,
+        labelFont: labelStyle ? labelStyle.fontFamily : '',
+        labelTransform: labelStyle ? labelStyle.textTransform : '',
+        rowRule: rowStyle ? rowStyle.borderBottomWidth : null,
+      };
+    });
+    expect(factsReceipt.borderRadius, 'hero facts must be a ruled receipt, not a boxed panel (B43)').toBe('0px');
+    expect(factsReceipt.lightBackground, 'hero facts must not sit on a light panel surface (B39)').toBe(false);
+    expect(factsReceipt.labelFont, 'hero facts label must render in JetBrains Mono').toContain('JetBrains Mono');
+    expect(factsReceipt.labelTransform, 'hero facts label must be UPPERCASE (mono register, B40)').toBe('uppercase');
+    expect(factsReceipt.rowRule, 'hero fact rows must be separated by hairline rules (B43)').toBe('1px');
 
     const trustRowText = await page.locator('.hero-trust-row').innerText();
     expect(trustRowText, 'trust row must not mention USD').not.toContain('USD');
@@ -632,51 +678,76 @@ test.describe('Phase 2 — audit-first hierarchy', () => {
   });
 });
 
-test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
-  test('N1 — every matrix route defaults light-first with no dark-mode toggle', async ({ page }) => {
+test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
+  test('N1 — every matrix route defaults dark with no dark-mode toggle', async ({ page }) => {
+    await installColorProbe(page);
     for (const route of routes) {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
 
-      await expect(page.locator('html'), `${route} must default to the light theme`).toHaveAttribute('data-theme', 'light');
+      await expect(page.locator('html'), `${route} must default to the dark theme`).toHaveAttribute('data-theme', 'dark');
       await expect(page.locator('.dark-mode-toggle'), `${route} must have no dark-mode toggle`).toHaveCount(0);
 
       const bodyBackground = await page.locator('body').evaluate((element) => {
         const color = window.getComputedStyle(element).backgroundColor;
-        const channels = color.match(/\d+(\.\d+)?/g)?.map(Number) ?? [];
-        return { color, sum: channels.slice(0, 3).reduce((total, channel) => total + channel, 0) };
+        const probe = window.__probeColor(color);
+        return { color, dark: probe.decisive && !probe.light, black: probe.black };
       });
       expect(
-        bodyBackground.sum,
-        `${route} body background must be light (rgb sum > 600), got ${bodyBackground.color}`
-      ).toBeGreaterThan(600);
+        bodyBackground.dark,
+        `${route} body background must be dark cool-violet (oklch(13% 0.014 265)-family), got ${bodyBackground.color}`
+      ).toBe(true);
+      expect(bodyBackground.black, `${route} body background must not be pure black, got ${bodyBackground.color}`).toBe(false);
     }
   });
 
-  test('N2 — every route renders a deliberate near-black band after the hero', async ({ page }) => {
+  test('N2 — no light-paper sections anywhere; the brass final-CTA band closes the page', async ({ page }) => {
+    await installColorProbe(page);
     const bandRoutes = [...routes, '/services', '/workflow-audit'];
+    const marketingRoutes = ['/', '/services', '/workflow-audit', '/web-development', '/mobile-development', '/saas-solutions', '/additional-services'];
 
     for (const route of bandRoutes) {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
 
-      const bandCount = await page.locator('.band-dark').count();
-      expect(bandCount, `${route} must render at least one dark band, got ${bandCount}`).toBeGreaterThanOrEqual(1);
+      // B39 — dark from edge to edge: every main section must sit on the dark canvas
+      // family (paper/paper-2/paper-3). Any light surface is a Phase 7 leftover.
+      const lightSections = await page.evaluate(() => {
+        const surfaceOf = (element) => {
+          let node = element;
+          while (node && node !== document.documentElement) {
+            const probe = window.__probeColor(window.getComputedStyle(node).backgroundColor);
+            if (probe.decisive) {
+              return probe.light;
+            }
+            node = node.parentElement;
+          }
+          return window.__probeColor(window.getComputedStyle(document.documentElement).backgroundColor).light;
+        };
 
-      const positions = await page.evaluate(() => {
-        const hero = document.querySelector('section#hero, section.page-hero');
-        const bands = Array.from(document.querySelectorAll('.band-dark'));
-        const follows = (reference, target) =>
-          !!reference
-          && !!target
-          && (reference.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+        return Array.from(document.querySelectorAll('main section'))
+          .filter((section) => surfaceOf(section))
+          .map((section) => section.id || section.className || section.tagName);
+      });
+      expect(lightSections, `${route} must have no light-paper sections (B39)`).toEqual([]);
 
+      // The page closes on a dark band (brass final-CTA band on marketing pages).
+      const finalBand = await page.locator('main > section').last().evaluate((section) => {
+        const probe = window.__probeColor(window.getComputedStyle(section).backgroundColor);
         return {
-          firstBandAfterHero: bands.length > 0 && follows(hero, bands[0]),
+          className: section.className || section.id,
+          dark: probe.decisive && !probe.light,
         };
       });
+      expect(finalBand.dark, `${route}: the final band (${finalBand.className}) must be dark (B39)`).toBe(true);
 
-      expect(positions.firstBandAfterHero, `${route}: the first dark band must sit after the hero`).toBe(true);
+      if (marketingRoutes.includes(route)) {
+        await expect(
+          page.locator('main > section').last().locator('.btn-primary').first(),
+          `${route}: the final band must carry a brass CTA`
+        ).toBeVisible();
+      }
     }
   });
 
@@ -748,22 +819,27 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
     expect(pricingFont, '.editorial-price-tag must render in JetBrains Mono').toContain('JetBrains Mono');
   });
 
-  test('N6 — dual-mode accent: gold on dark bands, bronze on light surfaces', async ({ page }) => {
+  test('N6 — the single molten-brass accent drives every primary CTA', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
 
-    const bandAccent = await page.locator('.band-dark .btn-primary, .band-dark a').first().evaluate((element) => {
-      const style = window.getComputedStyle(element);
-      return { color: style.color, backgroundColor: style.backgroundColor };
+    // design.md exports: --color-accent: oklch(76% 0.17 50). The phase-7 dual-mode
+    // gold/bronze pair is gone — one molten-brass accent drives the system (B39).
+    const accentToken = await page.evaluate(() => {
+      const root = window.getComputedStyle(document.documentElement);
+      return (root.getPropertyValue('--color-accent') || root.getPropertyValue('--accent')).trim();
     });
-    const isGold = bandAccent.color === 'rgb(232, 185, 98)'
-      || bandAccent.backgroundColor === 'rgb(232, 185, 98)';
-    expect(isGold, `dark-band accent must be gold, got ${JSON.stringify(bandAccent)}`).toBe(true);
+    expect(accentToken, 'the accent token must be the molten-brass oklch value').toBe('oklch(76% 0.17 50)');
 
-    const lightAccent = await page.locator('.section-tag').first().evaluate((element) =>
-      window.getComputedStyle(element).color
-    );
-    expect(lightAccent, 'light-surface accent must be bronze').toBe('rgb(138, 90, 43)');
+    const primaryButton = await page.locator('.btn-primary').first().evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return { backgroundColor: style.backgroundColor, color: style.color };
+    });
+    expect(
+      primaryButton.backgroundColor,
+      `primary CTA must be filled with brass (oklch), got ${primaryButton.backgroundColor}`
+    ).toContain('oklch');
   });
 
   test('N7 — Amharic headlines render in Noto Serif Ethiopic without transforms', async ({ page }) => {
@@ -811,7 +887,7 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
     ).toBe(true);
   });
 
-  test('N9 — every hero is three-level: label, one headline, one supporting line', async ({ page }) => {
+  test('N9 — every hero carries the mono eyebrow, one headline, and one supporting line', async ({ page }) => {
     for (const route of routes) {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
@@ -819,7 +895,19 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
       const hero = page.locator('section#hero, section.page-hero').first();
       await expect(hero, `${route} must render a hero section`).toBeVisible();
 
-      await expect(hero.locator('.page-hero-meta'), `${route} hero must contain the label level`).toHaveCount(1);
+      // B41/B40 — the label level is the mono UPPERCASE eyebrow (NN · ROLE) rendered by
+      // JetBrains Mono. The Phase 7 badge/chip set is replaced by the eyebrow system.
+      const eyebrowCount = await hero.evaluate((element) =>
+        Array.from(element.querySelectorAll('*')).filter((node) => {
+          const style = window.getComputedStyle(node);
+          const text = node.textContent?.trim() ?? '';
+          return style.fontFamily.includes('JetBrains Mono')
+            && style.textTransform === 'uppercase'
+            && /^\d{2} · /.test(text);
+        }).length
+      );
+      expect(eyebrowCount, `${route} hero must carry exactly one mono UPPERCASE eyebrow (NN · ROLE)`).toBe(1);
+
       await expect(hero.locator('h1'), `${route} hero must contain exactly one headline`).toHaveCount(1);
       await expect(hero.locator('p'), `${route} hero must contain exactly one supporting line`).toHaveCount(1);
 
@@ -827,5 +915,291 @@ test.describe('Phase 7 — Fortune-500 visual system (TECH-21)', () => {
         await expect(hero.locator('.hero-facts'), 'home hero must include the real-facts strip').toBeVisible();
       }
     }
+  });
+});
+
+test.describe('Phase 8 — Lumen Night contract (TECH-22, NEW)', () => {
+  test('N1 — dark canvas and the molten-brass accent are present on every matrix route', async ({ page }) => {
+    await installColorProbe(page);
+    for (const route of routes) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      // B39 — dark cool-violet canvas (oklch(13% 0.014 265)-family), never pure black.
+      const canvas = await page.locator('body').evaluate((element) => {
+        const color = window.getComputedStyle(element).backgroundColor;
+        const probe = window.__probeColor(color);
+        return { color, dark: probe.decisive && !probe.light, black: probe.black };
+      });
+      expect(canvas.dark, `${route} canvas must be dark (oklch(13% 0.014 265)-family), got ${canvas.color}`).toBe(true);
+      expect(canvas.black, `${route} canvas must not be pure black, got ${canvas.color}`).toBe(false);
+
+      // index.html — theme-color flips from the light #fafaf9 to the dark #14141c.
+      const themeColor = await page.locator('meta[name="theme-color"]').getAttribute('content');
+      expect(themeColor, `${route} must set the dark theme-color`).toBe('#14141c');
+
+      // design.md — one molten-brass accent token drives the whole system.
+      const accentToken = await page.evaluate(() => {
+        const root = window.getComputedStyle(document.documentElement);
+        return (root.getPropertyValue('--color-accent') || root.getPropertyValue('--accent')).trim();
+      });
+      expect(accentToken, `${route} must expose the molten-brass accent token (B39/design.md)`).toBe('oklch(76% 0.17 50)');
+    }
+  });
+
+  test('N2 — lowercase Instrument Serif display with a mono UPPERCASE eyebrow (two-register)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    // B41 — display headlines render in Instrument Serif; B40 — prose renders lowercase.
+    const h1Styles = await page.locator('h1').first().evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return { fontFamily: style.fontFamily, textTransform: style.textTransform };
+    });
+    expect(h1Styles.fontFamily, 'display headline must render in Instrument Serif').toContain('Instrument Serif');
+    expect(h1Styles.textTransform, 'headline prose must render lowercase (B40)').toBe('lowercase');
+
+    // B41 — body copy renders in Geist; the body rule lowercases every prose surface.
+    const bodyStyles = await page.locator('body').evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return { fontFamily: style.fontFamily, textTransform: style.textTransform };
+    });
+    expect(bodyStyles.fontFamily, 'body copy must render in Geist').toContain('Geist');
+    expect(bodyStyles.textTransform, 'body rule must lowercase all prose (B40)').toBe('lowercase');
+
+    // B41 — the hero eyebrow renders mono UPPERCASE in NN · ROLE form.
+    const eyebrow = await page.locator('section#hero, section.page-hero').first().evaluate((hero) => {
+      const match = Array.from(hero.querySelectorAll('*')).find((node) => {
+        const style = window.getComputedStyle(node);
+        const text = node.textContent?.trim() ?? '';
+        return style.fontFamily.includes('JetBrains Mono') && /^\d{2} · /.test(text);
+      });
+      if (!match) {
+        return null;
+      }
+      const style = window.getComputedStyle(match);
+      return { text: match.textContent.trim(), transform: style.textTransform };
+    });
+    expect(eyebrow, 'home hero must carry a mono eyebrow in NN · ROLE form').not.toBeNull();
+    expect(eyebrow.text, 'eyebrow must follow the NN · ROLE pattern').toMatch(/^\d{2} · /);
+    expect(eyebrow.transform, 'eyebrow must render UPPERCASE (mono register, B40)').toBe('uppercase');
+  });
+
+  test('N3 — one hand-built apparatus in each marketing hero; no orb class anywhere', async ({ page }) => {
+    const marketingRoutes = ['/', '/services', '/workflow-audit', '/web-development', '/mobile-development', '/saas-solutions'];
+
+    for (const route of marketingRoutes) {
+      await page.setViewportSize({ width: 1440, height: 900 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      // B42 — exactly one hand-built apparatus inside the marketing hero.
+      const hero = page.locator('section#hero, section.page-hero').first();
+      await expect(hero, `${route} must render a hero section`).toBeVisible();
+      await expect(hero.locator('.apparatus'), `${route} hero must contain exactly one apparatus (B42)`).toHaveCount(1);
+
+      // B42 — the apparatus carries 3-5 mono leader-line callouts.
+      const calloutCount = await hero.locator('.apparatus .callout').count();
+      expect(calloutCount, `${route} apparatus must carry at least 3 callouts`).toBeGreaterThanOrEqual(3);
+      expect(calloutCount, `${route} apparatus must carry no more than 5 callouts`).toBeLessThanOrEqual(5);
+
+      // B39/B42 — no glowing orb anywhere on the page (the apparatus is the only emitter).
+      await expect(page.locator('[class*="orb"]'), `${route} must render no orb class`).toHaveCount(0);
+    }
+
+    // Rate-sheet, content, and form pages must NOT carry an apparatus (B42).
+    for (const route of ['/pricing', '/policy', '/instant-quote', '/book-discovery-call']) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await expect(page.locator('.apparatus'), `${route} is a rate-sheet/content/form page — no apparatus`).toHaveCount(0);
+    }
+  });
+
+  test('N4 — the meter strip sits under each marketing hero with real end-labels', async ({ page }) => {
+    const meters = [
+      { route: '/', left: 'AUDIT · 85,000 ETB · FIXED', right: 'DELIVERY · 5 BUSINESS DAYS' },
+      { route: '/services', left: 'AUTOMATION · FROM 250,000 ETB', right: 'MILESTONES · 40/30/30' },
+      { route: '/workflow-audit', left: 'AUDIT · 85,000 ETB · FIXED', right: 'DELIVERY · 5 BUSINESS DAYS' },
+      { route: '/web-development', left: 'WEB · FROM 45,000 ETB', right: 'MILESTONES · 40/30/30' },
+      { route: '/mobile-development', left: 'MOBILE · FROM 200,000 ETB', right: 'MILESTONES · 40/30/30' },
+      { route: '/saas-solutions', left: 'SAAS · WAITLIST ONLY', right: 'PILOT · 15–20% OFF' },
+    ];
+
+    for (const { route, left, right } of meters) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      // B45 — the full-bleed meter strip sits under the hero, after it in document order.
+      const meter = page.locator('.meter-strip');
+      await expect(meter, `${route} must render the meter strip under the hero (B45)`).toBeVisible();
+
+      const order = await page.evaluate(() => {
+        const hero = document.querySelector('section#hero, section.page-hero');
+        const strip = document.querySelector('.meter-strip');
+        if (!hero || !strip) {
+          return null;
+        }
+        return (hero.compareDocumentPosition(strip) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+      });
+      expect(order, `${route}: the meter strip must sit after the hero (B45)`).toBe(true);
+
+      // B45/B45a — mono end-labels carry the locked figures (markup renders the case
+      // via CSS, so match case-insensitively; the en-dash is preserved).
+      const meterText = await meter.innerText();
+      const normalized = meterText.toUpperCase();
+      expect(normalized, `${route} meter must carry the left end-label`).toContain(left);
+      expect(normalized, `${route} meter must carry the right end-label`).toContain(right);
+      expect(normalized.indexOf(left), `${route} meter left label must precede the right label`).toBeLessThan(normalized.indexOf(right));
+    }
+  });
+
+  test('N5 — pricing renders a ruled receipt rate sheet (B43)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/pricing`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    // B43 — no tier-card icon tops anywhere on the rate sheet.
+    await expect(
+      page.locator('.pricing-tier-editorial-card .ai-preview-icon, .editorial-track-card .ai-preview-icon'),
+      'tier rows must not carry icon tops (B43)'
+    ).toHaveCount(0);
+
+    // B43 — the pricing surface is a ruled receipt: rows with mono UPPERCASE labels.
+    const rows = page.locator('.pricing-tier-editorial-card, .editorial-track-card, .offer-ladder-row');
+    const rowCount = await rows.count();
+    expect(rowCount, 'the pricing page must render rate rows').toBeGreaterThanOrEqual(3);
+
+    const receipt = await rows.first().evaluate((row) => {
+      const style = window.getComputedStyle(row);
+      const labelCount = Array.from(row.querySelectorAll('*')).filter((node) => {
+        const nodeStyle = window.getComputedStyle(node);
+        return nodeStyle.textTransform === 'uppercase' && nodeStyle.fontFamily.includes('JetBrains Mono');
+      }).length;
+      return { rowRule: style.borderTopWidth, labelCount };
+    });
+    expect(receipt.rowRule, 'receipt rows must be ruled with hairline borders (B43)').toBe('1px');
+    expect(receipt.labelCount, 'receipt rows must carry mono UPPERCASE labels (B43)').toBeGreaterThan(0);
+
+    // B43 — ETB figures render in JetBrains Mono with tabular numerals.
+    const figure = await page.locator('.editorial-price-tag').first().evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return { font: style.fontFamily, variant: style.fontVariantNumeric };
+    });
+    expect(figure.font, 'ETB figures must render in JetBrains Mono').toContain('JetBrains Mono');
+    expect(figure.variant, 'ETB figures must use tabular numerals').toContain('tabular-nums');
+  });
+
+  test('N6 — services page renders ruled rows with mono numerals (B43/B41)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/services`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    // The service grid is a ruled receipt: every row carries a mono numeral (01, 02, ...).
+    const numerals = await page.locator('#service-lanes article').evaluateAll((cards) =>
+      cards.map((card) => {
+        const numeral = Array.from(card.querySelectorAll('*')).find((node) => {
+          const style = window.getComputedStyle(node);
+          return style.fontFamily.includes('JetBrains Mono') && /^\d{2}$/.test(node.textContent?.trim() ?? '');
+        });
+        return numeral ? numeral.textContent.trim() : null;
+      })
+    );
+    expect(numerals.length, 'the services grid must render ruled rows (B43)').toBeGreaterThanOrEqual(3);
+    for (const numeral of numerals) {
+      expect(numeral, 'every service row must carry a mono numeral').toMatch(/^\d{2}$/);
+    }
+    expect(numerals, 'service row numerals must start at 01').toContain('01');
+
+    // B43 — rows are separated by hairline rules.
+    const rowRule = await page.locator('#service-lanes article').first().evaluate((row) =>
+      window.getComputedStyle(row).borderTopWidth
+    );
+    expect(rowRule, 'service rows must be ruled with hairline rules (B43)').toBe('1px');
+  });
+
+  test('N7 — the nav is a flat hairline bar with no floating pill (B46)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+
+    const navInner = page.locator('.navbar-inner');
+    await expect(navInner, 'navbar-inner must render').toBeVisible();
+
+    const navStyles = await navInner.evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return {
+        borderRadius: style.borderRadius,
+        boxShadow: style.boxShadow,
+        backdropFilter: style.backdropFilter,
+        borderBottomWidth: style.borderBottomWidth,
+      };
+    });
+    expect(navStyles.borderRadius, `the nav must be a flat bar, not a floating pill (B46), got ${navStyles.borderRadius}`).toBe('0px');
+    expect(navStyles.boxShadow, 'the nav must not float on a shadow (B46)').toBe('none');
+    expect(navStyles.backdropFilter, 'the nav must not blur (B46 bans backdrop-filter)').toBe('none');
+    expect(navStyles.borderBottomWidth, 'the flat nav must sit on a hairline rule (B46)').toBe('1px');
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(page.locator('.navbar-mobile-actions .language-switcher-select')).toBeVisible();
+  });
+
+  test('N8 — the footer is a statement footer, not a four-column link maze (B46)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+
+    // Ft5 Statement — one statement sentence, hairline, then minimal links + contact.
+    const footer = page.locator('footer.footer');
+    await expect(footer).toBeVisible();
+
+    const footerStats = await footer.evaluate((element) => {
+      const columns = Array.from(element.querySelectorAll('.footer-grid > div, .footer-grid > section'));
+      const linkColumnCount = columns.filter((column) => column.querySelectorAll('a').length > 1).length;
+      const statement = Array.from(element.querySelectorAll('p'))
+        .map((paragraph) => paragraph.textContent?.trim() ?? '')
+        .find((text) => text.length >= 60) ?? null;
+      const connectColumn = columns.find((column) => /connect/i.test(column.textContent ?? ''));
+      const connectLinks = connectColumn ? Array.from(connectColumn.querySelectorAll('a')) : [];
+      return {
+        columnCount: columns.length,
+        linkColumnCount,
+        statement,
+        mailtoFirst: connectLinks.length > 0 && (connectLinks[0].getAttribute('href') ?? '').startsWith('mailto:'),
+      };
+    });
+
+    expect(footerStats.linkColumnCount, 'the footer must not be a four-column link maze (B46)').toBeLessThan(4);
+    expect(footerStats.columnCount, 'the footer must collapse to statement + minimal links (B46)').toBeLessThan(5);
+    expect(footerStats.statement, 'the footer must open with one statement sentence (Ft5)').not.toBeNull();
+    expect(footerStats.mailtoFirst, 'Connect must keep the mailto: anchor first (E2E hook)').toBe(true);
+  });
+
+  test('N9 — reduced motion renders a fully static page (B47)', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+
+    await expect(page.locator('h1').first()).toBeVisible();
+
+    // B47 — no animation classes are active: reveal/stagger/page/chrome transitions
+    // resolve to 0s and nothing sits below final opacity. Hover-only chrome (floating
+    // CTA, chat dock, scroll-top) is included — under reduced motion it must be static.
+    const activeAnimations = await page.evaluate(() => {
+      const animated = document.querySelectorAll(
+        '.page-transition, .navbar, .navbar-inner, .mobile-nav, .floating-cta-container, .floating-cta-btn, '
+        + '.live-chat-dock, .live-chat-toggle, .visible, .stagger-children, .staggered-text, .apparatus, .meter-strip'
+      );
+      return Array.from(animated).filter((element) => {
+        const style = window.getComputedStyle(element);
+        const className = String(element.className || '');
+        const isRevealClass = /page-transition|visible|stagger|apparatus|meter-strip/.test(className);
+        const hasTransition = Array.from(style.transitionDuration.split(',')).some((duration) => duration.trim() !== '0s');
+        const hasAnimation = Array.from(style.animationDuration.split(',')).some((duration) => duration.trim() !== '0s');
+        const opacityPending = isRevealClass && Number(style.opacity) < 1;
+        return hasTransition || hasAnimation || opacityPending;
+      }).map((element) => element.className || element.tagName);
+    });
+    expect(activeAnimations, 'no animation classes may be active under reduced motion (B47)').toEqual([]);
   });
 });
