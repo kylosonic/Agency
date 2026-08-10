@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
 import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
@@ -21,6 +23,15 @@ const INITIAL_CONTACT_FORM = {
 };
 
 const PRICING_SUMMARY = getPricingGuideSummary();
+
+/* B42a (TECH-25): locked topology-apparatus callouts for the Home hero. */
+const HOME_APPARATUS_CALLOUTS = [
+  'AUDIT · 85,000 ETB · FIXED',
+  'DELIVERY · 5 BUSINESS DAYS',
+  'CREDIT · 100% TOWARD BUILD',
+  'KICKOFF · 40%',
+  'PILOT · 15–20% OFF',
+];
 
 const OPERATION_SIGNALS = [
   {
@@ -205,8 +216,8 @@ export default function Home() {
   return (
     <>
       <section className="hero ai-home-hero redesign-home-hero" id="hero" aria-labelledby="home-hero-title">
-        <div className="container hero-shell ai-hero-shell">
-          <div className="hero-copy ai-hero-copy">
+        <div className="container marquee-hero-grid">
+          <div className="hero-copy">
             <ScrollReveal delay={0.08}>
               <div className="eyebrow">01 · ENTRY</div>
             </ScrollReveal>
@@ -238,29 +249,39 @@ export default function Home() {
                 <span className="trust-pill">Fee credited toward implementation</span>
               </div>
             </ScrollReveal>
+
+            <ScrollReveal delay={0.18}>
+              <div className="hero-facts editorial-facts-panel" aria-label="Common workflow problems we audit first">
+                <div className="hero-facts-label">What usually brings teams to us</div>
+                <div className="editorial-note">The audit blueprint lands in 5 business days.</div>
+                <ol className="hero-facts-list">
+                  {OPERATION_SIGNALS.map((item, index) => (
+                    <li key={item.title} className="hero-fact-row">
+                      <span className="hero-fact-number" aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <div className="hero-fact-body">
+                        <span className="hero-fact-title">{item.title}</span>
+                        <span className="hero-fact-text">{item.text}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </ScrollReveal>
           </div>
 
-          <ScrollReveal delay={0.18}>
-            <div className="hero-facts editorial-facts-panel" aria-label="Common workflow problems we audit first">
-              <div className="hero-facts-label">What usually brings teams to us</div>
-              <div className="editorial-note">The audit blueprint lands in 5 business days.</div>
-              <ol className="hero-facts-list">
-                {OPERATION_SIGNALS.map((item, index) => (
-                  <li key={item.title} className="hero-fact-row">
-                    <span className="hero-fact-number" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <div className="hero-fact-body">
-                      <span className="hero-fact-title">{item.title}</span>
-                      <span className="hero-fact-text">{item.text}</span>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </ScrollReveal>
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="topology"
+              callouts={HOME_APPARATUS_CALLOUTS}
+              label="Workflow audit apparatus: fixed audit, delivery in 5 business days, credit 100% toward build, kickoff 40%, pilot 15 to 20 percent off"
+            />
+          </div>
         </div>
       </section>
+
+      <MeterStrip labelLeft="AUDIT · 85,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
 
       <section className="section" id="why-audit-first">
         <div className="container">

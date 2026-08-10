@@ -5577,6 +5577,223 @@ h1 .verb::after {
   color: var(--color-ink-3);
 }
 
+/* ══ TECH-25 · marquee hero grid (B42/B44) ═════════════════════════
+   Hero two-column layout: copy left, apparatus right (design.md
+   per-page allowances). Stacks on mobile with the apparatus at ~180px
+   beneath the copy. The hero emission wash + blueprint grid from
+   TECH-23 are untouched. */
+.marquee-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.marquee-hero-side {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+/* ══ TECH-25 · apparatus (B42) ═════════════════════════════════════
+   One hand-built CSS/SVG apparatus per marketing hero. Pure art — no
+   <img>, no icon fonts, no orb: the only radial accent is the flat
+   diffuse emission wash (--color-glow) behind the art. Pulses 3%
+   intensity on a 4s period (--dur-pulse); NEVER rotates; reduced
+   motion = static at full intensity. Topology and dial use no
+   gradient; the filament chamber carries the single allowed gradient
+   (G4). Sizes: 240–480px desktop, ~180px mobile. */
+.apparatus {
+  position: relative;
+  width: clamp(240px, 28vw, 480px);
+  max-width: 100%;
+}
+
+/* Flat diffuse emission wash — the apparatus is the only emitter
+   (B39). Pulse = 3% intensity oscillation on a 4s period (B42). */
+.apparatus__wash {
+  position: absolute;
+  inset: 6% 10%;
+  background: radial-gradient(ellipse, var(--color-glow) 0%, transparent 68%);
+  opacity: 0.97;
+  animation: apparatus-pulse var(--dur-pulse) ease-in-out infinite alternate;
+}
+
+@keyframes apparatus-pulse {
+  from {
+    opacity: 0.97;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.apparatus__art {
+  position: relative;
+}
+
+.apparatus__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Filament chamber gradient — the one allowed gradient (G4): molten
+   brass along the filament, deeper brass at the base. */
+.apparatus--filament .apparatus__grad-stop-a {
+  stop-color: var(--color-accent);
+}
+
+.apparatus--filament .apparatus__grad-stop-b {
+  stop-color: oklch(62% 0.12 50);
+}
+
+/* Callouts (B42a): mono UPPERCASE labels in the locked register,
+   leader-lined, real figures only. Slots ring the art; each hairline
+   leader points inward toward the art. */
+.apparatus__callouts {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.callout {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 46%;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.callout__leader {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 1px;
+  background: var(--color-rule-2);
+}
+
+.callout:nth-child(1) {
+  top: 1%;
+  left: 1%;
+}
+
+.callout:nth-child(1) .callout__leader {
+  order: 2;
+}
+
+.callout:nth-child(2) {
+  top: 1%;
+  right: 1%;
+  flex-direction: row-reverse;
+}
+
+.callout:nth-child(3) {
+  top: 44%;
+  right: 1%;
+  flex-direction: row-reverse;
+}
+
+.callout:nth-child(4) {
+  bottom: 1%;
+  left: 1%;
+}
+
+.callout:nth-child(5) {
+  bottom: 1%;
+  right: 1%;
+  flex-direction: row-reverse;
+}
+
+/* Reduced motion (B47): apparatus static at full intensity. */
+@media (prefers-reduced-motion: reduce) {
+  .apparatus__wash {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Mobile (B42): apparatus ~180px beneath the hero copy. */
+@media (max-width: 900px) {
+  .marquee-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .marquee-hero-side {
+    justify-content: flex-start;
+  }
+
+  .marquee-hero-side .apparatus {
+    width: 180px;
+  }
+}
+
+/* ══ TECH-25 · meter strip (B45) ════════════════════════════════════
+   Full-bleed static band under every marketing hero: 32–48px, hairline
+   top/bottom, 72 procedurally varied ticks (seeded, deterministic),
+   mono UPPERCASE end-labels (B45a). Never animates — a printed
+   readout; reduced-motion users see it unchanged. */
+.meter-strip {
+  position: relative;
+  width: 100%;
+  height: clamp(32px, 4.5vw, 48px);
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-paper-2);
+  overflow: hidden;
+}
+
+.meter-strip__ticks {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+}
+
+.meter-strip__tick {
+  flex: none;
+  width: 1px;
+  background: var(--color-rule-2);
+}
+
+.meter-strip__label {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  background: var(--color-paper-2);
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 2.6vw, 11px);
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-ink-3);
+}
+
+.meter-strip__label--left {
+  left: 0;
+}
+
+.meter-strip__label--right {
+  right: 0;
+}
+
 /* ── Amharic glyph integrity (B30) ─────────────────────────────────
    Ethiopic script has no case and no italics, and its tall glyphs
    clip or collide at tight line-heights and negative tracking. When
@@ -5647,7 +5864,9 @@ h1 .verb::after {
 :lang(am) .route-loader-text,
 :lang(am) .offer-ladder-stage,
 :lang(am) .editorial-kicker,
-:lang(am) .methodology-step-number {
+:lang(am) .methodology-step-number,
+:lang(am) .callout,
+:lang(am) .meter-strip__label {
   text-transform: none;
   letter-spacing: 0;
   font-style: normal;

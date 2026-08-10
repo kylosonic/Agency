@@ -1,10 +1,19 @@
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
 import { getPricingGuideSummary } from '../services/pricingData';
 
 const WORKFLOW_AUDIT = getPricingGuideSummary().workflowAudit;
+
+/* B42a (TECH-25): locked indicator-dial callouts for the audit hero. */
+const AUDIT_APPARATUS_CALLOUTS = [
+  'AUDIT · 85,000 ETB · FIXED',
+  'DELIVERY · 5 BUSINESS DAYS',
+  'CREDIT · 100% TOWARD BUILD',
+];
 
 const FIT_SIGNALS = [
   'A process depends on manual re-entry, spreadsheet stitching, or brittle portal work.',
@@ -32,22 +41,34 @@ export default function WorkflowAudit() {
   return (
     <>
       <section className="page-hero ai-audit-hero">
-        <div className="container page-hero-content ai-audit-hero-content">
-          <div className="eyebrow">01 · ENTRY</div>
-          <h1>
-            <em className="verb">audit</em>&nbsp;the workflow before the build.
-          </h1>
-          <p>
-            This is the first engagement we want most teams to buy. It gives you a clear operating map,
-            a scoped implementation path, and a commercial decision based on what is actually broken.
-          </p>
-          <div className="page-hero-meta" aria-label="Workflow audit details">
-            <span className="page-hero-chip">Fixed fee {WORKFLOW_AUDIT.price}</span>
-            <span className="page-hero-chip">Delivered in 5 business days</span>
-            <span className="page-hero-chip">Full fee credited toward implementation</span>
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · ENTRY</div>
+            <h1>
+              <em className="verb">audit</em>&nbsp;the workflow before the build.
+            </h1>
+            <p>
+              This is the first engagement we want most teams to buy. It gives you a clear operating map,
+              a scoped implementation path, and a commercial decision based on what is actually broken.
+            </p>
+            <div className="page-hero-meta" aria-label="Workflow audit details">
+              <span className="page-hero-chip">Fixed fee {WORKFLOW_AUDIT.price}</span>
+              <span className="page-hero-chip">Delivered in 5 business days</span>
+              <span className="page-hero-chip">Full fee credited toward implementation</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="dial"
+              callouts={AUDIT_APPARATUS_CALLOUTS}
+              label="Indicator dial apparatus: fixed audit, delivery in 5 business days, credit 100% toward build"
+            />
           </div>
         </div>
       </section>
+
+      <MeterStrip labelLeft="AUDIT · 85,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
 
       <section className="section ai-audit-section">
         <div className="container editorial-two-column">

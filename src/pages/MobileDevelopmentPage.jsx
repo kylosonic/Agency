@@ -2,8 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
 import { getMobilePackages } from '../services/pricingData';
+
+/* B42a (TECH-25): locked filament-apparatus callouts for the Mobile hero. */
+const MOBILE_APPARATUS_CALLOUTS = [
+  'MOBILE · 200,000 / 400,000 ETB',
+  'MILESTONES · 40/30/30',
+  'RESPONSE · 1 BUSINESS DAY',
+];
 
 const MOBILE_CONTEXT = [
   {
@@ -42,21 +51,33 @@ export default function MobileDevelopmentPage() {
   return (
     <>
       <section className="page-hero">
-        <div className="container page-hero-content">
-          <div className="eyebrow">01 · MOBILE</div>
-          <h1>
-            mobile products for teams that <em className="verb">work</em>&nbsp;in motion.
-          </h1>
-          <p>
-            We build mobile apps for field teams, approvals, customer actions, and operational workflows that need to move beyond desktop or chat-based coordination.
-          </p>
-          <div className="page-hero-meta" aria-label="Mobile delivery highlights">
-            <span className="page-hero-chip">Mobile from 200,000 ETB</span>
-            <span className="page-hero-chip">Cross-platform delivery</span>
-            <span className="page-hero-chip">Payments, maps, and field operations supported</span>
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · MOBILE</div>
+            <h1>
+              mobile products for teams that <em className="verb">work</em>&nbsp;in motion.
+            </h1>
+            <p>
+              We build mobile apps for field teams, approvals, customer actions, and operational workflows that need to move beyond desktop or chat-based coordination.
+            </p>
+            <div className="page-hero-meta" aria-label="Mobile delivery highlights">
+              <span className="page-hero-chip">Mobile from 200,000 ETB</span>
+              <span className="page-hero-chip">Cross-platform delivery</span>
+              <span className="page-hero-chip">Payments, maps, and field operations supported</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="filament"
+              callouts={MOBILE_APPARATUS_CALLOUTS}
+              label="Filament apparatus: mobile from 200,000 or 400,000 ETB, milestones 40/30/30, response within 1 business day"
+            />
           </div>
         </div>
       </section>
+
+      <MeterStrip labelLeft="MOBILE · FROM 200,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
       <section className="section">
         <div className="container editorial-card-grid">

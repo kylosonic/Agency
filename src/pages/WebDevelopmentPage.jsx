@@ -2,8 +2,17 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
 import { getWebPackages } from '../services/pricingData';
+
+/* B42a (TECH-25): locked filament-apparatus callouts for the Web hero. */
+const WEB_APPARATUS_CALLOUTS = [
+  'WEB · 45,000 / 150,000 / 250,000 ETB',
+  'MILESTONES · 40/30/30',
+  'RESPONSE · 1 BUSINESS DAY',
+];
 
 const WEB_CONTEXT = [
   {
@@ -42,22 +51,34 @@ export default function WebDevelopmentPage() {
   return (
     <>
       <section className="page-hero">
-        <div className="container page-hero-content">
-          <div className="eyebrow">01 · WEB</div>
-          <h1>
-            web systems that help the business <em className="verb">move</em>,&nbsp;not just look presentable.
-          </h1>
-          <p>
-            We build websites, portals, and dashboard layers when the business needs a clearer commercial path,
-            better intake, or a cleaner operating surface around the workflow.
-          </p>
-          <div className="page-hero-meta" aria-label="Web delivery highlights">
-            <span className="page-hero-chip">Web from 45,000 ETB</span>
-            <span className="page-hero-chip">Portal and dashboard capable</span>
-            <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · WEB</div>
+            <h1>
+              web systems that help the business <em className="verb">move</em>,&nbsp;not just look presentable.
+            </h1>
+            <p>
+              We build websites, portals, and dashboard layers when the business needs a clearer commercial path,
+              better intake, or a cleaner operating surface around the workflow.
+            </p>
+            <div className="page-hero-meta" aria-label="Web delivery highlights">
+              <span className="page-hero-chip">Web from 45,000 ETB</span>
+              <span className="page-hero-chip">Portal and dashboard capable</span>
+              <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="filament"
+              callouts={WEB_APPARATUS_CALLOUTS}
+              label="Filament apparatus: web from 45,000, 150,000, or 250,000 ETB, milestones 40/30/30, response within 1 business day"
+            />
           </div>
         </div>
       </section>
+
+      <MeterStrip labelLeft="WEB · FROM 45,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
       <section className="section">
         <div className="container editorial-card-grid">

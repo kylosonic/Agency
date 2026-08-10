@@ -1,7 +1,17 @@
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
+
+/* B42a (TECH-25): locked filament-apparatus callouts for the Services hero. */
+const SERVICES_APPARATUS_CALLOUTS = [
+  'AUTOMATION · FROM 250,000 ETB',
+  'WEB · FROM 45,000 ETB',
+  'MOBILE · FROM 200,000 ETB',
+  'MILESTONES · 40/30/30',
+];
 
 const AUTOMATION_LANES = [
   {
@@ -73,22 +83,34 @@ export default function Services() {
   return (
     <>
       <section className="page-hero ai-services-hero" aria-labelledby="services-hero-title">
-        <div className="container page-hero-content ai-services-hero-content">
-          <div className="eyebrow">01 · OFFER</div>
-          <h1 id="services-hero-title">
-            what we actually <em className="verb">build</em>&nbsp;after the Workflow Audit.
-          </h1>
-          <p>
-            NovaTech is not selling abstract AI transformation. We build specific operating systems for teams that
-            need work to move faster, more accurately, and with less dependence on one overloaded person.
-          </p>
-          <div className="page-hero-meta" aria-label="Service delivery priorities">
-            <span className="page-hero-chip">Audit first</span>
-            <span className="page-hero-chip">AI automation when it solves a real bottleneck</span>
-            <span className="page-hero-chip">Web and mobile when an interface layer is needed</span>
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · OFFER</div>
+            <h1 id="services-hero-title">
+              what we actually <em className="verb">build</em>&nbsp;after the Workflow Audit.
+            </h1>
+            <p>
+              NovaTech is not selling abstract AI transformation. We build specific operating systems for teams that
+              need work to move faster, more accurately, and with less dependence on one overloaded person.
+            </p>
+            <div className="page-hero-meta" aria-label="Service delivery priorities">
+              <span className="page-hero-chip">Audit first</span>
+              <span className="page-hero-chip">AI automation when it solves a real bottleneck</span>
+              <span className="page-hero-chip">Web and mobile when an interface layer is needed</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="filament"
+              callouts={SERVICES_APPARATUS_CALLOUTS}
+              label="Filament apparatus: automation from 250,000 ETB, web from 45,000 ETB, mobile from 200,000 ETB, milestones 40/30/30"
+            />
           </div>
         </div>
       </section>
+
+      <MeterStrip labelLeft="AUTOMATION · FROM 250,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
       <section className="section" id="service-lanes">
         <div className="container">

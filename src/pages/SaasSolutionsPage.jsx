@@ -1,7 +1,16 @@
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
+
+/* B42a (TECH-25): locked filament-apparatus callouts for the SaaS hero. */
+const SAAS_APPARATUS_CALLOUTS = [
+  'SAAS · WAITLIST ONLY',
+  'PILOT · 15–20% OFF',
+  'RESPONSE · 1 BUSINESS DAY',
+];
 
 const SAAS_INTEREST_AREAS = [
   {
@@ -25,21 +34,33 @@ export default function SaasSolutionsPage() {
   return (
     <>
       <section className="page-hero">
-        <div className="container page-hero-content">
-          <div className="eyebrow">01 · SAAS</div>
-          <h1>
-            <em className="verb">get</em>&nbsp;on the SaaS waitlist.
-          </h1>
-          <p>
-            We are not presenting a live SaaS catalog or charging for products that do not exist yet. If your team wants one of these systems, register interest and we will talk when there is a truthful offer to discuss.
-          </p>
-          <div className="page-hero-meta" aria-label="SaaS availability notes">
-            <span className="page-hero-chip">No published SaaS prices</span>
-            <span className="page-hero-chip">No billing until a real product exists</span>
-            <span className="page-hero-chip">Register interest honestly</span>
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · SAAS</div>
+            <h1>
+              <em className="verb">get</em>&nbsp;on the SaaS waitlist.
+            </h1>
+            <p>
+              We are not presenting a live SaaS catalog or charging for products that do not exist yet. If your team wants one of these systems, register interest and we will talk when there is a truthful offer to discuss.
+            </p>
+            <div className="page-hero-meta" aria-label="SaaS availability notes">
+              <span className="page-hero-chip">No published SaaS prices</span>
+              <span className="page-hero-chip">No billing until a real product exists</span>
+              <span className="page-hero-chip">Register interest honestly</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="filament"
+              callouts={SAAS_APPARATUS_CALLOUTS}
+              label="Filament apparatus: SaaS waitlist only, pilot 15 to 20 percent off, response within 1 business day"
+            />
           </div>
         </div>
       </section>
+
+      <MeterStrip labelLeft="SAAS · WAITLIST ONLY" labelRight="PILOT · 15–20% OFF" />
 
       <section className="section">
         <div className="container">
