@@ -1349,7 +1349,8 @@ h1 .verb::after {
 }
 
 .price-cell {
-  color: var(--color-accent);
+  /* B43 (TECH-26): inked mono tabular figure on the receipt table */
+  color: var(--color-ink);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
@@ -1362,6 +1363,7 @@ h1 .verb::after {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
+  color: var(--color-ink);
 }
 
 .services-table-description {
@@ -2796,7 +2798,9 @@ h1 .verb::after {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-weight: 700;
-  color: var(--color-accent);
+  /* B43 (TECH-26): price figures are inked mono; brass belongs to labels
+     and accents only. */
+  color: var(--color-ink);
 }
 
 .editorial-hero-price {
@@ -2806,7 +2810,7 @@ h1 .verb::after {
 
 .band-dark .editorial-price-tag,
 .band-dark .editorial-hero-price {
-  color: var(--color-accent);
+  color: var(--color-ink);
 }
 
 .editorial-price-tag {
@@ -2974,7 +2978,8 @@ h1 .verb::after {
 .editorial-price-list li span:last-child {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  color: var(--color-accent);
+  /* B43 (TECH-26): inked price figures on the receipt register */
+  color: var(--color-ink);
   font-weight: 700;
 }
 
@@ -5794,6 +5799,219 @@ h1 .verb::after {
   right: 0;
 }
 
+/* ══ TECH-26 — Receipt rate-sheet register (B43 / NB-29) ════════════
+   Wherever prices appear they render as a ruled receipt: hairline rows
+   (--color-rule), a mono UPPERCASE label register (11px · 0.10em ·
+   ink-3), content, and a right-aligned mono tabular ETB figure in ink.
+   Row hover = paper-3 tint only. No card icons, no icon tops, no bento
+   tiles on any price surface. Brass stays on labels/numerals/accents;
+   price figures are inked. Placed before the :lang(am) block so the
+   Ethiopic neutralizations remain the stylesheet's final word. */
+
+/* ── Generic receipt row register ─────────────────────────────── */
+.receipt {
+  display: grid;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.receipt-row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 15rem) minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--color-rule);
+  transition: background var(--transition-fast);
+}
+
+.receipt-row:hover {
+  background: color-mix(in srgb, var(--color-paper-3) 55%, transparent);
+}
+
+.receipt-row > :only-child {
+  grid-column: 1 / -1;
+}
+
+.receipt-row > :nth-child(2):last-child {
+  grid-column: 2 / -1;
+}
+
+/* Label register: mono UPPERCASE, 11px, 0.10em, ink-3 */
+.receipt-row__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+.receipt-row__price {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--color-ink);
+  text-align: right;
+}
+
+.receipt-row__content {
+  color: var(--color-ink-2);
+  line-height: 1.68;
+}
+
+.receipt-row__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.receipt-row__list li {
+  color: var(--color-ink-2);
+  line-height: 1.6;
+}
+
+/* Real DOM row numerals (01, 02, …) — mono, tabular, brass accent */
+.receipt-row__numeral {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* ── Receipt stacks: grids collapse to one ruled column ───────── */
+.receipt-stack {
+  display: block;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+/* Rows inside a receipt stack: card boxes stripped, top-ruled */
+.receipt-stack .pricing-tier-editorial-card,
+.receipt-stack .editorial-track-card,
+.receipt-stack .service-lane-card {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  padding: 1.1rem 0;
+  transition: background var(--transition-fast);
+}
+
+.receipt-stack .pricing-tier-editorial-card:hover,
+.receipt-stack .editorial-track-card:hover,
+.receipt-stack .service-lane-card:hover {
+  background: color-mix(in srgb, var(--color-paper-3) 55%, transparent);
+}
+
+/* Pricing tracks (price | title + meta + note) */
+.pricing-track-card {
+  grid-template-columns: minmax(11rem, 14rem) minmax(0, 1fr);
+  align-items: baseline;
+}
+
+.pricing-track-card .editorial-price-tag {
+  margin-bottom: 0;
+}
+
+/* Services tracks + Home implementation tracks (numeral | content) */
+.service-track-card,
+.home-track-card {
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+}
+
+.service-track-card .receipt-row__numeral,
+.home-track-card .receipt-row__numeral {
+  padding-top: 0.35rem;
+}
+
+/* Services automation lanes (numeral | title + text + examples) */
+.service-lane-card {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+  gap: 0.45rem;
+}
+
+.service-lane-card .receipt-row__numeral {
+  padding-top: 0.35rem;
+}
+
+.service-lane-card h3 {
+  font-size: 1.04rem;
+  margin-bottom: 0.4rem;
+}
+
+.service-lane-card .editorial-mini-list {
+  margin-top: 0.7rem;
+}
+
+/* ── Offer ladder → receipt rows (stage | title+note | price) ─── */
+.offer-ladder {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.offer-ladder-row {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  padding: 1.1rem 0;
+  transition: background var(--transition-fast);
+}
+
+.offer-ladder-row:hover {
+  background: color-mix(in srgb, var(--color-paper-3) 55%, transparent);
+}
+
+/* ── Hero facts panel → ruled receipt, no boxed panel chrome ──── */
+.hero-facts.editorial-facts-panel {
+  border-radius: 0;
+}
+
+.hero-facts-label {
+  color: var(--color-ink-3);
+}
+
+.hero-facts .editorial-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-3);
+  margin-bottom: 0.6rem;
+}
+
+/* ── Supporting services price list closes its ruled receipt ──── */
+.editorial-price-list {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+/* ── PilotOfferSection → paper-2 hairline surface (B44 lock-in) ── */
+.pilot-offer-card {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper-2);
+  box-shadow: inset 0 0 24px var(--color-paper-emit);
+}
+
+/* Receipt rows collapse to one column on narrow viewports */
+@media (max-width: 1080px) {
+  .receipt-row {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .pricing-track-card {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-track-card .editorial-price-tag {
+    text-align: left;
+  }
+}
+
 /* ── Amharic glyph integrity (B30) ─────────────────────────────────
    Ethiopic script has no case and no italics, and its tall glyphs
    clip or collide at tight line-heights and negative tracking. When
@@ -5866,7 +6084,9 @@ h1 .verb::after {
 :lang(am) .editorial-kicker,
 :lang(am) .methodology-step-number,
 :lang(am) .callout,
-:lang(am) .meter-strip__label {
+:lang(am) .meter-strip__label,
+:lang(am) .receipt-row__label,
+:lang(am) .receipt-row__numeral {
   text-transform: none;
   letter-spacing: 0;
   font-style: normal;

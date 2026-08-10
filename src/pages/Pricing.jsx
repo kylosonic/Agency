@@ -59,12 +59,27 @@ export default function Pricing({ onDownloadClick }) {
       <section className="section" id="workflow-audit-pricing">
         <div className="container editorial-two-column">
           <ScrollReveal>
-            <article className="editorial-panel glass-strong">
+            <article className="editorial-panel">
               <div className="eyebrow">02 · AUDIT</div>
               <h2>{workflowAudit.title}</h2>
-              <p className="editorial-hero-price">{workflowAudit.price}</p>
-              <p>{workflowAudit.description}</p>
-              <FeatureList items={workflowAudit.outputs} />
+              {/* B43 (TECH-26): the audit panel is a ruled receipt — label row,
+                  description, deliverables as receipt lines (locked pricingData). */}
+              <div className="receipt" aria-label="Workflow Audit rate">
+                <div className="receipt-row">
+                  <span className="receipt-row__label">Audit · {workflowAudit.price} · Fixed</span>
+                </div>
+                <div className="receipt-row">
+                  <p className="receipt-row__content">{workflowAudit.description}</p>
+                </div>
+                <div className="receipt-row">
+                  <span className="receipt-row__label">Deliverables</span>
+                  <ul className="receipt-row__list">
+                    {workflowAudit.outputs.map((output) => (
+                      <li key={output}>{output}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </article>
           </ScrollReveal>
 
@@ -75,7 +90,7 @@ export default function Pricing({ onDownloadClick }) {
               <p>
                 It protects you from buying the wrong build and protects us from pretending that every workflow can be priced from a guess. The audit fee is credited if we continue into implementation.
               </p>
-              <div className="editorial-note-panel glass">
+              <div className="editorial-note-panel">
                 <strong>Timeline:</strong> delivered within 5 business days.
               </div>
             </article>
@@ -94,15 +109,18 @@ export default function Pricing({ onDownloadClick }) {
             />
           </ScrollReveal>
 
-          <div className="editorial-card-grid">
+          <div className="editorial-card-grid receipt-stack">
             {automationTiers.map((tier) => (
               <ScrollReveal key={tier.title}>
-                <article className="editorial-card glass-card pricing-tier-editorial-card">
+                {/* B43 (TECH-26): one ruled receipt row per tier — no card box,
+                    no icon top; setup price stays a mono tabular figure. */}
+                <article className="editorial-card pricing-tier-editorial-card">
+                  <p className="receipt-row__label">Setup price</p>
                   <p className="editorial-price-tag">{tier.setupPrice}</p>
                   <h3>{tier.title}</h3>
                   <p className="editorial-meta-line">{tier.bestFor} / {tier.timeline}</p>
                   <p>{tier.scope}</p>
-                  <div className="editorial-note-panel glass">
+                  <div className="editorial-note-panel">
                     <strong>Monthly support:</strong> {tier.monthlySupport}
                   </div>
                   <h4>Setup includes</h4>
@@ -127,37 +145,43 @@ export default function Pricing({ onDownloadClick }) {
             />
           </ScrollReveal>
 
-          <div className="editorial-card-grid editorial-card-grid-dark">
+          <div className="editorial-card-grid editorial-card-grid-dark receipt-stack">
             {webTracks.map((item) => (
               <ScrollReveal key={item.title}>
-                <article className="editorial-card glass-card editorial-track-card">
+                <article className="editorial-card editorial-track-card pricing-track-card">
                   <p className="editorial-price-tag">{item.price}</p>
-                  <h3>{item.title}</h3>
-                  <p className="editorial-meta-line">{item.timeline}</p>
-                  <p>{item.note}</p>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p className="editorial-meta-line">{item.timeline}</p>
+                    <p>{item.note}</p>
+                  </div>
                 </article>
               </ScrollReveal>
             ))}
 
             {mobileTracks.map((item) => (
               <ScrollReveal key={item.title}>
-                <article className="editorial-card glass-card editorial-track-card">
+                <article className="editorial-card editorial-track-card pricing-track-card">
                   <p className="editorial-price-tag">{item.price}</p>
-                  <h3>{item.title}</h3>
-                  <p className="editorial-meta-line">{item.timeline}</p>
-                  <p>{item.note}</p>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p className="editorial-meta-line">{item.timeline}</p>
+                    <p>{item.note}</p>
+                  </div>
                 </article>
               </ScrollReveal>
             ))}
 
             <ScrollReveal>
-              <article className="editorial-card glass-card editorial-track-card">
+              <article className="editorial-card editorial-track-card pricing-track-card">
                 <p className="editorial-price-tag">Waitlist only</p>
-                <h3>SaaS</h3>
-                <p className="editorial-meta-line">No live paid offer</p>
-                <p>
-                  SaaS is not presented as a live priced product. If you want to register interest, use the waitlist page and we will only publish pricing when a real product exists.
-                </p>
+                <div>
+                  <h3>SaaS</h3>
+                  <p className="editorial-meta-line">No live paid offer</p>
+                  <p>
+                    SaaS is not presented as a live priced product. If you want to register interest, use the waitlist page and we will only publish pricing when a real product exists.
+                  </p>
+                </div>
               </article>
             </ScrollReveal>
           </div>
@@ -181,7 +205,7 @@ export default function Pricing({ onDownloadClick }) {
                 <p className="editorial-kicker">Support bands</p>
                 <h3>Ongoing support</h3>
                 <div className="offer-ladder">
-                  <article className="offer-ladder-row glass">
+                  <article className="offer-ladder-row">
                     <div className="offer-ladder-stage">AI support</div>
                     <div className="offer-ladder-main">
                       <p>Hosting, model usage, monitoring, support hours, and response commitments are quoted together.</p>
@@ -191,7 +215,7 @@ export default function Pricing({ onDownloadClick }) {
                       <span>Quoted after implementation scope is known</span>
                     </div>
                   </article>
-                  <article className="offer-ladder-row glass">
+                  <article className="offer-ladder-row">
                     <div className="offer-ladder-stage">Web maintenance</div>
                     <div className="offer-ladder-main">
                       <p>Security patches, plugin updates, backups, and small content changes under a written support commitment.</p>
@@ -225,7 +249,7 @@ export default function Pricing({ onDownloadClick }) {
           </div>
 
           <ScrollReveal delay={0.12}>
-            <div className="editorial-note-panel glass-card">
+            <div className="editorial-note-panel">
               <strong>Founding-client note:</strong> implementation projects only may qualify for a 15 to 20 percent founding-client rate in exchange for case-study rights, a testimonial, and referral permission. We keep this note here once instead of repeating it across the whole site.
             </div>
           </ScrollReveal>

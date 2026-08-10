@@ -366,23 +366,23 @@ export default function Home() {
             />
           </ScrollReveal>
 
-          <div className="editorial-card-grid editorial-card-grid-dark">
-            {IMPLEMENTATION_TRACKS.map((item) => (
+          {/* B43 (TECH-26): implementation tracks as ruled receipt rows with real
+              DOM mono numerals 01–03 and mono tabular prices (locked figures). */}
+          <div className="editorial-card-grid editorial-card-grid-dark receipt-stack">
+            {IMPLEMENTATION_TRACKS.map((item, index) => (
               <ScrollReveal key={item.title}>
-                <article className="editorial-card glass-card editorial-track-card">
-                  <div className="editorial-card-top">
-                    <span className="ai-preview-icon" aria-hidden="true">
-                      <IconGlyph name={item.icon} size={18} />
-                    </span>
-                    <div>
-                      <p className="editorial-price-tag">{item.price}</p>
-                      <h3>{item.title}</h3>
-                    </div>
+                <article className="editorial-card editorial-track-card home-track-card">
+                  <span className="receipt-row__numeral" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="home-track-card__body">
+                    <p className="editorial-price-tag">{item.price}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    <Link className="editorial-inline-link" to={item.to}>
+                      Explore this track
+                    </Link>
                   </div>
-                  <p>{item.text}</p>
-                  <Link className="editorial-inline-link" to={item.to}>
-                    Explore this track
-                  </Link>
                 </article>
               </ScrollReveal>
             ))}
@@ -404,7 +404,7 @@ export default function Home() {
           <div className="offer-ladder">
             {OFFER_LADDER.map((item) => (
               <ScrollReveal key={item.title}>
-                <article className="offer-ladder-row glass-card">
+                <article className="offer-ladder-row">
                   <div className="offer-ladder-stage">{item.stage}</div>
                   <div className="offer-ladder-main">
                     <h3>{item.title}</h3>
@@ -420,7 +420,7 @@ export default function Home() {
           </div>
 
           <ScrollReveal delay={0.12}>
-            <div className="editorial-note-panel glass-card">
+            <div className="editorial-note-panel">
               <strong>SaaS note:</strong> SaaS is waitlist only. We do not present it like a live paid offer until a real product exists and a truthful price can be published.
             </div>
           </ScrollReveal>

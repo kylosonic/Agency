@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
-import IconGlyph from '../components/IconGlyph';
 import { getAdditionalServices, getFeaturedAddons } from '../services/pricingData';
 
 export default function AdditionalServicesPage() {
@@ -110,18 +109,15 @@ export default function AdditionalServicesPage() {
               <p>Loading add-ons...</p>
             </div>
           ) : (
-            <div className="editorial-card-grid editorial-card-grid-dark">
+            <div className="editorial-card-grid editorial-card-grid-dark receipt-stack">
+              {/* B43 (TECH-26): add-ons as ruled receipt rows — icon tops removed,
+                  price stays a mono tabular figure. */}
               {featuredAddons.map((addon) => (
                 <ScrollReveal key={addon.title}>
-                  <article className="editorial-card glass-card editorial-track-card">
-                    <div className="editorial-card-top">
-                      <span className="ai-preview-icon" aria-hidden="true">
-                        <IconGlyph name={addon.icon} size={18} />
-                      </span>
-                      <h3>{addon.title}</h3>
-                    </div>
-                    <p>{addon.description}</p>
+                  <article className="editorial-card editorial-track-card addon-track-card">
                     <p className="editorial-price-tag">{addon.price}</p>
+                    <h3>{addon.title}</h3>
+                    <p>{addon.description}</p>
                   </article>
                 </ScrollReveal>
               ))}

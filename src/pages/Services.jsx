@@ -123,22 +123,24 @@ export default function Services() {
             />
           </ScrollReveal>
 
-          <div className="editorial-card-grid">
-            {AUTOMATION_LANES.map((item) => (
+          {/* B43 (TECH-26): supporting lanes as hairline rows with real DOM mono
+              numerals 01–03 (not CSS ::before counters). */}
+          <div className="editorial-card-grid receipt-stack">
+            {AUTOMATION_LANES.map((item, index) => (
               <ScrollReveal key={item.title}>
-                <article className="editorial-card glass-card service-lane-card">
-                  <div className="editorial-card-top">
-                    <span className="ai-preview-icon" aria-hidden="true">
-                      <IconGlyph name={item.icon} size={18} />
-                    </span>
+                <article className="editorial-card service-lane-card">
+                  <span className="receipt-row__numeral" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="service-lane-card__body">
                     <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    <ul className="editorial-mini-list">
+                      {item.examples.map((example) => (
+                        <li key={example}>{example}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <p>{item.text}</p>
-                  <ul className="editorial-mini-list">
-                    {item.examples.map((example) => (
-                      <li key={example}>{example}</li>
-                    ))}
-                  </ul>
                 </article>
               </ScrollReveal>
             ))}
@@ -187,23 +189,30 @@ export default function Services() {
             />
           </ScrollReveal>
 
-          <div className="editorial-card-grid">
-            {DELIVERY_TRACKS.map((item) => (
+          {/* B43 (TECH-26): commercial tracks as ruled receipt rows with real DOM
+              mono numerals 01–04 (not CSS ::before counters). */}
+          <div className="editorial-card-grid receipt-stack">
+            {DELIVERY_TRACKS.map((item, index) => (
               <ScrollReveal key={item.title}>
-                <article className="editorial-card glass-card editorial-track-card">
-                  <p className="editorial-price-tag">{item.price}</p>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                  <Link className="editorial-inline-link" to={item.to}>
-                    Open this page
-                  </Link>
+                <article className="editorial-card editorial-track-card service-track-card">
+                  <span className="receipt-row__numeral" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="service-track-card__body">
+                    <p className="editorial-price-tag">{item.price}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                    <Link className="editorial-inline-link" to={item.to}>
+                      Open this page
+                    </Link>
+                  </div>
                 </article>
               </ScrollReveal>
             ))}
           </div>
 
           <ScrollReveal delay={0.12}>
-            <div className="editorial-note-panel glass-card">
+            <div className="editorial-note-panel">
               <strong>What we do not do:</strong> placeholder pilots, invented proof, inflated AI claims, or price tables that drift away from the live offer.
             </div>
           </ScrollReveal>
