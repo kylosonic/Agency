@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import IconGlyph from './IconGlyph';
 import { useLanguage } from '../i18n/useLanguage';
 
@@ -8,6 +8,7 @@ const MotionDiv = motion.div;
 
 export default function FloatingCTA() {
     const { t } = useLanguage();
+    const prefersReducedMotion = useReducedMotion();
     const [isVisible, setIsVisible] = useState(false);
     const lastScrollY = useRef(0);
 
@@ -33,10 +34,12 @@ export default function FloatingCTA() {
         <AnimatePresence>
             {isVisible && (
                 <MotionDiv
-                    initial={{ opacity: 0, y: 12 }}
+                    /* B47 (TECH-28): entrance fade+rise gated — under reduced
+                       motion the CTA renders at final state, duration 0. */
+                    initial={{ opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 12 }}
-                    transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                    exit={{ opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 12 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
                     className="floating-cta-container"
                 >
                     <Link to="/workflow-audit" className="floating-cta-btn">

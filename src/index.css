@@ -359,7 +359,8 @@ h2 {
 .fade-up,
 .fade-in,
 .stagger-children > * {
-  transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+  /* B47: section heads fade in gently on view — 600 ms, 60 ms stagger */
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
 }
 
 .fade-up,
@@ -2136,7 +2137,7 @@ h1 .verb::after {
   border-radius: var(--radius-input);
   background: var(--color-paper-3);
   background-size: 200% 100%;
-  animation: skeleton-pulse 1.2s ease-in-out infinite;
+  animation: loader-pulse 1.2s ease-in-out infinite;
 }
 
 .skeleton-card {
@@ -2144,14 +2145,13 @@ h1 .verb::after {
   border-radius: var(--radius-card);
 }
 
-@keyframes skeleton-pulse {
-  from {
-    background-position: 100% 0;
-  }
-
-  to {
-    background-position: -100% 0;
-  }
+/* G10 (TECH-28): ONE shared loader keyframe — the 0->1 opacity pulse,
+   reused by skeleton / route-loader-ring / section-loader; per-class
+   durations live in each animation shorthand, not in separate keyframes.
+   Reduced-motion freeze: the global reduce block sets animation: none. */
+@keyframes loader-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
 /* Per-usage surface enumeration (B21) — replaces the deleted :is() mega-block.
@@ -5016,7 +5016,7 @@ h1 .verb::after {
   border-radius: var(--radius-card);
   border: 1px solid var(--color-rule-2);
   background: var(--color-paper-emit);
-  animation: route-loader-pulse 1.4s ease-in-out infinite;
+  animation: loader-pulse 1.4s ease-in-out infinite;
 }
 
 .route-loader-text {
@@ -5034,17 +5034,7 @@ h1 .verb::after {
   border-radius: var(--radius-card);
   background: var(--color-paper-3);
   background-size: 220% 100%;
-  animation: section-loader-wave 1.4s ease-in-out infinite;
-}
-
-@keyframes route-loader-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
-}
-
-@keyframes section-loader-wave {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  animation: loader-pulse 1.4s ease-in-out infinite;
 }
 
 /* ── Error Boundary ── */
@@ -5164,13 +5154,39 @@ h1 .verb::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* N9 (B47): TRUE zero — computed durations must read 0s/0ms, not 1ms.
+     Global kill switch for every transition + CSS animation. */
   *,
   *::before,
   *::after {
-    animation-duration: 1ms !important;
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 1ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Animation-bearing surfaces go fully inert — no transition, no
+     animation. Final states are enforced by the per-component freezes
+     below (verb underline scaleX(1), apparatus wash opacity 1) and by
+     the .visible rules (fade-up / stagger-children -> opacity 1). */
+  .verb::after,
+  .apparatus,
+  .apparatus__wash,
+  .skeleton,
+  .route-loader,
+  .route-loader-ring,
+  .section-loader,
+  .fade-up,
+  .fade-in,
+  .stagger-children > *,
+  .staggered-text-word,
+  .scroll-to-top-btn,
+  .floating-cta-btn,
+  .live-chat-toggle,
+  .modal-slide-panel,
+  .modal-backdrop-blur {
+    transition: none !important;
+    animation: none !important;
   }
 }
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { isValidEmailAddress, submitPricingGuideLead } from '../services/mailingListService';
@@ -59,6 +59,7 @@ const VARIANT_CONTENT = {
 
 export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', variant = 'pricing_guide', routePath = '/' }) {
     const { t } = useLanguage();
+    const prefersReducedMotion = useReducedMotion();
     const [formData, setFormData] = useState(INITIAL_FORM);
     const [status, setStatus] = useState('idle');
     const panelRef = useRef(null);
@@ -273,18 +274,23 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
             {isOpen && (
                 <MotionDiv 
                     className="modal-backdrop-blur"
-                    initial={{ opacity: 0 }}
+                    /* B47 (TECH-28): minimal fade kept open/close; under reduced
+                       motion the modal is fully static (duration 0). */
+                    initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
                     onClick={() => requestClose('backdrop_click')}
                     role="presentation"
                 >
                     <MotionDiv 
                         className="modal-slide-panel"
-                        initial={{ x: "100%" }}
+                        initial={{ x: prefersReducedMotion ? 0 : "100%" }}
                         animate={{ x: 0 }}
-                        exit={{ x: "100%" }}
-                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        exit={{ x: prefersReducedMotion ? 0 : "100%" }}
+                        transition={prefersReducedMotion
+                            ? { duration: 0 }
+                            : { type: "spring", damping: 25, stiffness: 200 }}
                         onClick={(e) => e.stopPropagation()}
                         role="dialog"
                         aria-modal="true"

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../i18n/useLanguage';
 
 const MotionButton = motion.button;
 
 export default function ScrollToTopButton() {
     const { t } = useLanguage();
+    const prefersReducedMotion = useReducedMotion();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -33,10 +34,12 @@ export default function ScrollToTopButton() {
             {isVisible && (
                 <MotionButton
                     type="button"
-                    initial={{ opacity: 0 }}
+                    /* B47 (TECH-28): entrance fade gated — under reduced motion
+                       the button renders at final state, duration 0. */
+                    initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.16, 1, 0.3, 1] }}
                     onClick={scrollToTop}
                     className="scroll-to-top-btn"
                     aria-label={t('actions.scrollTop', 'Scroll to top')}
