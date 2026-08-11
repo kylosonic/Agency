@@ -1,79 +1,108 @@
-# Swarm State — Phase 8 Lumen Night Visual System
+# Swarm State — Pricing Revert, Discounts, Copy Trim & Editorial Motion
 
 > Maintained by @scribe / @architect. Updated after every major gate.
 
 ## Current phase
 
-**DEPLOYED — production live** (2026-08-11). Merge `cf159b1` → `main`, Vercel deployment
-`dpl_7VrzQkABk3TEHAqhMEJapJ5TPKK3` READY, https://novatech23.vercel.app — health checks 8/8.
-Rollback if ever needed: `git revert -m 1 cf159b1` → push → Vercel auto-redeploys.
+**PLANNING** — intake complete, contract locked, branch created. Gate A (Blueprint) is
+**PENDING** (@plan has not produced the blueprint yet). No implementation has started.
+
+Prior batch context: Phase 8 Lumen Night is **DEPLOYED** to production (merge `cf159b1` →
+`main`, Vercel deployment `dpl_7VrzQkABk3TEHAqhMEJapJ5TPKK3` READY,
+https://novatech23.vercel.app — health checks 8/8). Rollback if ever needed:
+`git revert -m 1 cf159b1` → push → Vercel auto-redeploys.
 
 ## Feature branch
 
-`phase8-lumen-night` (single batch branch — do not create another)
+`pricing-revert-and-motion` (single batch branch — do not create another)
 
 ## Batch scope
 
-Full visual replacement: Phase 7 light-first → Phase 8 Lumen Night (dark canvas,
-molten brass, two-register typography, apparatus heroes, receipt rate sheets,
-flat nav, statement footer, calm motion). Governed by `design.md`,
-`docs/behaviors/visual-system-lumen.md` (B39–B48), blueprint
-`docs/plans/phase8-lumen-visual-system.md` (TECH-22 → TECH-29).
-Owner direction confirmed 2026-08-11 ("yes thats premium") — recorded in
-`docs/behaviors/pending-behaviors.md` header.
+Owner-confirmed batch (2026-08-11, decisions in order: **B / trim / 3 / B / 1**), governed by
+`docs/behaviors/pricing-revert-and-motion.md` (P-1…P-3, C-1…C-2, M-1…M-6, G-1…G-5) and tracked
+as NB-36…NB-40 in `docs/behaviors/pending-behaviors.md`. **SUPERSEDES** the pricing figures in
+`launch-readiness.md` B5, B6, B8, B9, B10, B11 and in `visual-system-fortune500.md` /
+`visual-system-lumen.md` where they reference locked figures. ADR-001's ETB-only policy remains
+in force; its *figures* are replaced (ADR amendment required — see Unresolved risks).
+
+- **Pricing revert** — revert to owner's original March-2026-era table + trim: audit
+  **15,000 ETB fixed**; AI **40k / 100k / 200k+ ETB** (support 10,000–25,000 ETB/mo); web
+  **20k / 50–80k / 150k+ ETB**; mobile **40–60k / 80–150k / 200k+ ETB**; SaaS **3,500 / 5,000 /
+  3,000 ETB monthly** + setup + annual "Save 2 months"; maintenance **8,000–20,000 ETB / year**
+  (annual model restored); original add-ons restored.
+- **Discount program** — web starter "3 months free maintenance"; mobile "3-month bug-fix
+  warranty"; SaaS annual "Save 2 months"; audit "100% credited"; Web+AI bundle "10% off when
+  booked together" (shown once). **REMOVE** founding-client 15–20% pilot messaging everywhere.
+- **Copy trim (site-wide)** — Home + Pricing ≥ 35% word cut; repeat-kill elsewhere; EN/AM/OM
+  parity (trimmed copy mirrored, no orphaned long strings); contact/legal copy exempt.
+- **Editorial motion (restrained)** — hero choreography ≤ 1.2 s, single reveal, no loop;
+  scroll reveals lift+fade, fire once; hover micro-interactions ≤ 4 px lift (focus-visible
+  parity); animated price counters landing exactly on locked figures; one marquee ≤ 20 px/s per
+  page; 200–300 ms page transitions (~250 ms); reduced-motion fully static; no layout shift.
+
+Sequencing (owner, 2026-08-11): NB-36…NB-40 execute **AFTER** Phase 8 Lumen Night lands
+(Phase 8 is already deployed; if it shipped stale figures, NB-36 re-baselines them). Phase 8
+ticket work should read figures from `pricing-revert-and-motion.md` §1.
 
 ## Active TECH tickets
 
 | Ticket | Title | Status |
 |---|---|---|
-| TECH-22 | E2E re-baseline to Lumen Night (red state 76→85) | ✅ COMMITTED `ee20a60` |
-| TECH-23 | Dark canvas + token layer (NB-25/B39) | ✅ COMMITTED `7698495` |
-| TECH-24 | Two-register typography + brass verbs (NB-26/NB-27) | ✅ COMMITTED `d9e193d` |
-| TECH-25 | Heroes + apparatus + meter strips (NB-28/NB-30/NB-31) | ✅ COMMITTED `7158deb` |
-| TECH-26 | Receipt rate sheets + ruled services (NB-29/B43) | ✅ COMMITTED `f8a1b8c` |
-| TECH-27 | Flat nav + statement footer + chrome (NB-32/B46) | ✅ COMMITTED `9c9821e` |
-| TECH-28 | Calm motion + reduced-motion (NB-33/B47) | ✅ COMMITTED `5b20af3` |
-| TECH-29 | E2E green + full sweep + QA flip to APPROVED | 🔄 IN PROGRESS — drift fixes in working tree (noscript dark, InteractivePricing reduced-motion, `:lang(am)` case fix, modal aria) |
+| TECH-30 | TBD — pricing table swap + wizard anchors + PDF (slice 1) | PENDING — awaiting blueprint gate |
+| TECH-31 | TBD — discount program + pilot removal (slice 2) | PENDING — awaiting blueprint gate |
+| TECH-32 | TBD — copy trim + i18n (slice 3) | PENDING — awaiting blueprint gate |
+| TECH-33 | TBD — editorial motion system (slice 4) | PENDING — awaiting blueprint gate |
+| TECH-34 | TBD — page transitions (slice 5) | PENDING — awaiting blueprint gate |
+
+Titles are TBD placeholders pending @plan's blueprint. Do not treat slices or titles as
+locked until Gate A produces `docs/plans/` artifacts.
 
 ## Completed gates
 
-- Gate A (Blueprint): ✅ `docs/plans/phase8-lumen-visual-system.md` (a62e76b)
-- Gate B (Implement): ✅ TECH-23…TECH-28 committed; TECH-29 drift fixes + D1–D3 fixes in working tree (App.jsx route guard, FloatingCTA focus guard, ScrollReveal static prop, form-page static surfaces, spec timing hardening, noscript dark, InteractivePricing reduced-motion, `:lang(am)` case fix, modal aria)
-- Gate C (QA): ✅ **QA APPROVED 2026-08-11** — 2 consecutive independent full-suite runs (85/85 each, exit 0); spec header flipped `QA-review: APPROVED`; D1–D3 verified compliant; business invariants intact; G1–G10 clean
-- Gate D (Security): ✅ **SECURITY NOT REQUIRED** — rationale: the slice is visual-layer only (CSS tokens, JSX presentation, FloatingCTA route/focus guards, ScrollReveal static prop, test spec). No auth, permissions, user-data handling, payments, uploads, secrets, external inputs, dependency, or infrastructure changes. Form submission logic, lead capture, analytics, and API calls are untouched (verified by suite). No security-sensitive surface in the diff.
-- Gate E (Integration): ✅ PASSED 2026-08-11 — 4 independent `npm run build` successes (webServer auto-build in fixer + 2×QA + fixer-full runs); cross-agent contracts verified (FloatingCTA guard consumed in App.jsx, `static` prop consumed in 3 pages — QA-reviewed); no migrations; integrated path covered by 85/85 ×2; no unresolved TODO/placeholder markers (grep verified — only intentional copy/attrs); working tree contains batch files + evidence only (`.opencode/` + AGENTS.md churn excluded)
-- Gate F (Commit): 🔄 in progress — atomic commit below
-- UAT: ⏳ STOP — architect halts before merge/deploy for human approval
+- Intake: ✅ complete
+- Contract locked: ✅ owner confirmed 2026-08-11 — **B / trim / 3 / B / 1** (Scenario B keep
+  Audit+AI reprice; trim audit 15k + AI 40k/100k/200k+; discounts Option 3 + Web+AI bundle;
+  copy trim Option B site-wide; editorial motion Option 1 restrained). Recorded in
+  `docs/behaviors/pricing-revert-and-motion.md` header + `docs/behaviors/pending-behaviors.md`
+  header (incl. sequencing note).
+- Branch: ✅ `pricing-revert-and-motion` created
+- Gate A (Blueprint): 🔄 PENDING — @plan
+- Gate B (Implement): ⏳ PENDING
+- Gate C (QA): ⏳ PENDING
+- Gate D (Security): ⏳ PENDING
+- Gate E (Integration): ⏳ PENDING
+- Gate F (Commit): ⏳ PENDING
+- UAT: ⏳ PENDING — human approval required before merge/deploy
 
 ## Pending verification evidence
 
-- `npm run test:e2e` result (85-check re-baselined suite, expected GREEN after TECH-29 fixes)
-- Grep gates G1–G10 per blueprint §5
-- @qa acceptance sweep vs NB-25…NB-35 user criteria
-- 3-language route walk (EN/AM/OM): glyph clipping, numeral identity, lowercase rendering, apparatus/meter presence
+Acceptance gate per `docs/behaviors/pricing-revert-and-motion.md` §5:
+1. **Grep gate** — no "85,000", "250,000 / 750,000 / 1,500,000", "from 45,000 ETB",
+   "from 200,000 ETB", "founding-client", "15–20%", "Waitlist only",
+   "5,000 to 15,000 ETB / month" anywhere in rendered content.
+2. **Figure gate** — every rendered price on every page matches the P-1 table.
+3. **Wizard parity** — instant quote bands match P-1 anchors (web [20000..80000],
+   mobile [40000..150000], AI [40000..200000+]); no band below 15,000.
+4. **Copy gate** — Home + Pricing ≥ 35% word reduction (rendered text); no repeated
+   message > 2× per page.
+5. **Motion gate** — hero choreography ≤ 1.2 s; scroll reveals fire once; hover lift ≤ 4 px;
+   exactly one marquee per page; reduced-motion build shows zero animation; no layout shift.
+6. **i18n gate** — Amharic + Afaan Oromo mirrors of trimmed copy render without clipping;
+   prices render identically across languages.
+7. **E2E** — existing Playwright suite passes with re-baselined selectors.
 
 ## Failed gates / retries
 
-- **Gate C — TECH-29 suite run 2026-08-11: 78 passed / 7 failed (retry count 0)**
-  1. `live-site.spec.js:554` Phase 2 wizard/pricing — same web scope quotes same numbers
-  2. `live-site.spec.js:582` Phase 2 entry floor with every integration selected
-  3. `live-site.spec.js:645` Phase 2 audit-first hierarchy (home/pricing/workflow-audit foreground audit)
-  4. `live-site.spec.js:670` Phase 2 SaaS waitlist-only (no pricing-guide framing)
-  5. `live-site.spec.js:704` N2 — no light-paper sections; brass final-CTA band closes page
-  6. `live-site.spec.js:822` N6 — single molten-brass accent drives every primary CTA
-  7. `live-site.spec.js:922` N1 — dark canvas + brass accent on every matrix route
-  - **Known root cause (N1):** authored token is `oklch(76% 0.17 50)` (verified in `src/index.css:19`); Chrome serializes computed custom property as `oklch(76% .17 50)` (drops leading zero) → assertion compares authored string to serialized value → test fragility, not implementation defect.
-  - **@fixer loop 1:** all 7 classified stale-assertion (0 genuine defects); `tests/live-site.spec.js` hardened (normalizeProse NBSP, audit-first phrase union, N2 descendant selector + effective-surface walk-up). Claimed 85/85 green — **NOT independently reproduced.**
-
-- **Gate C — independent @qa run 2026-08-11: 82 passed / 3 failed — QA REJECTED (retry count 1)**
-  - **D1 (REAL defect):** FloatingCTA (mounted globally `App.jsx:421`, `z-index:920`, bottom:1rem) + `nav.navbar.scrolled` intercept pointer events over form submit buttons at 390×844 (call logs `e2e-run.log:128-150`) — discovery booking + contact form time out.
-  - **D2 (REAL defect):** reveal/transition animation instability (ScrollReveal/PageTransition) — repeated "element is not stable" retries consume 30s click budget on the same form tests.
-  - **D3 (test flake):** entry-floor E2E (`spec:605`) load-sensitive — fails full-suite parallel, passes 2/2 isolated; exhaustive property test `:619` proves logic correct.
-  - Gates G1–G10 ALL PASS · re-baseline hygiene PASS · acceptance sweep PASS (verbs 11/11, callouts 6/6, meters 6/6, en-dash verified) · 6/7 original failures now green.
-  - **Dispatched @fixer loop 2** for D1–D3. QA re-verification requires 2 consecutive green runs before flipping `QA-review: APPROVED`.
+- None this batch. Retry counters all at 0.
 
 ## Unresolved risks
 
-- Untracked `reports/phase8-screenshots/` — decide keep vs ignore at commit gate
-- `.opencode/` + `AGENTS.md` working-tree churn is swarm infra, NOT batch scope — must not leak into the atomic commit
-- No `docs/swarm/STATE.md` existed before this session (created now, 2026-08-11)
+- (a) **ADR contradiction** — ADR-001's figures are superseded by the locked table; an ADR
+  amendment (ADR-003 or amendment to ADR-001) is required so docs and code do not contradict.
+- (b) **Remote pricing endpoint** — `VITE_PRICING_DATA_ENDPOINT` could serve stale figures;
+  must be updated or removed (contract P-1 marks a stale endpoint a release blocker).
+- (c) **PDF pricing guide** — needs regeneration + human diff (NB-12 / owner action OA-7).
+- (d) **E2E re-baseline** — existing Playwright suite asserts old figures; must be
+  re-baselined with @qa before the E2E gate can pass.
+- (e) **i18n parity** — trimmed English copy must be mirrored in AM/OM (re-cut, no orphaned
+  long strings, no clipping).
