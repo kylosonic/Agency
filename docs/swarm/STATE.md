@@ -4,8 +4,9 @@
 
 ## Current phase
 
-**UAT — STOPPED, awaiting human approval** (2026-08-11). All engineering gates passed on
-`phase8-lumen-night` @ `1bec8ab`. Do NOT merge/deploy without explicit owner approval.
+**DEPLOYED — production live** (2026-08-11). Merge `cf159b1` → `main`, Vercel deployment
+`dpl_7VrzQkABk3TEHAqhMEJapJ5TPKK3` READY, https://novatech23.vercel.app — health checks 8/8.
+Rollback if ever needed: `git revert -m 1 cf159b1` → push → Vercel auto-redeploys.
 
 ## Feature branch
 
