@@ -4,7 +4,8 @@
 
 ## Current phase
 
-**VERIFYING (TECH-29 — E2E green + full sweep + QA APPROVED pending)**
+**UAT — STOPPED, awaiting human approval** (2026-08-11). All engineering gates passed on
+`phase8-lumen-night` @ `1bec8ab`. Do NOT merge/deploy without explicit owner approval.
 
 ## Feature branch
 
