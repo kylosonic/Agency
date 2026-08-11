@@ -303,7 +303,7 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
                                 type="button"
                                 className="modal-close-new"
                                 onClick={() => requestClose('close_button')}
-                                aria-label={t('leadCapture.closeGenericAria', 'Close message')}
+                                aria-label={t('leadCapture.closeAria', 'Close pricing guide modal')}
                             >
                                 <IconGlyph name="close" size={16} />
                             </button>

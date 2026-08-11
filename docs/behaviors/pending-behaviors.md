@@ -3,6 +3,11 @@
 > Every ticket below maps to one or more rules in `docs/behaviors/launch-readiness.md`.
 > Priority: **P0** = launch blocker · **P1** = must land before launch · **P2** = after launch.
 > Acceptance is measured by the user-facing criteria, not by implementation details.
+>
+> **OWNER CONFIRMATION 2026-08-11:** Phase 8 Lumen Night direction approved in full by the owner
+> ("yes thats premium"). NB-25–NB-35 are confirmed for build exactly as locked in
+> `design.md` + `docs/behaviors/visual-system-lumen.md` + `docs/plans/phase8-lumen-visual-system.md`.
+> Handoff to @architect for execution of the Phase 8 blueprint (TECH-22 → TECH-29).
 
 | ID | Priority | Rule(s) | Affected features | User-acceptance criteria |
 |---|---|---|---|---|

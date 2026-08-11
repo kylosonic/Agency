@@ -171,7 +171,7 @@ export default function InstantQuotePage() {
 
       <section className="section quote-wizard-section band-dark band-1">
         <div className="container">
-          <ScrollReveal>
+          <ScrollReveal static>
             <SectionHeader
               eyebrow="02 · FAST ESTIMATE"
               title="A simpler quote path"
@@ -181,7 +181,7 @@ export default function InstantQuotePage() {
 
           {!submitted ? (
             <div className="editorial-two-column quote-redesign-layout">
-              <ScrollReveal>
+              <ScrollReveal static>
                 <form className="editorial-panel glass-card quote-form-redesign" onSubmit={handleSubmit}>
                   <h3>Project details</h3>
                   <div className="quote-option-grid">
@@ -257,7 +257,7 @@ export default function InstantQuotePage() {
                 </form>
               </ScrollReveal>
 
-              <ScrollReveal delay={0.1}>
+              <ScrollReveal static>
                 <div className="editorial-panel glass-strong quote-preview-panel">
                   <p className="editorial-kicker">Live preview</p>
                   <h3>{selectedService.label}</h3>

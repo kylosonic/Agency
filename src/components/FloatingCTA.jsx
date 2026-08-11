@@ -10,7 +10,27 @@ export default function FloatingCTA() {
     const { t } = useLanguage();
     const prefersReducedMotion = useReducedMotion();
     const [isVisible, setIsVisible] = useState(false);
+    const [isFormFieldFocused, setIsFormFieldFocused] = useState(false);
     const lastScrollY = useRef(0);
+
+    /* TECH-29 (D1): never cover a form the user is typing into. While any
+       INPUT/TEXTAREA/SELECT carries focus (contact form on home, any future
+       in-page form), the CTA stays hidden so it cannot intercept clicks on
+       submit controls at mobile widths. */
+    useEffect(() => {
+        const handleFocusIn = (event) => {
+            const tag = event.target?.tagName;
+            setIsFormFieldFocused(tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT');
+        };
+        const handleFocusOut = () => setIsFormFieldFocused(false);
+
+        document.addEventListener('focusin', handleFocusIn);
+        document.addEventListener('focusout', handleFocusOut);
+        return () => {
+            document.removeEventListener('focusin', handleFocusIn);
+            document.removeEventListener('focusout', handleFocusOut);
+        };
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -20,7 +40,7 @@ export default function FloatingCTA() {
             const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 150;
             const hasScrolledEnough = currentScrollY > 320;
 
-            setIsVisible(hasScrolledEnough && !scrollingDown && !isNearBottom);
+            setIsVisible(hasScrolledEnough && !scrollingDown && !isNearBottom && !isFormFieldFocused);
             lastScrollY.current = currentScrollY;
         };
 
@@ -28,7 +48,7 @@ export default function FloatingCTA() {
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [isFormFieldFocused]);
 
     return (
         <AnimatePresence>

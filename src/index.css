@@ -6088,6 +6088,10 @@ h1 .verb::after {
      zero. Visually imperceptible (0.16px at 16px). */
   letter-spacing: 0.01em;
   font-style: normal;
+  /* The case registers are Latin-only surfaces (design.md): under an
+     Amharic document language, headings render as authored — the body
+     lowercase rule must not apply (B40, TECH-29 N7). */
+  text-transform: none;
 }
 
 /* No fake italics in Amharic text (B30) */

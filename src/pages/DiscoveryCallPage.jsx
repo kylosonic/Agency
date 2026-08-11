@@ -228,7 +228,7 @@ export default function DiscoveryCallPage() {
 
       <section className="section discovery-section band-dark band-1">
         <div className="container">
-          <ScrollReveal>
+          <ScrollReveal static>
             <SectionHeader
               eyebrow="02 · BOOKING"
               title="Choose a slot and tell us what the business is trying to fix."
@@ -237,7 +237,7 @@ export default function DiscoveryCallPage() {
           </ScrollReveal>
 
           <div className="editorial-two-column discovery-layout-redesign">
-            <ScrollReveal>
+            <ScrollReveal static>
               <div className="editorial-panel glass-card">
                 <p className="editorial-kicker">What this call is for</p>
                 <h3>A fast decision on the right commercial path.</h3>
@@ -269,7 +269,7 @@ export default function DiscoveryCallPage() {
               </div>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.1}>
+            <ScrollReveal static>
               <div className="editorial-panel glass-card">
                 <h3>Meeting details</h3>
                 <form onSubmit={handleSubmit}>

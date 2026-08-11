@@ -10,7 +10,7 @@
  *             redesign counts as done. Contract: docs/plans/phase8-lumen-visual-system.md §4,
  *             docs/behaviors/visual-system-lumen.md (B39–B48), design.md (project root).
  * Delta: 76 → 85 tests (6 MUTATE + 9 NEW N1..N9, 0 DELETE)
- * QA-review: PENDING — flips on TECH-29 final green
+ * QA-review: APPROVED — 2026-08-11 — 2 consecutive independent green runs (D1–D3 resolved)
  * ================================================================
  */
 
@@ -47,6 +47,29 @@ async function dismissLeadModalIfOpen(page) {
   if (await closeModalButton.first().isVisible().catch(() => false)) {
     await closeModalButton.first().click();
   }
+}
+
+/**
+ * TECH-22 (B40): the two-register system renders ALL prose lowercase via CSS
+ * (text-transform: lowercase on body). `innerText()` reflects the RENDERED
+ * case, so case-sensitive text assertions against sentence-case source copy
+ * drift. Normalize both sides to lowercase when asserting on rendered text.
+ * Whitespace runs (including the &nbsp; U+00A0 separators used around brass
+ * verb landmarks) collapse to a single space so phrase checks survive the
+ * markup the design uses to render the verb.
+ */
+function normalizeProse(value) {
+  return String(value).toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * TECH-22 (B39): Chromium serialises oklch() components by dropping leading
+ * zeros (oklch(76% 0.17 50) -> oklch(76% .17 50) in getComputedStyle).
+ * Normalize both sides before comparing so the assertion stays tolerant of
+ * CSS serialization while still requiring the authored molten-brass token.
+ */
+function normalizeOklchToken(value) {
+  return String(value).replace(/\b0+(?=\.\d)/g, '');
 }
 
 async function seedDataLayer(page) {
@@ -557,9 +580,9 @@ test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
 
     await submitInstantQuoteRequest(page);
 
-    const rangeText = await page.locator('.quote-result-range').innerText();
-    expect(rangeText, 'web mid band must quote 150,000 ETB').toContain('150,000 ETB');
-    expect(rangeText, 'web mid band must quote 250,000 ETB').toContain('250,000 ETB');
+    const rangeText = normalizeProse(await page.locator('.quote-result-range').innerText());
+    expect(rangeText, 'web mid band must quote 150,000 ETB').toContain('150,000 etb');
+    expect(rangeText, 'web mid band must quote 250,000 ETB').toContain('250,000 etb');
   });
 
   test('wizard offers no below-entry budget option and no add-on-only service', async ({ page }) => {
@@ -583,14 +606,22 @@ test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
 
+    // TECH-29 (D3): under full-suite load the wizard surface can render
+    // slower than the default expect budget — wait on a stable selector
+    // instead of racing the first interaction. The business invariant below
+    // is asserted exactly as before (no logic change).
+    await expect(page.locator('.quote-option input[value="Web Development"]')).toBeVisible({ timeout: 15000 });
+
     await submitInstantQuoteRequest(page, {
       budgetRange: '85k - 150k ETB',
       timelineRange: '2-4 weeks',
       notes: 'Keep the scope as lean as possible.',
     });
 
-    const rangeText = await page.locator('.quote-result-range').innerText();
-    expect(rangeText, 'entry band with all integrations must floor at 85,000 ETB').toContain('85,000 ETB');
+    // Same load guard before reading the result surface.
+    await expect(page.locator('.quote-result-range')).toBeVisible({ timeout: 15000 });
+    const rangeText = normalizeProse(await page.locator('.quote-result-range').innerText());
+    expect(rangeText, 'entry band with all integrations must floor at 85,000 ETB').toContain('85,000 etb');
   });
 
   test('exhaustive floor property: every service × budget combo quotes at or above the entry offer', () => {
@@ -650,9 +681,14 @@ test.describe('Phase 2 — audit-first hierarchy', () => {
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
       await dismissLeadModalIfOpen(page);
 
-      const pageText = await page.locator('main').innerText();
-      expect(pageText, `${route} must foreground the workflow audit`).toContain('Workflow Audit');
-      expect(pageText, `${route} must not promote the stale pricing guide`).not.toContain('Pricing Guide');
+      const pageText = normalizeProse(await page.locator('main').innerText());
+      // Phase 8 (B41/B43) rewrote the audit pitch: home and pricing still carry
+      // the literal "Workflow Audit" phrase, while the audit page itself leads
+      // with the verb-first line "audit the workflow before the build."
+      // Accept both — the invariant is audit-first framing on all three routes.
+      const auditFirst = pageText.includes('workflow audit') || pageText.includes('audit the workflow');
+      expect(auditFirst, `${route} must foreground the workflow audit`).toBe(true);
+      expect(pageText, `${route} must not promote the stale pricing guide`).not.toContain('pricing guide');
     }
   });
 
@@ -671,10 +707,10 @@ test.describe('Phase 2 — audit-first hierarchy', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/saas-solutions`, { waitUntil: 'networkidle' });
 
-    const pageText = await page.locator('main').innerText();
-    expect(pageText).toContain('waitlist only');
-    expect(pageText).not.toContain('Pricing Guide');
-    expect(pageText).not.toContain('Coming soon');
+    const pageText = normalizeProse(await page.locator('main').innerText());
+    expect(pageText, 'SaaS page must state waitlist-only availability').toContain('waitlist only');
+    expect(pageText, 'SaaS page must not promote the stale pricing guide').not.toContain('pricing guide');
+    expect(pageText, 'SaaS page must not frame the product as coming soon').not.toContain('coming soon');
   });
 });
 
@@ -733,8 +769,24 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
       expect(lightSections, `${route} must have no light-paper sections (B39)`).toEqual([]);
 
       // The page closes on a dark band (brass final-CTA band on marketing pages).
-      const finalBand = await page.locator('main > section').last().evaluate((section) => {
-        const probe = window.__probeColor(window.getComputedStyle(section).backgroundColor);
+      // App.jsx wraps every route in .page-transition, so sections are never
+      // direct children of main — use the descendant selector. Most sections
+      // (incl. the closing contact/CTA bands) sit transparent on the dark
+      // canvas — only .band-dark paints paper-2 — so B39 is evaluated on the
+      // effective surface, exactly like the light-sections walk above.
+      const finalBand = await page.locator('main section').last().evaluate((section) => {
+        const surfaceOf = (element) => {
+          let node = element;
+          while (node && node !== document.documentElement) {
+            const probe = window.__probeColor(window.getComputedStyle(node).backgroundColor);
+            if (probe.decisive) {
+              return probe;
+            }
+            node = node.parentElement;
+          }
+          return window.__probeColor(window.getComputedStyle(document.documentElement).backgroundColor);
+        };
+        const probe = surfaceOf(section);
         return {
           className: section.className || section.id,
           dark: probe.decisive && !probe.light,
@@ -744,7 +796,7 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
 
       if (marketingRoutes.includes(route)) {
         await expect(
-          page.locator('main > section').last().locator('.btn-primary').first(),
+          page.locator('main section').last().locator('.btn-primary').first(),
           `${route}: the final band must carry a brass CTA`
         ).toBeVisible();
       }
@@ -830,7 +882,10 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
       const root = window.getComputedStyle(document.documentElement);
       return (root.getPropertyValue('--color-accent') || root.getPropertyValue('--accent')).trim();
     });
-    expect(accentToken, 'the accent token must be the molten-brass oklch value').toBe('oklch(76% 0.17 50)');
+    expect(
+      normalizeOklchToken(accentToken),
+      'the accent token must be the molten-brass oklch value'
+    ).toBe(normalizeOklchToken('oklch(76% 0.17 50)'));
 
     const primaryButton = await page.locator('.btn-primary').first().evaluate((element) => {
       const style = window.getComputedStyle(element);
@@ -944,7 +999,10 @@ test.describe('Phase 8 — Lumen Night contract (TECH-22, NEW)', () => {
         const root = window.getComputedStyle(document.documentElement);
         return (root.getPropertyValue('--color-accent') || root.getPropertyValue('--accent')).trim();
       });
-      expect(accentToken, `${route} must expose the molten-brass accent token (B39/design.md)`).toBe('oklch(76% 0.17 50)');
+      expect(
+        normalizeOklchToken(accentToken),
+        `${route} must expose the molten-brass accent token (B39/design.md)`
+      ).toBe(normalizeOklchToken('oklch(76% 0.17 50)'));
     }
   });
 

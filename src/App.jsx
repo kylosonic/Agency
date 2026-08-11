@@ -70,6 +70,13 @@ const AUTO_LEAD_CAPTURE_ROUTES = new Set([
   '/additional-services',
 ]);
 
+/* TECH-29 (D1): the floating CTA is a marketing-page convenience. Form pages
+   (design.md — app/form pages are Long Document family, function-first, the
+   form IS the page) must not carry a fixed bottom overlay that can cover
+   their submit controls at 390px. Route guard keeps the CTA off both form
+   routes entirely. */
+const FORM_PAGE_ROUTES = new Set(['/instant-quote', '/book-discovery-call']);
+
 const AUTO_LEAD_CAPTURE_MIN_VIEW_MS = 30000;
 const AUTO_LEAD_CAPTURE_MIN_SCROLL_PX = 900;
 const AUTO_LEAD_CAPTURE_MIN_SCROLL_DEPTH = 0.88;
@@ -183,6 +190,7 @@ function AppContent() {
     routePath: '/',
   });
   const location = useLocation();
+  const isFormPage = FORM_PAGE_ROUTES.has(location.pathname);
 
   // First-mount fire-and-forget flush of both fallback queues (TECH-08 G1).
   // Re-POSTs oldest-first on app load, deletes only on 2xx, keeps on failure.
@@ -418,7 +426,7 @@ function AppContent() {
         </AnimatePresence>
       </main>
       <Footer />
-      <FloatingCTA />
+      {!isFormPage && <FloatingCTA />}
       <LiveChatDock />
       <ScrollToTopButton />
       <LeadCaptureModal

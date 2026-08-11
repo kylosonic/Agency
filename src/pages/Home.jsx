@@ -464,7 +464,11 @@ export default function Home() {
               </div>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.1}>
+            {/* TECH-29 (D2): the contact form is a form surface — it renders
+                stable immediately so submit controls settle before the user
+                (or the E2E click) reaches them. The rest of the marketing
+                page keeps B47 calm motion. */}
+            <ScrollReveal static>
               <div className="contact-form-card glass-card">
                 <h3>Send us a message</h3>
                 <form className="contact-form" onSubmit={handleContactSubmit}>

@@ -4,10 +4,22 @@ import { useState } from 'react';
 const MotionDiv = motion.div;
 const VIEWPORT_OPTIONS = { once: true, amount: 0.15, margin: '0px 0px -8% 0px' };
 
-export default function ScrollReveal({ children, className = '', stagger = false, delay = 0 }) {
+export default function ScrollReveal({ children, className = '', stagger = false, delay = 0, static: isStatic = false }) {
     const [inView, setInView] = useState(false);
     const prefersReducedMotion = useReducedMotion();
     const isVisible = inView || prefersReducedMotion;
+
+    /* TECH-29 (D2): form surfaces render statically — a plain div, no motion
+       wrapper, no hidden initial state — so controls settle instantly. Form
+       pages are function-first (design.md) and may be static; B47 calm motion
+       stays intact on marketing surfaces. */
+    if (isStatic) {
+        return (
+            <div className={className}>
+                {children}
+            </div>
+        );
+    }
 
     /* B47 (TECH-28): gentle fade-and-rise — hidden y 12, tween 0.6s ease-out
        (no spring overshoot), stagger 0.06 (60 ms). The reduced-motion branch
