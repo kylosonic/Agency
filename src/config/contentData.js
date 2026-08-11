@@ -41,7 +41,7 @@ export const serviceFaqs = {
     },
     {
       question: 'Can we continue support after launch?',
-      answer: 'After launch, annual maintenance and growth retainers backed by an SLA keep the system stable — and we stay on hand for the next build.',
+      answer: 'After launch, monthly maintenance or a broader support retainer can be scoped from the live ETB table when ongoing support is actually needed.',
     },
   ],
   mobile: [
@@ -61,15 +61,15 @@ export const serviceFaqs = {
   saas: [
     {
       question: 'What is included in SaaS onboarding?',
-      answer: 'Setup, data import planning, role setup, and team onboarding sessions are included in initial rollout.',
+      answer: 'SaaS is waitlist only today, so there is no live onboarding package yet. If you need a system now, start with the Workflow Audit or a scoped custom build.',
     },
     {
-      question: 'Is there an annual billing advantage?',
-      answer: 'Annual subscriptions are discounted and include planned optimization checkpoints.',
+      question: 'Is there an annual billing option yet?',
+      answer: 'No. There is no monthly or annual SaaS billing until a real product exists and truthful pricing is published.',
     },
     {
       question: 'How is data backup handled?',
-      answer: 'All systems include managed backups, access controls, and regular security update cycles.',
+      answer: 'Backup, access, and support terms will be published with each product once it is live. We do not promise subscription operations before launch.',
     },
   ],
   additional: [

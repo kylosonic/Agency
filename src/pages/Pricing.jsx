@@ -33,7 +33,7 @@ export default function Pricing({ onDownloadClick }) {
             <em className="verb">read</em>&nbsp;the live pricing and engagement model.
           </h1>
           <p>
-            This page is the current ETB source of truth. The downloadable guide is being refreshed, so use the live pricing here when you need an accurate quote path.
+            This page and the downloadable pricing sheet are generated from the same ETB table. Use either one when you need the current quote path.
           </p>
           <div className="page-hero-meta" aria-label="Pricing model notes">
             <span className="page-hero-chip">Workflow Audit: 85,000 ETB fixed</span>

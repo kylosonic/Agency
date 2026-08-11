@@ -20,13 +20,13 @@ const FOCUSABLE_SELECTOR = [
 
 const VARIANT_CONTENT = {
     pricing_guide: {
-        title: 'Live pricing is more accurate than the PDF right now',
-        subtitle: 'The downloadable guide is being refreshed to match the current ETB pricing table. Use the live pricing page until that update is complete.',
-        submitLabel: 'Open Live Pricing',
-        successTitle: 'Use the live pricing page',
-        successSubtitle: 'The PDF is temporarily held back until it matches the current ETB table exactly.',
-        successPrimaryLabel: 'Open Live Pricing',
-        successPrimaryAction: 'pricing',
+        title: 'Get the current ETB pricing sheet',
+        subtitle: 'Leave your details and we will open the latest NovaTech pricing sheet built from the same ETB table used on the live site, including the SaaS waitlist policy.',
+        submitLabel: 'Download Pricing Sheet',
+        successTitle: 'Pricing sheet ready',
+        successSubtitle: 'Your current ETB pricing sheet is open in a new tab. You can reopen it below.',
+        successPrimaryLabel: 'Open Pricing Sheet Again',
+        successPrimaryAction: 'guide',
     },
     download_sheet: {
         title: 'Download the current ETB pricing sheet',
