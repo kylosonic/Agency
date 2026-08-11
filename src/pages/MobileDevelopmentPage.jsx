@@ -1,131 +1,157 @@
-import { useState, useEffect, useMemo } from 'react';
-import InteractivePricing from '../components/InteractivePricing';
-import SectionHeader from '../components/SectionHeader';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
-import RouteProofStrip from '../components/RouteProofStrip';
-import RoiEstimator from '../components/RoiEstimator';
-import FaqAccordion from '../components/FaqAccordion';
-import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
-import { serviceFaqs } from '../config/contentData';
-import { trackDiscoveryCallClick } from '../services/analyticsService';
+import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
+import IconGlyph from '../components/IconGlyph';
 import { getMobilePackages } from '../services/pricingData';
-import { useLanguage } from '../i18n/useLanguage';
 
-export default function MobileDevelopmentPage({ onDownloadClick }) {
-    const { t } = useLanguage();
-    const [packages, setPackages] = useState([]);
-    const [loading, setLoading] = useState(true);
+/* B42a (TECH-25): locked filament-apparatus callouts for the Mobile hero. */
+const MOBILE_APPARATUS_CALLOUTS = [
+  'MOBILE · 200,000 / 400,000 ETB',
+  'MILESTONES · 40/30/30',
+  'RESPONSE · 1 BUSINESS DAY',
+];
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const mobileData = await getMobilePackages();
-                setPackages(mobileData);
-            } catch (error) {
-                console.error("Failed to load mobile pricing data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+const MOBILE_CONTEXT = [
+  {
+    title: 'Mobile only makes sense when the work itself is mobile',
+    text: 'Field operations, approvals, collections, logistics, and customer action flows are usually the places where a mobile layer actually changes outcomes.',
+  },
+  {
+    title: 'The app is never the whole system',
+    text: 'The question is not just which screens to build. It is what data, payment, approval, and reporting logic must sit behind the app to make it reliable.',
+  },
+  {
+    title: 'We scope around operational reality',
+    text: 'If a lightweight web layer is enough, we say that. If the team really needs offline behavior, maps, payments, or field workflows, we build for that instead.',
+  },
+];
 
-        fetchData();
-    }, []);
+export default function MobileDevelopmentPage() {
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const localizedFaqItems = useMemo(() => {
-        return serviceFaqs.mobile.map((item, index) => ({
-            question: t(`faqs.mobile.${index}.question`, item.question),
-            answer: t(`faqs.mobile.${index}.answer`, item.answer),
-        }));
-    }, [t]);
-    return (
-        <>
-            {/* Page Hero */}
-            <section className="page-hero">
-                <div className="container page-hero-content">
-                    <h1>{t('mobile.hero.title', 'Mobile App Development')}</h1>
-                    <p>{t('mobile.hero.subtitle', 'Cross-platform and native iOS & Android apps built with Flutter and React Native — designed for the Ethiopian market.')}</p>
-                    <div className="page-hero-meta" aria-label={t('mobile.hero.metaAria', 'Mobile delivery highlights')}>
-                        <span className="page-hero-chip">{t('mobile.hero.chip1', 'Store Submission Support')}</span>
-                        <span className="page-hero-chip">{t('mobile.hero.chip2', 'Offline-Ready Architecture')}</span>
-                        <span className="page-hero-chip">{t('mobile.hero.chip3', 'Telebirr and Chapa Integration')}</span>
-                    </div>
-                </div>
-            </section>
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const mobileData = await getMobilePackages();
+        setPackages(mobileData);
+      } catch (error) {
+        console.error('Failed to load mobile pricing data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-            <RouteProofStrip
-                items={[
-                    {
-                        title: t('mobile.proof.0.title', 'The flow comes first'),
-                        text: t('mobile.proof.0.text', 'Before coding, we align on key user journeys so every screen supports retention and conversion.'),
-                    },
-                    {
-                        title: t('mobile.proof.1.title', 'Testing On Real Devices'),
-                        text: t('mobile.proof.1.text', 'Each sprint includes practical QA on target Android and iOS device ranges.'),
-                    },
-                    {
-                        title: t('mobile.proof.2.title', 'Launch, then iterate'),
-                        text: t('mobile.proof.2.text', 'Post-launch analytics and backlog priorities are prepared before release day.'),
-                    },
-                ]}
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <section className="page-hero">
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · MOBILE</div>
+            <h1>
+              mobile products for teams that <em className="verb">work</em>&nbsp;in motion.
+            </h1>
+            <p>
+              We build mobile apps for field teams, approvals, customer actions, and operational workflows that need to move beyond desktop or chat-based coordination.
+            </p>
+            <div className="page-hero-meta" aria-label="Mobile delivery highlights">
+              <span className="page-hero-chip">Mobile from 200,000 ETB</span>
+              <span className="page-hero-chip">Cross-platform delivery</span>
+              <span className="page-hero-chip">Payments, maps, and field operations supported</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="filament"
+              callouts={MOBILE_APPARATUS_CALLOUTS}
+              label="Filament apparatus: mobile from 200,000 or 400,000 ETB, milestones 40/30/30, response within 1 business day"
             />
+          </div>
+        </div>
+      </section>
 
-            {/* App Development Tiers */}
-            <section className="section">
-                <div className="container">
-                    <ScrollReveal>
-                        <SectionHeader
-                            tag={t('mobile.sections.packages.tag', 'App Packages')}
-                            title={t('mobile.sections.packages.title', 'Build Your Mobile App')}
-                            subtitle={t('mobile.sections.packages.subtitle', "From simple utility apps to complex FinTech platforms — we've got you covered.")}
-                        />
-                    </ScrollReveal>
+      <MeterStrip labelLeft="MOBILE · FROM 200,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
-                    {loading ? (
-                        <div className="loading-state">
-                            <p>{t('states.loadingPackages', 'Loading Packages...')}</p>
-                        </div>
-                    ) : (
-                        <ScrollReveal stagger>
-                            <InteractivePricing
-                                onDownloadClick={onDownloadClick}
-                                packages={packages}
-                            />
-                        </ScrollReveal>
-                    )}
-                </div>
-            </section>
+      <section className="section">
+        <div className="container editorial-card-grid">
+          {MOBILE_CONTEXT.map((item) => (
+            <ScrollReveal key={item.title}>
+              <article className="editorial-card glass-card">
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
 
-            <RoiEstimator
-                band="1"
-                title={t('mobile.roi.title', 'Mobile Acquisition ROI Estimator')}
-                subtitle={t('mobile.roi.subtitle', 'Estimate expected gain from app-store readiness, paid acquisition, and retention improvements.')}
+      <section className="section band-dark band-1">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="02 · PACKAGE ANCHORS"
+              title="Two mobile tiers, scoped from the live ETB table."
+              subtitle="The difference between them is not decoration. It is the operational depth behind the app: users, payments, maps, admin logic, and integrations."
+              align="left"
             />
+          </ScrollReveal>
 
-            <FaqAccordion
-                title={t('mobile.faq.title', 'Mobile Development FAQs')}
-                subtitle={t('mobile.faq.subtitle', 'Answers on store submission, platform coverage, and local payment integrations.')}
-                items={localizedFaqItems}
-            />
+          {loading ? (
+            <div className="loading-state">
+              <p>Loading packages...</p>
+            </div>
+          ) : (
+            <div className="editorial-card-grid editorial-card-grid-dark">
+              {packages.map((pkg) => (
+                <ScrollReveal key={pkg.title}>
+                  <article className="editorial-card glass-card editorial-track-card">
+                    <p className="editorial-price-tag">{pkg.price}</p>
+                    <h3>{pkg.title}</h3>
+                    <p className="editorial-meta-line">{pkg.timeline}</p>
+                    <p>{pkg.idealFor}</p>
+                    <ul className="editorial-checklist compact">
+                      {pkg.features.map((feature) => (
+                        <li key={feature}>
+                          <IconGlyph name="check" size={14} />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
-            {/* CTA */}
-            <section className="section-sm cta-section band-dark band-2">
-                <div className="container">
-                    <ScrollReveal>
-                        <div className="cta-inner">
-                            <h2>{t('mobile.cta.title', 'Have an App Idea?')}</h2>
-                            <p>{t('mobile.cta.subtitle', "Let's turn your vision into a market-ready mobile application. Download our full guide for detailed specs and pricing.")}</p>
-                            <div className="cta-actions">
-                                <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('mobile_page_cta_pricing')}>
-                                    {t('actions.downloadFullPricingGuide', 'Download Full Pricing Guide')}
-                                </button>
-                                <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('mobile_page_cta_discovery')}>
-                                    {t('mobile.cta.secondary', 'Schedule App Strategy Call')}
-                                </a>
-                            </div>
-                        </div>
-                    </ScrollReveal>
-                </div>
-            </section>
-        </>
-    );
+      <section className="section-sm">
+        <div className="container">
+          <div className="page-closing-card glass-strong">
+            <p className="editorial-kicker">Before you commit</p>
+            <div className="eyebrow">03 · FIRST STEP</div>
+            <h2>If the app depends on a messy workflow underneath, start with the audit.</h2>
+            <p>
+              Mobile builds go better when the process, integrations, and data flow are clear first. That is exactly what the Workflow Audit is for.
+            </p>
+            <div className="cta-actions">
+              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
+                Book Workflow Audit
+              </Link>
+              <Link to="/instant-quote" className="btn btn-secondary btn-lg">
+                Start Instant Quote
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

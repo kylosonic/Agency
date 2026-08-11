@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { trackEvent, trackPricingGuideOpened } from '../services/analyticsService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { isValidEmailAddress, submitPricingGuideLead } from '../services/mailingListService';
@@ -20,12 +20,21 @@ const FOCUSABLE_SELECTOR = [
 
 const VARIANT_CONTENT = {
     pricing_guide: {
-        title: 'Get the NovaTechAI 2026 Service Menu & Pricing Guide',
-        subtitle: 'Download the official NovaTechAI 2026 Service Menu & Pricing Guide with AI automation, web, mobile, and SaaS pricing in ETB.',
-        submitLabel: 'Download NovaTechAI Guide',
-        successTitle: 'Thank You!',
-        successSubtitle: 'Your NovaTechAI 2026 Service Menu & Pricing Guide is open in a new tab. You can reopen it below.',
-        successPrimaryLabel: 'Open NovaTechAI Guide Again',
+        title: 'Live pricing is more accurate than the PDF right now',
+        subtitle: 'The downloadable guide is being refreshed to match the current ETB pricing table. Use the live pricing page until that update is complete.',
+        submitLabel: 'Open Live Pricing',
+        successTitle: 'Use the live pricing page',
+        successSubtitle: 'The PDF is temporarily held back until it matches the current ETB table exactly.',
+        successPrimaryLabel: 'Open Live Pricing',
+        successPrimaryAction: 'pricing',
+    },
+    download_sheet: {
+        title: 'Download the current ETB pricing sheet',
+        subtitle: 'Leave your details and we will open the latest NovaTech pricing sheet built from the same ETB source used on the live site.',
+        submitLabel: 'Download Pricing Sheet',
+        successTitle: 'Pricing sheet ready',
+        successSubtitle: 'Your current ETB pricing sheet is open in a new tab. You can reopen it below.',
+        successPrimaryLabel: 'Open Pricing Sheet Again',
         successPrimaryAction: 'guide',
     },
     quote_offer: {
@@ -50,6 +59,7 @@ const VARIANT_CONTENT = {
 
 export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', variant = 'pricing_guide', routePath = '/' }) {
     const { t } = useLanguage();
+    const prefersReducedMotion = useReducedMotion();
     const [formData, setFormData] = useState(INITIAL_FORM);
     const [status, setStatus] = useState('idle');
     const panelRef = useRef(null);
@@ -158,6 +168,11 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
 
         if (activeVariant.successPrimaryAction === 'booking') {
             window.location.assign('/book-discovery-call');
+            return;
+        }
+
+        if (activeVariant.successPrimaryAction === 'pricing') {
+            window.location.assign('/pricing');
         }
     };
 
@@ -259,18 +274,23 @@ export default function LeadCaptureModal({ isOpen, onClose, source = 'modal', va
             {isOpen && (
                 <MotionDiv 
                     className="modal-backdrop-blur"
-                    initial={{ opacity: 0 }}
+                    /* B47 (TECH-28): minimal fade kept open/close; under reduced
+                       motion the modal is fully static (duration 0). */
+                    initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
                     onClick={() => requestClose('backdrop_click')}
                     role="presentation"
                 >
                     <MotionDiv 
                         className="modal-slide-panel"
-                        initial={{ x: "100%" }}
+                        initial={{ x: prefersReducedMotion ? 0 : "100%" }}
                         animate={{ x: 0 }}
-                        exit={{ x: "100%" }}
-                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        exit={{ x: prefersReducedMotion ? 0 : "100%" }}
+                        transition={prefersReducedMotion
+                            ? { duration: 0 }
+                            : { type: "spring", damping: 25, stiffness: 200 }}
                         onClick={(e) => e.stopPropagation()}
                         role="dialog"
                         aria-modal="true"

@@ -22,6 +22,7 @@ export default function NotFoundPage() {
           <span className="not-found-icon" aria-hidden="true">
             <IconGlyph name="search" size={28} />
           </span>
+          <div className="eyebrow">01 · STATUS</div>
           <h1>{t('notFound.title', 'Page Not Found')}</h1>
           <p>
             {t(

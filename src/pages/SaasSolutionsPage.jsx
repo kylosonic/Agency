@@ -1,198 +1,152 @@
-import { useState, useEffect, useMemo } from 'react';
-import SectionHeader from '../components/SectionHeader';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
-import StaggeredText from '../components/StaggeredText';
-import MagneticButton from '../components/MagneticButton';
-import RouteProofStrip from '../components/RouteProofStrip';
+import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
-import RoiEstimator from '../components/RoiEstimator';
-import FaqAccordion from '../components/FaqAccordion';
-import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
-import { serviceFaqs } from '../config/contentData';
-import { trackDiscoveryCallClick } from '../services/analyticsService';
-import { getSaasPackages } from '../services/pricingData';
-import { useLanguage } from '../i18n/useLanguage';
 
-export default function SaasSolutionsPage({ onDownloadClick }) {
-    const { t } = useLanguage();
-    const [systems, setSystems] = useState([]);
-    const [loading, setLoading] = useState(true);
+/* B42a (TECH-25): locked filament-apparatus callouts for the SaaS hero. */
+const SAAS_APPARATUS_CALLOUTS = [
+  'SAAS · WAITLIST ONLY',
+  'PILOT · 15–20% OFF',
+  'RESPONSE · 1 BUSINESS DAY',
+];
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getSaasPackages();
-                const comingSoonLabel = t('saas.labels.comingSoon', 'Coming soon');
-                const formattedSystems = data.map(item => ({
-                    icon: item.icon,
-                    name: item.title,
-                    tag: item.subtitle,
-                    description: item.title === 'School Management System' 
-                        ? t('saas.systems.school.description', 'Complete school administration platform covering student management, grading, attendance, fees, timetabling, and parent communication.')
-                        : item.title === 'Clinic/Hospital ERP'
-                        ? t('saas.systems.clinic.description', 'End-to-end healthcare management system for clinics and hospitals — from patient registration to billing and lab results.')
-                        : t('saas.systems.property.description', 'Manage properties, tenants, leases, rent collection, and maintenance — all from one centralized cloud dashboard.'),
-                    setup: item.availabilityStatus ? comingSoonLabel : `${item.setupFee} ETB`,
-                    monthly: item.availabilityStatus ? comingSoonLabel : `${item.monthlyFrom} - ${item.monthlyTo} ETB`,
-                    annual: item.availabilityStatus
-                        ? comingSoonLabel
-                        : item.billingNote
-                        ? t('saas.labels.billedAnnually', 'Billed annually')
-                        : '',
-                    annualSave: item.availabilityStatus ? '' : t('saas.labels.annualPlan', 'Annual plan preferred'),
-                    modules: item.features
-                }));
-                setSystems(formattedSystems);
-            } catch (error) {
-                console.error("Failed to load SaaS pricing data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [t]);
+const SAAS_INTEREST_AREAS = [
+  {
+    title: 'School operations',
+    text: 'Interest around admissions, grading, attendance, payments, and parent communication when institutions want one operating system instead of disconnected spreadsheets and chats.',
+    icon: 'book',
+  },
+  {
+    title: 'Clinic and hospital operations',
+    text: 'Interest around appointments, billing, pharmacy, lab flow, and patient coordination when the process is still stitched together manually.',
+    icon: 'hospital',
+  },
+  {
+    title: 'Property and tenant workflows',
+    text: 'Interest around lease tracking, rent reminders, maintenance, and owner reporting where operators want one consistent tenant system.',
+    icon: 'building',
+  },
+];
 
-    const localizedFaqItems = useMemo(() => {
-        return serviceFaqs.saas.map((item, index) => ({
-            question: t(`faqs.saas.${index}.question`, item.question),
-            answer: t(`faqs.saas.${index}.answer`, item.answer),
-        }));
-    }, [t]);
+export default function SaasSolutionsPage() {
+  return (
+    <>
+      <section className="page-hero">
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · SAAS</div>
+            <h1>
+              <em className="verb">get</em>&nbsp;on the SaaS waitlist.
+            </h1>
+            <p>
+              We are not presenting a live SaaS catalog or charging for products that do not exist yet. If your team wants one of these systems, register interest and we will talk when there is a truthful offer to discuss.
+            </p>
+            <div className="page-hero-meta" aria-label="SaaS availability notes">
+              <span className="page-hero-chip">No published SaaS prices</span>
+              <span className="page-hero-chip">No billing until a real product exists</span>
+              <span className="page-hero-chip">Register interest honestly</span>
+            </div>
+          </div>
 
-
-    return (
-        <>
-            {/* Page Hero */}
-            <section className="page-hero">
-                <div className="container page-hero-content">
-                    <h1>
-                        <StaggeredText text={t('saas.hero.title', 'SaaS Cloud Solutions')} delay={0.1} />
-                    </h1>
-                    <p>{t('saas.hero.subtitle', 'Rent-to-use cloud management systems — zero IT overhead, fast deployment, and full support. Pay monthly and scale at your pace.')}</p>
-                    <div className="page-hero-meta" aria-label={t('saas.hero.metaAria', 'SaaS delivery highlights')}>
-                        <span className="page-hero-chip">{t('saas.hero.chip1', 'Rapid Team Onboarding')}</span>
-                        <span className="page-hero-chip">{t('saas.hero.chip2', 'Managed Backups and Security')}</span>
-                        <span className="page-hero-chip">{t('saas.hero.chip3', 'Annual Plan Savings')}</span>
-                    </div>
-                </div>
-            </section>
-
-            <RouteProofStrip
-                items={[
-                    {
-                        title: t('saas.proof.0.title', 'A short path to go-live'),
-                        text: t('saas.proof.0.text', 'Most organizations complete setup and staff orientation in a short onboarding cycle.'),
-                    },
-                    {
-                        title: t('saas.proof.1.title', 'Operational Visibility'),
-                        text: t('saas.proof.1.text', 'Dashboards and reporting modules are configured around your daily workflows.'),
-                    },
-                    {
-                        title: t('saas.proof.2.title', 'Security and platform updates, handled'),
-                        text: t('saas.proof.2.text', 'Security updates and platform enhancements are rolled out without heavy IT overhead.'),
-                    },
-                ]}
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="filament"
+              callouts={SAAS_APPARATUS_CALLOUTS}
+              label="Filament apparatus: SaaS waitlist only, pilot 15 to 20 percent off, response within 1 business day"
             />
+          </div>
+        </div>
+      </section>
 
-            {/* SaaS Catalog */}
-            <section className="section">
-                <div className="container">
-                    <ScrollReveal>
-                        <SectionHeader
-                            tag={t('saas.sections.catalog.tag', 'Cloud Platform')}
-                            title={t('saas.sections.catalog.title', 'Our Management Systems')}
-                            subtitle={t('saas.sections.catalog.subtitle', 'Enterprise-grade software available as affordable monthly subscriptions. No long-term contracts required.')}
-                        />
-                    </ScrollReveal>
+      <MeterStrip labelLeft="SAAS · WAITLIST ONLY" labelRight="PILOT · 15–20% OFF" />
 
-                    {loading ? (
-                        <div className="loading-state">
-                            <p>{t('states.loadingCloudPlatforms', 'Loading Cloud Platforms...')}</p>
-                        </div>
-                    ) : (
-                        systems.map((system, index) => (
-                            <ScrollReveal key={index}>
-                                <div className="saas-card">
-                                    <div className="saas-card-header">
-                                        <div className="icon" aria-hidden="true"><IconGlyph name={system.icon} size={22} /></div>
-                                        <div className="saas-card-content">
-                                            <h3>{system.name}</h3>
-                                            <p className="saas-card-description">
-                                                {system.description}
-                                            </p>
-                                        </div>
-                                        <div className="tag">{system.tag}</div>
-                                    </div>
-
-                                    <div className="saas-pricing-row">
-                                        <div className="saas-price-item">
-                                            <div className="label">{t('saas.pricing.setup', 'One-Time Setup & Training')}</div>
-                                            <div className="value">{system.setup}</div>
-                                        </div>
-                                        <div className="saas-price-item">
-                                            <div className="label">{t('saas.pricing.monthly', 'Monthly Subscription')}</div>
-                                            <div className="value">{system.monthly}</div>
-                                        </div>
-                                        <div className="saas-price-item saas-price-item-highlight">
-                                            <div className="label">{t('saas.pricing.annual', 'Annual Subscription')}</div>
-                                            <div className="value">{system.annual}</div>
-                                            {system.annualSave ? (
-                                                <div className="saas-annual-save">
-                                                    {system.annualSave}
-                                                </div>
-                                            ) : null}
-                                        </div>
-                                    </div>
-
-                                    <h4 className="saas-modules-title">
-                                        {t('saas.modulesTitle', 'Core Modules Included:')}
-                                    </h4>
-                                    <ul className="saas-modules">
-                                        {system.modules.map((mod, i) => (
-                                            <li key={i}>
-                                                <span className="check" aria-hidden="true"><IconGlyph name="check" size={14} /></span>
-                                                {mod}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </ScrollReveal>
-                        ))
-                    )}
-                </div>
-            </section>
-
-            <RoiEstimator
-                band="1"
-                title={t('saas.roi.title', 'SaaS Operations ROI Estimator')}
-                subtitle={t('saas.roi.subtitle', 'Model the business impact of process automation, reduced admin workload, and better collection discipline.')}
+      <section className="section">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="02 · INTEREST"
+              title="These are the three SaaS areas people ask us about most often."
+              subtitle="We list them as areas of demand, not as live subscription products."
+              align="left"
             />
+          </ScrollReveal>
 
-            <FaqAccordion
-                title={t('saas.faq.title', 'SaaS Solution FAQs')}
-                subtitle={t('saas.faq.subtitle', 'Clarify onboarding, billing cadence, backup practices, and support expectations.')}
-                items={localizedFaqItems}
-            />
+          <div className="editorial-card-grid">
+            {SAAS_INTEREST_AREAS.map((item) => (
+              <ScrollReveal key={item.title}>
+                <article className="editorial-card glass-card">
+                  <div className="editorial-card-top">
+                    <span className="ai-preview-icon" aria-hidden="true">
+                      <IconGlyph name={item.icon} size={18} />
+                    </span>
+                    <h3>{item.title}</h3>
+                  </div>
+                  <p>{item.text}</p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* CTA */}
-            <section className="section-sm cta-section band-dark band-2">
-                <div className="container">
-                    <ScrollReveal>
-                        <div className="cta-inner">
-                            <h2>{t('saas.cta.title', 'Ready to Modernize Your Operations?')}</h2>
-                            <p>{t('saas.cta.subtitle', 'Get started with our cloud management systems. Download the full pricing guide for detailed feature comparisons.')}</p>
-                            <div className="cta-actions">
-                                <MagneticButton className="btn btn-primary btn-lg" onClick={() => onDownloadClick('saas_page_cta_pricing')}>
-                                    {t('actions.downloadFullPricingGuide', 'Download Full Pricing Guide')}
-                                </MagneticButton>
-                                <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('saas_page_cta_discovery')}>
-                                    {t('saas.cta.secondary', 'Request SaaS Consultation')}
-                                </a>
-                            </div>
-                        </div>
-                    </ScrollReveal>
-                </div>
-            </section>
-        </>
-    );
+      <section className="section band-dark band-1">
+        <div className="container editorial-two-column">
+          <ScrollReveal>
+            <article className="editorial-panel glass-card">
+              <p className="editorial-kicker">What we will not do</p>
+              <div className="eyebrow">03 · RULES</div>
+              <h2>No placeholder pricing. No fake availability.</h2>
+              <ul className="editorial-checklist compact">
+                <li>
+                  <IconGlyph name="check" size={14} />
+                  <span>We do not publish setup, monthly, or annual prices for non-live products.</span>
+                </li>
+                <li>
+                  <IconGlyph name="check" size={14} />
+                  <span>We do not market a waitlist like a released product line.</span>
+                </li>
+                <li>
+                  <IconGlyph name="check" size={14} />
+                  <span>When a real product exists, pricing and terms will be published plainly.</span>
+                </li>
+              </ul>
+            </article>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1}>
+            <article className="editorial-panel glass-strong">
+              <p className="editorial-kicker">If you want one of these systems now</p>
+              <h3>Start with a Workflow Audit or register waitlist interest.</h3>
+              <p>
+                If what you need is really a custom system today, the Workflow Audit is still the correct first commercial step. If what you want is a future SaaS product, tell us which one and we will keep the conversation honest.
+              </p>
+            </article>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section-sm">
+        <div className="container">
+          <div className="page-closing-card glass-strong">
+            <p className="editorial-kicker">Choose the honest path</p>
+            <div className="eyebrow">04 · FIRST STEP</div>
+            <h2>Need a system now? Book the audit. Want a future SaaS product? Register interest.</h2>
+            <p>
+              We would rather under-sell a non-live offer than weaken trust by pretending a waitlist is a finished product.
+            </p>
+            <div className="cta-actions">
+              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
+                Book Workflow Audit
+              </Link>
+              <Link to="/book-discovery-call" className="btn btn-secondary btn-lg">
+                Register Interest
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

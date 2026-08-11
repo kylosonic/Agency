@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import SectionHeader from '../components/SectionHeader';
 import ScrollReveal from '../components/ScrollReveal';
+import SectionHeader from '../components/SectionHeader';
+import IconGlyph from '../components/IconGlyph';
 import { queueLeadFollowups } from '../services/leadAutomationService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
-import BandCta from '../components/BandCta';
 
 const INITIAL_FORM = {
   name: '',
@@ -64,6 +64,12 @@ function formatSlotForTimezone(slotIso, timezone, locale) {
     timeZone: timezone,
   }).format(date);
 }
+
+const CALL_EXPECTATIONS = [
+  'We review the workflow, tools, stakeholders, and commercial constraints behind the request.',
+  'We tell you whether the right next move is the Workflow Audit, a direct scoped build, or a waitlist conversation.',
+  'If the fit is right, we follow with the next commercial step instead of leaving the conversation vague.',
+];
 
 export default function DiscoveryCallPage() {
   const { language, t } = useLanguage();
@@ -205,88 +211,102 @@ export default function DiscoveryCallPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <h1>{t('discovery.hero.title', 'Book a Discovery Call')}</h1>
-          <p>{t('discovery.hero.subtitle', 'Choose a slot in your timezone and share key priorities so we can prepare a focused strategy session.')}</p>
-          <div className="page-hero-meta" aria-label={t('discovery.hero.metaAria', 'Booking support details')}>
-            <span className="page-hero-chip">{t('discovery.hero.chip1', 'Timezone-aware scheduling')}</span>
-            <span className="page-hero-chip">{t('discovery.hero.chip2', '30-minute strategic session')}</span>
-            <span className="page-hero-chip">{t('discovery.hero.chip3', 'Actionable roadmap output')}</span>
+          <div className="eyebrow">01 · DISCOVERY</div>
+          <h1>
+            <em className="verb">book</em>&nbsp;a discovery call.
+          </h1>
+          <p>
+            Use this if you want a direct conversation before choosing the Workflow Audit or a scoped implementation path. We will keep the call practical and specific.
+          </p>
+          <div className="page-hero-meta" aria-label="Booking support details">
+            <span className="page-hero-chip">Timezone-aware scheduling</span>
+            <span className="page-hero-chip">30-minute working session</span>
+            <span className="page-hero-chip">Clear next step after the call</span>
           </div>
         </div>
       </section>
 
-      {/* band-1 (TECH-15/B27): no separate post-form block exists on this
-          page (the booking form stays mounted after submission), so the
-          booking-form section itself is the band-1 slot. This keeps the
-          exactly-two-bands invariant (N2) true on first paint; band-2 is the
-          shared BandCta rendered below. */}
       <section className="section discovery-section band-dark band-1">
         <div className="container">
-          <ScrollReveal>
+          <ScrollReveal static>
             <SectionHeader
-              tag={t('discovery.header.tag', 'Scheduling')}
-              title={t('discovery.header.title', 'Pick a Session Slot')}
-              subtitle={`${t('discovery.header.timezone', 'Detected timezone')}: ${timezone}`}
+              eyebrow="02 · BOOKING"
+              title="Choose a slot and tell us what the business is trying to fix."
+              subtitle={`Detected timezone: ${timezone}`}
             />
           </ScrollReveal>
 
-          <div className="discovery-grid">
-            <div className="discovery-card glass-card">
-              <h3>{t('discovery.sessions.title', 'Available Sessions')}</h3>
-              <div className="discovery-slot-list">
-                {localizedSlots.map((slot) => (
-                  <label key={slot.value} className={`discovery-slot ${selectedSlot === slot.value ? 'selected' : ''}`.trim()}>
-                    <input
-                      type="radio"
-                      name="discovery-slot"
-                      value={slot.value}
-                      checked={selectedSlot === slot.value}
-                      onChange={() => setSelectedSlot(slot.value)}
-                    />
-                    <span>{slot.label}</span>
-                  </label>
-                ))}
+          <div className="editorial-two-column discovery-layout-redesign">
+            <ScrollReveal static>
+              <div className="editorial-panel glass-card">
+                <p className="editorial-kicker">What this call is for</p>
+                <h3>A fast decision on the right commercial path.</h3>
+                <ul className="editorial-checklist compact">
+                  {CALL_EXPECTATIONS.map((item) => (
+                    <li key={item}>
+                      <IconGlyph name="check" size={14} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="discovery-card glass">
+                  <h3>Available sessions</h3>
+                  <div className="discovery-slot-list">
+                    {localizedSlots.map((slot) => (
+                      <label key={slot.value} className={`discovery-slot ${selectedSlot === slot.value ? 'selected' : ''}`.trim()}>
+                        <input
+                          type="radio"
+                          name="discovery-slot"
+                          value={slot.value}
+                          checked={selectedSlot === slot.value}
+                          onChange={() => setSelectedSlot(slot.value)}
+                        />
+                        <span>{slot.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="discovery-card glass-card">
-              <h3>{t('discovery.form.title', 'Meeting Details')}</h3>
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="booking-name">{t('discovery.form.fullName', 'Full name')}</label>
-                  <input id="booking-name" value={form.name} onChange={updateField('name')} required />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="booking-email">{t('discovery.form.workEmail', 'Work email')}</label>
-                  <input id="booking-email" type="email" value={form.email} onChange={updateField('email')} required />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="booking-company">{t('discovery.form.company', 'Company')}</label>
-                  <input id="booking-company" value={form.company} onChange={updateField('company')} />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="booking-agenda">{t('discovery.form.agenda', 'Session agenda')}</label>
-                  <textarea
-                    id="booking-agenda"
-                    rows={4}
-                    value={form.agenda}
-                    onChange={updateField('agenda')}
-                    placeholder={t('discovery.form.agendaPlaceholder', 'Share project goals, blockers, and timeline expectations.')}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary btn-lg" disabled={status === 'submitting'}>
-                  {status === 'submitting' ? t('discovery.form.submitting', 'Confirming...') : t('discovery.form.submit', 'Confirm Session')}
-                </button>
-                <p className={`form-feedback ${feedbackClass}`} role="status" aria-live="polite">
-                  {feedbackMessage}
-                </p>
-              </form>
-            </div>
+            <ScrollReveal static>
+              <div className="editorial-panel glass-card">
+                <h3>Meeting details</h3>
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="booking-name">Full name</label>
+                    <input id="booking-name" value={form.name} onChange={updateField('name')} required />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="booking-email">Work email</label>
+                    <input id="booking-email" type="email" value={form.email} onChange={updateField('email')} required />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="booking-company">Company</label>
+                    <input id="booking-company" value={form.company} onChange={updateField('company')} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="booking-agenda">What should we prepare for?</label>
+                    <textarea
+                      id="booking-agenda"
+                      rows={4}
+                      value={form.agenda}
+                      onChange={updateField('agenda')}
+                      placeholder="Describe the workflow, system, quote, or product decision you want help making."
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-primary btn-lg" disabled={status === 'submitting'}>
+                    {status === 'submitting' ? 'Confirming...' : 'Confirm Session'}
+                  </button>
+                  <p className={`form-feedback ${feedbackClass}`} role="status" aria-live="polite">
+                    {feedbackMessage}
+                  </p>
+                </form>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
-
-      <BandCta />
     </>
   );
 }

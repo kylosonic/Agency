@@ -4,27 +4,30 @@ import { trackContactChannelClick } from '../services/analyticsService';
 import { useLanguage } from '../i18n/useLanguage';
 import LogoMark from './LogoMark';
 
-// TECH-19 (B35): lean, ordered footer — brand row, four link columns,
-// legal bar. Zero new copy: every label reuses an existing footer.links.*
-// key. The Connect column keeps the mailto: anchor FIRST (E2E hook).
+// TECH-27 (B46): Ft5 Statement footer — one lowercase statement sentence,
+// a hairline rule, then a compact row: wordmark | minimal links | muted mono
+// contact. Zero new copy: the statement re-uses the existing brand line and
+// every label re-uses an existing footer.links.* key. `.footer-grid` survives
+// as the compact row container (the E2E statement-footer probe N8 reads its
+// columns); the Connect block keeps the mailto: anchor FIRST (E2E hook).
 export default function Footer() {
     const { t } = useLanguage();
 
     return (
         <footer className="footer">
             <div className="container">
+                <div className="footer-statement">
+                    <p>
+                        Founder-led digital systems studio for Ethiopian teams that need clearer workflows, sharper commercial surfaces, and builds grounded in real operating constraints.
+                    </p>
+                </div>
+
                 <div className="footer-grid">
-                    <div className="footer-brand">
+                    <div className="footer-mark">
                         <Link to="/" className="navbar-logo">
                             <LogoMark />
                             <span>{t('brand.name', 'NovaTech AI')}</span>
                         </Link>
-                        <p>
-                            {t(
-                                'footer.description',
-                                'AI-first automation consultancy delivering custom agentic workflows while actively building web platforms, mobile apps, and SaaS products for scaling teams.',
-                            )}
-                        </p>
                     </div>
 
                     <div>
@@ -33,31 +36,11 @@ export default function Footer() {
                             <li><Link to="/services">{t('footer.links.aiSolutions', 'AI Solutions')}</Link></li>
                             <li><Link to="/workflow-audit">{t('footer.links.workflowAudit', 'Workflow Audit')}</Link></li>
                             <li><Link to="/pricing">{t('footer.links.pricing', 'Pricing')}</Link></li>
-                            <li><Link to="/book-discovery-call">{t('footer.links.strategyCall', 'Discovery Call')}</Link></li>
-                            <li><Link to="/instant-quote">{t('footer.links.automationBrief', 'Automation Brief Wizard')}</Link></li>
+                            <li><Link to="/policy">{t('nav.policy', 'Policy')}</Link></li>
                         </ul>
                     </div>
 
-                    <div>
-                        <h4>{t('footer.company', 'Company')}</h4>
-                        <ul className="footer-links">
-                            <li><Link to="/services#engineering">{t('footer.links.engineeringLayer', 'Product Engineering (Web, Mobile, SaaS)')}</Link></li>
-                            <li><Link to="/web-development">{t('web.hero.title', 'Web Design & Development')}</Link></li>
-                            <li><Link to="/mobile-development">{t('mobile.hero.title', 'Mobile App Development')}</Link></li>
-                            <li><Link to="/saas-solutions">{t('saas.hero.title', 'SaaS Cloud Solutions')}</Link></li>
-                            <li><Link to="/policy">{t('nav.policy', 'Payment Policy')}</Link></li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4>{t('footer.links.aboutUs', 'Methodology')}</h4>
-                        <ul className="footer-links">
-                            <li><a href="/#methodology">{t('footer.links.methodology', 'Methodology')}</a></li>
-                            <li><Link to="/services#searchable-brain">{t('footer.links.searchableBrain', 'The Searchable Brain')}</Link></li>
-                        </ul>
-                    </div>
-
-                    <div>
+                    <div className="footer-contact">
                         <h4>{t('footer.connect', 'Connect')}</h4>
                         <ul className="footer-links">
                             <li><a href={`mailto:${SITE_CONTACT.email}`} onClick={() => trackContactChannelClick('email', 'footer')}>{SITE_CONTACT.email}</a></li>

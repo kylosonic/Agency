@@ -9,8 +9,8 @@ const LANGUAGE_ALTERNATES = [
 const SEO_BY_ROUTE = {
   '/': {
     en: {
-      title: 'NovaTech AI - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source while scaling software delivery. NovaTech AI deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
+      title: 'NovaTech AI | Workflow Audit and Digital Systems',
+      description: 'Start with a Workflow Audit, then scope the right AI automation, web, or mobile build from a live ETB pricing table.',
     },
     am: {
       title: 'NovaTech AI - Agentic Workflow Consultancy',
@@ -38,7 +38,7 @@ const SEO_BY_ROUTE = {
   '/services': {
     en: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'Explore custom agentic systems plus co-equal web, mobile, and SaaS product engineering delivery.',
+      description: 'See the automation, web, mobile, and waitlist SaaS lanes NovaTech builds after the Workflow Audit clarifies the right path.',
     },
     am: {
       title: 'AI Solutions | NovaTech AI',
@@ -52,7 +52,7 @@ const SEO_BY_ROUTE = {
   '/pricing': {
     en: {
       title: 'Pricing | NovaTech AI',
-      description: 'Review pricing for workflow audits, AI automation tiers, and co-equal web/mobile/SaaS product engineering engagements.',
+      description: 'Review the live ETB pricing table for the Workflow Audit, AI automation, web systems, mobile products, and support bands.',
     },
     am: {
       title: 'Pricing | NovaTech AI',
@@ -80,7 +80,7 @@ const SEO_BY_ROUTE = {
   '/web-development': {
     en: {
       title: 'Web Development | NovaTech AI',
-      description: 'Websites, portals, and dashboards built with conversion-focused information architecture, an SEO and analytics baseline, and weekly sprint reviews — typically delivered in 3 to 8 weeks.',
+      description: 'Web systems, portals, and dashboard layers quoted from live ETB package anchors and scoped around real commercial needs.',
     },
     am: {
       title: 'የዌብ ልማት | NovaTech AI',
@@ -94,7 +94,7 @@ const SEO_BY_ROUTE = {
   '/mobile-development': {
     en: {
       title: 'Mobile App Development | NovaTech AI',
-      description: 'Cross-platform mobile apps built for performance, retention, and local payment integrations.',
+      description: 'Mobile products for field operations, approvals, payments, and customer workflows, scoped from the live ETB table.',
     },
     am: {
       title: 'ሞባይል መተግበሪያ ልማት | NovaTech AI',
@@ -108,7 +108,7 @@ const SEO_BY_ROUTE = {
   '/saas-solutions': {
     en: {
       title: 'SaaS Product Engineering | NovaTech AI',
-      description: 'Build and scale SaaS platforms with multi-tenant architecture, analytics, and automation-ready workflows.',
+      description: 'SaaS is waitlist only right now. Review the honest availability note instead of a fake live product catalog.',
     },
     am: {
       title: 'የSaaS ምርት እንጂነሪንግ | NovaTech AI',
@@ -136,7 +136,7 @@ const SEO_BY_ROUTE = {
   '/policy': {
     en: {
       title: 'Payment and Operational Policy | NovaTech',
-      description: 'Review development payment milestones, payment methods, and SaaS waitlist status.',
+      description: 'Review milestone billing, current payment methods, ownership transfer, and the SaaS waitlist policy.',
     },
     am: {
       title: 'የክፍያ እና ኦፕሬሽን ፖሊሲ | NovaTech',
@@ -150,7 +150,7 @@ const SEO_BY_ROUTE = {
   '/instant-quote': {
     en: {
       title: 'Instant Quote Wizard | NovaTech',
-      description: 'Generate a project estimate in minutes based on goals, timeline, and budget constraints.',
+      description: 'Get a lower-friction directional estimate for web, mobile, or AI automation work when the build direction is already clear.',
     },
     am: {
       title: 'ፈጣን ዋጋ ግምት | NovaTech',
@@ -164,7 +164,7 @@ const SEO_BY_ROUTE = {
   '/book-discovery-call': {
     en: {
       title: 'Book a Discovery Call | NovaTech',
-      description: 'Schedule a discovery call with timezone-aware booking and project intake details.',
+      description: 'Schedule a practical discovery call to decide whether the next step is the Workflow Audit, a scoped build, or a waitlist conversation.',
     },
     am: {
       title: 'የመግቢያ ጥሪ ያስይዙ | NovaTech',
@@ -178,7 +178,7 @@ const SEO_BY_ROUTE = {
   '/industries': {
     en: {
       title: 'Industry Solutions | NovaTech',
-      description: 'See NovaTech industry-ready solutions for education, healthcare, real estate, and e-commerce businesses.',
+      description: 'Read sector-specific workflow notes that lead back to the Workflow Audit and live ETB pricing paths.',
     },
     am: {
       title: 'የኢንዱስትሪ መፍትሄዎች | NovaTech',
@@ -210,7 +210,7 @@ const SERVICE_SCHEMA_BY_ROUTE = {
   },
   '/saas-solutions': {
     name: 'SaaS Product Engineering',
-    serviceType: 'SaaS architecture and development',
+    serviceType: 'SaaS waitlist and future product planning',
   },
   '/additional-services': {
     name: 'Additional Digital Services and Add-ons',
@@ -233,8 +233,8 @@ const FAQ_SCHEMA_BY_ROUTE = {
       answer: 'Once the final payment clears, clients receive full ownership of custom design assets, source code, and project intellectual property.',
     },
     {
-      question: 'Are SaaS subscriptions available monthly and annually?',
-      answer: 'No. SaaS products are in development and offered as a waitlist only. No pricing or billing exists until a real product is live.',
+      question: 'Is SaaS available as a live subscription today?',
+      answer: 'No. SaaS remains waitlist only until a real product exists and truthful pricing can be published.',
     },
   ],
 };

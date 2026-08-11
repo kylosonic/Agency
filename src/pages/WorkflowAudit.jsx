@@ -1,52 +1,88 @@
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
-import PilotOfferSection from '../components/PilotOfferSection';
-import BandCta from '../components/BandCta';
 import { getPricingGuideSummary } from '../services/pricingData';
 
 const WORKFLOW_AUDIT = getPricingGuideSummary().workflowAudit;
 
-const AUDIT_OUTPUTS = [
-  'Operational map of human handoffs and manual data movement',
-  'Automation architecture blueprint with agent responsibilities',
-  'Integration plan for Slack, CRM, email, and internal databases',
-  'ROI model with estimated hours recovered and cost impact',
+/* B42a (TECH-25): locked indicator-dial callouts for the audit hero. */
+const AUDIT_APPARATUS_CALLOUTS = [
+  'AUDIT · 85,000 ETB · FIXED',
+  'DELIVERY · 5 BUSINESS DAYS',
+  'CREDIT · 100% TOWARD BUILD',
+];
+
+const FIT_SIGNALS = [
+  'A process depends on manual re-entry, spreadsheet stitching, or brittle portal work.',
+  'The team knows it needs software, but not whether the right move is AI automation, web, mobile, or all three.',
+  'Leads, approvals, orders, or support requests are delayed because no one owns the workflow end to end.',
+  'A founder or operator is still acting as the system glue between tools, teams, and customers.',
+];
+
+const FIVE_DAY_FLOW = [
+  {
+    title: 'Current-state walkthrough',
+    text: 'We review the live workflow, stakeholders, tools, handoffs, and the commercial cost of delay or rework.',
+  },
+  {
+    title: 'Risk and opportunity map',
+    text: 'We identify where automation is worth it, where interface work is required, and what should not be built yet.',
+  },
+  {
+    title: 'Implementation blueprint',
+    text: 'You receive the recommended path, price anchors, scope drivers, and the fastest credible way to move next.',
+  },
 ];
 
 export default function WorkflowAudit() {
   return (
     <>
       <section className="page-hero ai-audit-hero">
-        <div className="container page-hero-content ai-audit-hero-content">
-          <h1>Workflow Audit Engagement</h1>
-          <p>
-            We run a technical discovery sprint to expose where manual labor, fragmented data, and delayed handoffs are costing your team time and margin.
-          </p>
-          <div className="page-hero-meta" aria-label="Workflow audit details">
-            <span className="page-hero-chip">Fixed fee {WORKFLOW_AUDIT.price}</span>
-            <span className="page-hero-chip">Delivered within 5 business days</span>
-            <span className="page-hero-chip">Full fee credited toward your implementation project</span>
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · ENTRY</div>
+            <h1>
+              <em className="verb">audit</em>&nbsp;the workflow before the build.
+            </h1>
+            <p>
+              This is the first engagement we want most teams to buy. It gives you a clear operating map,
+              a scoped implementation path, and a commercial decision based on what is actually broken.
+            </p>
+            <div className="page-hero-meta" aria-label="Workflow audit details">
+              <span className="page-hero-chip">Fixed fee {WORKFLOW_AUDIT.price}</span>
+              <span className="page-hero-chip">Delivered in 5 business days</span>
+              <span className="page-hero-chip">Full fee credited toward implementation</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="dial"
+              callouts={AUDIT_APPARATUS_CALLOUTS}
+              label="Indicator dial apparatus: fixed audit, delivery in 5 business days, credit 100% toward build"
+            />
           </div>
         </div>
       </section>
 
+      <MeterStrip labelLeft="AUDIT · 85,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
+
       <section className="section ai-audit-section">
-        <div className="container ai-audit-grid">
+        <div className="container editorial-two-column">
           <ScrollReveal>
-            <div className="ai-audit-card glass-card">
+            <div className="editorial-panel glass-card">
               <SectionHeader
-                tag="Audit Deliverables"
-                title="What You Receive"
-                subtitle="Every engagement produces a concrete implementation plan your team can execute immediately."
+                eyebrow="02 · RECEIVE"
+                title="A real blueprint for the next move."
+                subtitle={WORKFLOW_AUDIT.description}
                 align="left"
               />
-              <p className="ai-audit-price-line">
-                Fixed fee {WORKFLOW_AUDIT.price} — the full fee is credited toward your implementation project.
-              </p>
-              <ul className="ai-audit-list">
-                {AUDIT_OUTPUTS.map((item) => (
+
+              <ul className="editorial-checklist">
+                {WORKFLOW_AUDIT.outputs.map((item) => (
                   <li key={item}>
                     <IconGlyph name="check" size={15} />
                     <span>{item}</span>
@@ -56,28 +92,73 @@ export default function WorkflowAudit() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.12}>
-            <div className="ai-audit-card glass-strong">
-              <h3>Schedule the Session</h3>
-              <p>
-                Book a focused session with our engineering team. We will gather your current process stack, then return a prioritized automation plan tied to measurable ROI.
-              </p>
-              <div className="ai-audit-actions">
-                <Link to="/book-discovery-call" className="btn btn-primary btn-lg">
-                  Book Audit Session
-                </Link>
-                <Link to="/pricing" className="btn btn-secondary btn-lg">
-                  Review Pricing
-                </Link>
-              </div>
+          <ScrollReveal delay={0.1}>
+            <div className="editorial-panel glass-strong">
+              <p className="editorial-kicker">Best fit when</p>
+              <h3>The team knows the pain, but not the right build yet.</h3>
+              <ul className="editorial-checklist">
+                {FIT_SIGNALS.map((item) => (
+                  <li key={item}>
+                    <IconGlyph name="check" size={15} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      <PilotOfferSection band="1" source="audit_pilot_offer" />
+      <section className="section band-dark band-1" id="audit-timeline">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="03 · TIMELINE"
+              title="What happens between kickoff and the blueprint."
+              subtitle="We keep the audit short, structured, and commercial. The goal is clarity, not theater."
+              align="left"
+            />
+          </ScrollReveal>
 
-      <BandCta />
+          <div className="editorial-step-grid">
+            {FIVE_DAY_FLOW.map((item, index) => (
+              <ScrollReveal key={item.title}>
+                <article className="editorial-step-card glass-card">
+                  <div className="methodology-step-top">
+                    <span className="methodology-step-number">0{index + 1}</span>
+                    <span className="methodology-step-icon" aria-hidden="true">
+                      <IconGlyph name="search" size={18} />
+                    </span>
+                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-sm">
+        <div className="container">
+          <div className="page-closing-card glass-strong">
+            <p className="editorial-kicker">Book the first session</p>
+            <div className="eyebrow">04 · FIRST STEP</div>
+            <h2>Use the audit when you want the right answer before the expensive answer.</h2>
+            <p>
+              If you already know the implementation lane, you can still use the instant quote tool. If you do not, the audit saves time, money, and avoidable rework.
+            </p>
+            <div className="cta-actions">
+              <Link to="/book-discovery-call" className="btn btn-primary btn-lg">
+                Book Audit Session
+              </Link>
+              <Link to="/pricing" className="btn btn-secondary btn-lg">
+                Review Pricing
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

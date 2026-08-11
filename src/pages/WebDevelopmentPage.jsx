@@ -1,131 +1,158 @@
-import { useState, useEffect, useMemo } from 'react';
-import InteractivePricing from '../components/InteractivePricing';
-import SectionHeader from '../components/SectionHeader';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
-import RouteProofStrip from '../components/RouteProofStrip';
-import RoiEstimator from '../components/RoiEstimator';
-import FaqAccordion from '../components/FaqAccordion';
-import { DISCOVERY_CALL_MAILTO } from '../config/siteConfig';
-import { serviceFaqs } from '../config/contentData';
-import { trackDiscoveryCallClick } from '../services/analyticsService';
+import SectionHeader from '../components/SectionHeader';
+import Apparatus from '../components/Apparatus';
+import MeterStrip from '../components/MeterStrip';
+import IconGlyph from '../components/IconGlyph';
 import { getWebPackages } from '../services/pricingData';
-import { useLanguage } from '../i18n/useLanguage';
 
-export default function WebDevelopmentPage({ onDownloadClick }) {
-    const { t } = useLanguage();
-    const [packages, setPackages] = useState([]);
-    const [loading, setLoading] = useState(true);
+/* B42a (TECH-25): locked filament-apparatus callouts for the Web hero. */
+const WEB_APPARATUS_CALLOUTS = [
+  'WEB · 45,000 / 150,000 / 250,000 ETB',
+  'MILESTONES · 40/30/30',
+  'RESPONSE · 1 BUSINESS DAY',
+];
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const webData = await getWebPackages();
-                setPackages(webData);
-            } catch (error) {
-                console.error("Failed to load web pricing data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+const WEB_CONTEXT = [
+  {
+    title: 'A better site is usually part of a bigger fix',
+    text: 'The website often needs to support quoting, intake, content operations, or customer handoff. That is why we still recommend the Workflow Audit when the operational picture is unclear.',
+  },
+  {
+    title: 'The build should serve a real commercial motion',
+    text: 'A premium site should help a founder sell, help a team respond faster, or help customers complete the next step without confusion.',
+  },
+  {
+    title: 'We do not pad scope with surface polish alone',
+    text: 'If a five-page site solves the need, we say that. If the business really needs a portal, dashboard, or intake system, we scope that instead.',
+  },
+];
 
-        fetchData();
-    }, []);
+export default function WebDevelopmentPage() {
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const localizedFaqItems = useMemo(() => {
-        return serviceFaqs.web.map((item, index) => ({
-            question: t(`faqs.web.${index}.question`, item.question),
-            answer: t(`faqs.web.${index}.answer`, item.answer),
-        }));
-    }, [t]);
-    return (
-        <>
-            {/* Page Hero */}
-            <section className="page-hero">
-                <div className="container page-hero-content">
-                    <h1>{t('web.hero.title', 'Web Design & Development')}</h1>
-                    <p>{t('web.hero.subtitle', 'Three tailored packages to match your business stage — from establishing your digital presence to a platform your operation depends on.')}</p>
-                    <div className="page-hero-meta" aria-label={t('web.hero.metaAria', 'Web delivery highlights')}>
-                        <span className="page-hero-chip">{t('web.hero.chip1', 'Conversion-Focused IA')}</span>
-                        <span className="page-hero-chip">{t('web.hero.chip2', 'SEO and Analytics Baseline')}</span>
-                        <span className="page-hero-chip">{t('web.hero.chip3', 'Weekly Sprint Reviews')}</span>
-                    </div>
-                </div>
-            </section>
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const webData = await getWebPackages();
+        setPackages(webData);
+      } catch (error) {
+        console.error('Failed to load web pricing data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-            <RouteProofStrip
-                items={[
-                    {
-                        title: t('web.proof.0.title', 'Two Business Days to Kickoff'),
-                        text: t('web.proof.0.text', 'Once scope is approved, we start discovery and wireframing within two business days.'),
-                    },
-                    {
-                        title: t('web.proof.1.title', 'Transparent Build Milestones'),
-                        text: t('web.proof.1.text', 'You review clear progress checkpoints every week before we move to the next sprint.'),
-                    },
-                    {
-                        title: t('web.proof.2.title', 'Launch readiness is included'),
-                        text: t('web.proof.2.text', 'Every package includes performance checks, indexing setup, and handover guidance.'),
-                    },
-                ]}
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <section className="page-hero">
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <div className="eyebrow">01 · WEB</div>
+            <h1>
+              web systems that help the business <em className="verb">move</em>,&nbsp;not just look presentable.
+            </h1>
+            <p>
+              We build websites, portals, and dashboard layers when the business needs a clearer commercial path,
+              better intake, or a cleaner operating surface around the workflow.
+            </p>
+            <div className="page-hero-meta" aria-label="Web delivery highlights">
+              <span className="page-hero-chip">Web from 45,000 ETB</span>
+              <span className="page-hero-chip">Portal and dashboard capable</span>
+              <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
+            </div>
+          </div>
+
+          <div className="marquee-hero-side">
+            <Apparatus
+              type="filament"
+              callouts={WEB_APPARATUS_CALLOUTS}
+              label="Filament apparatus: web from 45,000, 150,000, or 250,000 ETB, milestones 40/30/30, response within 1 business day"
             />
+          </div>
+        </div>
+      </section>
 
-            {/* Pricing Tiers */}
-            <section className="section">
-                <div className="container">
-                    <ScrollReveal>
-                        <SectionHeader
-                            tag={t('web.sections.packages.tag', 'Development Packages')}
-                            title={t('web.sections.packages.title', 'Choose Your Package')}
-                            subtitle={t('web.sections.packages.subtitle', 'All packages include responsive design, SEO optimization, and 3 months of free support.')}
-                        />
-                    </ScrollReveal>
+      <MeterStrip labelLeft="WEB · FROM 45,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
-                    {loading ? (
-                        <div className="loading-state">
-                            <p>{t('states.loadingPackages', 'Loading Packages...')}</p>
-                        </div>
-                    ) : (
-                        <ScrollReveal stagger>
-                            <InteractivePricing
-                                onDownloadClick={onDownloadClick}
-                                packages={packages}
-                            />
-                        </ScrollReveal>
-                    )}
-                </div>
-            </section>
+      <section className="section">
+        <div className="container editorial-card-grid">
+          {WEB_CONTEXT.map((item) => (
+            <ScrollReveal key={item.title}>
+              <article className="editorial-card glass-card">
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
 
-            <RoiEstimator
-                band="1"
-                title={t('web.roi.title', 'Web Growth ROI Estimator')}
-                subtitle={t('web.roi.subtitle', 'Estimate potential monthly revenue lift from improved conversion architecture and campaign readiness.')}
+      <section className="section band-dark band-1">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="02 · PACKAGE ANCHORS"
+              title="The web pricing ladder is straightforward."
+              subtitle="Choose the size of build that fits the actual business need. If the answer is still fuzzy, go back one step and start with the Workflow Audit."
+              align="left"
             />
+          </ScrollReveal>
 
-            <FaqAccordion
-                title={t('web.faq.title', 'Web Development FAQs')}
-                subtitle={t('web.faq.subtitle', 'Quick answers on ownership, delivery timeline, and post-launch support.')}
-                items={localizedFaqItems}
-            />
+          {loading ? (
+            <div className="loading-state">
+              <p>Loading packages...</p>
+            </div>
+          ) : (
+            <div className="editorial-card-grid editorial-card-grid-dark">
+              {packages.map((pkg) => (
+                <ScrollReveal key={pkg.title}>
+                  <article className="editorial-card glass-card editorial-track-card">
+                    <p className="editorial-price-tag">{pkg.price}</p>
+                    <h3>{pkg.title}</h3>
+                    <p className="editorial-meta-line">{pkg.timeline}</p>
+                    <p>{pkg.idealFor}</p>
+                    <ul className="editorial-checklist compact">
+                      {pkg.features.map((feature) => (
+                        <li key={feature}>
+                          <IconGlyph name="check" size={14} />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
-            {/* CTA */}
-            <section className="section-sm cta-section band-dark band-2">
-                <div className="container">
-                    <ScrollReveal>
-                        <div className="cta-inner">
-                            <h2>{t('web.cta.title', 'Need a Custom Quote?')}</h2>
-                            <p>{t('web.cta.subtitle', 'Download our full pricing guide for detailed breakdowns of every package, feature, and add-on.')}</p>
-                            <div className="cta-actions">
-                                <button type="button" className="btn btn-primary btn-lg" onClick={() => onDownloadClick('web_page_cta_pricing')}>
-                                    {t('actions.downloadFullPricingGuide', 'Download Full Pricing Guide')}
-                                </button>
-                                <a className="btn btn-secondary btn-lg" href={DISCOVERY_CALL_MAILTO} onClick={() => trackDiscoveryCallClick('web_page_cta_discovery')}>
-                                    {t('web.cta.secondary', 'Talk To A Strategist')}
-                                </a>
-                            </div>
-                        </div>
-                    </ScrollReveal>
-                </div>
-            </section>
-        </>
-    );
+      <section className="section-sm">
+        <div className="container">
+          <div className="page-closing-card glass-strong">
+            <p className="editorial-kicker">Best next step</p>
+            <div className="eyebrow">03 · FIRST STEP</div>
+            <h2>Book the Workflow Audit if the website is tied to a bigger operational issue.</h2>
+            <p>
+              If you already know the exact web scope, use the instant quote tool. If the site is part of a larger quoting, intake, or internal workflow problem, the audit is the better starting point.
+            </p>
+            <div className="cta-actions">
+              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
+                Book Workflow Audit
+              </Link>
+              <Link to="/instant-quote" className="btn btn-secondary btn-lg">
+                Start Instant Quote
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

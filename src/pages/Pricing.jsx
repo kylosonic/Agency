@@ -1,268 +1,281 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
-import PricingScenarioPlanner from '../components/PricingScenarioPlanner';
-import PilotOfferSection from '../components/PilotOfferSection';
-import BandCta from '../components/BandCta';
 import { getPricingGuideSummary } from '../services/pricingData';
 
 const PRICING_SUMMARY = getPricingGuideSummary();
 
-function PriceValues({ values }) {
-  return (
-    <div className="ai-pricing-values ai-pricing-dual-values">
-      {values.map((item) => (
-        <p key={item.label}>
-          <span>{item.label}</span>
-          <strong>{item.value}</strong>
-        </p>
-      ))}
-    </div>
-  );
-}
-
 function FeatureList({ items }) {
   return (
-    <ul>
-      {items.map((feature) => (
-        <li key={feature}>
+    <ul className="editorial-checklist">
+      {items.map((item) => (
+        <li key={item}>
           <IconGlyph name="check" size={14} />
-          <span>{feature}</span>
+          <span>{item}</span>
         </li>
       ))}
     </ul>
   );
 }
 
-export default function Pricing() {
-  const [activeTrack, setActiveTrack] = useState('automation');
-  const {
-    geographicPolicy,
-    workflowAudit,
-    automationTiers,
-    productEngineering,
-    additionalServices,
-  } = PRICING_SUMMARY;
-
-  const aiSupportIncludes = automationTiers[0]?.supportIncludes || [];
+export default function Pricing({ onDownloadClick }) {
+  const { workflowAudit, automationTiers, productEngineering, additionalServices } = PRICING_SUMMARY;
+  const webTracks = productEngineering.filter((item) => item.category === 'Web Development');
+  const mobileTracks = productEngineering.filter((item) => item.category === 'Mobile Apps');
 
   return (
     <>
       <section className="page-hero ai-pricing-hero">
         <div className="container page-hero-content ai-pricing-hero-content">
-          <h1>Comprehensive Pricing Guide</h1>
+          <div className="eyebrow">01 · RATES</div>
+          <h1>
+            <em className="verb">read</em>&nbsp;the live pricing and engagement model.
+          </h1>
           <p>
-            Pricing is structured around operational impact: we start with workflow audits, then scope AI automation, web/mobile/SaaS product engineering, and monthly support — all quoted in Ethiopian Birr.
+            This page is the current ETB source of truth. The downloadable guide is being refreshed, so use the live pricing here when you need an accurate quote path.
           </p>
           <div className="page-hero-meta" aria-label="Pricing model notes">
-            <span className="page-hero-chip">ETB-only pricing</span>
+            <span className="page-hero-chip">Workflow Audit: 85,000 ETB fixed</span>
+            <span className="page-hero-chip">ETB only</span>
             <span className="page-hero-chip">International engagements quoted individually</span>
-            <span className="page-hero-chip">Scope tied to integration depth</span>
-            <span className="page-hero-chip">Audit-first engagement model</span>
+            <span className="page-hero-chip">SaaS is waitlist only</span>
+          </div>
+          <div className="hero-actions pricing-hero-actions">
+            <Link className="btn btn-primary btn-lg" to="/workflow-audit">
+              Book Workflow Audit
+            </Link>
+            <button
+              type="button"
+              className="btn btn-secondary btn-lg"
+              onClick={() => onDownloadClick?.('pricing_page_download_sheet', { variant: 'download_sheet' })}
+            >
+              Download Current Pricing Sheet
+            </button>
           </div>
         </div>
       </section>
 
-      <section className="section ai-pricing-section" id="pricing-models">
+      <section className="section" id="workflow-audit-pricing">
+        <div className="container editorial-two-column">
+          <ScrollReveal>
+            <article className="editorial-panel">
+              <div className="eyebrow">02 · AUDIT</div>
+              <h2>{workflowAudit.title}</h2>
+              {/* B43 (TECH-26): the audit panel is a ruled receipt — label row,
+                  description, deliverables as receipt lines (locked pricingData). */}
+              <div className="receipt" aria-label="Workflow Audit rate">
+                <div className="receipt-row">
+                  <span className="receipt-row__label">Audit · {workflowAudit.price} · Fixed</span>
+                </div>
+                <div className="receipt-row">
+                  <p className="receipt-row__content">{workflowAudit.description}</p>
+                </div>
+                <div className="receipt-row">
+                  <span className="receipt-row__label">Deliverables</span>
+                  <ul className="receipt-row__list">
+                    {workflowAudit.outputs.map((output) => (
+                      <li key={output}>{output}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1}>
+            <article className="editorial-panel glass-card">
+              <p className="editorial-kicker">Why it exists</p>
+              <h3>The audit keeps scope honest.</h3>
+              <p>
+                It protects you from buying the wrong build and protects us from pretending that every workflow can be priced from a guess. The audit fee is credited if we continue into implementation.
+              </p>
+              <div className="editorial-note-panel">
+                <strong>Timeline:</strong> delivered within 5 business days.
+              </div>
+            </article>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section" id="ai-automation-pricing">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              tag="Pricing Structure"
-              title="AI Automation + Product Engineering"
-              subtitle="Use the selector to inspect the active 2026 service menu: automation systems, product builds, monthly support, and operational add-ons."
+              eyebrow="03 · AUTOMATION"
+              title="Implementation pricing is anchored, then scoped honestly."
+              subtitle="We publish starting prices, the monthly support band, and the scope drivers that raise the work above the starting point."
               align="left"
             />
           </ScrollReveal>
 
-          <ScrollReveal delay={0.08}>
-            <PricingScenarioPlanner />
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.1}>
-            <div className="ai-pricing-toggle" role="tablist" aria-label="Pricing category selector">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeTrack === 'automation'}
-                aria-controls="automation-pricing-panel"
-                id="automation-pricing-tab"
-                className={activeTrack === 'automation' ? 'active' : ''}
-                onClick={() => setActiveTrack('automation')}
-              >
-                AI Automation Services
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeTrack === 'product'}
-                aria-controls="product-pricing-panel"
-                id="product-pricing-tab"
-                className={activeTrack === 'product' ? 'active' : ''}
-                onClick={() => setActiveTrack('product')}
-              >
-                Product Engineering (Web/Mobile/SaaS)
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeTrack === 'support'}
-                aria-controls="support-pricing-panel"
-                id="support-pricing-tab"
-                className={activeTrack === 'support' ? 'active' : ''}
-                onClick={() => setActiveTrack('support')}
-              >
-                Support & Add-ons
-              </button>
-            </div>
-          </ScrollReveal>
-
-          {activeTrack === 'automation' ? (
-            <div
-              id="automation-pricing-panel"
-              role="tabpanel"
-              aria-labelledby="automation-pricing-tab"
-              className="ai-pricing-panel"
-            >
-              <ScrollReveal delay={0.12}>
-                <article className="ai-pricing-audit-card glass-strong">
-                  <div className="ai-pricing-audit-icon" aria-hidden="true">
-                    <IconGlyph name="search" size={20} />
+          <div className="editorial-card-grid receipt-stack">
+            {automationTiers.map((tier) => (
+              <ScrollReveal key={tier.title}>
+                {/* B43 (TECH-26): one ruled receipt row per tier — no card box,
+                    no icon top; setup price stays a mono tabular figure. */}
+                <article className="editorial-card pricing-tier-editorial-card">
+                  <p className="receipt-row__label">Setup price</p>
+                  <p className="editorial-price-tag">{tier.setupPrice}</p>
+                  <h3>{tier.title}</h3>
+                  <p className="editorial-meta-line">{tier.bestFor} / {tier.timeline}</p>
+                  <p>{tier.scope}</p>
+                  <div className="editorial-note-panel">
+                    <strong>Monthly support:</strong> {tier.monthlySupport}
                   </div>
+                  <h4>Setup includes</h4>
+                  <FeatureList items={tier.includes} />
+                  <h4>Monthly support includes</h4>
+                  <FeatureList items={tier.supportIncludes} />
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section band-dark band-1" id="product-build-pricing">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="04 · BUILDS"
+              title="Web and mobile are quoted from fixed ETB anchors."
+              subtitle="These are not filler side offers. They are scoped from the same commercial discipline: clear starting prices, clear audience fit, and no fake live SaaS catalog."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="editorial-card-grid editorial-card-grid-dark receipt-stack">
+            {webTracks.map((item) => (
+              <ScrollReveal key={item.title}>
+                <article className="editorial-card editorial-track-card pricing-track-card">
+                  <p className="editorial-price-tag">{item.price}</p>
                   <div>
-                    <p className="ai-pricing-audit-kicker">{workflowAudit.kicker}</p>
-                    <h3>{workflowAudit.title}</h3>
-                    <PriceValues
-                      values={[
-                        { label: 'Fixed fee', value: workflowAudit.price },
-                      ]}
-                    />
-                    <p>{workflowAudit.description}</p>
-                    <FeatureList items={workflowAudit.outputs} />
+                    <h3>{item.title}</h3>
+                    <p className="editorial-meta-line">{item.timeline}</p>
+                    <p>{item.note}</p>
                   </div>
                 </article>
               </ScrollReveal>
+            ))}
 
-              <div className="ai-pricing-tier-grid">
-                {automationTiers.map((tier) => (
-                  <ScrollReveal key={tier.title}>
-                    <article className="ai-pricing-tier-card glass-card">
-                      <h3>{tier.title}</h3>
-                      <div className="ai-pricing-card-meta">{tier.bestFor} / {tier.timeline}</div>
-                      <div className="ai-pricing-card-note">{tier.scope}</div>
-                      <PriceValues
-                        values={[
-                          { label: 'From', value: tier.setupPrice },
-                          { label: 'Monthly support', value: tier.monthlySupport },
-                        ]}
-                      />
-                      <h4 className="ai-pricing-subheading">What the setup includes</h4>
-                      <FeatureList items={tier.includes} />
-                      <h4 className="ai-pricing-subheading">What monthly support includes</h4>
-                      <FeatureList items={tier.supportIncludes} />
-                    </article>
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
-          ) : activeTrack === 'product' ? (
-            <div
-              id="product-pricing-panel"
-              role="tabpanel"
-              aria-labelledby="product-pricing-tab"
-              className="ai-pricing-panel"
-            >
-              <ScrollReveal delay={0.12}>
-                <div className="ai-interface-disclaimer glass-card">
-                  {geographicPolicy} Final product scope depends on architecture depth, integrations, compliance requirements, and whether AI is layered into the build.
-                </div>
+            {mobileTracks.map((item) => (
+              <ScrollReveal key={item.title}>
+                <article className="editorial-card editorial-track-card pricing-track-card">
+                  <p className="editorial-price-tag">{item.price}</p>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p className="editorial-meta-line">{item.timeline}</p>
+                    <p>{item.note}</p>
+                  </div>
+                </article>
               </ScrollReveal>
+            ))}
 
-              <div className="ai-interface-pricing-grid">
-                {productEngineering.map((item) => (
-                  <ScrollReveal key={item.title}>
-                    <article className="ai-interface-pricing-card glass-card">
-                      <div className="ai-pricing-card-kicker">{item.category}</div>
-                      <h3>{item.title}</h3>
-                      <PriceValues
-                        values={[
-                          { label: 'Price', value: item.price },
-                        ]}
-                      />
-                      <div className="ai-pricing-card-meta">{item.timeline}</div>
-                      <div className="ai-pricing-card-note">{item.note}</div>
-                    </article>
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div
-              id="support-pricing-panel"
-              role="tabpanel"
-              aria-labelledby="support-pricing-tab"
-              className="ai-pricing-panel"
-            >
-              <ScrollReveal delay={0.12}>
-                <div className="ai-interface-pricing-grid">
-                  <ScrollReveal>
-                    <article className="ai-interface-pricing-card glass-card">
-                      <div className="ai-pricing-card-kicker">AI Support Retainers</div>
-                      <h3>Monthly Support & Maintenance</h3>
-                      <PriceValues
-                        values={[
-                          { label: 'Monthly band', value: '30,000 - 70,000 ETB / month' },
-                        ]}
-                      />
-                      <div className="ai-pricing-card-note">
-                        Every AI engagement includes a monthly support retainer. What it covers:
+            <ScrollReveal>
+              <article className="editorial-card editorial-track-card pricing-track-card">
+                <p className="editorial-price-tag">Waitlist only</p>
+                <div>
+                  <h3>SaaS</h3>
+                  <p className="editorial-meta-line">No live paid offer</p>
+                  <p>
+                    SaaS is not presented as a live priced product. If you want to register interest, use the waitlist page and we will only publish pricing when a real product exists.
+                  </p>
+                </div>
+              </article>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" id="support-pricing">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="05 · SUPPORT"
+              title="Recurring support is explicit. Supporting services stay secondary."
+              subtitle="No buried marketing retainers, no annual maintenance phrasing where the live policy is monthly, and no dual-currency confusion."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="editorial-two-column">
+            <ScrollReveal>
+              <article className="editorial-panel glass-card">
+                <p className="editorial-kicker">Support bands</p>
+                <h3>Ongoing support</h3>
+                <div className="offer-ladder">
+                  <article className="offer-ladder-row">
+                    <div className="offer-ladder-stage">AI support</div>
+                    <div className="offer-ladder-main">
+                      <p>Hosting, model usage, monitoring, support hours, and response commitments are quoted together.</p>
+                    </div>
+                    <div className="offer-ladder-price">
+                      <strong>30,000 to 70,000 ETB / month</strong>
+                      <span>Quoted after implementation scope is known</span>
+                    </div>
+                  </article>
+                  <article className="offer-ladder-row">
+                    <div className="offer-ladder-stage">Web maintenance</div>
+                    <div className="offer-ladder-main">
+                      <p>Security patches, plugin updates, backups, and small content changes under a written support commitment.</p>
+                    </div>
+                    <div className="offer-ladder-price">
+                      <strong>5,000 to 15,000 ETB / month</strong>
+                      <span>Monthly only</span>
+                    </div>
+                  </article>
+                </div>
+              </article>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.1}>
+              <article className="editorial-panel glass-card">
+                <p className="editorial-kicker">Supporting services</p>
+                <h3>Additional line items</h3>
+                <ul className="editorial-price-list">
+                  {additionalServices.map((item) => (
+                    <li key={item.service}>
+                      <div>
+                        <strong>{item.service}</strong>
+                        <span>{item.description}</span>
                       </div>
-                      <FeatureList items={aiSupportIncludes} />
-                    </article>
-                  </ScrollReveal>
-                </div>
-              </ScrollReveal>
+                      <span>{item.price}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </ScrollReveal>
+          </div>
 
-              <ScrollReveal delay={0.14}>
-                <h3 className="ai-pricing-subheading">Operational add-ons</h3>
-              </ScrollReveal>
-
-              <div className="ai-interface-pricing-grid">
-                {additionalServices.map((item) => (
-                  <ScrollReveal key={item.service}>
-                    <article className="ai-interface-pricing-card glass-card">
-                      <div className="ai-pricing-card-kicker">{item.type}</div>
-                      <h3>{item.service}</h3>
-                      <PriceValues
-                        values={[
-                          { label: 'Price', value: item.price },
-                        ]}
-                      />
-                      <div className="ai-pricing-card-note">{item.description}</div>
-                    </article>
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <ScrollReveal delay={0.16}>
-            <div className="ai-pricing-actions">
-              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-                Book a Custom Workflow Audit
-              </Link>
-              <Link to="/services" className="btn btn-secondary btn-lg">
-                Compare AI Solutions
-              </Link>
+          <ScrollReveal delay={0.12}>
+            <div className="editorial-note-panel">
+              <strong>Founding-client note:</strong> implementation projects only may qualify for a 15 to 20 percent founding-client rate in exchange for case-study rights, a testimonial, and referral permission. We keep this note here once instead of repeating it across the whole site.
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      <PilotOfferSection band="1" source="pricing_pilot_offer" />
-
-      <BandCta />
+      <section className="section-sm">
+        <div className="container">
+          <div className="page-closing-card glass-strong">
+            <p className="editorial-kicker">Recommended first move</p>
+            <div className="eyebrow">06 · NEXT</div>
+            <h2>If you are still clarifying scope, book the Workflow Audit.</h2>
+            <p>
+              If you already know the build direction and just need a directional number, use the instant quote tool. Otherwise, let the audit set the commercial path properly.
+            </p>
+            <div className="cta-actions">
+              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
+                Book Workflow Audit
+              </Link>
+              <Link to="/instant-quote" className="btn btn-secondary btn-lg">
+                Start Instant Quote
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
