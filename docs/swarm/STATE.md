@@ -10,6 +10,10 @@ content greps verified: 15,000 ETB present / 85,000 absent / waitlist absent / S
 deployed chunk hashes byte-identical to the merged build). Rollback if ever needed:
 `git revert -m 1 026f751` → push → Vercel auto-redeploys.
 
+**Production is current** — post-phase-9 contact-section spacing fix merged to main as
+`8b40acf` (2026-08-12) and deployed (Vercel `dpl_79X3YhqiJSjJ2xPJ7WNdPaFyNskb` READY on
+https://novatech23.vercel.app). Details in the dated section below.
+
 Batch gate history: Gate A (Blueprint) ✅ (TECH-30..TECH-34, strictly linear DAG 30→31→32→33→34;
 ambiguities A1–A7 + remote-endpoint decision resolved by @architect under the locked contract),
 Gate B (Implement) ✅ (build clean; `npx eslint src/ tests/ scripts/` exit 0; full E2E 101/101
@@ -22,6 +26,25 @@ Prior batch context: Phase 8 Lumen Night is **DEPLOYED** to production (merge `c
 `main`, Vercel deployment `dpl_7VrzQkABk3TEHAqhMEJapJ5TPKK3` READY,
 https://novatech23.vercel.app — health checks 8/8). Rollback if ever needed:
 `git revert -m 1 cf159b1` → push → Vercel auto-redeploys.
+
+## Contact spacing fix (2026-08-12, post-phase-9)
+
+Small post-phase-9 release for the owner-reported contact-section regression ("no padding
+around the sections and lines are overlapping"). Branch `fix/contact-section-padding`
+(commit `13a422f`), merged to main as `8b40acf`, deployed Vercel `dpl_79X3YhqiJSjJ2xPJ7WNdPaFyNskb`
+READY on https://novatech23.vercel.app.
+
+- **Fix** — interior padding on the live `.contact-info-card` class (base `1.2rem`; mobile
+  `1.05rem` / `0.95rem`); dead `.contact-info-item` padding rules replaced; offer-ladder
+  price gap `0.3rem`.
+- **Regression tests** — 2 tests in `tests/live-site.spec.js` (`Phase 9 — contact section
+  spacing`): padding ≥ 15px on all edges of both contact cards at 1440×900 and 390×844;
+  offer-ladder row-gap ≥ 4px.
+- **Gates** — QA APPROVED (independent); UAT approved by owner 2026-08-12; Security NOT
+  REQUIRED (CSS + tests only).
+- **Live health** — computed padding 19.2px desktop / 15.2px mobile, symmetric; no
+  horizontal overflow at 390px.
+- **Rollback if ever needed** — `git revert -m 1 8b40acf` → push → Vercel auto-redeploy.
 
 ## Feature branch
 
