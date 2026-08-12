@@ -26,7 +26,7 @@ export default function Footer() {
                     <div className="footer-mark">
                         <Link to="/" className="navbar-logo">
                             <LogoMark />
-                            <span>{t('brand.name', 'NovaTech AI')}</span>
+                            <span>{t('brand.name', 'NovaTech')}</span>
                         </Link>
                     </div>
 
@@ -53,7 +53,7 @@ export default function Footer() {
                 </div>
 
                 <div className="footer-bottom">
-                    <span>{t('footer.rights', '© 2026 NovaTech AI Systems. All rights reserved.')}</span>
+                    <span>{t('footer.rights', '© 2026 NovaTech Systems. All rights reserved.')}</span>
                     <a href={SITE_CONTACT.mapsUrl} target="_blank" rel="noreferrer" onClick={() => trackContactChannelClick('maps', 'footer')}>{SITE_CONTACT.locationLabel}</a>
                 </div>
             </div>

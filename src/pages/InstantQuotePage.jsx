@@ -8,6 +8,9 @@ import { queueLeadFollowups } from '../services/leadAutomationService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
 
+/* TECH-36 (S-1): software services (web → mobile → SaaS) lead the selector;
+   AI options follow as the second track. Option VALUES are unchanged (wizard
+   quote parity untouched — see tests/live-site.spec.js "Phase 2"). */
 const SERVICE_OPTIONS = [
   {
     value: 'Web Development',
@@ -18,6 +21,11 @@ const SERVICE_OPTIONS = [
     value: 'Mobile App Development',
     label: 'Mobile product',
     note: 'Field operations, approvals, customer flows, and apps.',
+  },
+  {
+    value: 'SaaS Platform',
+    label: 'SaaS platform',
+    note: 'Live pricing is published on the pricing page.',
   },
   {
     value: 'AI Invoice Processing',
@@ -33,11 +41,6 @@ const SERVICE_OPTIONS = [
     value: 'Sales Order Automation',
     label: 'Revenue workflow automation',
     note: 'Lead, quote, order, and fulfillment automation.',
-  },
-  {
-    value: 'SaaS Platform',
-    label: 'SaaS platform',
-    note: 'Live pricing is published on the pricing page.',
   },
 ];
 

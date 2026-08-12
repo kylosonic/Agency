@@ -59,11 +59,12 @@ const InstantQuotePage = lazyWithRetry(() => import('./pages/InstantQuotePage'))
 const DiscoveryCallPage = lazyWithRetry(() => import('./pages/DiscoveryCallPage'));
 const NotFoundPage = lazyWithRetry(() => import('./pages/NotFoundPage'));
 
+/* TECH-40 (A3): /workflow-audit removed from auto-capture so the modal never
+   competes with the primary booking form (AuditBookingForm, #booking). */
 const AUTO_LEAD_CAPTURE_ROUTES = new Set([
   '/',
   '/services',
   '/pricing',
-  '/workflow-audit',
   '/web-development',
   '/mobile-development',
   '/saas-solutions',

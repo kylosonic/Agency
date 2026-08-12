@@ -1,5 +1,7 @@
 # Phase 8 Blueprint — Lumen Night Visual System (B39–B48 / NB-25–34)
 
+> SUPERSEDED (2026-08-12, ADR-004): AI-forward positioning/framing superseded by software-first prominence + brand rename to "NovaTech" (docs/behaviors/software-development-prominence.md). Locked prices/figures remain in force per ADR-003.
+
 **Date:** 2026-08-10 · **Author:** @visionary (design, per Hallmark) · **Persisted & arbitrated by:** @architect
 **Governed by:** `design.md` (locked system, project root), `docs/behaviors/visual-system-lumen.md` (B39–B48), `docs/behaviors/pending-behaviors.md` (NB-25–35)
 **Supersedes:** Phase 7 Fortune-500 light-first rules (B26–B38) on every page once built

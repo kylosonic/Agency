@@ -109,53 +109,15 @@ export default function Pricing({ onDownloadClick }) {
         </div>
       </section>
 
-      <section className="section" id="ai-automation-pricing">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              eyebrow="03 · AUTOMATION"
-              title="Anchored, then scoped honestly."
-              subtitle="Starting prices, support band, and scope drivers."
-              align="left"
-            />
-          </ScrollReveal>
-
-          <div className="editorial-card-grid receipt-stack">
-            {automationTiers.map((tier) => (
-              <ScrollReveal key={tier.title}>
-                {/* B43 (TECH-26): one ruled receipt row per tier — no card box,
-                    no icon top; setup price stays a mono tabular figure. */}
-                <article className="editorial-card pricing-tier-editorial-card">
-                  <p className="receipt-row__label">Setup</p>
-                  <p className="editorial-price-tag">{tier.setupPrice}</p>
-                  <h3>{tier.title}</h3>
-                  <p className="editorial-meta-line">{tier.bestFor} / {tier.timeline}</p>
-                  <p>{tier.scope}</p>
-                  <div className="editorial-note-panel">
-                    <strong>Support:</strong> {tier.monthlySupport}
-                  </div>
-                  <h4>Setup includes</h4>
-                  <FeatureList items={tier.includes} />
-                  <h4>Support includes</h4>
-                  <FeatureList items={tierSupportIncludes(tier)} />
-                </article>
-              </ScrollReveal>
-            ))}
-            <ScrollReveal>
-              <p className="editorial-note-panel">
-                <strong>Every tier's support includes:</strong> hosting, model usage and API costs, monitoring
-                and alerting.
-              </p>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
+      {/* TECH-38 (A8): BUILDS leads AUTOMATION on /pricing; ids unchanged
+          (#product-build-pricing / #ai-automation-pricing — no E2E or deep
+          link depends on the old order). Bundle line stays exactly once,
+          inside the BUILDS section. */}
       <section className="section band-dark band-1" id="product-build-pricing">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="04 · BUILDS"
+              eyebrow="03 · BUILDS"
               title="Web and mobile, from fixed ETB anchors."
               subtitle="Clear starting prices, audience fit, and SaaS terms on one sheet."
               align="left"
@@ -226,6 +188,48 @@ export default function Pricing({ onDownloadClick }) {
               <strong>Web + AI automation booked together: 10% off</strong>
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="section" id="ai-automation-pricing">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="04 · AUTOMATION"
+              title="Anchored, then scoped honestly."
+              subtitle="Starting prices, support band, and scope drivers."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="editorial-card-grid receipt-stack">
+            {automationTiers.map((tier) => (
+              <ScrollReveal key={tier.title}>
+                {/* B43 (TECH-26): one ruled receipt row per tier — no card box,
+                    no icon top; setup price stays a mono tabular figure. */}
+                <article className="editorial-card pricing-tier-editorial-card">
+                  <p className="receipt-row__label">Setup</p>
+                  <p className="editorial-price-tag">{tier.setupPrice}</p>
+                  <h3>{tier.title}</h3>
+                  <p className="editorial-meta-line">{tier.bestFor} / {tier.timeline}</p>
+                  <p>{tier.scope}</p>
+                  <div className="editorial-note-panel">
+                    <strong>Support:</strong> {tier.monthlySupport}
+                  </div>
+                  <h4>Setup includes</h4>
+                  <FeatureList items={tier.includes} />
+                  <h4>Support includes</h4>
+                  <FeatureList items={tierSupportIncludes(tier)} />
+                </article>
+              </ScrollReveal>
+            ))}
+            <ScrollReveal>
+              <p className="editorial-note-panel">
+                <strong>Every tier's support includes:</strong> hosting, model usage and API costs, monitoring
+                and alerting.
+              </p>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 

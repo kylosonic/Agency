@@ -4,6 +4,10 @@
 
 ## Current phase
 
+**IMPLEMENTING — Phase 10** Software Prominence & Booking Conversion (NB-41…43). Gate A ✅ — `docs/plans/phase10-software-prominence-booking.md` (TECH-35…41, strictly linear DAG 35→41; ambiguities A1–A11 resolved and recorded in plan §13; ladder row count corrected to 4 per owner enumeration). Gate B (Implement) IN PROGRESS. Contracts: `docs/behaviors/software-development-prominence.md` (S-1…S-4, C-1…C-4). Branch: `software-prominence-booking` (commit `385d682` Gate A docs, pushed).
+
+Prior phase-9 + contact-fix context remains in force below; production current at `5f1f8ab` / `8b40acf` deployed.
+
 **DEPLOYED** — Phase 9 released to production (merge `026f751` → main, Vercel deployment
 `dpl_FLTFcNYBAhYgVjskgjU8TvGk2NAU` READY, https://novatech23.vercel.app — 5/5 routes HTTP 200,
 content greps verified: 15,000 ETB present / 85,000 absent / waitlist absent / SaaS 3,500 present;
@@ -48,7 +52,9 @@ READY on https://novatech23.vercel.app.
 
 ## Feature branch
 
-`pricing-revert-and-motion` (single batch branch — do not create another)
+`software-prominence-booking` (Phase 10 batch — do not create another)
+
+Historical: `pricing-revert-and-motion` (Phase 9 batch — do not create another)
 
 ## Batch scope
 
@@ -87,6 +93,18 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 | TECH-32 | Copy trim + i18n (slice 3, NB-38) | ✅ DEPLOYED (026f751) |
 | TECH-33 | Editorial motion system (slice 4, NB-39) | ✅ DEPLOYED (026f751) |
 | TECH-34 | Page transitions (slice 5, NB-40) | ✅ DEPLOYED (026f751) |
+
+### Phase 10 (NB-41…43) — Gate B in progress
+
+| Ticket | Title | Status |
+|---|---|---|
+| TECH-35 | Brand sweep | ⏳ PENDING — Gate B in progress |
+| TECH-36 | Ordering/copy | ⏳ PENDING — Gate B in progress |
+| TECH-37 | Ladder/hero | ⏳ PENDING — Gate B in progress |
+| TECH-38 | Pricing swap | ⏳ PENDING — Gate B in progress |
+| TECH-39 | Booking form | ⏳ PENDING — Gate B in progress |
+| TECH-40 | CTAs + auto-capture | ⏳ PENDING — Gate B in progress |
+| TECH-41 | Support paths + E2E + i18n | ⏳ PENDING — Gate B in progress |
 
 ## TECH-32 build resolution (@architect, 2026-08-11)
 
@@ -137,6 +155,22 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 - Gate F (Commit): ✅ complete — commit 715b2b4, working tree clean
 - UAT: ✅ human approval received 2026-08-12
 - Release: ✅ DEPLOYED — 026f751, dpl_FLTFcNYBAhYgVjskgjU8TvGk2NAU, health checks 5/5 + content greps green (2026-08-12)
+
+## Phase 10 gates (NB-41…43)
+
+- Gate A (Blueprint): ✅ `385d682` (Gate A docs, pushed) — `docs/plans/phase10-software-prominence-booking.md`
+- Gate B (Implement): 🔄 IN PROGRESS
+- Gate C (QA): ⏳ PENDING
+- Gate D (Security): ⏳ PENDING
+- Gate E (Integration): ⏳ PENDING
+- Gate F (Commit): ⏳ PENDING
+- UAT: ⏳ PENDING
+
+## Phase 10 leftover flag (@scribe, 2026-08-12)
+
+- `scripts/generate-og-image.mjs` still writes "NovaTech AI" + "AI-first" into the OG-image
+  generator — regenerating `public/og-image.png` would reintroduce old branding. Decision
+  needed: update script + regenerate (owner/scribe follow-up, post-Gate-F or next batch).
 
 ## Pending verification evidence
 

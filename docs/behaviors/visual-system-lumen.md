@@ -1,5 +1,7 @@
 # Visual System — Lumen Night (Phase 8)
 
+> SUPERSEDED (2026-08-12, ADR-004): AI-forward positioning/framing superseded by software-first prominence + brand rename to "NovaTech" (docs/behaviors/software-development-prominence.md). Locked prices/figures remain in force per ADR-003.
+
 > ⚠️ **NOT YET IMPLEMENTED.** These rules describe the Phase 8 full visual
 > redesign (the "Lumen Night" system). They supersede the Phase 7
 > Fortune-500 light-first rules (B26–B38) for every page, across all three

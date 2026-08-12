@@ -138,7 +138,7 @@ Implementation references:
 
 ## Pricing Guide Mailing List
 
-NovaTechAI pricing guide downloads now use a dedicated lead-capture path:
+Pricing guide downloads now use a dedicated lead-capture path:
 
 1. The modal validates the email address.
 2. The frontend posts the lead to VITE_MAILING_LIST_ENDPOINT.

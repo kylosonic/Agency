@@ -1,5 +1,7 @@
 # Marketing Launch Kit
 
+> SUPERSEDED (2026-08-12, ADR-004): AI-forward positioning/framing superseded by software-first prominence + brand rename to "NovaTech" (docs/behaviors/software-development-prominence.md). Locked prices/figures remain in force per ADR-003.
+
 Use this as the source-of-truth copy pack for launch week campaigns.
 
 > **Truth standard (B1–B3, B24):** Every claim in this kit must be true and provable today. There is no

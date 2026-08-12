@@ -61,6 +61,17 @@ export function buildTelegramShareLink(message, url = '') {
   return `https://t.me/share/url?${params.toString()}`;
 }
 
+/* TECH-41 (C-4): direct-chat Telegram link (https://t.me/<handle>?text=...)
+   built from the configured handle (default '@NovaTechET' — strip the '@'). */
+export function buildTelegramDirectLink(message) {
+  const handle = SITE_CONTACT.telegramHandle.replace(/^@/, '');
+  const params = new URLSearchParams({
+    text: message,
+  });
+
+  return `https://t.me/${handle}?${params.toString()}`;
+}
+
 export function buildProjectInquiryMailto({ name, email, message }) {
   const subject = `New Project Inquiry - ${name || 'Website Visitor'}`;
   const body = [

@@ -165,11 +165,13 @@ export default function SaasSolutionsPage() {
               Both pages come from the same ETB table — what you see is what gets quoted.
             </p>
             <div className="cta-actions">
-              <Link to="/pricing" className="btn btn-primary btn-lg">
-                Review Full Pricing
+              {/* TECH-40 (A4): closing panel primary -> Book Workflow Audit;
+                  SaaS card CTAs keep the discovery-call destination. */}
+              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
+                Book Workflow Audit
               </Link>
-              <Link to="/book-discovery-call" className="btn btn-secondary btn-lg">
-                Book Discovery Call
+              <Link to="/pricing" className="btn btn-secondary btn-lg">
+                Review Full Pricing
               </Link>
             </div>
           </div>

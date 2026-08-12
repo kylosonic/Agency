@@ -12,7 +12,7 @@ import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
 import { submitContactInquiry } from '../services/contactService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { queueLeadFollowups } from '../services/leadAutomationService';
-import { getPricingGuideSummary } from '../services/pricingData';
+import { getPricingGuideSummary, QUOTE_ANCHORS } from '../services/pricingData';
 import {
   trackContactChannelClick,
   trackContactFormAttempt,
@@ -26,6 +26,22 @@ const INITIAL_CONTACT_FORM = {
 };
 
 const PRICING_SUMMARY = getPricingGuideSummary();
+
+/* TECH-36/37 (S-3): ladder and track prices render from the locked pricing
+   data only — never hardcoded figures. SaaS uses the published first-tier
+   monthly price from the locked table; web/mobile/AI use the ADR-003 numeric
+   anchors; the AI ladder range is composed from the tier setup prices. */
+const SAAS_ENTRY_PRICE = PRICING_SUMMARY.productEngineering.find(
+  (item) => item.category === 'Management SaaS'
+)?.price;
+
+const SOFTWARE_LADDER_PRICE = `Web from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB · Mobile from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB · SaaS from ${SAAS_ENTRY_PRICE}`;
+
+const AI_LADDER_PRICE = `from ${PRICING_SUMMARY.automationTiers
+  .map((tier) => tier.setupPrice.replace(/^from /, '').replace(/ ETB$/, ''))
+  .join(' / ')} ETB`;
+
+const PRICE_FROM_ANCHOR = (anchor) => `from ${anchor.toLocaleString()} ETB`;
 
 /* B42a (TECH-25): locked topology-apparatus callouts for the Home hero. */
 const HOME_APPARATUS_CALLOUTS = [
@@ -59,27 +75,36 @@ const OPERATION_SIGNALS = [
   },
 ];
 
+/* TECH-36 (S-1): software tracks (web → mobile → SaaS) render before AI on
+   every track surface; AI stays the named second track. */
 const IMPLEMENTATION_TRACKS = [
   {
-    title: 'AI automation systems',
-    price: 'from 40,000 ETB',
-    text: 'Custom agents, document workflows, browser automation, and governed systems.',
-    icon: 'settings',
-    to: '/services',
-  },
-  {
     title: 'Web systems',
-    price: 'from 20,000 ETB',
+    price: PRICE_FROM_ANCHOR(QUOTE_ANCHORS.web[0]),
     text: 'Sites, portals, quote flows, and internal tools for a real commercial process.',
     icon: 'globe',
     to: '/web-development',
   },
   {
     title: 'Mobile products',
-    price: 'from 40,000 ETB',
+    price: PRICE_FROM_ANCHOR(QUOTE_ANCHORS.mobile[0]),
     text: 'Field, approval, and customer-facing apps that move with the team.',
     icon: 'mobile',
     to: '/mobile-development',
+  },
+  {
+    title: 'SaaS platforms',
+    price: `from ${SAAS_ENTRY_PRICE}`,
+    text: 'Live subscription systems for schools, clinics, and real estate operators.',
+    icon: 'cloud',
+    to: '/saas-solutions',
+  },
+  {
+    title: 'AI automation systems',
+    price: PRICE_FROM_ANCHOR(QUOTE_ANCHORS.ai[0]),
+    text: 'Custom agents, document workflows, browser automation, and governed systems.',
+    icon: 'settings',
+    to: '/services',
   },
 ];
 
@@ -106,6 +131,9 @@ const AUDIT_REASONS = [
   },
 ];
 
+/* TECH-37 (S-3): exactly 4 rows — Audit → Software development → AI
+   automation → Support. Both build rows render through the same ladder card
+   treatment (equal weight); prices come from the locked data sources. */
 const OFFER_LADDER = [
   {
     stage: 'Start here',
@@ -115,18 +143,18 @@ const OFFER_LADDER = [
     note: 'We map the current process and define the right build path.',
   },
   {
-    stage: 'Then build the fix',
-    title: 'AI automation',
-    price: 'from 40,000 / 100,000 / 200,000+ ETB',
-    detail: 'Custom agentic systems',
-    note: 'Scope rises with integration depth, compliance needs, and how much runs without supervision.',
+    stage: 'Software development',
+    title: 'Software development',
+    price: SOFTWARE_LADDER_PRICE,
+    detail: 'Sites, portals, dashboards, apps, and SaaS platforms',
+    note: 'Web, mobile, and SaaS scoped from the live ETB table.',
   },
   {
-    stage: 'Add the interface layer',
-    title: 'Web and mobile delivery',
-    price: 'Web from 20,000 ETB / Mobile from 40,000 ETB',
-    detail: 'Sites, portals, dashboards, and apps',
-    note: 'Used when the workflow needs a customer-facing, field, or internal surface.',
+    stage: 'AI automation',
+    title: 'AI automation',
+    price: AI_LADDER_PRICE,
+    detail: 'Custom agentic systems',
+    note: 'Scope rises with integration depth, compliance needs, and how much runs without supervision.',
   },
   {
     stage: 'Keep it stable',
@@ -232,9 +260,10 @@ export default function Home() {
                 <em className="verb">fix</em>&nbsp;the workflow before you commission the build.
               </HeroChoreoHeadline>
 
+              {/* TECH-37 (A2): software-first hero subcopy, <=2 sentences. */}
               <p>
-                Founder-led digital systems for Ethiopian operators, starting with one paid first step: the
-                Workflow Audit.
+                Software systems — web, mobile, and SaaS — with AI automation where it solves a real
+                bottleneck. Start with one paid first step: the Workflow Audit.
               </p>
 
               <div className="hero-actions">

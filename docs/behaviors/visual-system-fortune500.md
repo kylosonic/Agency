@@ -1,5 +1,7 @@
 # Fortune-500 Visual System — NovaTech Redesign (Phase 7)
 
+> SUPERSEDED (2026-08-12, ADR-004): AI-forward positioning/framing superseded by software-first prominence + brand rename to "NovaTech" (docs/behaviors/software-development-prominence.md). Locked prices/figures remain in force per ADR-003.
+
 > ✅ **IMPLEMENTED** — Phase 7 shipped 2026-08-08 in commits `3e39452` · `76b41b8` · `8b38348` ·
 > `7d0a67e` · `e3caffe` · `f588973` · `4abf0d8` (TECH-21 + TECH-15–20, QA APPROVED per ticket).
 > Final gate: 76/76 E2E, lint + build clean, G1–G13 pass, 36 trilingual screenshots,
