@@ -23,6 +23,19 @@
 > receipts) shall be the **reverted figures from this contract**, not the old locked table — so Phase 8
 > implementation should read figures from `pricing-revert-and-motion.md` §1 where visual-system docs
 > reference old prices. If Phase 8 already shipped stale figures, NB-36 re-baselines them.
+>
+> **OWNER CONFIRMATION 2026-08-12 (3rd):** Software-development prominence + booking conversion
+> approved in full by the owner, in order: software leads (Option A — web/mobile/SaaS before AI on
+> every surface), brand rename to **"NovaTech"** (Option B — "AI" removed from all brand strings),
+> Home ladder 5-row structure (Option B — combined "Software development" row before "AI automation"),
+> primary conversion = **Book the Workflow Audit** with free Discovery Call + one-tap WhatsApp/Telegram
+> as supporting paths, booking mechanics **book now, pay later** (48-hour slot hold, invoice +
+> Telebirr/bank by email, human confirmation within 1 business day), and the **risk-reversal
+> guarantee** ("If the audit doesn't produce a usable blueprint, you don't pay.") confirmed by the
+> owner as a promise they will honor. Locked in `docs/behaviors/software-development-prominence.md`
+> (S-1…S-4, C-1…C-4). **SUPERSEDES** AI-forward framing in `launch-readiness.md` /
+> `visual-system-lumen.md` where it contradicts software-first ordering; prices, discounts, motion,
+> and visual system remain unchanged. Handoff to @architect for execution.
 
 | ID | Priority | Rule(s) | Affected features | User-acceptance criteria |
 |---|---|---|---|---|
@@ -66,3 +79,6 @@
 | NB-38 | P1 | C-1, C-2 (`pricing-revert-and-motion.md`) | Home, Pricing, all service pages, i18n (EN/AM/OM) | Home + Pricing rendered word count is ≥ 35% lower than the current build; no repeated message appears more than twice per page; other pages have duplicate messages removed; Amharic + Afaan Oromo mirrors of the trimmed copy exist and render without clipping; contact/legal copy exempt from trimming. — **[IMPLEMENTED]** commit `026f751` (Phase 9, DEPLOYED 2026-08-12) |
 | NB-39 | P1 | M-1…M-5, G-1…G-5 (`pricing-revert-and-motion.md`) | All marketing pages, Home, Pricing | A visitor sees editorial motion: hero choreography ≤ 1.2 s (single reveal, no loop), scroll reveals lift+fade once, hover micro-interactions ≤ 4 px lift with focus-visible parity, animated price counters landing exactly on locked figures, and exactly one slow marquee (≤ 20 px/s) per page; reduced-motion users see a fully static readable page; no layout shift from any animation. — **[IMPLEMENTED]** commit `026f751` (Phase 9, DEPLOYED 2026-08-12) |
 | NB-40 | P1 | M-6, G-1 (`pricing-revert-and-motion.md`) | All routes | Route changes animate with a 200–300 ms fade/slide; first load shows no transition; back/forward work; reduced-motion users get an instant swap; transitions never block the hero choreography. — **[IMPLEMENTED]** commit `026f751` (Phase 9, DEPLOYED 2026-08-12) |
+| NB-41 | P0 | S-1, S-2, S-3 (`software-development-prominence.md`) | Home, Services, Pricing, service pages, instant-quote wizard, SEO, i18n | A visitor sees software development (web → mobile → SaaS) **before** AI automation on every track surface (ladder, delivery tracks, hero chips, callouts, meter labels, wizard selector, SEO copy); no subordination language ("interface layer" or equivalent) exists anywhere; the Home ladder renders exactly 5 rows with the combined "Software development" row (Web from 20,000 · Mobile from 40,000 · SaaS from 3,500/mo) before the "AI automation" row; prices unchanged. — **[OPEN — owner confirmed 2026-08-12; pending @architect handoff and build]** |
+| NB-42 | P0 | S-4 (`software-development-prominence.md`) | Brand surfaces: wordmark, nav, footer, titles, meta, modal, contact, i18n (EN/AM/OM) | The brand reads "NovaTech" everywhere; "NovaTech AI" never appears in rendered content, meta tags, or translations; domain/URLs unaffected; PDF + legal docs are owner-side (out of code scope). — **[OPEN — owner confirmed 2026-08-12; pending @architect handoff and build]** |
+| NB-43 | P0 | C-1, C-2, C-3 (`software-development-prominence.md`) | Home + all marketing heroes, Workflow Audit page, booking form + confirmation, Policy audit terms, i18n | A visitor who clicks "Book Workflow Audit" gets an instant "Slot held for 48 hours" confirmation with invoice + Telebirr/bank transfer details by email and human confirmation within 1 business day; no online checkout step; the risk-reversal guarantee ("If the audit doesn't produce a usable blueprint, you don't pay.") renders on the audit page + booking confirmation + Policy audit terms; supporting paths (free Discovery Call + one-tap WhatsApp/Telegram with pre-filled scope/budget message) are visible but secondary. — **[OPEN — owner confirmed 2026-08-12; pending @architect handoff and build]** |
