@@ -4,15 +4,16 @@
 
 ## Current phase
 
-**IMPLEMENTING** — Gate A (Blueprint) ✅ complete (`docs/plans/phase9-pricing-revert-motion.md`,
-TECH-30..TECH-34, strictly linear DAG 30→31→32→33→34 — shared files bar parallelism).
-Ambiguities A1–A7 + remote-endpoint decision resolved by @architect under the locked contract
-(recorded below). Gate B (Implement) ✅ complete (TECH-30..34 implemented; build clean;
-`npx eslint src/ tests/ scripts/` exit 0; full E2E 101/101 passed twice — architect run +
-independent QA run). Gate C (QA) ✅ APPROVED (all 7 acceptance gates independently verified,
-evidence in QA report). Gate D (Security) ✅ APPROVED (6/6 checks, zero findings above Info).
-Gate E (Integration) ✅ APPROVED (build/contracts/tests/placeholders/branch hygiene verified).
-Gate F (Commit) IN PROGRESS — atomic commit pending.
+**UAT — awaiting human approval** (no merge/deploy without it). Gate A (Blueprint) ✅ complete
+(`docs/plans/phase9-pricing-revert-motion.md`, TECH-30..TECH-34, strictly linear DAG
+30→31→32→33→34 — shared files bar parallelism). Ambiguities A1–A7 + remote-endpoint decision
+resolved by @architect under the locked contract (recorded below). Gate B (Implement) ✅ complete
+(TECH-30..34 implemented; build clean; `npx eslint src/ tests/ scripts/` exit 0; full E2E 101/101
+passed twice — architect run + independent QA run). Gate C (QA) ✅ APPROVED (all 7 acceptance
+gates independently verified, evidence in QA report). Gate D (Security) ✅ APPROVED (6/6 checks,
+zero findings above Info). Gate E (Integration) ✅ APPROVED (build/contracts/tests/placeholders/
+branch hygiene verified). Gate F (Commit) ✅ complete — atomic commit `715b2b4` created
+2026-08-12, working tree clean.
 
 Prior batch context: Phase 8 Lumen Night is **DEPLOYED** to production (merge `cf159b1` →
 `main`, Vercel deployment `dpl_7VrzQkABk3TEHAqhMEJapJ5TPKK3` READY,
@@ -55,11 +56,11 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 
 | Ticket | Title | Status |
 |---|---|---|
-| TECH-30 | Pricing table swap + wizard anchors + PDF (slice 1, NB-36) | ✅ IMPLEMENTED — 85/85 E2E, build clean (no commit; Gate F) |
-| TECH-31 | Discount program + pilot removal (slice 2, NB-37) | ✅ IMPLEMENTED — 89/89 E2E, build clean; bundle line once on /pricing; pilot grep-clean (no commit) |
-| TECH-32 | Copy trim + i18n (slice 3, NB-38) | ✅ IMPLEMENTED — 91/92 E2E (see C-2 ruling); Home 37.3% cut, Pricing editorial 63% cut (no commit) |
-| TECH-33 | Editorial motion system (slice 4, NB-39) | ✅ IMPLEMENTED — motion gates M1/M2/M3/M4/M5 verified, N9 freeze list green (no commit; Gate F) |
-| TECH-34 | Page transitions (slice 5, NB-40) | ✅ IMPLEMENTED — 250ms transition, back/forward + reduced-motion E2E green (no commit; Gate F) |
+| TECH-30 | Pricing table swap + wizard anchors + PDF (slice 1, NB-36) | ✅ COMMITTED (715b2b4) |
+| TECH-31 | Discount program + pilot removal (slice 2, NB-37) | ✅ COMMITTED (715b2b4) |
+| TECH-32 | Copy trim + i18n (slice 3, NB-38) | ✅ COMMITTED (715b2b4) |
+| TECH-33 | Editorial motion system (slice 4, NB-39) | ✅ COMMITTED (715b2b4) |
+| TECH-34 | Page transitions (slice 5, NB-40) | ✅ COMMITTED (715b2b4) |
 
 ## TECH-32 build resolution (@architect, 2026-08-11)
 
@@ -107,7 +108,7 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 - Gate C (QA): ✅ QA APPROVED — 101/101 E2E; grep/figure/wizard/copy/motion/i18n all pass
 - Gate D (Security): ✅ SECURITY APPROVED — 6/6 checks, zero findings above Info
 - Gate E (Integration): ✅ APPROVED — build/contracts/tests/placeholders/branch hygiene verified
-- Gate F (Commit): ⏳ IN PROGRESS — atomic commit pending
+- Gate F (Commit): ✅ complete — commit 715b2b4, working tree clean
 - UAT: ⏳ PENDING — human approval required before merge/deploy
 
 ## Pending verification evidence
@@ -145,3 +146,22 @@ Acceptance gate per `docs/behaviors/pricing-revert-and-motion.md` §5:
 - (f) **Tracked Playwright artifact** — `test-results/.last-run.json` is a Playwright artifact
   committed by a prior batch and is not in `.gitignore`. Hygiene follow-up: add `test-results/`
   to `.gitignore` and `git rm --cached` in a future batch (not part of phase 9 scope).
+
+## UAT checklist (owner)
+
+Plan `docs/plans/phase9-pricing-revert-motion.md` §13 step 5 — required human checks before
+merge/deploy approval:
+
+- Hard-refresh Home/Pricing/SaaS/Web/Mobile — verify audit 15k, SaaS cards (School/Hospital/
+  Real Estate with Save 2 months), bundle line "Web + AI automation booked together: 10% off"
+  exactly once on /pricing, no founding-client/pilot messaging anywhere.
+- Verify the marquee on Home moves ≤20 px/s and pauses on hover; hover lifts ≤4px; hero
+  choreography ≤1.2s on all 8 heroes.
+- Reduced-motion toggle (OS): page fully static, counters land on final figures, transitions
+  instant.
+- i18n: switch to Amharic and Afaan Oromo — trimmed copy renders without clipping, prices
+  identical.
+- PDF pricing guide: stale artifact at `public/NovaTechAI_2026_Service_Menu_and_Pricing_Guide.pdf`
+  — regenerate + human diff (owner action OA-7 / NB-12) BEFORE the download surface is re-enabled.
+- Rollback if needed: `git revert -m 1 715b2b4` → push → Vercel auto-redeploy (merge has not
+  happened yet; merge will be `git merge pricing-revert-and-motion` after UAT approval).
