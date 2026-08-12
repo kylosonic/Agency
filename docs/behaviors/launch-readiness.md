@@ -1,5 +1,7 @@
 # Launch Readiness & Pricing Behaviors — NovaTech AI
 
+> SUPERSEDED (2026-08-12, ADR-004): AI-forward positioning/framing superseded by software-first prominence + brand rename to "NovaTech" (docs/behaviors/software-development-prominence.md). Locked prices/figures remain in force per ADR-003.
+
 > ⚠️ **PARTIALLY IMPLEMENTED**
 > Sections 1–3 (B1–B15), Section 4 (B16–B17), and Section 6 design rules (B20–B22) shipped in
 > commits `adc2302` + `191d8e3` + `a2d7d1a` (Phases 1–3, QA APPROVED). B23 (copy voice), Section 5
