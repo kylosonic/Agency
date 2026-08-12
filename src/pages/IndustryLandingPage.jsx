@@ -72,7 +72,9 @@ export default function IndustryLandingPage() {
           </div>
 
           <div className="industry-actions">
-            <Link className="btn btn-primary" to="/workflow-audit">Book Workflow Audit</Link>
+            {/* A9 (TECH-46): the industry page is a marketing surface — primary
+                CTA becomes Start a Project → Home intake form (R-6). */}
+            <Link className="btn btn-primary" to="/#project-intake">Start a Project</Link>
             <Link className="btn btn-secondary" to="/pricing">Review Pricing</Link>
           </div>
         </div>

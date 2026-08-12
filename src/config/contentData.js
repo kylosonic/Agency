@@ -53,7 +53,7 @@ export const quoteWizardOptions = {
 };
 
 export const liveChatPromptsByRoute = {
-  '/': 'Hi NovaTech, I am exploring your services and want quick guidance on the right package.',
+  '/': 'Hi NovaTech, I want to discuss building custom software — web, mobile, or SaaS — for my business.',
   '/web-development': 'Hi NovaTech, I need help choosing the right web development package for my business.',
   '/mobile-development': 'Hi NovaTech, I am planning a mobile app and want a delivery estimate.',
   '/saas-solutions': 'Hi NovaTech, I want to discuss SaaS options for my organization.',

@@ -143,16 +143,20 @@ export default function MobileDevelopmentPage() {
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Before you commit</p>
             <div className="eyebrow">03 · FIRST STEP</div>
-            <h2>If the app depends on a messy workflow underneath, start with the audit.</h2>
+            <h2>Tell us what the app needs to do — we scope it from the live table.</h2>
             <p>
-              Mobile builds go better when the process and data flow are clear first. That is the audit's job.
+              Start a project for a scoped proposal, or use the instant quote tool for a quick number.
             </p>
             <div className="cta-actions">
-              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-                Book Workflow Audit
+              {/* R-6 (TECH-46): Start a Project primary → Home intake form. */}
+              <Link to="/#project-intake" className="btn btn-primary btn-lg">
+                Start a Project
               </Link>
-              <Link to="/instant-quote" className="btn btn-secondary btn-lg">
-                Start Instant Quote
+              <Link to="/book-discovery-call" className="btn btn-secondary btn-lg">
+                Discuss Your Software Idea
+              </Link>
+              <Link to="/instant-quote" className="btn btn-dark btn-sm">
+                Use the Instant Quote Tool
               </Link>
             </div>
           </div>

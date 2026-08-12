@@ -1,32 +1,33 @@
 :root {
-  /* ── Lumen Night tokens (design.md §Exports — dark-first, exact OKLCH) ── */
+  /* ── Light-first tokens (R-16 — warm paper canvas, near-black ink, one
+       deep forest-green accent; structure retained from the Lumen block) ── */
 
-  /* Canvas: late-night studio, violet tilt */
-  --color-paper:      oklch(13% 0.014 265);
-  --color-paper-2:    oklch(17% 0.016 265);
-  --color-paper-3:    oklch(21% 0.018 265);
+  /* Canvas: warm off-white paper */
+  --color-paper:      oklch(96.5% 0.012 88);
+  --color-paper-2:    oklch(93% 0.01 88);
+  --color-paper-3:    oklch(89% 0.01 88);
 
-  /* Ink: near-white headlines · warm-grey body · muted */
-  --color-ink:        oklch(96% 0.006 262);
-  --color-ink-2:      oklch(86% 0.008 262);
-  --color-ink-3:      oklch(72% 0.01 262 / 0.72);
+  /* Ink: near-black warm headlines · muted body · secondary */
+  --color-ink:        oklch(23% 0.015 90);
+  --color-ink-2:      oklch(42% 0.02 90);
+  --color-ink-3:      oklch(58% 0.02 90 / 0.9);
 
-  /* Rules: hairline / strong hairline */
-  --color-rule:       oklch(96% 0.006 262 / 0.08);
-  --color-rule-2:     oklch(96% 0.006 262 / 0.16);
+  /* Rules: near-black warm hairlines at low alpha */
+  --color-rule:       oklch(23% 0.015 90 / 0.12);
+  --color-rule-2:     oklch(23% 0.015 90 / 0.22);
 
-  /* Accent: ONE molten brass + coral verb chord (verb landmark only) */
-  --color-accent:     oklch(76% 0.17 50);
-  --color-accent-2:   oklch(68% 0.16 18);
-  --color-btn-ink:    oklch(13% 0.014 265);
+  /* Accent: ONE deep forest-green (verb landmark, primary CTAs) */
+  --color-accent:     oklch(35% 0.09 152);
+  --color-accent-2:   oklch(30% 0.09 152);
+  --color-btn-ink:    oklch(96% 0.01 88);
 
-  /* Emission: apparatus halo only · inner-emit canvas wash · blueprint grid */
-  --color-glow:       oklch(80% 0.16 50 / 0.42);
-  --color-paper-emit: oklch(76% 0.17 50 / 0.04);
-  --rule-blueprint:   oklch(96% 0.006 262 / 0.04);
+  /* Emission: forest at low alpha · inner-emit canvas wash · blueprint grid */
+  --color-glow:       oklch(45% 0.1 152 / 0.35);
+  --color-paper-emit: oklch(45% 0.1 152 / 0.05);
+  --rule-blueprint:   oklch(23% 0.015 90 / 0.05);
 
-  /* Focus: brass ring, 2px, offset 2px */
-  --color-focus:      oklch(76% 0.17 50 / 0.9);
+  /* Focus: forest ring, 2px, offset 2px */
+  --color-focus:      oklch(35% 0.09 152 / 0.9);
 
   /* Type: display serif (lowercase) · humanist sans body · mono labels */
   --font-display: "Instrument Serif", "Noto Serif Ethiopic", "Tiempos Headline", Georgia, serif;
@@ -52,7 +53,7 @@
   --radius-card: 12px; --radius-pill: 999px; --radius-input: 10px;
 
   /* Elevated chrome only (hairline cards use inner emission, NOT shadows) */
-  --shadow-lumen: 0 24px 60px -28px oklch(0% 0 0 / 0.55);
+  --shadow-lumen: 0 24px 60px -28px oklch(23% 0.015 90 / 0.22);
 
   /* Phase 7 derived aliases — re-pointed to Lumen tokens (compat until the
      per-component tickets TECH-24–28 inline them) */
@@ -66,12 +67,29 @@
   --container-padding: 1.6rem;
 }
 
-/* Raised dark surface scope (B39): .band-dark now means "paper-2 raised
-   section with brass accents" — dark is the only theme, so the dual-mode
-   gold re-binding is gone; --accent is already brass. */
+/* Raised dark surface scope (B39 → R-16): .band-dark now means "deep
+   ink-green section with light ink and a lighter forest accent" — exactly
+   two band positions stay (band-1 after the services cluster, band-2 final
+   CTA). The scope re-binds the whole token family so AA holds on both the
+   paper canvas and the dark bands. */
 .band-dark {
+  --color-paper:      oklch(16% 0.025 152);
+  --color-paper-2:    oklch(19% 0.028 152);
+  --color-paper-3:    oklch(23% 0.03 152);
+  --color-ink:        oklch(96% 0.01 88);
+  --color-ink-2:      oklch(88% 0.012 90);
+  --color-ink-3:      oklch(78% 0.015 90 / 0.85);
+  --color-rule:       oklch(96% 0.01 88 / 0.14);
+  --color-rule-2:     oklch(96% 0.01 88 / 0.24);
+  --color-accent:     oklch(72% 0.13 152);
+  --color-accent-2:   oklch(78% 0.13 152);
+  --color-btn-ink:    oklch(16% 0.025 152);
+  --color-glow:       oklch(72% 0.13 152 / 0.32);
+  --color-paper-emit: oklch(72% 0.13 152 / 0.08);
+  --rule-blueprint:   oklch(96% 0.01 88 / 0.05);
+  --color-focus:      oklch(72% 0.13 152 / 0.9);
   --accent: var(--color-accent);
-  background: var(--color-paper-2);
+  background: var(--color-paper);
   color: var(--color-ink);
   border-color: var(--color-rule-2);
 }
@@ -91,7 +109,7 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   background: var(--color-paper);
-  color-scheme: dark;
+  color-scheme: light;
   transition: background 0.4s ease;
 }
 
@@ -252,7 +270,7 @@ select:focus {
 .glass-card:hover,
 .glass-strong:hover {
   transform: translateY(-4px);
-  box-shadow: inset 0 0 24px oklch(76% 0.17 50 / 0.12);
+  box-shadow: inset 0 0 24px oklch(35% 0.09 152 / 0.12);
 }
 
 h1,
@@ -306,7 +324,7 @@ h2 {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  background: oklch(80% 0.17 50);
+  background: var(--color-accent-2);
   box-shadow: var(--shadow-lumen);
 }
 
@@ -991,6 +1009,17 @@ h1 .verb::after {
 }
 
 .hero-trust-row {
+  margin-top: var(--space-md);
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Phase 11 (R-19): section-13 audit terms row — distinct class so tests can
+   target the hero trust row without strict-mode collisions. Mirrors the
+   .hero-trust-row layout; the hero rule above stays untouched. */
+.audit-terms-row {
   margin-top: var(--space-md);
   display: flex;
   justify-content: flex-start;
@@ -2050,7 +2079,7 @@ h1 .verb::after {
 }
 
 .floating-cta-btn:hover {
-  background: oklch(80% 0.17 50);
+  background: var(--color-accent-2);
   transform: translateY(-2px);
 }
 
@@ -2946,7 +2975,8 @@ h1 .verb::after {
   }
 
   .hero-actions,
-  .hero-trust-row {
+  .hero-trust-row,
+  .audit-terms-row {
     gap: 0.54rem;
   }
 
@@ -4965,9 +4995,9 @@ h1 .verb::after {
   box-shadow: none;
 }
 
-/* Buttons inside bands: brass brightens on hover (never darkens — B39) */
+/* Buttons inside bands: forest brightens on hover (never darkens) */
 .band-dark .btn-primary:hover {
-  background: oklch(80% 0.17 50);
+  background: var(--color-accent-2);
 }
 
 /* Form controls inside bands (RoiEstimator inputs, FAQ toggles, wizard, booking) */
@@ -5314,14 +5344,14 @@ h1 .verb::after {
   height: auto;
 }
 
-/* Filament chamber gradient — the one allowed gradient (G4): molten
-   brass along the filament, deeper brass at the base. */
+/* Filament chamber gradient — the one allowed gradient (G4): forest
+   along the filament, deeper forest at the base. */
 .apparatus--filament .apparatus__grad-stop-a {
   stop-color: var(--color-accent);
 }
 
 .apparatus--filament .apparatus__grad-stop-b {
-  stop-color: oklch(62% 0.12 50);
+  stop-color: oklch(50% 0.1 152);
 }
 
 /* Callouts (B42a): mono UPPERCASE labels in the locked register,
@@ -5754,4 +5784,147 @@ h1 .verb::after {
   text-transform: none;
   letter-spacing: 0;
   font-style: normal;
+}
+
+/* ══ Phase 11 (TECH-43..47, A3): new patterns for the software-first Home ══
+   Reuses the token system; no new tokens. */
+
+/* What We Build / Industries grid: two-column ruled item grid (R-4, R-11). */
+.what-we-build-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  align-items: stretch;
+}
+
+.what-we-build-item {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: baseline;
+}
+
+.what-we-build-item__body h3 {
+  font-size: 1.02rem;
+  margin-bottom: 0.2rem;
+}
+
+.what-we-build-item__body p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-ink-2);
+}
+
+/* Transformation pairs (R-12): from → to rows. */
+.transformation-pairs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.transformation-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: baseline;
+  font-size: 0.95rem;
+}
+
+.transformation-pair span:first-child {
+  color: var(--color-ink-2);
+}
+
+.transformation-pair__arrow {
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+.transformation-pair strong {
+  color: var(--color-ink);
+}
+
+/* Case-study card (R-10): artifact-framed screenshot card. */
+.case-study-card {
+  overflow: hidden;
+}
+
+.case-study-card .eyebrow {
+  margin-bottom: 0.65rem;
+}
+
+.case-study-card__shot {
+  display: block;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  margin-bottom: 0.95rem;
+  line-height: 0;
+}
+
+.case-study-card__shot img {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.case-study-card__body h3 {
+  font-size: 1.18rem;
+  margin-bottom: 0.4rem;
+}
+
+.case-study-card__body p {
+  color: var(--color-ink-2);
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
+.case-study-card__body .editorial-note {
+  margin-top: 0.55rem;
+  color: var(--color-ink-3);
+  font-size: 0.8rem;
+}
+
+/* Compact intake chat links (A21). */
+.intake-chat-links {
+  margin-top: 1rem;
+}
+
+.intake-chat-links .quote-two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.intake-chat-links label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-ink-2);
+}
+
+.intake-chat-links select,
+.intake-chat-links textarea {
+  width: 100%;
+  margin-top: 0.3rem;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--color-rule);
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+  padding: 0.55rem 0.7rem;
+  font-size: 0.84rem;
+}
+
+.intake-chat-links textarea {
+  resize: vertical;
+}
+
+@media (max-width: 640px) {
+  .what-we-build-grid,
+  .transformation-pairs {
+    grid-template-columns: 1fr;
+  }
 }

@@ -62,11 +62,12 @@ export default function FloatingCTA() {
                     transition={{ duration: prefersReducedMotion ? 0 : 0.32, ease: [0.16, 1, 0.3, 1] }}
                     className="floating-cta-container"
                 >
-                    <Link to="/workflow-audit" className="floating-cta-btn">
+                    {/* A7 (TECH-46): floating CTA → Start a Project → Home intake form. */}
+                    <Link to="/#project-intake" className="floating-cta-btn">
                         <span className="icon" aria-hidden="true">
-                            <IconGlyph name="search" size={16} />
+                            <IconGlyph name="arrowRight" size={16} />
                         </span>
-                        {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
+                        {t('actions.startProject', 'Start a Project')}
                     </Link>
                 </MotionDiv>
             )}

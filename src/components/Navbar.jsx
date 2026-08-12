@@ -226,8 +226,9 @@ export default function Navbar() {
 
             <div className="navbar-controls">
               <LanguageSwitcher compact />
-              <Link to="/workflow-audit" className="btn btn-primary btn-sm navbar-cta">
-                {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
+              {/* A7 (TECH-46): nav CTA → Start a Project → Home intake form. */}
+              <Link to="/#project-intake" className="btn btn-primary btn-sm navbar-cta">
+                {t('actions.startProject', 'Start a Project')}
               </Link>
             </div>
           </div>
@@ -283,8 +284,9 @@ export default function Navbar() {
           ))}
         </div>
 
-        <Link to="/instant-quote" className="btn btn-primary" onClick={closeMobileNav}>
-          {t('nav.startProject', 'Start a project')}
+        {/* A7 (TECH-46): mobile nav CTA → Start a Project → Home intake form. */}
+        <Link to="/#project-intake" className="btn btn-primary" onClick={closeMobileNav}>
+          {t('actions.startProject', 'Start a Project')}
         </Link>
       </nav>
     </>
