@@ -10,10 +10,6 @@ const en = {
   brand: {
     name: 'NovaTech AI',
   },
-  common: {
-    to: 'to',
-    none: 'None',
-  },
   nav: {
     home: 'Home',
     web: 'Web Interfaces',
@@ -43,12 +39,13 @@ const en = {
     mobileNavigation: 'Mobile navigation',
   },
   // Band CTA (TECH-15, B27): shared pre-footer near-black CTA band copy.
-  // Locked keys — arbitration 2 (minimal NEW-copy surface). AM/OM values are
-  // machine-translated and flagged for the existing native-review gate (NB-09).
+  // `band.audit.title|subtitle` are the locked keys (TECH-32: orphaned
+  // `band.cta.*` keys pruned). Values mirror the BandCta.jsx fallback defaults
+  // 1:1; AM/OM mirrors live in amOverrides/omOverrides.
   band: {
-    cta: {
-      title: 'Every project starts with a clear scope.',
-      subtitle: 'Get a working estimate from the instant quote wizard, book a discovery call for a strategy session, or review the pricing guide.',
+    audit: {
+      title: 'Start with the Workflow Audit.',
+      subtitle: 'We map the bottlenecks, define the right path, and credit the audit fee toward the build if you continue.',
     },
   },
   labels: {
@@ -61,13 +58,6 @@ const en = {
     telegram: 'Telegram',
     whatsapp: 'WhatsApp',
     location: 'Location',
-  },
-  states: {
-    sending: 'Sending...',
-    loadingPackages: 'Loading Packages...',
-    loadingCloudPlatforms: 'Loading Cloud Platforms...',
-    loadingServices: 'Loading Services...',
-    loadingFeaturedAddons: 'Loading Featured Add-Ons...',
   },
   actions: {
     pricingGuide: 'AI Pricing Guide',
@@ -127,26 +117,6 @@ const en = {
       default: 'Hi NovaTech AI, I want to discuss replacing manual workflows with custom agentic systems.',
     },
   },
-  roi: {
-    title: 'ROI Estimator',
-    subtitle: 'Model expected revenue impact using your current funnel assumptions.',
-    aria: 'ROI estimator',
-    inputs: {
-      monthlyLeads: 'Monthly leads',
-      conversionRate: 'Conversion rate (%)',
-      averageDealValue: 'Average deal value (ETB)',
-      monthlySpend: 'Monthly spend (ETB)',
-      expectedLift: 'Expected traffic lift (%)',
-    },
-    output: {
-      title: 'Projected monthly outcome',
-      projectedLeads: 'Projected leads',
-      currentRevenue: 'Current revenue (ETB)',
-      projectedRevenue: 'Projected revenue (ETB)',
-      revenueLift: 'Revenue lift (ETB)',
-      estimatedRoi: 'Estimated ROI',
-    },
-  },
   leadCapture: {
     closeAria: 'Close pricing guide modal',
     privacy: 'We respect your privacy. No spam, ever.',
@@ -161,7 +131,7 @@ const en = {
     },
     pricing_guide: {
       title: 'Get the current NovaTechAI ETB pricing sheet',
-      subtitle: 'Download the current NovaTechAI pricing sheet built from the same ETB table used on the live site, including the SaaS waitlist policy.',
+      subtitle: 'Download the current NovaTechAI pricing sheet built from the same ETB table used on the live site.',
       submitLabel: 'Download Pricing Sheet',
       successTitle: 'Pricing sheet ready',
       successSubtitle: 'Your current NovaTechAI ETB pricing sheet is open in a new tab. You can also reopen it below.',
@@ -186,147 +156,16 @@ const en = {
       successSla: 'We respond within one business day, schedule your discovery call within three, and deliver a proposal within five business days of discovery.',
     },
   },
-  industry: {
-    notFound: {
-      subtitle: 'We are still building this industry playbook. Explore our services in the meantime.',
-      action: 'Explore Our Services',
-    },
-    header: {
-      tag: 'Industry Playbook',
-      title: 'Typical Challenges and Delivery Model',
-    },
-    pains: {
-      title: 'Common pain points',
-    },
-    solutions: {
-      title: 'Recommended solution stack',
-    },
-  },
-  instantQuote: {
-    hero: {
-      title: 'Instant Quote Wizard',
-      subtitle: 'Answer a few questions and get a working estimate range in under two minutes.',
-    },
-    progress: {
-      projectType: 'Project',
-      budget: 'Budget',
-      requirements: 'Details',
-      contact: 'Contact',
-    },
-    header: {
-      tag: 'Fast Estimate',
-      title: 'Plan Scope, Budget, and Timeline',
-      subtitle: 'This estimate is directional and helps us prepare the right architecture and proposal for your team.',
-    },
-    progressAria: 'Quote wizard progress',
-    steps: {
-      projectType: {
-        title: 'Project Type',
-        subtitle: 'Select the primary service for this estimate.',
-      },
-      budget: {
-        title: 'Budget and Timeline',
-      },
-      requirements: {
-        title: 'Technical Requirements',
-        subtitle: 'Choose integrations and notes that apply to your project.',
-      },
-      contact: {
-        title: 'Contact Details',
-      },
-    },
-    labels: {
-      budgetRange: 'Budget range',
-      deliveryTimeline: 'Delivery timeline',
-      projectGoals: 'Project goals',
-      projectGoalsPlaceholder: 'Describe goals, priorities, and constraints.',
-      fullName: 'Full name',
-      workEmail: 'Work email',
-      phoneOptional: 'Phone (optional)',
-    },
-    actions: {
-      generate: 'Generate Estimate',
-    },
-    result: {
-      title: 'Your estimated range',
-      subtitle: 'This range is based on your selected scope, timeline, and integration complexity. Our team will follow up with a written proposal after a 30-minute discovery session.',
-      sla: 'We respond within one business day and deliver a written proposal within five business days of our discovery call.',
-      waitlistTitle: 'SaaS is in development — tell us you want it',
-      waitlistSubtitle: 'We will add you to the waitlist and contact you when a product is ready for your organization. No prices are published until a real product exists.',
-    },
-    options: {
-      service: {
-        web: 'Web Development',
-        mobile: 'Mobile App Development',
-        saas: 'SaaS Platform',
-        invoiceProcessing: 'AI Invoice Processing',
-        engineeringKnowledge: 'Engineering Knowledge Assistant',
-        salesOrderAutomation: 'Sales Order Automation',
-        saasWaitlist: 'In development — tell us you want it',
-      },
-      budget: {
-        entry: '85k - 150k ETB',
-        mid: '150k - 400k ETB',
-        high: '400k - 1M ETB',
-        enterprise: '1M+ ETB',
-      },
-      timeline: {
-        fast: '2-4 weeks',
-        standard: '1-2 months',
-        extended: '2-4 months',
-        flexible: 'Flexible timeline',
-      },
-      integrations: {
-        telebirr: 'Telebirr',
-        chapa: 'Chapa',
-        crm: 'CRM Sync',
-        erpAccounting: 'ERP/Accounting Sync',
-        inventory: 'Inventory Sync',
-        internalKnowledge: 'Internal Knowledge Base',
-        analytics: 'Analytics Dashboard',
-        multilingual: 'Multilingual Content',
-      },
-    },
-  },
-  pilotOffer: {
-    tag: 'Founding-Client Pilot',
-    title: 'Be among the first three implementation clients',
-    intro: 'Open to the first three implementation clients.',
-    discount: 'Founding-client rates: 15–20% off published prices',
-    exchangeTitle: 'In exchange for:',
-    exchangeItems: [
-      'Permission to document your project as a case study',
-      'A short written testimonial from your team',
-      'Permission to refer you as a reference client',
-    ],
-    cta: 'Claim founding-client rate',
-    finePrint: 'Founding-client rates apply to implementation projects only.',
-  },
+  // TECH-32: verified-dead trees pruned (zero t() consumers — pages are
+  // hardcoded EN): `industry.*`, `instantQuote.*`, `web.*`, `mobile.*`,
+  // `saas.*`, `additional.*`, `policy.*`, `roi.*`, `faqs.*`, `seo.*`,
+  // `common.*`, `states.*`, `band.cta.*`. Live keys: nav, footer, channels,
+  // labels, actions, liveChat, leadCapture, discovery (form/booking only),
+  // notFound, brand.
   discovery: {
-    hero: {
-      title: 'Book a Discovery Call',
-      subtitle: 'Choose a slot in your timezone and share key priorities so we can prepare a focused strategy session.',
-      metaAria: 'Booking support details',
-      chip1: 'Timezone-aware scheduling',
-      chip2: '30-minute strategic session',
-      chip3: 'Actionable roadmap output',
-    },
-    header: {
-      tag: 'Scheduling',
-      title: 'Pick a Session Slot',
-      timezone: 'Detected timezone',
-    },
-    sessions: {
-      title: 'Available Sessions',
-    },
+    // DiscoveryCallPage renders its hero/header hardcoded EN; only the form
+    // feedback + booking field labels resolve through i18n.
     form: {
-      title: 'Meeting Details',
-      fullName: 'Full name',
-      workEmail: 'Work email',
-      company: 'Company',
-      agenda: 'Session agenda',
-      agendaPlaceholder: 'Share project goals, blockers, and timeline expectations.',
-      submit: 'Confirm Session',
       success: 'Thanks. Your booking details were captured and our team will send a calendar invite shortly.',
       sla: 'We respond within one business day, schedule your discovery call within three, and deliver a proposal within five business days of discovery.',
       hint: 'You will receive confirmation by email with next steps and preparation notes.',
@@ -335,129 +174,6 @@ const en = {
       requestedSlot: 'Requested slot',
       agendaLabel: 'Agenda',
     },
-  },
-  web: {
-    hero: {
-      title: 'Web Design & Development',
-      subtitle: 'Three tailored packages to match your business stage — from establishing your digital presence to a platform your operation depends on.',
-      metaAria: 'Web delivery highlights',
-      chip1: 'Conversion-Focused IA',
-      chip2: 'SEO and Analytics Baseline',
-      chip3: 'Weekly Sprint Reviews',
-    },
-    cta: {
-      title: 'Need a Custom Quote?',
-      subtitle: 'Download our full pricing guide for detailed breakdowns of every package, feature, and add-on.',
-      secondary: 'Talk To A Strategist',
-    },
-  },
-  mobile: {
-    hero: {
-      title: 'Mobile App Development',
-      subtitle: 'Cross-platform and native iOS & Android apps built with Flutter and React Native — designed for the Ethiopian market.',
-      metaAria: 'Mobile delivery highlights',
-      chip1: 'Store Submission Support',
-      chip2: 'Offline-Ready Architecture',
-      chip3: 'Telebirr and Chapa Integration',
-    },
-    cta: {
-      title: 'Have an App Idea?',
-      subtitle: "Let's turn your vision into a market-ready mobile application. Download our full guide for detailed specs and pricing.",
-      secondary: 'Schedule App Strategy Call',
-    },
-    roi: {
-      title: 'Mobile Acquisition ROI Estimator',
-      subtitle: 'Estimate expected gain from app-store readiness, paid acquisition, and retention improvements.',
-    },
-  },
-  saas: {
-    hero: {
-      title: 'SaaS Cloud Solutions',
-      subtitle: 'Rent-to-use cloud management systems — zero IT overhead, fast deployment, and full support. Pay monthly and scale at your pace.',
-      metaAria: 'SaaS delivery highlights',
-      chip1: 'Rapid Team Onboarding',
-      chip2: 'Managed Backups and Security',
-      chip3: 'Annual Plan Savings',
-    },
-    labels: {
-      annualSave: 'Save 2 months',
-      comingSoon: 'Coming soon',
-    },
-    roi: {
-      title: 'SaaS Operations ROI Estimator',
-      subtitle: 'Model the business impact of process automation, reduced admin workload, and better collection discipline.',
-    },
-  },
-  additional: {
-    hero: {
-      title: 'Additional Services',
-      subtitle: 'Essential one-time and recurring services to complement your digital presence — from hosting to branding.',
-      metaAria: 'Additional services highlights',
-      chip1: 'Transparent Cost Bands',
-      chip2: 'One-Time and Recurring Options',
-      chip3: 'Bundle-Ready Add-Ons',
-    },
-  },
-  policy: {
-    hero: {
-      title: 'Payment & Operational Policy',
-      subtitle: 'Transparent terms to ensure a smooth, trust-based working relationship from kickoff to launch.',
-      metaAria: 'Policy highlights',
-      chip1: 'Milestone-Based Billing',
-      chip2: 'Client IP Ownership',
-      chip3: 'Clear Support Commitments',
-      chip4: 'Bank Transfer Only',
-    },
-    sections: {
-      payments: {
-        title: 'Payment Methods',
-        intro: 'Until the business license is secured, payment is accepted by bank transfer (CBE Birr) only.',
-        cards: {
-          bankTransfer: {
-            title: 'Bank Transfer (CBE Birr)',
-            body: 'Payments are made by direct bank transfer in Ethiopian Birr. This is the only accepted payment method until the business license is secured.',
-          },
-          telebirr: {
-            title: 'Telebirr Merchant (Planned)',
-            body: 'After licensing, we plan to add Telebirr merchant payments so clients can pay by mobile money. This is a plan, not a current capability.',
-          },
-          chapa: {
-            title: 'Chapa & Card Payments (Planned)',
-            body: 'After licensing, we plan to add Chapa checkout and card payments for local and international clients. This is a plan, not a current capability.',
-          },
-        },
-        note: {
-          title: 'Payment plan:',
-          body: 'Telebirr merchant, Chapa, and card payments will be added after the business license is secured. Until they are live, bank transfer (CBE Birr) remains the only accepted payment method.',
-        },
-      },
-      saas: {
-        title: 'SaaS Subscription Terms',
-        intro: 'Our cloud management systems (SMS, HMS, PMS) are in development — tell us you want it and we will add you to the waitlist.',
-        cards: {
-          setup: {
-            title: 'Waitlist Only',
-            body: 'SaaS products show no prices and no billing until a real product exists. Join the waitlist and we will contact you when a product is ready for your organization.',
-          },
-          billing: {
-            title: 'In Development',
-            body: 'School Management, Clinic/Hospital ERP, and Real Estate CRM are being built. There is no monthly or annual billing today.',
-          },
-          support: {
-            title: 'No Billing Until Launch',
-            body: 'Once a product is available, its terms will be published before any payment is requested. You will never be billed for a product that is not live.',
-          },
-        },
-        waitlistNote: {
-          title: 'Want it?',
-          body: 'Tell us and we will keep you on the waitlist with no charge and no commitment.',
-        },
-      },
-    },
-  },
-  seo: {
-    defaultTitle: 'NovaTech AI - Agentic Workflow Consultancy',
-    defaultDescription: 'NovaTech AI designs and deploys autonomous agents, private assistants, and workflow automation systems for operations-heavy teams.',
   },
 };
 
@@ -482,6 +198,14 @@ const amOverrides = {
     openMenu: 'ሜኑ ክፈት',
     closeMenu: 'ሜኑ ዝጋ',
     mobileNavigation: 'የሞባይል አሰሳ',
+  },
+  // NATIVE-REVIEW FLAG (NB-09): `band.audit.*` Amharic values below mirror the
+  // locked EN keys (TECH-15, arbitration 2) 1:1 — no new claims.
+  band: {
+    audit: {
+      title: 'ከWorkflow Audit ጀምር።',
+      subtitle: 'እንቅፋቶቹን እንለያለን፣ ትክክለኛውን መንገድ እንወስናለን፣ እና ከቀጠሉ የኦዲት ክፍያውን ለልማቱ እናስቆጥራለን።',
+    },
   },
   labels: {
     language: 'ቋንቋ',
@@ -524,33 +248,6 @@ const amOverrides = {
   liveChat: {
     heading: 'ፈጣን መልስ ይፈልጋሉ?',
   },
-  roi: {
-    title: 'ROI መለኪያ',
-    output: {
-      title: 'የወርሃዊ ትንበያ ውጤት',
-      estimatedRoi: 'ተገመተ ROI',
-    },
-  },
-  instantQuote: {
-    hero: {
-      title: 'ፈጣን የዋጋ መለኪያ',
-    },
-    result: {
-      title: 'የተገመተ የዋጋ ክልልዎ',
-    },
-  },
-  discovery: {
-    hero: {
-      title: 'የግኝት ጥሪ ያስይዙ',
-    },
-    form: {
-      submit: 'ጊዜ ያረጋግጡ',
-    },
-  },
-  seo: {
-    defaultTitle: 'NovaTech AI - የAgentic Workflow ኮንሰልታንሲ',
-    defaultDescription: 'NovaTech AI ለኦፕሬሽን-ተኮር ቡድኖች ራስ-ሰር ኤጀንቶች፣ የግል አሲስታንቶች እና የWorkflow Automation ስርዓቶችን ይንደፍና ይገነባል።',
-  },
 };
 
 const omOverrides = {
@@ -575,6 +272,14 @@ const omOverrides = {
     openMenu: 'Menu banaa',
     closeMenu: 'Menu cufi',
     mobileNavigation: 'Navigaashinii moobaayilaa',
+  },
+  // NATIVE-REVIEW FLAG (NB-09): `band.audit.*` Afaan Oromoo values below
+  // mirror the locked EN keys (TECH-15, arbitration 2) 1:1 — no new claims.
+  band: {
+    audit: {
+      title: 'Workflow Audit irraa jalqabi.',
+      subtitle: 'Rakkoowwan qixxaarraa adda baasna, karaa sirrii murteessina, yoo itti fufte immoo gatii audit-ichaa ijaarama keessatti lakkaa\'ina.',
+    },
   },
   labels: {
     language: 'Afaan',
@@ -614,40 +319,9 @@ const omOverrides = {
       linkedin: 'LinkedIn',
     },
   },
-  instantQuote: {
-    hero: {
-      title: 'Qorannoo Gatii Saffisaa',
-    },
-    result: {
-      title: 'Daangaa gatii tilmaamaa kee',
-    },
-  },
-  discovery: {
-    hero: {
-      title: 'Bilbila Marii Qabadhu',
-    },
-    form: {
-      submit: 'Yeroo Mirkaneessi',
-    },
-  },
-  seo: {
-    defaultTitle: 'NovaTech AI - Agentic Workflow Consultancy',
-    defaultDescription: 'NovaTech AI gareewwan hojii irratti xiyyeeffatanif autonomous agents, private assistants fi workflow automation systems ijaara.',
-  },
 };
 
 const amContentOverrides = {
-  common: {
-    to: 'ወደ',
-    none: 'የለም',
-  },
-  states: {
-    sending: 'በመላክ ላይ...',
-    loadingPackages: 'ፓኬጆች በመጫን ላይ...',
-    loadingCloudPlatforms: 'የክላውድ መድረኮች በመጫን ላይ...',
-    loadingServices: 'አገልግሎቶች በመጫን ላይ...',
-    loadingFeaturedAddons: 'ተመራጭ ተጨማሪዎች በመጫን ላይ...',
-  },
   liveChat: {
     toggle: 'የቀጥታ ውይይት አማራጮችን ቀይር',
     dialog: 'የውይይት አማራጮች',
@@ -679,7 +353,7 @@ const amContentOverrides = {
     },
     pricing_guide: {
       title: 'የአሁኑን NovaTechAI ETB የዋጋ ሉህ ያግኙ',
-      subtitle: 'በላይቭ ሳይቱ ላይ ከሚጠቀመው ተመሳሳይ ETB ሰንጠረዥ የተሰራውን የአሁኑን NovaTechAI የዋጋ ሉህ ያውርዱ፤ የSaaS ዌትሊስት ፖሊሲንም ያካትታል።',
+      subtitle: 'በላይቭ ሳይቱ ላይ ከሚጠቀመው ተመሳሳይ ETB ሰንጠረዥ የተሰራውን የአሁኑን NovaTechAI የዋጋ ሉህ ያውርዱ።',
       submitLabel: 'የዋጋ ሉህ አውርድ',
       successTitle: 'የዋጋ ሉህ ዝግጁ ነው',
       successSubtitle: 'የአሁኑ NovaTechAI ETB የዋጋ ሉህ በአዲስ ታብ ተከፍቷል። ከታች ደግሞ እንደገና መክፈት ይችላሉ።',
@@ -704,166 +378,11 @@ const amContentOverrides = {
       successSla: 'በአንድ የስራ ቀን ውስጥ እንመልሳለን፣ የግኝት ጥሪዎን በሶስት ቀን ውስጥ እንያዝልዎታለን፣ እና ፕሮፖዛልን ከግኝቱ በአምስት የስራ ቀን ውስጥ እናቀርባለን።',
     },
   },
-  roi: {
-    subtitle: 'የአሁኑን የሽያጭ ፍሰት መረጃ ተጠቅመው የተጠበቀ የገቢ ተፅዕኖ ይገምቱ።',
-    aria: 'የROI መለኪያ',
-    inputs: {
-      monthlyLeads: 'ወርሃዊ ሊድ',
-      conversionRate: 'የመቀየር መጠን (%)',
-      averageDealValue: 'አማካይ የውል ዋጋ (ETB)',
-      monthlySpend: 'ወርሃዊ ወጪ (ETB)',
-      expectedLift: 'የትራፊክ ጭማሪ ግምት (%)',
-    },
-    output: {
-      projectedLeads: 'ተገመተ ሊድ',
-      currentRevenue: 'የአሁኑ ገቢ (ETB)',
-      projectedRevenue: 'ተገመተ ገቢ (ETB)',
-      revenueLift: 'የገቢ ጭማሪ (ETB)',
-    },
-  },
-  industry: {
-    notFound: {
-      title: 'የዚህ ኢንዱስትሪ ገጽ አሁን አልተዘጋጀም',
-    },
-    items: {
-      education: {
-        title: 'የትምህርት ዲጂታል ስርዓቶች',
-        hero: 'መቀበያ፣ ውጤት፣ ተገኝነት እና የወላጅ ግንኙነትን ዲጂታላይዝ ያድርጉ።',
-        pains: ['በእጅ ሪፖርት ሂደቶች', 'የወላጅ ግንኙነት ግልጽነት እጥረት', 'የፋይናንስ እና ተገኝነት መረጃ እጥረት'],
-        solutions: ['በሚና የተመራ ዳሽቦርድ', 'ራስ-ሰር SMS/Telegram ማሳወቂያ', 'የክፍያ እና ውጤት ሞዱሎች ውህደት'],
-        scope: 'መደበኛ ማስጀመሪያ: 8-12 ሳምንት ከስልጠና ጋር።',
-      },
-      healthcare: {
-        title: 'የጤና ኦፕሬሽን መድረኮች',
-        hero: 'መግቢያ፣ ቀጠሮ እና የታካሚ ግንኙነትን ከመጨረሻ እስከ መጨረሻ ያሻሽሉ።',
-        pains: ['በፊት ዴስክ ረድፍ መጨናነቅ', 'ብዙ የቀጠሮ አለመገኘት', 'በክፍሎች መካከል የሪፖርት እጥረት'],
-        solutions: ['ዲጂታል ትሪያጅ እና መግቢያ', 'ራስ-ሰር አስታዋሽ እና ክትትል', 'ለመሪዎች KPI ዳሽቦርድ'],
-        scope: 'መደበኛ ማስጀመሪያ: 8-10 ሳምንት በደረጃ መልቀቅ።',
-      },
-      'real-estate': {
-        title: 'የሪል እስቴት CRM እና ሊዝ',
-        hero: 'ዝርዝሮችን፣ የተከራይ ሂደትን እና የክፍያ ክትትልን አንድ ላይ ያመጡ።',
-        pains: ['የተበታተነ የተከራይ መረጃ', 'በእጅ የኪራይ አስታዋሽ', 'የoccupancy ግልጽነት እጥረት'],
-        solutions: ['የተከራይ እና ንብረት ማዕከላዊ መዝገብ', 'ራስ-ሰር እድሳት እና ክፍያ ማሳወቂያ', 'የሊዝ አፈጻጸም ዳሽቦርድ'],
-        scope: 'መደበኛ ማስጀመሪያ: 6-10 ሳምንት እንደ ንብረት ብዛት።',
-      },
-      ecommerce: {
-        title: 'የኢ-ኮሜርስ እድገት ስርዓቶች',
-        hero: 'የስቶር ፍጥነትን፣ የቼክአውት ቅየራን እና የደንበኛ መመለስን ያሳድጉ።',
-        pains: ['ዘገይ የሞባይል ቼክአውት', 'ዝቅተኛ የድጋሚ ግዢ መጠን', 'ያልተገለጸ የዘመቻ መለያየት'],
-        solutions: ['ቅየራ-ተኮር IA', 'ለመመለስ የዑደት አውቶሜሽን', 'የዘመቻ እና አትሪቢዩሽን ሪፖርት'],
-        scope: 'መደበኛ ማስጀመሪያ: 6-9 ሳምንት ከቀጣይ ማሻሻያ ጋር።',
-      },
-    },
-  },
-  instantQuote: {
-    hero: {
-      subtitle: 'ጥቂት ጥያቄዎችን መልሱ እና በ2 ደቂቃ ውስጥ የሚሰራ የዋጋ ግምት ያግኙ።',
-    },
-    header: {
-      tag: 'ፈጣን ግምት',
-      title: 'ክልል፣ በጀት እና ጊዜ ያቅዱ',
-      subtitle: 'ይህ ግምት አቅጣጫ የሚሰጥ ሲሆን ለቡድንዎ ተስማሚ አርክቴክቸር እና ፕሮፖዛል ለማዘጋጀት ይረዳናል።',
-    },
-    progressAria: 'የዋጋ መለኪያ ሂደት',
-    steps: {
-      projectType: {
-        title: 'የፕሮጀክት አይነት',
-        subtitle: 'ለዚህ ግምት ዋናውን አገልግሎት ይምረጡ።',
-      },
-      budget: {
-        title: 'በጀት እና ጊዜ',
-      },
-      requirements: {
-        title: 'ቴክኒካዊ መስፈርቶች',
-        subtitle: 'ከፕሮጀክትዎ ጋር የሚመጡ ውህደቶችን እና ማስታወሻዎችን ይምረጡ።',
-      },
-      contact: {
-        title: 'የመገናኛ ዝርዝሮች',
-      },
-    },
-    labels: {
-      budgetRange: 'የበጀት ክልል',
-      deliveryTimeline: 'የማቅረቢያ ጊዜ',
-      projectGoals: 'የፕሮጀክት ግቦች',
-      projectGoalsPlaceholder: 'ግቦች፣ ቅድሚያዎች እና ገደቦችን ይግለጹ።',
-      fullName: 'ሙሉ ስም',
-      workEmail: 'የስራ ኢሜይል',
-      phoneOptional: 'ስልክ (አማራጭ)',
-    },
-    actions: {
-      generate: 'ግምት አመንጭ',
-    },
-    result: {
-      subtitle: 'ይህ ክልል በመረጡት ክልል፣ ጊዜ እና የውህደት ውስብስብነት ላይ የተመሰረተ ነው። ቡድናችን ከ30 ደቂቃ የግኝት ክፍለ ጊዜ በኋላ የጽሁፍ ፕሮፖዛል ያቀርባል።',
-      sla: 'በአንድ የስራ ቀን ውስጥ እንመልሳለን እና ከግኝት ጥሪያችን በአምስት የስራ ቀን ውስጥ የጽሁፍ ፕሮፖዛል እናቀርባለን።',
-      waitlistTitle: 'SaaS በግንባታ ላይ ነው — ይፈልጋሉ ከሆነ ይንገሩን',
-      waitlistSubtitle: 'ወደ የጥበቃ ዝርዝሩ እንጨምርዎታለን እና ምርት ሲዘጋጅ እናገኝዎታለን። እውነተኛ ምርት እስካልተገኘ ድረስ ምንም ዋጋ አይታተምም።',
-    },
-    options: {
-      service: {
-        web: 'የዌብ ልማት',
-        mobile: 'የሞባይል መተግበሪያ ልማት',
-        saas: 'SaaS መድረክ',
-        saasWaitlist: 'በግንባታ ላይ ነው — ይፈልጋሉ ከሆነ ይንገሩን',
-      },
-      budget: {
-        entry: '85ሺ - 150ሺ ETB',
-        mid: '150ሺ - 400ሺ ETB',
-        high: '400ሺ - 1ሚ ETB',
-        enterprise: '1ሚ+ ETB',
-      },
-      timeline: {
-        fast: '2-4 ሳምንት',
-        standard: '1-2 ወር',
-        extended: '2-4 ወር',
-        flexible: 'ተለዋዋጭ ጊዜ',
-      },
-      integrations: {
-        crm: 'CRM ማስማማት',
-        analytics: 'የአናሊቲክስ ዳሽቦርድ',
-        multilingual: 'ባለብዙ ቋንቋ ይዘት',
-      },
-    },
-  },
-  pilotOffer: {
-    tag: 'የመሠረት ደንበኛ ፓይለት',
-    title: 'ከመጀመሪያዎቹ ሶስት የልማት ደንበኞች አንዱ ይሁኑ',
-    intro: 'ለመጀመሪያዎቹ ሶስት የልማት ደንበኞች ክፍት ነው።',
-    discount: 'የመሠረት ደንበኛ ዋጋ: ከታተመው ዋጋ 15–20% ቅናሽ',
-    exchangeTitle: 'በምላሹ:',
-    exchangeItems: [
-      'የጉዳይ ጥናት የመጠቀም ፈቃድ',
-      'ከቡድንዎ አጭር የምስክርነት ጽሁፍ',
-      'የማጣቀሻ ፈቃድ',
-    ],
-    cta: 'የመሠረት ደንበኛ ዋጋ ይጠይቁ',
-    finePrint: 'የመሠረት ደንበኛ ዋጋ ለልማት ፕሮጀክቶች ብቻ ነው።',
-  },
+  // TECH-32: verified-dead AM trees pruned (`roi.*`, `industry.*`,
+  // `instantQuote.*`, `web.*`, `mobile.*`, `saas.*`, `additional.*`,
+  // `policy.*`, `faqs.*` — zero t() consumers).
   discovery: {
-    hero: {
-      subtitle: 'በጊዜ ክልልዎ ውስጥ ጊዜ ይምረጡ እና ቁልፍ ቅድሚያዎችዎን ያጋሩ።',
-      metaAria: 'የቦታ ማስያዣ ድጋፍ ዝርዝሮች',
-      chip1: 'ከጊዜ ክልል ጋር የሚሄድ መርሃ ግብር',
-      chip2: '30 ደቂቃ የስትራቴጂ ክፍለ ጊዜ',
-      chip3: 'ተግባራዊ የመንገድ ካርታ ውጤት',
-    },
-    header: {
-      tag: 'ማስያዣ',
-      title: 'የክፍለ ጊዜ ጊዜ ይምረጡ',
-      timezone: 'የታወቀ ጊዜ ክልል',
-    },
-    sessions: {
-      title: 'የሚገኙ ክፍለ ጊዜዎች',
-    },
     form: {
-      title: 'የስብሰባ ዝርዝሮች',
-      fullName: 'ሙሉ ስም',
-      workEmail: 'የስራ ኢሜይል',
-      company: 'ኩባንያ',
-      agenda: 'የክፍለ ጊዜ አጀንዳ',
-      agendaPlaceholder: 'የፕሮጀክት ግቦች፣ ችግኝነቶች እና የጊዜ ተስፋዎችን ያካፍሉ።',
-      submit: 'ክፍለ ጊዜ አረጋግጥ',
       success: 'እናመሰግናለን። የቦታ ማስያዣ ዝርዝሮችዎ ተመዝግበዋል እና ቡድናችን የካሌንደር ግብዣ ይልካል።',
       sla: 'በአንድ የስራ ቀን ውስጥ እንመልሳለን፣ የግኝት ጥሪዎን በሶስት ቀን ውስጥ እንያዝልዎታለን፣ እና ፕሮፖዛልን ከግኝቱ በአምስት የስራ ቀን ውስጥ እናቀርባለን።',
       hint: 'የማረጋገጫ ኢሜይል ከቀጣይ እርምጃዎች ጋር ይደርስዎታል።',
@@ -873,255 +392,9 @@ const amContentOverrides = {
       agendaLabel: 'አጀንዳ',
     },
   },
-  web: {
-    hero: {
-      subtitle: 'ከዲጂታል መገኘት እስከ ኦፕሬሽንዎ የሚተማመንበት መድረክ ድረስ የሚስማሙ 3 ፓኬጆች።',
-      metaAria: 'የዌብ ማቅረቢያ አበረክቶች',
-      chip1: 'ቅየራ-ተኮር IA',
-      chip2: 'የSEO እና አናሊቲክስ መሠረት',
-      chip3: 'ሳምንታዊ የስፕሪንት ግምገማዎች',
-    },
-    proof: {
-      0: { title: 'በ2 የስራ ቀን ውስጥ ጅምር', text: 'ክልል ከተፀደቀ በኋላ በ2 የስራ ቀን ውስጥ ዲስከቨሪ እና ዋይርፍሬም እንጀምራለን።' },
-      1: { title: 'ግልጽ የግንባታ ደረጃዎች', text: 'በሳምንት በግልጽ የሂደት እይታ ላይ ግምገማ ያደርጋሉ።' },
-      2: { title: 'የመለቀቅ ዝግጁነት ተካቷል', text: 'እያንዳንዱ ፓኬጅ የፍጥነት ሙከራ፣ ኢንዴክሲንግ እና ሀንድኦቨር መመሪያን ያካትታል።' },
-    },
-    sections: {
-      packages: {
-        tag: 'የልማት ፓኬጆች',
-        title: 'ፓኬጅዎን ይምረጡ',
-        subtitle: 'ሁሉም ፓኬጆች ሪስፖንሲቭ ዲዛይን፣ SEO እና 3 ወር ነፃ ድጋፍ ያካትታሉ።',
-      },
-    },
-    faq: {
-      title: 'የዌብ ልማት ተደጋጋሚ ጥያቄዎች',
-      subtitle: 'ስለ ባለቤትነት፣ የማቅረቢያ ጊዜ እና ከመለቀቅ በኋላ ድጋፍ ፈጣን መልሶች።',
-    },
-    cta: {
-      subtitle: 'የእያንዳንዱ ፓኬጅ እና ባህሪ ዝርዝር ለማየት ሙሉ መመሪያውን ያውርዱ።',
-    },
-  },
-  mobile: {
-    hero: {
-      subtitle: 'በFlutter እና React Native የተገነቡ የiOS እና Android መተግበሪያዎች።',
-      metaAria: 'የሞባይል ማቅረቢያ አበረክቶች',
-      chip1: 'የስቶር ማስገባት ድጋፍ',
-      chip2: 'ኦፍላይን-ዝግጁ አርክቴክቸር',
-      chip3: 'Telebirr እና Chapa ውህደት',
-    },
-    proof: {
-      0: { title: 'ፍሰቱ ቀድሞ ይመጣል', text: 'ኮድ ከመፃፍ በፊት ዋና የተጠቃሚ ጉዞዎችን እናጣጣማለን።' },
-      1: { title: 'በእውነተኛ መሳሪያ ሙከራ', text: 'እያንዳንዱ ስፕሪንት በAndroid/iOS መሳሪያዎች ላይ QA ያካትታል።' },
-      2: { title: 'መለቀቅ፣ ከዚያም ማሻሻል', text: 'ከመለቀቅ በፊት የአናሊቲክስ እና የbacklog ቅድሚያዎች ይዘጋጃሉ።' },
-    },
-    sections: {
-      packages: {
-        tag: 'የመተግበሪያ ፓኬጆች',
-        title: 'የሞባይል መተግበሪያዎን ይገንቡ',
-        subtitle: 'ከቀላል መተግበሪያ እስከ ውስብስብ FinTech መድረክ ድረስ።',
-      },
-    },
-    faq: {
-      title: 'የሞባይል ልማት ተደጋጋሚ ጥያቄዎች',
-      subtitle: 'ስለ ስቶር ማስገባት፣ መድረክ እና የአካባቢ ክፍያ ውህደት መልሶች።',
-    },
-  },
-  saas: {
-    hero: {
-      subtitle: 'ኪራይ ላይ የሚሰጡ የክላውድ አስተዳደር ስርዓቶች — የIT ጫና ሳይኖር፣ ፈጣን ማስጀመር እና ሙሉ ድጋፍ። በወር ይክፈሉ፣ በራስ ፍጥነት ያስፉ።',
-      metaAria: 'የSaaS ማቅረቢያ አበረክቶች',
-      chip1: 'ፈጣን የቡድን ማስጀመር',
-      chip2: 'የሚተዳደር መጠባበቂያ እና ደህንነት',
-      chip3: 'ዓመታዊ እቅድ ቅናሽ',
-    },
-    proof: {
-      0: { title: 'ወደ ጅምር አጭር መንገድ', text: 'አብዛኛዎቹ ድርጅቶች በአጭር ጊዜ ማስጀመር ይጨርሳሉ።' },
-      1: { title: 'የኦፕሬሽን ግልጽነት', text: 'ዳሽቦርዶች እና ሪፖርቶች በየቀኑ ሂደትዎ መሰረት ይዋቀራሉ።' },
-      2: { title: 'የደህንነት እና የመድረክ ማሻሻያዎች፣ ይጠበቃሉ', text: 'የደህንነት እና የፕላትፎርም ማሻሻያዎች ቀጣይ ይደርሳሉ።' },
-    },
-    sections: {
-      catalog: {
-        tag: 'የክላውድ መድረክ',
-        title: 'የአስተዳደር ስርዓቶቻችን',
-        subtitle: 'የኢንተርፕራይዝ ደረጃ ሶፍትዌር በተመጣጣኝ ወርሃዊ ክፍያ።',
-      },
-    },
-    pricing: {
-      setup: 'አንድ ጊዜ ማስዋቀር እና ስልጠና',
-      monthly: 'ወርሃዊ የደንበኝነት ክፍያ',
-      annual: 'ዓመታዊ የደንበኝነት ክፍያ',
-    },
-    modulesTitle: 'የተካተቱ ዋና ሞዱሎች:',
-    faq: {
-      title: 'የSaaS መፍትሄ ተደጋጋሚ ጥያቄዎች',
-      subtitle: 'ስለ ማስጀመር፣ ክፍያ እና ድጋፍ ግልጽ ማብራሪያ።',
-    },
-    cta: {
-      title: 'ኦፕሬሽንዎን ለማዘመን ዝግጁ ነዎት?',
-      subtitle: 'የባህሪ ንጽጽር ለማየት ሙሉ መመሪያውን ያውርዱ።',
-      secondary: 'የSaaS ምክክር ይጠይቁ',
-    },
-  },
-  additional: {
-    proof: {
-      0: { title: 'ተግባራዊ የአገልግሎት ጥቅሎች', text: 'ሆስቲንግ፣ ዲዛይን እና ጥገና አገልግሎቶችን ያቀናብሩ።' },
-      1: { title: 'ሊገመቱ የሚችሉ እድሳቶች', text: 'የተደጋጋሚ አገልግሎቶች በግልጽ ይለያሉ።' },
-      2: { title: 'ስኬላብል የድጋፍ አማራጮች', text: 'በመሠረታዊ አገልግሎቶች ይጀምሩ እና እንደ እድገትዎ ያስፋፉ።' },
-    },
-    sections: {
-      catalog: {
-        tag: 'የአገልግሎት ካታሎግ',
-        title: 'አንድ-ጊዜ እና ተደጋጋሚ አገልግሎቶች',
-        subtitle: 'ዲጂታል ምርቶችዎን ለማስጀመር፣ እንዲሰሩ ለማድረግ እና ለማሳደግ የሚያስፈልግዎ ሁሉ።',
-      },
-      featured: {
-        tag: 'ልዩ ምርጫዎች',
-        title: 'ተመራጭ ተጨማሪዎች',
-        subtitle: 'ከፍተኛ ዋጋ የሚሰጡ ታዋቂ ተጨማሪ አገልግሎቶች።',
-      },
-    },
-    table: {
-      service: 'አገልግሎት',
-      description: 'መግለጫ',
-      cost: 'የተገመተ ወጪ',
-      billing: 'ክፍያ',
-    },
-    billing: {
-      'one-time': 'አንድ-ጊዜ',
-      recurring: 'ተደጋጋሚ',
-    },
-    faq: {
-      title: 'የተጨማሪ አገልግሎቶች FAQ',
-      subtitle: 'ስለ ክፍያ ሞዴሎች እና ብጁ ክልል ማብራሪያ።',
-    },
-  },
-  policy: {
-    proof: {
-      0: { title: 'ከመስማማት በፊት ግልጽነት', text: 'እያንዳንዱ ስምምነት በግልጽ ደረጃ እና ተረካቢ ውጤት ይመራል።' },
-      1: { title: 'ክፍያ ያለ አስገራሚ ነገር', text: 'የክፍያ ደረጃዎች እና ክልሎች ከመጀመር በፊት ይገለጻሉ።' },
-      2: { title: 'ረዥም ጊዜ የኦፕሬሽን ድጋፍ', text: 'ቀጣይ ድጋፍ፣ አዘምን እና ሪፖርት መመሪያዎች ቀድሞ ይዘጋጃሉ።' },
-    },
-    cta: {
-      subtitle: 'ሙሉ መመሪያውን ይመልከቱ ወይም የግኝት ጥሪ ያስይዙ እና ዝርዝር እንወያይ።',
-    },
-    sections: {
-      development: {
-        title: 'የልማት ክፍያ ደንቦች',
-        intro: 'ሁሉም ብጁ የልማት ፕሮጀክቶች በደረጃ የተመሠረተ ክፍያ እቅድን ይከተላሉ።',
-        m1: { title: 'ቅድሚያ ክፍያ', body: 'የፕሮጀክት ስምምነት እና ጅምር ጊዜ የሚከፈል።' },
-        m2: { title: 'ዲዛይን/ፕሮቶታይፕ ከፀደቀ በኋላ', body: 'ሞክአፕ ከፀደቀ በኋላ ሙሉ ልማት ይቀጥላል።' },
-        m3: { title: 'ከመጨረሻ መለቀቅ በፊት', body: 'ከgo-live በፊት የመጨረሻ ክፍያ ይፈጸማል።' },
-        ownership: {
-          title: 'ሙሉ ባለቤትነት:',
-          body: 'የመጨረሻ ክፍያ በኋላ ደንበኛው የኮድ እና የዲዛይን ባለቤትነት 100% ይወስዳል።',
-        },
-      },
-      payments: {
-        title: 'የክፍያ ዘዴዎች',
-        intro: 'የቢዝነስ ፍቃዱ እስኪገኝ ድረስ ክፍያ በባንክ ማስተላለፍ (CBE Birr) ብቻ ይቀበላል።',
-        cards: {
-          bankTransfer: { title: 'የባንክ ማስተላለፍ (CBE Birr)', body: 'ክፍያ በኢትዮጵያ ብር በቀጥታ በባንክ ማስተላለፍ ይከፈላል። የቢዝነስ ፍቃዱ እስኪገኝ ድረስ ይህ ብቸኛው ተቀባይነት ያለው የክፍያ ዘዴ ነው።' },
-          telebirr: { title: 'Telebirr ነጋዴ (በእቅድ)', body: 'ከፍቃድ በኋላ ደንበኞች በሞባይል ገንዘብ እንዲከፍሉ የTelebirr merchant ክፍያ ለመጨመር እቅድ አለን። ይህ እቅድ ነው እንጂ የአሁኑ አቅም አይደለም።' },
-          chapa: { title: 'Chapa እና ካርድ ክፍያ (በእቅድ)', body: 'ከፍቃድ በኋላ ለአካባቢያዊ እና አለም አቀፍ ደንበኞች የChapa እና የካርድ ክፍያ ለመጨመር እቅድ አለን። ይህ እቅድ ነው እንጂ የአሁኑ አቅም አይደለም።' },
-        },
-        note: {
-          title: 'የክፍያ እቅድ:',
-          body: 'Telebirr merchant፣ Chapa እና የካርድ ክፍያዎች የቢዝነስ ፍቃዱ ከተገኘ በኋላ ይጨመራሉ። እስከዚያ ድረስ የባንክ ማስተላለፍ (CBE Birr) ብቸኛው ተቀባይነት ያለው የክፍያ ዘዴ ነው።',
-        },
-      },
-      saas: {
-        title: 'የSaaS የደንበኝነት ደንቦች',
-        intro: 'የክላውድ አስተዳደር ስርዓቶቻችን (SMS፣ HMS፣ PMS) በግንባታ ላይ ናቸው — ይፈልጋሉ ከሆነ ይንገሩን እና ወደ የጥበቃ ዝርዝሩ እንጨምርዎታለን።',
-        cards: {
-          setup: { title: 'የጥበቃ ዝርዝር ብቻ', body: 'እውነተኛ ምርት እስኪኖር ድረስ SaaS ምርቶች ዋጋ እና ክፍያ አይታዩም። ወደ የጥበቃ ዝርዝሩ ይቀላቀሉ እና ምርት ሲዘጋጅ እናገኝዎታለን።' },
-          billing: { title: 'በግንባታ ላይ', body: 'የትምህርት ቤት አስተዳደር፣ ክሊኒክ/ሆስፒታል ERP እና ሪል እስቴት CRM እየተገነቡ ናቸው። ዛሬ ወርሃዊ ወይም ዓመታዊ ክፍያ የለም።' },
-          support: { title: 'እስከ ማስጀመር ድረስ ክፍያ የለም', body: 'ምርት ሲገኝ ውሎቹ ማንኛውም ክፍያ ከመጠየቁ በፊት ይታተማሉ። ላልተጀመረ ምርት በጭራሽ አይከፍሉም።' },
-        },
-        waitlistNote: {
-          title: 'ይፈልጋሉ?',
-          body: 'ይንገሩን እና ያለምንም ክፍያ እና ግዴታ በጥበቃ ዝርዝሩ ላይ እናቆይዎታለን።',
-        },
-      },
-      general: {
-        title: 'አጠቃላይ ደንቦች',
-        note1: 'ሁሉም ዋጋዎች በETB ይቀርባሉ እና እንደ ገበያ ሁኔታ በየዓመቱ ሊሻሻሉ ይችላሉ።',
-        note2: 'የፕሮጀክት ጊዜ ግምት ነው እና እንደ ክልል ውስብስብነት ሊለዋወጥ ይችላል።',
-        note3: 'በፓኬጅ ውስጥ የተካተቱ ሪቪዥኖች ከተሟሉ በላይ ተጨማሪ ክፍያ ይኖራል።',
-      },
-    },
-  },
-  faqs: {
-    web: [
-      {
-        question: 'ከመለቀቅ በኋላ የሶስ ኮድ እና የዲዛይን ፋይሎች ባለቤት እሆናለሁ?',
-        answer: 'የመጨረሻ የደረጃ ክፍያ ሲጠናቀቅ፣ የሶርስ ኮድ እና የዲዛይን ፋይሎች ባለቤትነት ሙሉ በሙሉ ወደ ቡድንዎ ይተላለፋል።',
-      },
-      {
-        question: 'መደበኛ የዌብ ፕሮጀክት ስንት ጊዜ ይወስዳል?',
-        answer: 'እንደ ውስብስብነት እና ውህደቶች አብዛኛውን ጊዜ 3 እስከ 8 ሳምንት ይወስዳል።',
-      },
-      {
-        question: 'ከመለቀቅ በኋላ ድጋፍ መቀጠል እንችላለን?',
-        answer: 'ከመለቀቅ በኋላ፣ በSLA የተደገፉ ዓመታዊ የጥገና እና የእድገት ፓኬጆች ስርዓቱን የተረጋጋ ያደርጉታል — ለቀጣዩ ግንባታም አብረዎት እንቀራለን።',
-      },
-    ],
-    mobile: [
-      {
-        question: 'ለAndroid እና iOS ሁለቱም ታገነባላችሁ?',
-        answer: 'ሁለቱም መድረኮች የሚለቀቁት ከአንድ ኮድቤዝ ነው፣ የcross-platform ፍሬምወርኮችን በመጠቀም፣ native bridge ደግሞ ለአፈፃፀም-ወሳኝ ሞዱሎች ብቻ ተይዞ ይቀራል።',
-      },
-      {
-        question: 'የstore submission እና ኮምፕላየንስ ትያዙታላችሁ?',
-        answer: 'የስቶር ማስገባት የግንባታው አካል ነው — ለሁለቱም ሱቆች የማስገቢያ ሰነዶችን፣ የፖሊሲ ተገዢነት ማረጋገጫዎችን እና የመለቀቅ ቼክሊስቶችን እናዘጋጃለን።',
-      },
-      {
-        question: 'የአካባቢ ክፍያ ጌትዌዎች ሊዋሃዱ ይችላሉ?',
-        answer: 'Telebirr፣ Chapa እና የካርድ ጌትዌዎች ሊዋሃዱ ይችላሉ፤ ትክክለኛው ምርጫ በንግድ ሞዴልዎ እና ደንበኞችዎ በሚከፍሉበት ቦታ ላይ የተመሰረተ ነው።',
-      },
-    ],
-    saas: [
-      {
-        question: 'በSaaS ማስጀመር ውስጥ ምን ይካተታል?',
-        answer: 'ማስዋቀር፣ የዳታ እቅድ፣ የሚና ማቀናበር እና የቡድን ስልጠና ይካተታሉ።',
-      },
-      {
-        question: 'ዓመታዊ ክፍያ ላይ ጥቅም አለ?',
-        answer: 'ዓመታዊ ስብስክሪፕሽኖች ቅናሽ አላቸው እና የታቀዱ የማሻሻያ ቼክፖይንቶችን ያካትታሉ።',
-      },
-      {
-        question: 'የዳታ መጠባበቂያ እንዴት ይደረጋል?',
-        answer: 'ሁሉም ስርዓቶች የሚተዳደር ባክአፕ፣ የመዳረሻ ቁጥጥር እና የደህንነት አዘምን ያካትታሉ።',
-      },
-    ],
-    additional: [
-      {
-        question: 'ተጨማሪ አገልግሎቶች ብቻቸውን ሊገዙ ይችላሉ?',
-        answer: 'እያንዳንዱ ተጨማሪ አገልግሎት ብቻውን ወይም ከልማት ፓኬጅዎ ጋር ተቀናጅቶ ሊሰላ ይችላል።',
-      },
-      {
-        question: 'ለአንድ-ጊዜ አገልግሎት ተደጋጋሚ ግዴታ አለ?',
-        answer: 'የለም። አንድ-ጊዜ አገልግሎቶች እንደ አንድ-ጊዜ ይቆያሉ እርስዎ በግልፅ ካልጨመሩ በቀር።',
-      },
-      {
-        question: 'ብጁ የአገልግሎት ጥቅሎች ትሰጣላችሁ?',
-        answer: 'ጥቅሎች የሚዘጋጁት በማስጀመሪያ ጊዜዎ እና በእድገት ቅድሚያዎችዎ ዙሪያ ነው፣ ስለዚህ ዋጋው በትክክል ከሚፈልጉት ክልል ጋር ይሄዳል።',
-      },
-    ],
-  },
 };
 
 const omContentOverrides = {
-  common: {
-    to: 'gara',
-    none: 'Hin jiru',
-  },
-  states: {
-    sending: 'Ergaa jirra...',
-    loadingPackages: 'Pakeejjii feenaa jira...',
-    loadingCloudPlatforms: 'Platfoormii cloud feenaa jira...',
-    loadingServices: 'Tajaajila feenaa jira...',
-    loadingFeaturedAddons: 'Dabalata filatamoo feenaa jira...',
-  },
   liveChat: {
     toggle: 'Filannoo chat jijjiiri',
     dialog: 'Filannoo chat',
@@ -1154,7 +427,7 @@ const omContentOverrides = {
     },
     pricing_guide: {
       title: 'Current NovaTechAI ETB pricing sheet argadhaa',
-      subtitle: 'Pricing sheet ammee NovaTechAI kan ETB table wal fakkaataa marsariitii irratti fayyadamu irraa ijaarame buufadhaa; imaammata waitlist SaaS illee of keessaa qaba.',
+      subtitle: 'Pricing sheet ammee NovaTechAI kan ETB table wal fakkaataa marsariitii irratti fayyadamu irraa ijaarame buufadhaa.',
       submitLabel: 'Pricing Sheet Buusi',
       successTitle: 'Pricing sheet qophaa’eera',
       successSubtitle: 'Current NovaTechAI ETB pricing sheet kee tab haaraa keessatti banameera. Asii gaditti irra deebitee banuu dandeessa.',
@@ -1179,180 +452,8 @@ const omContentOverrides = {
       successSla: 'Guyyoota hojii tokko keessatti deebii kennina, bilbila marii keessan guyyoota sadii keessatti qopheessina, piroposal-ittis guyyoota hojii shan keessatti dhiheessina.',
     },
   },
-  roi: {
-    subtitle: 'Funnel ammaa kee irratti hundaaun buaa galii eegamu tilmaami.',
-    aria: 'Tilmaama ROI',
-    inputs: {
-      monthlyLeads: 'Leads jihaa',
-      conversionRate: 'Sadarkaa jijjiirraa (%)',
-      averageDealValue: 'Gatii walii galtee giddugaleessa (ETB)',
-      monthlySpend: 'Baasi jihaa (ETB)',
-      expectedLift: 'Dabala tiraafikaa eegamu (%)',
-    },
-    output: {
-      projectedLeads: 'Leads tilmaamaa',
-      currentRevenue: 'Galii ammaa (ETB)',
-      projectedRevenue: 'Galii tilmaamaa (ETB)',
-      revenueLift: 'Dabala galii (ETB)',
-      estimatedRoi: 'ROI tilmaamaa',
-    },
-  },
-  industry: {
-    notFound: {
-      title: 'Fuulli industirii kanaa amma hin jiru',
-      subtitle: 'Playbook industirii kana ijaaruu irratti jirra. Yeroo kana tajaajiloota keenya ilaalaa.',
-      action: 'Tajaajiloota Ilaali',
-    },
-    header: {
-      tag: 'Playbook Industirii',
-      title: 'Rakkoolee idilee fi fakkeenya geessii',
-    },
-    pains: {
-      title: 'Rakkoolee idilee',
-    },
-    solutions: {
-      title: 'Stack furmaataa filatamaa',
-    },
-    items: {
-      education: {
-        title: 'Sirna Dijitaalaa Barnootaa',
-        hero: 'Admissions, grading, attendance fi walqunnamtii maatii dijitaalessi.',
-        pains: ['Reporting harkaan', 'Mul atni walqunnamtii maatii gadi aanaa', 'Rikoodii finance fi attendance wal hin qabne'],
-        solutions: ['Dashboard role-based', 'Beeksisa SMS fi Telegram ofumaan', 'Modules fee, attendance fi grade walitti hidhaman'],
-        scope: 'Rollout idilee: torban 8 hanga 12 training waliin.',
-      },
-      healthcare: {
-        title: 'Platfoormii Hojii Fayyaa',
-        hero: 'Intake, scheduling fi walqunnamtii patient guutummaatti fooyyessi.',
-        pains: ['Bottleneck front desk', 'Appointment no-show baay ee', 'Reporting kutaa kutaan daangeffame'],
-        solutions: ['Triage fi intake dijitaalaa', 'Yaadachiisa fi follow-up ofumaan', 'Dashboard KPI hoggansaaf'],
-        scope: 'Rollout idilee: torban 8 hanga 10 phased deployment.',
-      },
-      'real-estate': {
-        title: 'Real Estate CRM fi Leasing',
-        hero: 'Listings, lifecycle tenant fi payment reminder workflow walitti hidhi.',
-        pains: ['Data tenant facaasame', 'Yaadachiisa kiraa harkaan', 'Mul atni occupancy fi renewal gadi aanaa'],
-        solutions: ['Ledger tenant fi property giddugaleessa', 'Renewal fi reminder payment ofumaan', 'Dashboard bu aa lease'],
-        scope: 'Rollout idilee: torban 6 hanga 10 akka baayina propertytti.',
-      },
-      ecommerce: {
-        title: 'Sirna Guddina E-commerce',
-        hero: 'Saffisa storefront, checkout conversion fi retention guddisi.',
-        pains: ['Checkout moobaayilaa suuta', 'Repeat purchase gadi aanaa', 'Attribution campaign iftoomina dhabuu'],
-        solutions: ['IA conversion-first', 'Automation lifecycle retentionf', 'Reporting attribution walitti qabame'],
-        scope: 'Rollout idilee: torban 6 hanga 9 fooyya ii itti fufiinsa waliin.',
-      },
-    },
-  },
-  instantQuote: {
-    hero: {
-      subtitle: 'Gaaffii muraasa deebisii daangaa tilmaama gatii daqiiqaa lama keessatti argadhu.',
-    },
-    header: {
-      tag: 'Tilmaama Saffisaa',
-      title: 'Scope, Budget fi Timeline karoorsi',
-      subtitle: 'Tilmaamni kun kallattii kennu dha; architecture fi proposal sirrii qopheessuuf nu gargaara.',
-    },
-    progressAria: 'Adeemsa wizard quote',
-    steps: {
-      projectType: {
-        title: 'Akaakuu Pirojektii',
-        subtitle: 'Tajaajila ijoo quote kanaaf filadhu.',
-      },
-      budget: {
-        title: 'Budget fi Timeline',
-      },
-      requirements: {
-        title: 'Fedhii Teknikaa',
-        subtitle: 'Walitti hidhamiinsa fi yaadannoo pirojektii kee waliin deeman filadhu.',
-      },
-      contact: {
-        title: 'Odeeffannoo Qunnamtii',
-      },
-    },
-    labels: {
-      budgetRange: 'Daangaa budget',
-      deliveryTimeline: 'Yeroo geessii',
-      projectGoals: 'Kaayyoo pirojektii',
-      projectGoalsPlaceholder: 'Kaayyoo, dursa fi daangaa ibsi.',
-      fullName: 'Maqaa guutuu',
-      workEmail: 'Imeelii hojii',
-      phoneOptional: 'Bilbila (filannoo)',
-    },
-    actions: {
-      generate: 'Tilmaama Uumi',
-    },
-    result: {
-      title: 'Daangaa gatii tilmaamaa kee',
-      subtitle: 'Daangaan kun scope, timeline fi complexity integration filattan irratti hundaa eera. Gareen keenya kuta discovery daqiiqaa 30 booda piroposal barreeffamaa dhiheessa.',
-      sla: 'Guyyoota hojii tokko keessatti deebii kennina; bilbila marii keenya booda guyyoota hojii shan keessatti piroposal barreeffamaa dhiheessina.',
-      waitlistTitle: 'SaaS miseensaaf jira — isin barbaadda yoo ta e nu himaa',
-      waitlistSubtitle: 'Tartiiba eeggachaa irratti isin galchina; oomishni qophaa u yeroo ta u isin qunnamna. Hanga oomisha dhugaa argamutti gatii hin maxxanfamu.',
-    },
-    options: {
-      service: {
-        web: 'Misooma Web',
-        mobile: 'Misooma Appii Moobaayilaa',
-        saas: 'Platfoormii SaaS',
-        saasWaitlist: 'Miseensaaf jira — isin barbaadda yoo ta e nu himaa',
-      },
-      budget: {
-        entry: '85k - 150k ETB',
-        mid: '150k - 400k ETB',
-        high: '400k - 1M ETB',
-        enterprise: '1M+ ETB',
-      },
-      timeline: {
-        fast: 'Torban 2-4',
-        standard: 'Ji a 1-2',
-        extended: 'Ji a 2-4',
-        flexible: 'Yeroo laafaa',
-      },
-      integrations: {
-        crm: 'CRM Walitti Hidhamiinsa',
-        analytics: 'Dashboard Analytics',
-        multilingual: 'Qabiyyee Afaan hedduu',
-      },
-    },
-  },
-  pilotOffer: {
-    tag: 'Piroogiraamii Maamilaa Ijoo',
-    title: "Maamiltoota jalqabaa sadii keessaa tokko ta'aa",
-    intro: 'Maamiltoota sadii jalqabaa qofaaf banameera.',
-    discount: 'Gatii maamilaa jalqabaa: gatii maxxanfame irraa 15–20% qusannaa',
-    exchangeTitle: 'Galata isaaniitiif:',
-    exchangeItems: [
-      'Hayyama waraabbii case study',
-      'Ragaa gabaabaa garee keessan irraa',
-      'Hayyama wabiinsa',
-    ],
-    cta: 'Gatii maamilaa jalqabaa gaafadhu',
-    finePrint: 'Gatii maamilaa jalqabaa pirojektiiwwan hojiirra oolmaa qofaaf.',
-  },
   discovery: {
-    hero: {
-      subtitle: 'Yeroo naannoo keessanii filadhaa fi dursa ijoo nuuf qoodaa.',
-      metaAria: 'Odeeffannoo deeggarsa booking',
-      chip1: 'Karoora yeroo naannootti madaalu',
-      chip2: 'Kuta yeroo strategy daqiiqaa 30',
-      chip3: 'Bu aa roadmap hojiirra oolu',
-    },
-    header: {
-      tag: 'Scheduling',
-      title: 'Yeroo Kuta filadhu',
-      timezone: 'Yeroo naannoo argame',
-    },
-    sessions: {
-      title: 'Kutaalee argaman',
-    },
     form: {
-      title: 'Odeeffannoo Walga ii',
-      fullName: 'Maqaa guutuu',
-      workEmail: 'Imeelii hojii',
-      company: 'Dhaabbata',
-      agenda: 'Ajandaa walga ii',
-      agendaPlaceholder: 'Kaayyoo pirojektii, rakkina fi eeggannoo yeroo qoodi.',
-      submit: 'Kuta Mirkaneessi',
       success: 'Galatoomaa. Odeeffannoon booking keessan qabameera; invite calendar yeroodhaaf ni ergame.',
       sla: 'Guyyoota hojii tokko keessatti deebii kennina, bilbila marii keessan guyyoota sadii keessatti qopheessina, piroposal-ittis guyyoota hojii shan keessatti dhiheessina.',
       hint: 'Mirkaneessi fi tarkaanfii itti aanan imeeliidhaan isin ga a.',
@@ -1361,275 +462,6 @@ const omContentOverrides = {
       requestedSlot: 'Yeroo gaafatame',
       agendaLabel: 'Ajandaa',
     },
-  },
-  web: {
-    hero: {
-      subtitle: "Pakeejjii 3 sadarkaa daldalaa keessaniif mijatan — waldhoowwannaa dijitaalaa ijaaruu irraa hanga platfoormii hojii keessan itti hirkatuutti.",
-      metaAria: 'Ibsa geessii web',
-      chip1: 'IA conversion irratti xiyyeeffate',
-      chip2: 'Bu uura SEO fi Analytics',
-      chip3: 'Review sprint torbee torbeen',
-    },
-    proof: {
-      0: { title: 'Kickoff guyyoota hojii lama keessatti', text: 'Scope erga mirkanaa ee booda guyyoota hojii lama keessatti discovery fi wireframe jalqabna.' },
-      1: { title: 'Milestone ijaarsa ifaa', text: 'Torbee torbeedhaan progress ifaa ilaaltanii gara sprint itti aanu ceena.' },
-      2: { title: 'Qophiin launch dabalameera', text: 'Pakeejji hundi check performance, setup indexing fi qajeelfama handover qaba.' },
-    },
-    sections: {
-      packages: {
-        tag: 'Pakeejjii Misoomaa',
-        title: 'Pakeejjii kee filadhu',
-        subtitle: 'Pakeejjii hundi responsive design, SEO fi deeggarsa baatii 3 of keessaa qaba.',
-      },
-    },
-    faq: {
-      title: 'Gaaffilee Misooma Web',
-      subtitle: 'Deebii saffisaa abbummaa, yeroo geessii fi deeggarsa launch booda irratti.',
-    },
-    cta: {
-      subtitle: 'Bal ina pakeejjii fi amaloota hundaaf qajeelfama guutuu buufadhaa.',
-      secondary: 'Istiraateejistii waliin mariadhu',
-    },
-  },
-  mobile: {
-    hero: {
-      subtitle: 'Appii iOS fi Android Flutter fi React Native n ijaaraman gabaa Itoophiyaaf qophaa an.',
-      metaAria: 'Ibsa geessii moobaayilaa',
-      chip1: 'Deeggarsa submission store',
-      chip2: 'Architecture offline-ready',
-      chip3: 'Walitti hidhamiinsa Telebirr fi Chapa',
-    },
-    proof: {
-      0: { title: 'Floon dura dhufa', text: 'Kodee dura user journey ijoo irratti walii galla.' },
-      1: { title: 'Qormaata meeshaa dhugaa irratti', text: 'Sprint hundi QA practical Android fi iOS irratti ni qabaata.' },
-      2: { title: 'Launch, itti aansii fooyyeessi', text: 'Analytics fi backlog dursa launch dura ni qophaa a.' },
-    },
-    sections: {
-      packages: {
-        tag: 'Pakeejjii Appii',
-        title: 'Appii Moobaayilaa kee ijaari',
-        subtitle: 'Appii salphaa irraa hanga platfoormii FinTech walxaxaa tti.',
-      },
-    },
-    faq: {
-      title: 'Gaaffilee Misooma Moobaayilaa',
-      subtitle: 'Submission store, platform coverage fi integration kaffaltii biyya keessaa irratti deebii.',
-    },
-    cta: {
-      subtitle: 'Yaada appii kee gara appii qophaa ee gabaa geessu jijjiirra.',
-      secondary: 'Bilbila strategy appii qabadhu',
-    },
-  },
-  saas: {
-    hero: {
-      subtitle: "Sirna bulchiinsaa cloud kiraan kennamu — IT overhead malee, diriirfama saffisaa fi deeggarsa guutuu waliin. Ji'aan kaffalaa, saffisa keessaniin guddadhaa.",
-      metaAria: 'Ibsa geessii SaaS',
-      chip1: 'Onboarding garee saffisaa',
-      chip2: 'Backup fi nageenya bulchaa',
-      chip3: 'Qusannaa karoora waggaa',
-    },
-    labels: {
-      annualSave: 'Ji a 2 qusadhu',
-      comingSoon: 'Coming soon',
-    },
-    proof: {
-      0: { title: 'Karaa gabaabaa gara go-live', text: 'Dhaabbileen baay een onboarding gabaabaa keessatti xumuru.' },
-      1: { title: 'Mul atina hojii', text: 'Dashboard fi reporting adeemsa guyyaa guyyaa keessan irratti qindaa a.' },
-      2: { title: 'Upphaatii nageenyaa fi platform — nu bulcha', text: 'Update nageenyaa fi platform yeroo yeroon ni kennama.' },
-    },
-    sections: {
-      catalog: {
-        tag: 'Platfoormii Cloud',
-        title: 'Sirnoota Bulchiinsaa keenya',
-        subtitle: 'Software sadarkaa enterprise subscription jihaa madaalawaadhaan argamu.',
-      },
-    },
-    pricing: {
-      setup: 'Setup fi Leenjii yeroo tokko',
-      monthly: 'Subscription Jihaa',
-      annual: 'Subscription Waggaa',
-    },
-    modulesTitle: 'Modules ijoo keessatti dabalaman:',
-    faq: {
-      title: 'Gaaffilee Furmaata SaaS',
-      subtitle: 'Onboarding, billing, backup fi deeggarsa irratti ibsa ifaa.',
-    },
-    cta: {
-      title: 'Hojii keessan ammayyeessuuf qophooftee?',
-      subtitle: 'Comparison amaloota bal inaaf qajeelfama guutuu buufadhaa.',
-      secondary: 'Marii SaaS gaafadhu',
-    },
-    systems: {
-      school: { description: 'Platfoormii bulchiinsa mana barumsaa guutuu: barataa, grade, attendance, fee fi walqunnamtii maatii.' },
-      clinic: { description: 'Sirna bulchiinsa fayyaa guutuu klinikaa fi hospitaalaa, galmee patient irraa hanga billing fi lab result.' },
-      property: { description: 'Qabeenya, tenant, lease, walitti qabuu kiraa fi maintenance dashboard tokkotti bulchi.' },
-    },
-  },
-  additional: {
-    hero: {
-      subtitle: 'Tajaajiloota yeroo tokkoo fi deddeebii jiran argama dijitaalaa keessan cimsuuf.',
-      metaAria: 'Ibsa tajaajila dabalataa',
-      chip1: 'Bandii baasii ifaa',
-      chip2: 'Filannoo yeroo tokkoo fi deddeebii',
-      chip3: 'Dabalata bundle qophaa an',
-    },
-    proof: {
-      0: { title: 'Bundla tajaajilaa hojii irra oolu', text: 'Hosting, design fi maintenance package dhokataa malee qindeessi.' },
-      1: { title: 'Renewal tilmaamuu dandeessu', text: 'Tajaajiloonni deddeebiin ifatti mallattoo qabaniiru; budget salphaatti qopheessa.' },
-      2: { title: 'Filannoo deeggarsa guddataa', text: 'Barbaachisoo irraa jalqabi; akka guddataan deeggarsa dabaluu dandeessa.' },
-    },
-    sections: {
-      catalog: {
-        tag: 'Kaataaloga Tajaajilaa',
-        title: 'Tajaajiloota yeroo tokkoo fi deddeebii',
-        subtitle: "Waan oomisha dijitaalaa keessan jalqabuuf, itti fufuuf fi guddifachuuf barbaachisu hunda.",
-      },
-      featured: {
-        tag: 'Filatamoo',
-        title: 'Dabalata filatamoo',
-        subtitle: 'Tajaajiloota dabalataa beekamoo gatii olaanaa kennan.',
-      },
-    },
-    table: {
-      service: 'Tajaajila',
-      description: 'Ibsa',
-      cost: 'Baasii tilmaamaa',
-      billing: 'Kaffaltii',
-    },
-    billing: {
-      'one-time': 'Yeroo tokkoo',
-      recurring: 'Deddeebii',
-    },
-    faq: {
-      title: 'Gaaffilee Tajaajila Dabalataa',
-      subtitle: 'Modelii kaffaltii, bundle fi scope dhuunfaa irratti hubannoo argadhu.',
-    },
-    cta: {
-      subtitle: 'Tajaajila kamiyyuu irratti quote dhuunfaa nu gaafadhaa.',
-      secondary: 'Quote dhuunfaa gaafadhu',
-    },
-  },
-  policy: {
-    hero: {
-      subtitle: 'Haala iftoomina qabuun hariiroo hojii amanamaa kickoff irraa hanga launch mirkaneessina.',
-      metaAria: 'Ibsa seeraa',
-      chip1: 'Kaffaltii milestone irratti hundaa e',
-      chip2: 'Abbummaa IP maamilaa',
-      chip3: 'Waadaa deeggarsa ifaa',
-      chip4: 'Daddabarsa Baankii Qofa',
-    },
-    proof: {
-      0: { title: 'Ifa waliigaltee dura', text: 'Engagement hundi milestone ifaa fi deliverable beekamaa irratti ijaarama.' },
-      1: { title: 'Kaffaltii waan hin eegamne malee', text: 'Checkpoints kaffaltii fi daangaan tajaajilaa kickoff dura ibsama.' },
-      2: { title: 'Deeggarsa hojii yeroo dheeraa', text: 'Deeggarsa, update fi reporting terms dursanii galma a an.' },
-    },
-    cta: {
-      title: 'Seera jalqabuu dura ifa godhi',
-      subtitle: 'Qajeelfama guutuu ilaalaa yookaan bilbila marii qabadhaa; balinaan isinif ibsina.',
-    },
-    sections: {
-      development: {
-        title: 'Seera Kaffaltii Misoomaa',
-        intro: 'Pirojektoonni misoomaa dhuunfaa hundi (web, mobile, SaaS) kaffaltii milestone irratti hundaa e ni hordofu.',
-        m1: { title: 'Deposit dura', body: 'Waliigaltee fi kickoff irratti kaffalama; qophii fi design jalqabaa uwwisa.' },
-        m2: { title: 'Erga design/prototype mirkanaa e booda', body: 'Mockup yookaan prototype erga mirkanaa e booda full build itti fufa.' },
-        m3: { title: 'Deploy final dura', body: 'Go-live dura kaffaltiin xumuraa ni taasifama; achumaan deliverable hundi ni kennama.' },
-        ownership: {
-          title: 'Mirkana Abbummaa Guutuu:',
-          body: 'Kaffaltii xumuraa booda maamilaan asset design, source code fi IP hundaa 100% ni qabaata.',
-        },
-      },
-      payments: {
-        title: 'Maloota Kaffaltii',
-        intro: 'Hanga liisensii daldalaa argamutti kaffaltiin daddabarsa baankii (CBE Birr) qofaan fudhatama.',
-        cards: {
-          bankTransfer: { title: 'Daddabarsa Baankii (CBE Birr)', body: 'Kaffaltiin birrii Itoophiyaa keessatti daddabarsa baankii qajeelaa ta een kan godhamu dha. Hanga liisensii daldalaa argamutti karaan kaffaltii fudhatamu qofa kan ta e dha.' },
-          telebirr: { title: 'Daldalaa Telebirr (Karoora)', body: 'Liisensii booda maamiltoonni maallaqa moobaayilaatiin akka kaffalan karaa daldalaa Telebirr dabaluuf karoorra qabna. Kun karoora dha, dandeettii ammaa miti.' },
-          chapa: { title: 'Kaffaltii Chapa fi Kaardii (Karoora)', body: 'Liisensii booda maamiltoota biyya keessaa fi alaa fiif kaffaltii Chapa fi kaardii dabaluuf karoorra qabna. Kun karoora dha, dandeettii ammaa miti.' },
-        },
-        note: {
-          title: 'Karoora kaffaltii:',
-          body: 'Daldalaan Telebirr, Chapa fi kaffaltii kaardii liisensii daldalaa erga argamee booda ni dabalamu. Hanga hojiirra oolutti daddabarsa baankii (CBE Birr) karaa kaffaltii fudhatamu qofa dha.',
-        },
-      },
-      saas: {
-        title: 'Seera Subscription SaaS',
-        intro: 'Sirnoonni cloud keenya (SMS, HMS, PMS) miseensaaf jiraa jiru — isin barbaadda yoo ta e nu himaa; tartiiba eeggachaa irratti isin galchina.',
-        cards: {
-          setup: { title: 'Tartiiba Eeggachaa Qofa', body: 'Hanga oomisha dhugaa argamutti SaaS gatii fi kaffaltii hin agarsiisu. Tartiiba eeggachaa irratti galmaa aa; yeroo oomishni qophaa u deemnu isin qunnamna.' },
-          billing: { title: 'Miseensa Jira', body: 'Sirna Bulchiinsa Mana Barumsaa, Clinic/Hospital ERP fi Real Estate CRM miseensaaf jiraa jiru. Har a kaffaltii ji aa yookaan waggaa hin jiru.' },
-          support: { title: 'Hanga Launch tti Kaffaltii Hin Jiru', body: 'Yeroo oomishni argamutti haalli isaa kaffaltii isaan gaafachuu dura maxxanfama. Oomisha hin jirreef gonkumaa hin kaffaltan.' },
-        },
-        waitlistNote: {
-          title: 'Barbaaddaa?',
-          body: 'Nu himaa; kaffaltii fi waadaa malee tartiiba eeggachaa irratti isin ni eegna.',
-        },
-      },
-      general: {
-        title: 'Seerota Waliigalaa',
-        note1: 'Gatiin hundi ETBn kan ibsamu; haala gabaa irratti hundaa ee waggaan sirreeffamuu danda a.',
-        note2: 'Yeroon pirojektii tilmaama qofa; akka walxaxina scope fi deebi i maamilaa irratti jijjiiramuu danda a.',
-        note3: 'Revision package keessatti ibsame ni jira; revision dabalataaf kaffaltiin dabalataa ni jiraata.',
-      },
-    },
-  },
-  faqs: {
-    web: [
-      {
-        question: 'Launch booda source code fi design files anatu qabaataa?',
-        answer: "Yeroo kaffaltiin milestone xumuraa ifa ta'u, abbummaan source code fi design files guutuun gara garee keessanitti darba.",
-      },
-      {
-        question: 'Pirojektiin web idileen yeroo meeqa fudhata?',
-        answer: 'Baayinaan torban 3 hanga 8, akka walxaxina fi integrations irratti hundaa a.',
-      },
-      {
-        question: 'Launch booda deeggarsa itti fufuu dandeenyaa?',
-        answer: "Launch booda, maintenance waggaa fi growth retainers SLA qabaniin sirni nagaa jiraata — pirojektii itti aanuufis nu biratti haanna.",
-      },
-    ],
-    mobile: [
-      {
-        question: 'Android fi iOS lamaaniif ni ijaartu?',
-        answer: "Platformni lachuu codebase tokko irraa framework cross-platform fayyadamuun ni ba'a; native bridge moduulota performance olaanaaf qofa duubatti qabna.",
-      },
-      {
-        question: 'Submission store fi compliance ni qabattu?',
-        answer: 'Submission store kutaa ijaarsaa ti — stores lamaanii fiif artifacts submission, check policy compliance fi checklists release ni qopheessina.',
-      },
-      {
-        question: 'Gateway kaffaltii biyya keessaa walitti hidhuu ni dandeessuu?',
-        answer: "Gateway Telebirr, Chapa fi kaardii walitti hidhamuu danda'a; filannoon sirriin model daldalaa keessaniifi bakka fayyadattoonni keessan itti kaffalan irratti hundaa'a.",
-      },
-    ],
-    saas: [
-      {
-        question: 'Onboarding SaaS keessatti maal dabalama?',
-        answer: 'Setup, karoora import data, role setup fi leenjii garee rollout jalqabaa keessatti dabalama.',
-      },
-      {
-        question: 'Kaffaltii waggaa irratti faayidaan jiraa?',
-        answer: 'Subscription waggaa discount qaba; checkpoint optimization karoorfaman ni dabalama.',
-      },
-      {
-        question: 'Backup data akkamitti geggeeffama?',
-        answer: 'Sirni hundi backup bulchaa, to annannoo access fi update nageenyaa yeroo yeroon qaba.',
-      },
-    ],
-    additional: [
-      {
-        question: 'Tajaajiloonni add-on adda addaan bitamuu ni danda u?',
-        answer: "Add-on hundi of danda'ee scope ta'uu yookaan package misoomaa keessan waliin walitti hidhamuu danda'a.",
-      },
-      {
-        question: 'Tajaajila yeroo tokkoof waadaa deddeebii ni jiraa?',
-        answer: 'Lakki. Tajaajiloonni yeroo tokkoo yeroo tokko qofa; yoo maintenance yookaan retainer dabalte qofa.',
-      },
-      {
-        question: 'Bundle tajaajila dhuunfaa ni kennituu?',
-        answer: "Bundlootni yeroo launch fi dursa guddina keessan irratti hundaa'anii ijaarama; kanaaf gatii bal'ina dhuguma barbaachistu irratti hundaa'a.",
-      },
-    ],
   },
 };
 
@@ -1652,15 +484,6 @@ const amFinalOverrides = {
     dropdownMobile: 'ሞባይል',
     dropdownSaas: 'SaaS',
     bookCall: 'Workflow Audit Call',
-  },
-  // NATIVE-REVIEW FLAG (NB-09): `band.cta.*` Amharic values below are
-  // machine-translated (TECH-15, arbitration 2) and require native review
-  // before launch. They mirror the locked EN keys 1:1 — no new claims.
-  band: {
-    cta: {
-      title: 'እያንዳንዱ ፕሮጀክት ግልፅ በሆነ ስኮፕ ይጀምራል።',
-      subtitle: 'የስራ ግምት ለማግኘት የInstant Quote ዊዛርዱን ይጠቀሙ፣ ለስትራቴጂ ክፍለ-ጊዜ የDiscovery Call ያስይዙ፣ ወይም የዋጋ መመሪያውን ይመልከቱ።',
-    },
   },
   footer: {
     description: 'AI-first አውቶሜሽን ኮንሰልታንሲ፣ በብጁ ኤጀንቲክ ዎርክፍሎዎች እና በዌብ፣ ሞባይል እና SaaS የሶፍትዌር ልማት ላይ እኩል ትኩረት ያደርጋል።',
@@ -1699,94 +522,10 @@ const amFinalOverrides = {
       default: 'ሰላም NovaTech AI፣ የእጅ ዎርክፍሎዎችን በብጁ ኤጀንቲክ ስርዓቶች ለመቀየር መወያየት እፈልጋለሁ።',
     },
   },
-  additional: {
-    hero: {
-      title: 'ተጨማሪ አገልግሎቶች',
-      subtitle: 'ዲጂታል መገኘትዎን ለማጠናከር አስፈላጊ የአንድ-ጊዜ እና የተደጋጋሚ አገልግሎቶች።',
-      metaAria: 'የተጨማሪ አገልግሎት አበረክቶች',
-      chip1: 'ግልፅ የወጪ ክልሎች',
-      chip2: 'የአንድ-ጊዜ እና የተደጋጋሚ አማራጮች',
-      chip3: 'ለጥቅል ዝግጁ ተጨማሪዎች',
-    },
-    cta: {
-      title: 'ብጁ መስፈርቶች?',
-      subtitle: 'ለማንኛውም አገልግሎት ብጁ ዋጋ ይጠይቁ።',
-      secondary: 'ብጁ ዋጋ ይጠይቁ',
-    },
-  },
-  industry: {
-    header: {
-      tag: 'የኢንዱስትሪ መመሪያ',
-      title: 'የተለመዱ ችግኝና የማቅረቢያ ሞዴል',
-    },
-    notFound: {
-      subtitle: 'ይህን የኢንዱስትሪ መመሪያ አሁንም በመገንባት ላይ ነን።',
-      action: 'አገልግሎቶቻችንን ይመልከቱ',
-    },
-    pains: {
-      title: 'የተለመዱ የህመም ነጥቦች',
-    },
-    solutions: {
-      title: 'የተመከረ የመፍትሄ ስታክ',
-    },
-  },
   leadCapture: {
     form: {
       emailPlaceholder: 'sara.tesfaye@example.com (ለምሳሌ)',
       companyPlaceholder: 'ሜሶብ ንግድ PLC (አማራጭ)',
-    },
-  },
-  mobile: {
-    hero: {
-      title: 'የሞባይል መተግበሪያ ልማት',
-    },
-    cta: {
-      title: 'የአፕ ሀሳብ አለዎት?',
-      subtitle: 'ሀሳብዎን ወደ ገበያ-ዝግጁ የሞባይል መተግበሪያ እንቀይራለን።',
-      secondary: 'የአፕ ስትራቴጂ ጥሪ ያስይዙ',
-    },
-  },
-  policy: {
-    hero: {
-      title: 'የክፍያ እና ኦፕሬሽን ፖሊሲ',
-      subtitle: 'ከጅምር እስከ መለቀቅ ድረስ በእምነት ላይ የተመሰረተ ግንኙነት እንዲኖር ግልፅ መመሪያዎች።',
-      metaAria: 'የፖሊሲ አበረክቶች',
-      chip1: 'በማይልስቶን ላይ የተመሰረተ ክፍያ',
-      chip2: 'የደንበኛ IP ባለቤትነት',
-      chip3: 'ግልፅ የድጋፍ ቃል ኪዳኖች',
-      chip4: 'የባንክ ማስተላለፍ ብቻ',
-    },
-    cta: {
-      title: 'ውሎችን ከመጀመርዎ በፊት ያብራሩ',
-    },
-  },
-  saas: {
-    hero: {
-      title: 'SaaS የክላውድ መፍትሄዎች',
-    },
-    labels: {
-      annualSave: '2 ወር ይቆጥቡ',
-      comingSoon: 'Coming soon',
-    },
-    systems: {
-      school: {
-        description: 'የተማሪ አስተዳደር፣ ውጤት፣ ተገኝነት እና የወላጅ ግንኙነት የሚያካትት ሙሉ የትምህርት ቤት መድረክ።',
-      },
-      clinic: {
-        description: 'ከታካሚ ምዝገባ እስከ ክፍያ እና የላብ ውጤት ድረስ የሚሰራ የጤና አስተዳደር ስርዓት።',
-      },
-      property: {
-        description: 'ንብረቶችን፣ ተከራዮችን፣ ሊዝ እና የጥገና ሂደቶችን በአንድ የክላውድ ዳሽቦርድ ያስተዳድሩ።',
-      },
-    },
-  },
-  web: {
-    hero: {
-      title: 'የዌብ ዲዛይን እና ልማት',
-    },
-    cta: {
-      title: 'ብጁ ዋጋ ይፈልጋሉ?',
-      secondary: 'ከስትራቴጂስት ጋር ይነጋገሩ',
     },
   },
 };
@@ -1811,15 +550,6 @@ const omFinalOverrides = {
     dropdownMobile: 'Moobaayilaa',
     dropdownSaas: 'SaaS',
     bookCall: 'Workflow Audit Call',
-  },
-  // NATIVE-REVIEW FLAG (NB-09): `band.cta.*` Afaan Oromoo values below are
-  // machine-translated (TECH-15, arbitration 2) and require native review
-  // before launch. They mirror the locked EN keys 1:1 — no new claims.
-  band: {
-    cta: {
-      title: 'Pirojektiin hundi sadarkaa ifaatiin jalqaba.',
-      subtitle: 'Qorannoo gatii argachuuf wizard instant quote fayyadamaa, walgaʼii discovery call qopheessaa, yookaan qajeelfama gatii ilaalaa.',
-    },
   },
   channels: {
     telegram: 'Telegiraamii',
@@ -1862,14 +592,6 @@ const omFinalOverrides = {
       default: 'Akkam NovaTech AI, workflows harkaan hojjetaman gara agentic systems dhuunfaatti jijjiiruuf marii barbaada.',
     },
   },
-  additional: {
-    hero: {
-      title: 'Tajaajiloota Dabalataa',
-    },
-    cta: {
-      title: 'Fedhii dhuunfaa?',
-    },
-  },
   discovery: {
     header: {
       tag: 'Sagantaalee',
@@ -1880,38 +602,6 @@ const omFinalOverrides = {
       fullNamePlaceholder: 'Sara Tesfaye (fakkeenya)',
       emailPlaceholder: 'sara.tesfaye@example.com (fakkeenya)',
       companyPlaceholder: 'Mesob Trading PLC (filannoo)',
-    },
-  },
-  mobile: {
-    hero: {
-      title: 'Misooma Appii Moobaayilaa',
-    },
-    cta: {
-      title: 'Yaada appii qabdaa?',
-    },
-  },
-  policy: {
-    hero: {
-      title: 'Seera Kaffaltii fi Hojii',
-    },
-  },
-  roi: {
-    title: 'Tilmaama ROI',
-    output: {
-      title: 'Buaa jihaa tilmaamaa',
-    },
-  },
-  saas: {
-    hero: {
-      title: 'Furmaata SaaS Cloud',
-    },
-  },
-  web: {
-    hero: {
-      title: 'Dizaayinii fi Misooma Web',
-    },
-    cta: {
-      title: 'Quote dhuunfaa barbaaddaa?',
     },
   },
 };

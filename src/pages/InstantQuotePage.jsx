@@ -36,8 +36,8 @@ const SERVICE_OPTIONS = [
   },
   {
     value: 'SaaS Platform',
-    label: 'Future SaaS interest',
-    note: 'Waitlist only. No live pricing is published.',
+    label: 'SaaS platform',
+    note: 'Live pricing is published on the pricing page.',
   },
 ];
 
@@ -159,11 +159,12 @@ export default function InstantQuotePage() {
             <em className="verb">get</em>&nbsp;a working range without a long intake flow.
           </h1>
           <p>
-            Use this form when you already have a direction and want a fast estimate. If you are still unsure what should be built first, stop here and book the Workflow Audit instead.
+            Use this when you have a direction and want a fast estimate. Unsure what to build first? Book the
+            Workflow Audit instead.
           </p>
           <div className="page-hero-meta" aria-label="Instant quote process notes">
             <span className="page-hero-chip">Directional ETB estimate</span>
-            <span className="page-hero-chip">SaaS is waitlist only</span>
+            <span className="page-hero-chip">SaaS priced on the pricing page</span>
             <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
           </div>
         </div>
@@ -175,7 +176,7 @@ export default function InstantQuotePage() {
             <SectionHeader
               eyebrow="02 · FAST ESTIMATE"
               title="A simpler quote path"
-              subtitle="Choose the project type, budget band, timeline, and key notes. We will use that to prepare the right follow-up instead of forcing a long questionnaire."
+              subtitle="Project type, budget band, timeline, and key notes — enough for the right follow-up."
             />
           </ScrollReveal>
 
@@ -267,20 +268,20 @@ export default function InstantQuotePage() {
                     <>
                       <p className="editorial-hero-price">{formatCurrency(quoteRange[0])} - {formatCurrency(quoteRange[1])}</p>
                       <p>
-                        This is a directional estimate based on the current service and budget band. We use 85,000 ETB as the floor and then scope upward from the locked pricing table.
+                        A directional estimate from the locked pricing table, floored at 15,000 ETB.
                       </p>
                     </>
                   ) : (
                     <>
-                      <p className="editorial-hero-price">Waitlist only</p>
+                      <p className="editorial-hero-price">Live SaaS pricing</p>
                       <p>
-                        SaaS is not quoted like a live paid offer. We will capture interest and only publish pricing when a real product exists.
+                        SaaS plans are quoted on the pricing page with setup, monthly, and annual terms.
                       </p>
                     </>
                   )}
 
                   <div className="editorial-note-panel glass">
-                    <strong>Not sure yet?</strong> The Workflow Audit is the better first step when the build direction is still unclear.
+                    <strong>Not sure yet?</strong> The Workflow Audit is the better first step when the direction is still unclear.
                   </div>
                   <div className="cta-actions quote-side-actions">
                     <Link className="btn btn-secondary" to="/workflow-audit">
@@ -297,7 +298,7 @@ export default function InstantQuotePage() {
               <p>
                 {submissionStatus === 'fallback'
                   ? 'This estimate was generated and saved locally because the intake endpoint is temporarily unavailable. Please book a discovery call if the request is urgent.'
-                  : 'We will follow up with a written proposal path after reviewing your notes. If the details show that the workflow is still fuzzy, we may recommend the Workflow Audit before a direct build quote.'}
+                  : 'We will follow up with a written proposal. If the workflow is still fuzzy, we may recommend the Workflow Audit first.'}
               </p>
               <div className="quote-result-actions">
                 <Link className="btn btn-primary" to="/book-discovery-call">Book Discovery Call</Link>
@@ -316,12 +317,12 @@ export default function InstantQuotePage() {
             </div>
           ) : (
             <div className="quote-result-card glass-card" role="status" aria-live="polite">
-              <h3>SaaS is in development — tell us you want it</h3>
+              <h3>Live SaaS pricing is on the pricing page</h3>
               <p>
-                We will add you to the waitlist and contact you when a product is ready for your organization. No prices are published until a real product exists.
+                Quoted monthly with setup and an annual "Save 2 months" option. See the pricing page for current figures.
               </p>
               <div className="quote-result-actions">
-                <Link className="btn btn-primary" to="/book-discovery-call">Book Discovery Call</Link>
+                <Link to="/pricing" className="btn btn-primary">View SaaS Pricing</Link>
                 <button
                   type="button"
                   className="btn btn-secondary"

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
 import IconGlyph from '../components/IconGlyph';
 import { getPricingGuideSummary } from '../services/pricingData';
@@ -23,36 +24,46 @@ export default function Pricing({ onDownloadClick }) {
   const { workflowAudit, automationTiers, productEngineering, additionalServices } = PRICING_SUMMARY;
   const webTracks = productEngineering.filter((item) => item.category === 'Web Development');
   const mobileTracks = productEngineering.filter((item) => item.category === 'Mobile Apps');
+  const saasTracks = productEngineering.filter((item) => item.category === 'Management SaaS');
+
+  // C-1 (TECH-32): the three support terms shared by every AI tier render once
+  // here instead of repeating inside each tier card (repeat-kill ≤2x/page).
+  const COMMON_SUPPORT_TERMS = ['Hosting and infrastructure management', 'Model usage and API costs', 'Monitoring and alerting'];
+  const tierSupportIncludes = (tier) => tier.supportIncludes.filter((item) => !COMMON_SUPPORT_TERMS.includes(item));
 
   return (
     <>
       <section className="page-hero ai-pricing-hero">
         <div className="container page-hero-content ai-pricing-hero-content">
-          <div className="eyebrow">01 · RATES</div>
-          <h1>
-            <em className="verb">read</em>&nbsp;the live pricing and engagement model.
-          </h1>
-          <p>
-            This page and the downloadable pricing sheet are generated from the same ETB table. Use either one when you need the current quote path.
-          </p>
-          <div className="page-hero-meta" aria-label="Pricing model notes">
-            <span className="page-hero-chip">Workflow Audit: 85,000 ETB fixed</span>
-            <span className="page-hero-chip">ETB only</span>
-            <span className="page-hero-chip">International engagements quoted individually</span>
-            <span className="page-hero-chip">SaaS is waitlist only</span>
-          </div>
-          <div className="hero-actions pricing-hero-actions">
-            <Link className="btn btn-primary btn-lg" to="/workflow-audit">
-              Book Workflow Audit
-            </Link>
-            <button
-              type="button"
-              className="btn btn-secondary btn-lg"
-              onClick={() => onDownloadClick?.('pricing_page_download_sheet', { variant: 'download_sheet' })}
-            >
-              Download Current Pricing Sheet
-            </button>
-          </div>
+          {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
+              subcopy → meta chips → CTA row, 150ms apart, ≤ 1.2s total. */}
+          <HeroChoreo>
+            <div className="eyebrow">01 · RATES</div>
+            <HeroChoreoHeadline>
+              <em className="verb">read</em>&nbsp;the live pricing and engagement model.
+            </HeroChoreoHeadline>
+            <p>
+              The same ETB table as the downloadable sheet.
+            </p>
+            <div className="page-hero-meta" aria-label="Pricing model notes">
+              <span className="page-hero-chip">Workflow Audit: 15,000 ETB fixed</span>
+              <span className="page-hero-chip">ETB only</span>
+              <span className="page-hero-chip">International engagements quoted individually</span>
+              <span className="page-hero-chip">SaaS: live monthly pricing</span>
+            </div>
+            <div className="hero-actions pricing-hero-actions">
+              <Link className="btn btn-primary btn-lg" to="/workflow-audit">
+                Book Workflow Audit
+              </Link>
+              <button
+                type="button"
+                className="btn btn-secondary btn-lg"
+                onClick={() => onDownloadClick?.('pricing_page_download_sheet', { variant: 'download_sheet' })}
+              >
+                Download Current Pricing Sheet
+              </button>
+            </div>
+          </HeroChoreo>
         </div>
       </section>
 
@@ -88,7 +99,7 @@ export default function Pricing({ onDownloadClick }) {
               <p className="editorial-kicker">Why it exists</p>
               <h3>The audit keeps scope honest.</h3>
               <p>
-                It protects you from buying the wrong build and protects us from pretending that every workflow can be priced from a guess. The audit fee is credited if we continue into implementation.
+                You avoid the wrong build, and the fee is 100% credited toward implementation.
               </p>
               <div className="editorial-note-panel">
                 <strong>Timeline:</strong> delivered within 5 business days.
@@ -103,8 +114,8 @@ export default function Pricing({ onDownloadClick }) {
           <ScrollReveal>
             <SectionHeader
               eyebrow="03 · AUTOMATION"
-              title="Implementation pricing is anchored, then scoped honestly."
-              subtitle="We publish starting prices, the monthly support band, and the scope drivers that raise the work above the starting point."
+              title="Anchored, then scoped honestly."
+              subtitle="Starting prices, support band, and scope drivers."
               align="left"
             />
           </ScrollReveal>
@@ -115,21 +126,27 @@ export default function Pricing({ onDownloadClick }) {
                 {/* B43 (TECH-26): one ruled receipt row per tier — no card box,
                     no icon top; setup price stays a mono tabular figure. */}
                 <article className="editorial-card pricing-tier-editorial-card">
-                  <p className="receipt-row__label">Setup price</p>
+                  <p className="receipt-row__label">Setup</p>
                   <p className="editorial-price-tag">{tier.setupPrice}</p>
                   <h3>{tier.title}</h3>
                   <p className="editorial-meta-line">{tier.bestFor} / {tier.timeline}</p>
                   <p>{tier.scope}</p>
                   <div className="editorial-note-panel">
-                    <strong>Monthly support:</strong> {tier.monthlySupport}
+                    <strong>Support:</strong> {tier.monthlySupport}
                   </div>
                   <h4>Setup includes</h4>
                   <FeatureList items={tier.includes} />
-                  <h4>Monthly support includes</h4>
-                  <FeatureList items={tier.supportIncludes} />
+                  <h4>Support includes</h4>
+                  <FeatureList items={tierSupportIncludes(tier)} />
                 </article>
               </ScrollReveal>
             ))}
+            <ScrollReveal>
+              <p className="editorial-note-panel">
+                <strong>Every tier's support includes:</strong> hosting, model usage and API costs, monitoring
+                and alerting.
+              </p>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -139,8 +156,8 @@ export default function Pricing({ onDownloadClick }) {
           <ScrollReveal>
             <SectionHeader
               eyebrow="04 · BUILDS"
-              title="Web and mobile are quoted from fixed ETB anchors."
-              subtitle="These are not filler side offers. They are scoped from the same commercial discipline: clear starting prices, clear audience fit, and no fake live SaaS catalog."
+              title="Web and mobile, from fixed ETB anchors."
+              subtitle="Clear starting prices, audience fit, and SaaS terms on one sheet."
               align="left"
             />
           </ScrollReveal>
@@ -154,6 +171,14 @@ export default function Pricing({ onDownloadClick }) {
                     <h3>{item.title}</h3>
                     <p className="editorial-meta-line">{item.timeline}</p>
                     <p>{item.note}</p>
+                    <ul className="editorial-checklist compact">
+                      {item.features.map((feature) => (
+                        <li key={feature}>
+                          <IconGlyph name="check" size={14} />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </article>
               </ScrollReveal>
@@ -167,24 +192,40 @@ export default function Pricing({ onDownloadClick }) {
                     <h3>{item.title}</h3>
                     <p className="editorial-meta-line">{item.timeline}</p>
                     <p>{item.note}</p>
+                    <ul className="editorial-checklist compact">
+                      {item.features.map((feature) => (
+                        <li key={feature}>
+                          <IconGlyph name="check" size={14} />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </article>
               </ScrollReveal>
             ))}
 
-            <ScrollReveal>
-              <article className="editorial-card editorial-track-card pricing-track-card">
-                <p className="editorial-price-tag">Waitlist only</p>
-                <div>
-                  <h3>SaaS</h3>
-                  <p className="editorial-meta-line">No live paid offer</p>
-                  <p>
-                    SaaS is not presented as a live priced product. If you want to register interest, use the waitlist page and we will only publish pricing when a real product exists.
-                  </p>
-                </div>
-              </article>
-            </ScrollReveal>
+            {saasTracks.map((item) => (
+              <ScrollReveal key={item.title}>
+                <article className="editorial-card editorial-track-card pricing-track-card">
+                  <p className="editorial-price-tag">{item.price}</p>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p className="editorial-meta-line">
+                      Setup {item.setupFee.toLocaleString()} ETB · Annual {item.annual.toLocaleString()} ETB · {item.billingNote}
+                    </p>
+                    <p>{item.note}</p>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
           </div>
+
+          <ScrollReveal delay={0.12}>
+            <div className="editorial-note-panel">
+              <strong>Web + AI automation booked together: 10% off</strong>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -193,8 +234,8 @@ export default function Pricing({ onDownloadClick }) {
           <ScrollReveal>
             <SectionHeader
               eyebrow="05 · SUPPORT"
-              title="Recurring support is explicit. Supporting services stay secondary."
-              subtitle="No buried marketing retainers, no annual maintenance phrasing where the live policy is monthly, and no dual-currency confusion."
+              title="Recurring support, plainly quoted."
+              subtitle="Maintenance is an annual plan with a written commitment."
               align="left"
             />
           </ScrollReveal>
@@ -208,21 +249,21 @@ export default function Pricing({ onDownloadClick }) {
                   <article className="offer-ladder-row">
                     <div className="offer-ladder-stage">AI support</div>
                     <div className="offer-ladder-main">
-                      <p>Hosting, model usage, monitoring, support hours, and response commitments are quoted together.</p>
+                      <p>Hosting, monitoring, and response commitments are quoted together.</p>
                     </div>
                     <div className="offer-ladder-price">
-                      <strong>30,000 to 70,000 ETB / month</strong>
+                      <strong>10,000 – 25,000 ETB / month</strong>
                       <span>Quoted after implementation scope is known</span>
                     </div>
                   </article>
                   <article className="offer-ladder-row">
                     <div className="offer-ladder-stage">Web maintenance</div>
                     <div className="offer-ladder-main">
-                      <p>Security patches, plugin updates, backups, and small content changes under a written support commitment.</p>
+                      <p>Security patches, backups, and content changes under a written commitment.</p>
                     </div>
                     <div className="offer-ladder-price">
-                      <strong>5,000 to 15,000 ETB / month</strong>
-                      <span>Monthly only</span>
+                      <strong>8,000 – 20,000 ETB / year</strong>
+                      <span>Annual, written commitment</span>
                     </div>
                   </article>
                 </div>
@@ -247,12 +288,6 @@ export default function Pricing({ onDownloadClick }) {
               </article>
             </ScrollReveal>
           </div>
-
-          <ScrollReveal delay={0.12}>
-            <div className="editorial-note-panel">
-              <strong>Founding-client note:</strong> implementation projects only may qualify for a 15 to 20 percent founding-client rate in exchange for case-study rights, a testimonial, and referral permission. We keep this note here once instead of repeating it across the whole site.
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 
@@ -261,9 +296,9 @@ export default function Pricing({ onDownloadClick }) {
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Recommended first move</p>
             <div className="eyebrow">06 · NEXT</div>
-            <h2>If you are still clarifying scope, book the Workflow Audit.</h2>
+            <h2>Clarifying scope? Book the Workflow Audit.</h2>
             <p>
-              If you already know the build direction and just need a directional number, use the instant quote tool. Otherwise, let the audit set the commercial path properly.
+              Know the direction? Use instant quote; otherwise the audit sets the path.
             </p>
             <div className="cta-actions">
               <Link to="/workflow-audit" className="btn btn-primary btn-lg">

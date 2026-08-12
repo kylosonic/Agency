@@ -38,7 +38,7 @@ const SEO_BY_ROUTE = {
   '/services': {
     en: {
       title: 'AI Solutions | NovaTech AI',
-      description: 'See the automation, web, mobile, and waitlist SaaS lanes NovaTech builds after the Workflow Audit clarifies the right path.',
+      description: 'See the automation, web, mobile, and live-priced SaaS lanes NovaTech builds after the Workflow Audit clarifies the right path.',
     },
     am: {
       title: 'AI Solutions | NovaTech AI',
@@ -108,7 +108,7 @@ const SEO_BY_ROUTE = {
   '/saas-solutions': {
     en: {
       title: 'SaaS Product Engineering | NovaTech AI',
-      description: 'SaaS is waitlist only right now. Review the honest availability note instead of a fake live product catalog.',
+      description: 'Live SaaS pricing for school, clinic, and real estate systems: setup fee, monthly subscription, and an annual plan that saves two months.',
     },
     am: {
       title: 'የSaaS ምርት እንጂነሪንግ | NovaTech AI',
@@ -136,15 +136,15 @@ const SEO_BY_ROUTE = {
   '/policy': {
     en: {
       title: 'Payment and Operational Policy | NovaTech',
-      description: 'Review milestone billing, current payment methods, ownership transfer, and the SaaS waitlist policy.',
+      description: 'Review milestone billing, current payment methods, ownership transfer, and SaaS subscription terms.',
     },
     am: {
       title: 'የክፍያ እና ኦፕሬሽን ፖሊሲ | NovaTech',
-      description: 'የልማት ክፍያ ደረጃዎችን፣ የክፍያ ዘዴዎችን እና የSaaS የጥበቃ ዝርዝር ሁኔታን ይመልከቱ።',
+      description: 'የልማት ክፍያ ደረጃዎችን፣ የአሁኑን የክፍያ ዘዴዎች፣ የባለቤትነት ሽግግር እና የSaaS ምዝገባ ውሎችን ይመልከቱ።',
     },
     om: {
       title: 'Imaammata Kaffaltii fi Hojii | NovaTech',
-      description: 'Milestone kaffaltii, maloota kaffaltii fi haala tartiiba eeggachaa SaaS keessatti ibsa guutuu argadhu.',
+      description: 'Milestone kaffaltii, maloota kaffaltii ammaa, dabarsa abbaa qabeenyaa fi haala subscription SaaS ilaali.',
     },
   },
   '/instant-quote': {
@@ -164,7 +164,7 @@ const SEO_BY_ROUTE = {
   '/book-discovery-call': {
     en: {
       title: 'Book a Discovery Call | NovaTech',
-      description: 'Schedule a practical discovery call to decide whether the next step is the Workflow Audit, a scoped build, or a waitlist conversation.',
+      description: 'Schedule a practical discovery call to decide whether the next step is the Workflow Audit, a scoped build, or a live SaaS subscription.',
     },
     am: {
       title: 'የመግቢያ ጥሪ ያስይዙ | NovaTech',
@@ -210,7 +210,7 @@ const SERVICE_SCHEMA_BY_ROUTE = {
   },
   '/saas-solutions': {
     name: 'SaaS Product Engineering',
-    serviceType: 'SaaS waitlist and future product planning',
+    serviceType: 'SaaS product engineering and subscription delivery',
   },
   '/additional-services': {
     name: 'Additional Digital Services and Add-ons',
@@ -234,7 +234,7 @@ const FAQ_SCHEMA_BY_ROUTE = {
     },
     {
       question: 'Is SaaS available as a live subscription today?',
-      answer: 'No. SaaS remains waitlist only until a real product exists and truthful pricing can be published.',
+      answer: 'Yes. School, clinic, and real estate plans are published with setup, monthly, and annual pricing on the pricing page, and billing follows each plan terms.',
     },
   ],
 };

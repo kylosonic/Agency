@@ -75,8 +75,15 @@ function renderAdditionalServices(services) {
   `;
 }
 
-function renderWaitlistItems(items) {
-  return items.map((item) => `<li>${escapeHtml(item.title)} — waitlist only</li>`).join('');
+function renderSaasCards(plans) {
+  return plans.map((pkg) => `
+    <article class="card">
+      <p class="eyebrow">${escapeHtml(pkg.price)}</p>
+      <h3>${escapeHtml(pkg.title)}</h3>
+      <p class="meta">Setup ${pkg.setupFee.toLocaleString()} ETB · Annual ${pkg.annual.toLocaleString()} ETB · ${escapeHtml(pkg.billingNote)}</p>
+      ${renderList(pkg.features)}
+    </article>
+  `).join('');
 }
 
 async function main() {
@@ -247,7 +254,7 @@ async function main() {
               <span class="pill">Generated ${escapeHtml(generatedAt)}</span>
               <span class="pill">ETB only</span>
               <span class="pill">International engagements quoted individually</span>
-              <span class="pill">SaaS waitlist only</span>
+              <span class="pill">SaaS: setup + monthly pricing</span>
             </div>
           </section>
 
@@ -285,12 +292,10 @@ async function main() {
           </section>
 
           <section class="section">
-            <div class="card">
-              <p class="eyebrow">SaaS</p>
-              <h2>Waitlist only</h2>
-              <p>No SaaS setup, monthly, or annual pricing is published until a real product exists.</p>
-              <ul>${renderWaitlistItems(saasPackages)}</ul>
+            <div class="grid three">
+              ${renderSaasCards(saasPackages)}
             </div>
+            <p class="small-note">Each SaaS plan is a one-time setup plus a monthly subscription. Annual billing covers 10 months for the price of 12 — "Save 2 months".</p>
           </section>
 
           <section class="section">

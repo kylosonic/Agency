@@ -8,6 +8,21 @@
 > ("yes thats premium"). NB-25–NB-35 are confirmed for build exactly as locked in
 > `design.md` + `docs/behaviors/visual-system-lumen.md` + `docs/plans/phase8-lumen-visual-system.md`.
 > Handoff to @architect for execution of the Phase 8 blueprint (TECH-22 → TECH-29).
+>
+> **OWNER CONFIRMATION 2026-08-11 (2nd):** Pricing revert + discount program + site-wide copy trim
+> + editorial motion approved in full by the owner, in order: Scenario B (keep Audit/AI, reprice),
+> trim further (audit 15k; AI 40k/100k/200k+), discounts Option 3 (original promos + Web+AI bundle
+> 10% off), copy trim Option B (site-wide), animation Option 1 (editorial motion, restrained).
+> Locked in `docs/behaviors/pricing-revert-and-motion.md` (P-1…P-3, C-1…C-2, M-1…M-6, G-1…G-5).
+> **SUPERSEDES** the pricing figures in `launch-readiness.md` B5, B6, B8, B9, B10, B11 (see NB-36–NB-40).
+> Handoff to @architect for execution.
+>
+> **SEQUENCING (owner, 2026-08-11):** NB-36–NB-40 execute **AFTER** Phase 8 Lumen Night (NB-25–NB-35)
+> lands and passes its gate. @architect must not start the pricing-revert branch until Phase 8 is
+> committed; the pricing figures used by Phase 8 ticket work (apparatus callouts, meter labels,
+> receipts) shall be the **reverted figures from this contract**, not the old locked table — so Phase 8
+> implementation should read figures from `pricing-revert-and-motion.md` §1 where visual-system docs
+> reference old prices. If Phase 8 already shipped stale figures, NB-36 re-baselines them.
 
 | ID | Priority | Rule(s) | Affected features | User-acceptance criteria |
 |---|---|---|---|---|
@@ -46,3 +61,8 @@
 | NB-33 | P1 | B47 | All pages, all languages | A page opens with one choreographed reveal, section heads fade gently, cards lift 4 px on hover, and nothing else moves; reduced-motion visitors see a static page. — **[OPEN — Phase 8]** |
 | NB-34 | P1 | B48 | All pages | Every number, label, and callout is a locked published figure (pricing table or SLA); no metric, testimonial, logo count, or case-study figure exists without a real source. — **[OPEN — Phase 8]** |
 | NB-35 | P1 | B40 (verb lock), B42 (callouts), B45 (meter labels) | All page headlines, marketing apparatus callouts, meter strips | Every page headline shows exactly one locked brass verb with a drawn underline (three amended headlines — Workflow Audit, SaaS, Pricing — QA-reviewed, i18n untouched; 404 and Industries exempt); every marketing apparatus carries its locked real-figure callouts; every meter strip shows its locked end-labels. — **[OPEN — Phase 8; per-page values locked in `docs/plans/phase8-lumen-visual-system.md` §7]** |
+| NB-36 | P0 | P-1, P-2 (`pricing-revert-and-motion.md`) | Pricing page, service pages, instant quote wizard, PDF guide, hero callouts, meter strips | Every rendered price on every page matches the reverted table (audit 15,000; web 20k/50–80k/150k+; mobile 40–60k/80–150k/200k+; SaaS 3,500/5,000/3,000 per month + setup + annual "Save 2 months"; AI 40k/100k/200k+ with support 10–25k/mo; maintenance 8–20k/year; add-ons at original levels); wizard bands match the anchors; no "85,000", "Waitlist only", or old figures anywhere; PDF regenerated and human-diffed. — **[OPEN — owner confirmed; pending @architect build]** |
+| NB-37 | P0 | P-3 (`pricing-revert-and-motion.md`) | Home, pricing page, service pages, instant quote wizard | A visitor sees the discount program: web starter "3 months free maintenance", mobile "3-month bug-fix warranty", SaaS annual "Save 2 months", audit 100% credit, and exactly one Web+AI bundle line "10% off when booked together"; the founding-client 15–20% pilot messaging is removed everywhere (grep gate). — **[OPEN — owner confirmed; pending @architect build]** |
+| NB-38 | P1 | C-1, C-2 (`pricing-revert-and-motion.md`) | Home, Pricing, all service pages, i18n (EN/AM/OM) | Home + Pricing rendered word count is ≥ 35% lower than the current build; no repeated message appears more than twice per page; other pages have duplicate messages removed; Amharic + Afaan Oromo mirrors of the trimmed copy exist and render without clipping; contact/legal copy exempt from trimming. — **[OPEN — owner confirmed; pending @architect build]** |
+| NB-39 | P1 | M-1…M-5, G-1…G-5 (`pricing-revert-and-motion.md`) | All marketing pages, Home, Pricing | A visitor sees editorial motion: hero choreography ≤ 1.2 s (single reveal, no loop), scroll reveals lift+fade once, hover micro-interactions ≤ 4 px lift with focus-visible parity, animated price counters landing exactly on locked figures, and exactly one slow marquee (≤ 20 px/s) per page; reduced-motion users see a fully static readable page; no layout shift from any animation. — **[OPEN — owner confirmed; pending @architect build]** |
+| NB-40 | P1 | M-6, G-1 (`pricing-revert-and-motion.md`) | All routes | Route changes animate with a 200–300 ms fade/slide; first load shows no transition; back/forward work; reduced-motion users get an instant swap; transitions never block the hero choreography. — **[OPEN — owner confirmed; pending @architect build]** |

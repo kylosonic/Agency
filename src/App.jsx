@@ -400,7 +400,6 @@ function AppContent() {
               <Suspense
                 fallback={(
                   <div className="route-loader" role="status" aria-live="polite" aria-label="Loading page">
-                    <span className="route-loader-ring" aria-hidden="true"></span>
                     <span className="route-loader-text">Loading page...</span>
                   </div>
                 )}

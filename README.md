@@ -118,11 +118,6 @@ Configure these in .env (see .env.example):
 	- Optional endpoint for custom analytics events.
 	- Events are also forwarded to window.gtag and window.dataLayer if available.
 
-- VITE_PRICING_DATA_ENDPOINT
-	- Optional endpoint that returns pricing JSON.
-	- Expected shape: { "webPackages": [ ... ] }.
-	- When missing or invalid, the app falls back to static pricing data.
-
 - VITE_SITESPEAK_BOT_ID
 	- Optional SiteSpeak bot identifier for live chat.
 	- Default: f1f5fc15-c1e9-4d01-864b-1e7a756a61b4.

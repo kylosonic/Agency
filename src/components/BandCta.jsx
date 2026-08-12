@@ -20,7 +20,7 @@ export default function BandCta() {
       <div className="container">
         <div className="cta-inner">
           <h2 id="band-cta-title">{t('band.audit.title', 'Start with the Workflow Audit.')}</h2>
-          <p>{t('band.audit.subtitle', 'We map the bottlenecks, define the right implementation path, and credit the audit fee toward the build if you continue.')}</p>
+          <p>{t('band.audit.subtitle', 'We map the bottlenecks, define the right path, and credit the audit fee toward the build if you continue.')}</p>
           <div className="cta-actions">
             <Link to="/workflow-audit" className="btn btn-primary btn-lg">
               {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}

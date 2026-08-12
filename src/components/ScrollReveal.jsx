@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useState } from 'react';
 
 const MotionDiv = motion.div;
-const VIEWPORT_OPTIONS = { once: true, amount: 0.15, margin: '0px 0px -8% 0px' };
+const VIEWPORT_OPTIONS = { once: true, amount: 0.2, margin: '0px 0px -8% 0px' };
 
 export default function ScrollReveal({ children, className = '', stagger = false, delay = 0, static: isStatic = false }) {
     const [inView, setInView] = useState(false);
@@ -21,11 +21,14 @@ export default function ScrollReveal({ children, className = '', stagger = false
         );
     }
 
-    /* B47 (TECH-28): gentle fade-and-rise — hidden y 12, tween 0.6s ease-out
-       (no spring overshoot), stagger 0.06 (60 ms). The reduced-motion branch
-       renders everything visible with duration 0 (static page). */
+    /* M-2 (TECH-33): gentle lift-and-fade on enter — hidden y 20 (16–24px
+       window), tween 0.6s ease-out (500–700ms window), stagger 0.06 (60–100ms
+       window). Fires ONCE per viewport entry (viewport.once), transform/opacity
+       only (G-4 — no layout shift). Content already in the viewport on load
+       reveals immediately and never re-animates. The reduced-motion branch
+       renders everything visible with duration 0 (static page, G-1). */
     const baseVariants = {
-        hidden: { opacity: 0, y: 12 },
+        hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,

@@ -1,93 +1,121 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
+import { getSaasPackages } from '../services/pricingData';
 
 /* B42a (TECH-25): locked filament-apparatus callouts for the SaaS hero. */
 const SAAS_APPARATUS_CALLOUTS = [
-  'SAAS · WAITLIST ONLY',
-  'PILOT · 15–20% OFF',
+  'SAAS · FROM 3,500 ETB / MO',
+  'ANNUAL · SAVE 2 MONTHS',
   'RESPONSE · 1 BUSINESS DAY',
 ];
 
-const SAAS_INTEREST_AREAS = [
-  {
-    title: 'School operations',
-    text: 'Interest around admissions, grading, attendance, payments, and parent communication when institutions want one operating system instead of disconnected spreadsheets and chats.',
-    icon: 'book',
-  },
-  {
-    title: 'Clinic and hospital operations',
-    text: 'Interest around appointments, billing, pharmacy, lab flow, and patient coordination when the process is still stitched together manually.',
-    icon: 'hospital',
-  },
-  {
-    title: 'Property and tenant workflows',
-    text: 'Interest around lease tracking, rent reminders, maintenance, and owner reporting where operators want one consistent tenant system.',
-    icon: 'building',
-  },
-];
-
 export default function SaasSolutionsPage() {
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const saasData = await getSaasPackages();
+        setPackages(saasData);
+      } catch (error) {
+        console.error('Failed to load SaaS pricing data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <section className="page-hero">
         <div className="container marquee-hero-grid">
           <div className="page-hero-content">
-            <div className="eyebrow">01 · SAAS</div>
-            <h1>
-              <em className="verb">get</em>&nbsp;on the SaaS waitlist.
-            </h1>
-            <p>
-              We are not presenting a live SaaS catalog or charging for products that do not exist yet. If your team wants one of these systems, register interest and we will talk when there is a truthful offer to discuss.
-            </p>
-            <div className="page-hero-meta" aria-label="SaaS availability notes">
-              <span className="page-hero-chip">No published SaaS prices</span>
-              <span className="page-hero-chip">No billing until a real product exists</span>
-              <span className="page-hero-chip">Register interest honestly</span>
-            </div>
+            {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
+                subcopy → meta chips, 150ms apart, ≤ 1.2s total. */}
+            <HeroChoreo>
+              <div className="eyebrow">01 · SAAS</div>
+              <HeroChoreoHeadline>
+                <em className="verb">run</em>&nbsp;core operations on a live subscription.
+              </HeroChoreoHeadline>
+              <p>
+                School, clinic, and real estate systems with published setup, monthly, and annual pricing.
+              </p>
+              <div className="page-hero-meta" aria-label="SaaS pricing notes">
+                <span className="page-hero-chip">Setup + monthly pricing</span>
+                <span className="page-hero-chip">Annual plan saves 2 months</span>
+                <span className="page-hero-chip">ETB only</span>
+              </div>
+            </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
             <Apparatus
               type="filament"
               callouts={SAAS_APPARATUS_CALLOUTS}
-              label="Filament apparatus: SaaS waitlist only, pilot 15 to 20 percent off, response within 1 business day"
+              label="Filament apparatus: SaaS from 3,500 ETB per month, annual plan saves 2 months, response within 1 business day"
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="SAAS · WAITLIST ONLY" labelRight="PILOT · 15–20% OFF" />
+      <MeterStrip labelLeft="SAAS · FROM 3,500 ETB / MO" labelRight="ANNUAL · SAVE 2 MONTHS" />
 
       <section className="section">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="02 · INTEREST"
-              title="These are the three SaaS areas people ask us about most often."
-              subtitle="We list them as areas of demand, not as live subscription products."
+              eyebrow="02 · PLANS"
+              title="Three SaaS systems with live pricing."
+              subtitle="One-time setup plus a monthly subscription; annual billing saves 2 months."
               align="left"
             />
           </ScrollReveal>
 
-          <div className="editorial-card-grid">
-            {SAAS_INTEREST_AREAS.map((item) => (
-              <ScrollReveal key={item.title}>
-                <article className="editorial-card glass-card">
-                  <div className="editorial-card-top">
-                    <span className="ai-preview-icon" aria-hidden="true">
-                      <IconGlyph name={item.icon} size={18} />
-                    </span>
-                    <h3>{item.title}</h3>
-                  </div>
-                  <p>{item.text}</p>
-                </article>
-              </ScrollReveal>
-            ))}
-          </div>
+          {loading ? (
+            <div className="loading-state">
+              <p>Loading plans...</p>
+            </div>
+          ) : (
+            <div className="editorial-card-grid">
+              {packages.map((pkg) => (
+                <ScrollReveal key={pkg.title}>
+                  <article className="editorial-card glass-card editorial-track-card">
+                    <div className="editorial-card-top">
+                      <span className="ai-preview-icon" aria-hidden="true">
+                        <IconGlyph name={pkg.icon} size={18} />
+                      </span>
+                      <h3>{pkg.title}</h3>
+                    </div>
+                    <p className="editorial-price-tag">{pkg.price}</p>
+                    <p className="editorial-meta-line">
+                      Setup {pkg.setupFee.toLocaleString()} ETB · Annual {pkg.annual.toLocaleString()} ETB · {pkg.billingNote}
+                      {pkg.recommended ? ' · Recommended' : ''}
+                    </p>
+                    <ul className="editorial-checklist compact">
+                      {pkg.features.map((feature) => (
+                        <li key={feature}>
+                          <IconGlyph name="check" size={14} />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link className="btn btn-primary" to="/book-discovery-call">
+                      {pkg.ctaText}
+                    </Link>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -95,21 +123,21 @@ export default function SaasSolutionsPage() {
         <div className="container editorial-two-column">
           <ScrollReveal>
             <article className="editorial-panel glass-card">
-              <p className="editorial-kicker">What we will not do</p>
-              <div className="eyebrow">03 · RULES</div>
-              <h2>No placeholder pricing. No fake availability.</h2>
+              <p className="editorial-kicker">How billing works</p>
+              <div className="eyebrow">03 · TERMS</div>
+              <h2>Published prices. No hidden subscription math.</h2>
               <ul className="editorial-checklist compact">
                 <li>
                   <IconGlyph name="check" size={14} />
-                  <span>We do not publish setup, monthly, or annual prices for non-live products.</span>
+                  <span>Setup covers configuration, team onboarding, and first-month migration.</span>
                 </li>
                 <li>
                   <IconGlyph name="check" size={14} />
-                  <span>We do not market a waitlist like a released product line.</span>
+                  <span>Monthly subscription covers hosting, backups, monitoring, and support.</span>
                 </li>
                 <li>
                   <IconGlyph name="check" size={14} />
-                  <span>When a real product exists, pricing and terms will be published plainly.</span>
+                  <span>Annual billing covers 10 months for the price of 12.</span>
                 </li>
               </ul>
             </article>
@@ -117,10 +145,10 @@ export default function SaasSolutionsPage() {
 
           <ScrollReveal delay={0.1}>
             <article className="editorial-panel glass-strong">
-              <p className="editorial-kicker">If you want one of these systems now</p>
-              <h3>Start with a Workflow Audit or register waitlist interest.</h3>
+              <p className="editorial-kicker">If you need a custom system now</p>
+              <h3>Start with a Workflow Audit or scope a custom build.</h3>
               <p>
-                If what you need is really a custom system today, the Workflow Audit is still the correct first commercial step. If what you want is a future SaaS product, tell us which one and we will keep the conversation honest.
+                Fits one of these products? We scope the setup directly. More specific? The Workflow Audit is the right first step.
               </p>
             </article>
           </ScrollReveal>
@@ -130,18 +158,18 @@ export default function SaasSolutionsPage() {
       <section className="section-sm">
         <div className="container">
           <div className="page-closing-card glass-strong">
-            <p className="editorial-kicker">Choose the honest path</p>
+            <p className="editorial-kicker">Choose the direct path</p>
             <div className="eyebrow">04 · FIRST STEP</div>
-            <h2>Need a system now? Book the audit. Want a future SaaS product? Register interest.</h2>
+            <h2>Pick a plan or book a call to scope the setup.</h2>
             <p>
-              We would rather under-sell a non-live offer than weaken trust by pretending a waitlist is a finished product.
+              Both pages come from the same ETB table — what you see is what gets quoted.
             </p>
             <div className="cta-actions">
-              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-                Book Workflow Audit
+              <Link to="/pricing" className="btn btn-primary btn-lg">
+                Review Full Pricing
               </Link>
               <Link to="/book-discovery-call" className="btn btn-secondary btn-lg">
-                Register Interest
+                Book Discovery Call
               </Link>
             </div>
           </div>

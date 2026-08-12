@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
 import { getAdditionalServices, getFeaturedAddons } from '../services/pricingData';
 
@@ -32,18 +33,22 @@ export default function AdditionalServicesPage() {
     <>
       <section className="page-hero">
         <div className="container page-hero-content">
-          <div className="eyebrow">01 · ADD-ONS</div>
-          <h1>
-            supporting services, <em className="verb">quoted</em>&nbsp;plainly.
-          </h1>
-          <p>
-            These are add-ons around the main build: hosting, maintenance, brand work, copy, and launch support. They are not the first thing we try to sell.
-          </p>
-          <div className="page-hero-meta" aria-label="Additional services notes">
-            <span className="page-hero-chip">Secondary to the main build</span>
-            <span className="page-hero-chip">Live ETB pricing</span>
-            <span className="page-hero-chip">Monthly maintenance only</span>
-          </div>
+          {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
+              subcopy → meta chips, 150ms apart, ≤ 1.2s total. */}
+          <HeroChoreo>
+            <div className="eyebrow">01 · ADD-ONS</div>
+            <HeroChoreoHeadline>
+              supporting services, <em className="verb">quoted</em>&nbsp;plainly.
+            </HeroChoreoHeadline>
+            <p>
+              Add-ons around the main build: hosting, maintenance, brand work, copy, and launch support.
+            </p>
+            <div className="page-hero-meta" aria-label="Additional services notes">
+              <span className="page-hero-chip">Secondary to the main build</span>
+              <span className="page-hero-chip">Live ETB pricing</span>
+              <span className="page-hero-chip">Annual maintenance plans</span>
+            </div>
+          </HeroChoreo>
         </div>
       </section>
 
@@ -52,8 +57,8 @@ export default function AdditionalServicesPage() {
           <ScrollReveal>
             <SectionHeader
               eyebrow="02 · SERVICE TABLE"
-              title="Use these when they support the real project, not as filler scope."
-              subtitle="The table below reflects the live ETB ranges in the project."
+              title="Use these when they support the real project."
+              subtitle="Live ETB ranges below."
               align="left"
             />
           </ScrollReveal>
@@ -99,7 +104,7 @@ export default function AdditionalServicesPage() {
             <SectionHeader
               eyebrow="03 · COMMON ADDITIONS"
               title="These are the line items teams ask for most often."
-              subtitle="They are useful when tied to a real launch or operating need, not as automatic upsells."
+              subtitle="Useful when tied to a real launch or operating need."
               align="left"
             />
           </ScrollReveal>
@@ -133,7 +138,7 @@ export default function AdditionalServicesPage() {
             <div className="eyebrow">04 · FIRST STEP</div>
             <h2>If it supports a real workflow or launch, we can scope it.</h2>
             <p>
-              If the add-on request is attached to a larger operational problem, start with the Workflow Audit so the main decision is made correctly first.
+              Attached to a larger operational problem? Start with the Workflow Audit first.
             </p>
             <div className="cta-actions">
               <Link to="/workflow-audit" className="btn btn-primary btn-lg">
