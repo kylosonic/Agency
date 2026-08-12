@@ -1,8 +1,16 @@
-# Swarm State — Pricing Revert, Discounts, Copy Trim & Editorial Motion
+# Swarm State — Phase 11: Software-First Brand Redesign & Build-Intake Conversion
 
 > Maintained by @scribe / @architect. Updated after every major gate.
 
 ## Current phase
+
+**IMPLEMENTING → VERIFYING — Phase 11** Software-First Brand Redesign & Build-Intake Conversion
+(NB-44…NB-52). Gates A–E ✅ (Gate B: 123/123 E2E ×4 runs; Gate C: QA APPROVED; Gate D: Security
+APPROVED WITH FINDINGS; Gate E: Integration APPROVED). Gate F (Commit) ⏳ pending; UAT ⏳ pending
+(owner). Contract: `docs/behaviors/software-first-redesign.md` (R-1…R-19). Branch:
+`software-first-redesign` (created 2026-08-12 from main @ `536c6ab`; carries the uncommitted
+contract + ledger + ADR-005 + STATE updates — owner-confirmed contract + ledger). Production
+current at `536c6ab` (Phase 10) until Phase 11 releases.
 
 **DEPLOYED — Phase 10** Software Prominence & Booking Conversion (NB-41…43). Gate A ✅ `385d682` — `docs/plans/phase10-software-prominence-booking.md` (TECH-35…41, strictly linear DAG 35→41; ambiguities A1–A11 resolved and recorded in plan §13; ladder row count corrected to 4 per owner enumeration). Gate B (Implement) ✅. Gate C (QA) ✅ APPROVED (110/110). Gate D (Security) ✅ APPROVED. Gate E (Integration) ✅ APPROVED. Gate F (Commit) ✅ commits `2a0eee0` / `b0512b8` / `c44a987`. Release ✅ merge `536c6ab` → main, Vercel `dpl_CidZtfrKcmugT5uABhYAHLKxGe1v` READY on https://novatech23.vercel.app. UAT ✅ owner approval 2026-08-12. Contracts: `docs/behaviors/software-development-prominence.md` (S-1…S-4, C-1…C-4). Branch: `software-prominence-booking` (merged to main as `536c6ab`, pushed `5f1f8ab..536c6ab`).
 
@@ -31,6 +39,28 @@ Prior batch context: Phase 8 Lumen Night is **DEPLOYED** to production (merge `c
 https://novatech23.vercel.app — health checks 8/8). Rollback if ever needed:
 `git revert -m 1 cf159b1` → push → Vercel auto-redeploys.
 
+## Phase 11 batch scope (NB-44…NB-52)
+
+Owner-confirmed contract `docs/behaviors/software-first-redesign.md` (R-1…R-19) + plan
+`docs/plans/phase11-software-first-redesign.md` (Gate A ✅). Tickets TECH-42…TECH-50 execute
+strictly linearly 42→43→44→45→46→47→48→49→50 (no parallel slices).
+
+**Key contract deltas for future readers:**
+
+- **Primary CTA swap (site-wide)** — "Start a Project" replaces "Book Workflow Audit" as the
+  primary CTA on every page; the audit page itself is excepted.
+- **Workflow Audit demoted** — to Home section 13 with mechanics unchanged (C-2/C-3 carry
+  forward from prior contracts).
+- **Home ladder removed** — no replacement component; supersedes the Phase 10 ladder.
+- **New light-first palette** — warm paper canvas, near-black ink, deep forest-green accent;
+  applied within the retained design system and **supersedes the Lumen Night palette**.
+- **Case studies** — Stealth Overlay + Rhobot Academy with real screenshot captures (narrow
+  no-imagery exception to the site's existing no-imagery rule).
+- **ADR-005 ✅ created (in-batch)** — `docs/adr/ADR-005-software-first-redesign.md` records the
+  CTA supersession (C-1 → R-6), palette change (Lumen Night → light-first, token set from plan
+  §14 A1), narrow imagery exception (B-36/NB-23 amendment for the two case-study cards), Home
+  ladder removal + audit demotion (R-19/R-8), and the R-5 6-track service hierarchy.
+
 ## Contact spacing fix (2026-08-12, post-phase-9)
 
 Small post-phase-9 release for the owner-reported contact-section regression ("no padding
@@ -52,7 +82,11 @@ READY on https://novatech23.vercel.app.
 
 ## Feature branch
 
-`software-prominence-booking` (Phase 10 batch — merged to main as `536c6ab` 2026-08-12; do not create another)
+`software-first-redesign` (Phase 11 batch — created 2026-08-12 from main @ `536c6ab`; carries
+the uncommitted contract files `docs/behaviors/software-first-redesign.md` +
+`docs/behaviors/pending-behaviors.md`; do not create another)
+
+Merged: `software-prominence-booking` (Phase 10 batch — merged to main as `536c6ab` 2026-08-12; do not create another)
 
 Historical: `pricing-revert-and-motion` (Phase 9 batch — do not create another)
 
@@ -105,6 +139,24 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 | TECH-39 | Booking form | ✅ DEPLOYED (536c6ab) |
 | TECH-40 | CTAs + auto-capture | ✅ DEPLOYED (536c6ab) |
 | TECH-41 | Support paths + E2E + i18n | ✅ DEPLOYED (536c6ab) |
+
+### Phase 11 (NB-44…52) — IMPLEMENTED (Gates A–E ✅; Gate F commit + UAT pending)
+
+Titles per plan `docs/plans/phase11-software-first-redesign.md`; execution was strictly linear
+DAG 42→43→44→45→46→47→48→49→50 (no parallel slices). Capture script landed as
+`scripts/capture-case-studies.mjs` (per plan §4, TECH-47).
+
+| Ticket | Status |
+|---|---|
+| TECH-42 | ✅ IMPLEMENTED (pending commit) — palette token swap + visual E2E re-baseline |
+| TECH-43 | ✅ IMPLEMENTED (pending commit) — hero/trust/What We Build + 15-section skeleton |
+| TECH-44 | ✅ IMPLEMENTED (pending commit) — service sections + AI + Process + Why + Industries |
+| TECH-45 | ✅ IMPLEMENTED (pending commit) — audit §13 + pricing redistribution + meter/marquee |
+| TECH-46 | ✅ IMPLEMENTED (pending commit) — CTA system site-wide + project-intake form |
+| TECH-47 | ✅ IMPLEMENTED (pending commit) — case studies + screenshot pipeline |
+| TECH-48 | ✅ IMPLEMENTED (pending commit) — i18n EN/AM/OM parity |
+| TECH-49 | ✅ IMPLEMENTED (pending commit) — E2E new gates + full regression + greps |
+| TECH-50 | ✅ IMPLEMENTED (pending commit) — SEO re-cut + OG regeneration + brand close-out |
 
 ## TECH-32 build resolution (@architect, 2026-08-11)
 
@@ -166,6 +218,31 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 - Gate F (Commit): ✅ complete — commits `2a0eee0` / `b0512b8` / `c44a987`
 - UAT: ✅ human approval received 2026-08-12
 - Release: ✅ DEPLOYED — merge `536c6ab` → main (pushed `5f1f8ab..536c6ab`), Vercel `dpl_CidZtfrKcmugT5uABhYAHLKxGe1v` READY, https://novatech23.vercel.app (12 s build; 7/7 routes 200)
+
+## Phase 11 gates (NB-44…52)
+
+- Gate A (Blueprint): ✅ — `docs/plans/phase11-software-first-redesign.md` (TECH-42…TECH-50,
+  strictly linear DAG 42→50; governed by R-1…R-19)
+- Gate B (Implement): ✅ — **123/123 E2E ×4 runs** (fixer ×2, QA ×1 independent, architect ×1);
+  build clean; scoped lint clean. 12-failure → 123/123 fix loop closed: intake click flakiness
+  root cause + test determinism fix, hero-trust-row class split, oklch hue parsing,
+  self-reference grep exemption, N2 evaluate serialization, R6 href, counter settle, mobile
+  selector, siteConfig OG cache-bust, /services SEO title.
+- Gate C (QA): ✅ QA APPROVED — 123/123 E2E independent run; contract §7 acceptance gates
+  recorded (positioning, ordering, CTA, intake, audit, case-study, visual, brand, truth, i18n,
+  regression).
+- Gate D (Security): ✅ SECURITY APPROVED WITH FINDINGS — no new runtime network calls, no new
+  dependencies, no secrets in committed docs; findings recorded in Unresolved risks (j)–(l):
+  react-router 7.13.1 advisories (not exploitable in this static declarative deploy), dev-tree
+  advisory hygiene, `api/leads.js` + `api/mailing-list.js` untracked with `ALLOWED_ORIGIN='*'`
+  defaults.
+- Gate E (Integration): ✅ APPROVED — build/contracts/tests/placeholders/branch hygiene verified;
+  capture script renamed to `scripts/capture-case-studies.mjs` per plan; ADR-005 created
+  (CTA supersession + palette change + imagery exception recorded).
+- Gate F (Commit): ⏳ pending — batch commits atomically after all gates (AGENTS.md §5)
+- UAT: ⏳ pending (owner)
+- Release: ⏳ pending — rollback if ever needed: `git revert -m 1 <merge>` → push → Vercel
+  auto-redeploy (phase-9/10 precedent)
 
 ## Phase 10 release (2026-08-12)
 
@@ -233,9 +310,31 @@ Acceptance gate per `docs/behaviors/pricing-revert-and-motion.md` §5:
   re-baselined with @qa before the E2E gate can pass.
 - (e) **i18n parity** — trimmed English copy must be mirrored in AM/OM (re-cut, no orphaned
   long strings, no clipping).
-- (f) **Tracked Playwright artifact** — `test-results/.last-run.json` is a Playwright artifact
-  committed by a prior batch and is not in `.gitignore`. Hygiene follow-up: add `test-results/`
-  to `.gitignore` and `git rm --cached` in a future batch (not part of phase 9 scope).
+- (f) **Tracked Playwright artifact** — `test-results/.last-run.json` was a committed Playwright
+  artifact not covered by `.gitignore`. **RESOLVED (Phase 11, TECH-49):** staged deletion done,
+  `test-results/` added to `.gitignore` (line 32).
+- (g) **Screenshot capture (Phase 11)** — case-study captures depend on live third-party sites
+  (Stealth Overlay, Rhobot Academy); per contract the case-study slice is SKIPPED if a site is
+  unrenderable at capture time. **RESOLVED — both sites captured** (`stealth-overlay.webp` +
+  `rhobot-academy.webp`; `scripts/capture-case-studies.mjs` exit 0).
+- (h) **E2E blast radius (Phase 11)** — Home rebuild invalidates ~14 existing E2E tests;
+  re-baseline with @qa required before the E2E gate. **GREEN — re-baselined suite 123/123 ×4
+  runs (Gate B/C evidence).**
+- (i) **i18n parity drift (Phase 11)** — new "Start a Project" / redesign strings must be
+  mirrored in AM/OM to avoid parity drift. **GREEN — AM/OM Home renders without clipping;
+  prices identical across languages (i18n gate passed).**
+- (j) **react-router 7.13.1 high advisories** — GHSA-49rj-9fvp-4h2h, GHSA-8646-j5j9-6r62 (Gate D
+  findings). Not exploitable in this static declarative deploy (no SSR, no untrusted route
+  params executed); follow-up bump to ^7.18.2 recommended in a future batch.
+- (k) **Dev-tree advisories** — vite/postcss etc. routine dependency hygiene; no runtime
+  exposure in the static build; handled with the next dependency pass.
+- (l) **`api/leads.js` + `api/mailing-list.js` untracked** — both default to
+  `ALLOWED_ORIGIN='*'` when env vars are unset. Recommend tracking them (or documenting the
+  exclusion) so the wildcard default is visible/reviewed; Vercel env overrides remain the
+  operational control.
+- (m) **Theme audit scripts retain `['light','dark']` loop** — `theme-contrast-audit.mjs` /
+  `theme-visual-audit.mjs` iterate both branches computationally (no hardcoded tokens); optional
+  dev-tooling tidy-up only, not a defect.
 
 ## UAT checklist (owner)
 
@@ -258,5 +357,8 @@ merge/deploy approval:
 
 ## Behavior ledger
 
+- NB-44..NB-52 → [IMPLEMENTED — awaiting UAT/commit] (2026-08-12, Phase 11 Gates A–E ✅) — rows
+  live in `docs/behaviors/pending-behaviors.md` (carried uncommitted on branch
+  `software-first-redesign`; owner-confirmed contract + ledger; not [DEPLOYED] — release not done).
 - NB-36..NB-40 → [IMPLEMENTED] + [DEPLOYED] (2026-08-12, merge 026f751) — plan §11 DoD
   completion; ledger rows updated in `docs/behaviors/pending-behaviors.md`.

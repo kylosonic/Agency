@@ -39,45 +39,59 @@ const AUTOMATION_LANES = [
 
 const DELIVERY_STEPS = [
   {
-    title: 'Audit the current process',
-    text: 'We start with the workflow, the people, the systems, and the cost of delay.',
+    title: 'Discovery and scope',
+    text: 'A free call first, then a fixed ETB proposal from the published table.',
     icon: 'search',
   },
   {
-    title: 'Build the right operating layer',
-    text: 'Automation, a web system, a mobile product, or a combination — not the same answer for every team.',
+    title: 'Build in milestones',
+    text: 'Milestone billing 40/30/30 with full ownership on final payment.',
     icon: 'idea',
   },
   {
-    title: 'Stabilize and support it',
-    text: 'We define what needs monitoring, who owns the workflow, and whether support is needed.',
+    title: 'Support and maintain',
+    text: 'Written commitments: 40 support hours a year, next-business-day response.',
     icon: 'shield',
   },
 ];
 
+/* TECH-44 (R-5): six tracks — the software builds lead; AI & Automation is
+   the named specialist track. Prices come from the locked table only. */
 const DELIVERY_TRACKS = [
   {
-    title: 'Web systems',
+    title: 'Custom Software Development',
+    price: 'Quoted from the live ETB table',
+    text: 'Business software, enterprise systems, internal platforms, workflow management, and customer portals.',
+    to: '/book-discovery-call',
+  },
+  {
+    title: 'Web Development',
     price: 'from 20,000 ETB',
-    text: 'For commercial sites, portals, dashboards, and quote flows that support a real process.',
+    text: 'Business websites, web apps, portals, dashboards, e-commerce, and corporate sites.',
     to: '/web-development',
   },
   {
-    title: 'Mobile products',
+    title: 'Mobile App Development',
     price: 'from 40,000 ETB',
-    text: 'For field teams, approvals, and customer flows that need a mobile operating layer.',
+    text: 'Android, iOS, and cross-platform apps for business, customer, and workforce use.',
     to: '/mobile-development',
   },
   {
-    title: 'SaaS platforms',
+    title: 'SaaS & Product Development',
     price: 'from 3,500 ETB / month',
-    text: 'Live subscription systems for schools, clinics, and real estate operators — setup plus monthly billing.',
+    text: 'SaaS platforms, MVPs, and subscription software with billing and onboarding built in.',
     to: '/saas-solutions',
   },
   {
-    title: 'AI automation engagements',
+    title: 'Business Systems',
+    price: 'Quoted from the live ETB table',
+    text: 'Inventory, CRM, ERP-style, HR, finance, logistics, school, and retail systems.',
+    to: '/book-discovery-call',
+  },
+  {
+    title: 'AI & Automation',
     price: 'from 40,000 ETB',
-    text: 'For teams ready to replace repeated manual work with custom agents and governed operating logic.',
+    text: 'AI assistants, agents, document processing, and intelligent automation for existing software.',
     to: '/pricing',
   },
 ];
@@ -100,8 +114,8 @@ export default function Services() {
                 dependence on one person.
               </p>
               <div className="page-hero-meta" aria-label="Service delivery priorities">
-                <span className="page-hero-chip">Audit first</span>
-                {/* TECH-36 (A2): exact locked chip — software and AI as parallel tracks. */}
+                {/* TECH-44 (R-5): software tracks first; AI named as the specialist track. */}
+                <span className="page-hero-chip">Custom Software · Web · Mobile · SaaS · Business Systems</span>
                 <span className="page-hero-chip">Software builds and AI automation — scoped to the bottleneck</span>
                 <span className="page-hero-chip">AI automation when it solves a real bottleneck</span>
               </div>
@@ -125,9 +139,9 @@ export default function Services() {
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="02 · LANES"
-              title="Three kinds of work come up most often."
-              subtitle="These are where time, accuracy, and commercial trust usually break first."
+              eyebrow="02 · AUTOMATION LANES"
+              title="Where AI automation pays for itself."
+              subtitle="Intelligent automation on top of the software your business already runs."
               align="left"
             />
           </ScrollReveal>
@@ -192,8 +206,8 @@ export default function Services() {
           <ScrollReveal>
             <SectionHeader
               eyebrow="04 · TRACKS"
-              title="The audit tells us which lane the project belongs in."
-              subtitle="A paid audit, the right implementation path, then support where needed."
+              title="Six build lanes, quoted from the live ETB table."
+              subtitle="Software tracks lead; AI automation is the named specialist track."
               align="left"
             />
           </ScrollReveal>
@@ -232,16 +246,20 @@ export default function Services() {
         <div className="container">
           <div className="page-closing-card glass-strong">
             <div className="eyebrow">05 · FIRST STEP</div>
-            <h2>If the bottleneck is real, the Workflow Audit is where we begin.</h2>
+            <h2>Tell us what to build — we scope it from the live ETB table.</h2>
             <p>
-              It gives both sides a clean decision: build now, stage later, or avoid the wrong build.
+              Start a project with scope and budget context; we respond within 1 business day.
             </p>
             <div className="cta-actions">
-              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-                Book Workflow Audit
+              {/* R-6 (TECH-46): Start a Project primary → Home intake form. */}
+              <Link to="/#project-intake" className="btn btn-primary btn-lg">
+                Start a Project
               </Link>
-              <Link to="/pricing" className="btn btn-secondary btn-lg">
-                Review Pricing
+              <Link to="/book-discovery-call" className="btn btn-secondary btn-lg">
+                Discuss Your Software Idea
+              </Link>
+              <Link to="/pricing" className="btn btn-dark btn-sm">
+                Explore AI &amp; Automation
               </Link>
             </div>
           </div>

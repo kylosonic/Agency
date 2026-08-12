@@ -19,11 +19,12 @@ export default function BandCta() {
     <section className="band-cta band-dark band-2" aria-labelledby="band-cta-title">
       <div className="container">
         <div className="cta-inner">
-          <h2 id="band-cta-title">{t('band.audit.title', 'Start with the Workflow Audit.')}</h2>
-          <p>{t('band.audit.subtitle', 'We map the bottlenecks, define the right path, and credit the audit fee toward the build if you continue.')}</p>
+          <h2 id="band-cta-title">{t('band.audit.title', 'Tell us what you want to build.')}</h2>
+          <p>{t('band.audit.subtitle', 'Start a project with scope and budget context — we respond within 1 business day.')}</p>
           <div className="cta-actions">
-            <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-              {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
+            {/* A8 (TECH-46): BandCta primary → Start a Project → Home intake form. */}
+            <Link to="/#project-intake" className="btn btn-primary btn-lg">
+              {t('actions.startProject', 'Start a Project')}
             </Link>
             <Link to="/instant-quote" className="btn btn-secondary btn-lg">
               {t('actions.startQuote')}

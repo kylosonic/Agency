@@ -108,7 +108,7 @@ async function main() {
             --ink: #1c1917;
             --muted: #57534e;
             --line: #d6d3d1;
-            --accent: #8a5a2b;
+            --accent: #24513a;
             --band: #0c0c0e;
             --bandInk: #f5f5f4;
           }

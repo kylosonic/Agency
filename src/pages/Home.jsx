@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
@@ -8,295 +7,188 @@ import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
-import { SITE_CONTACT, buildProjectInquiryMailto } from '../config/siteConfig';
-import { submitContactInquiry } from '../services/contactService';
-import { submitLeadIntake } from '../services/leadIntakeService';
-import { queueLeadFollowups } from '../services/leadAutomationService';
+import CaseStudyCard from '../components/CaseStudyCard';
+import ProjectIntakeForm from '../components/ProjectIntakeForm';
+import ProjectIntakeChatLinks from '../components/ProjectIntakeChatLinks';
+import { useLanguage } from '../i18n/useLanguage';
 import { getPricingGuideSummary, QUOTE_ANCHORS } from '../services/pricingData';
-import {
-  trackContactChannelClick,
-  trackContactFormAttempt,
-  trackContactFormOutcome,
-} from '../services/analyticsService';
 
-const INITIAL_CONTACT_FORM = {
-  name: '',
-  email: '',
-  message: '',
-};
-
+/* Phase 11 (TECH-43/45, R-2/A19/A20): every price on Home renders from the
+   locked data sources only — never hardcoded figures (P-1/ADR-003). */
 const PRICING_SUMMARY = getPricingGuideSummary();
 
-/* TECH-36/37 (S-3): ladder and track prices render from the locked pricing
-   data only — never hardcoded figures. SaaS uses the published first-tier
-   monthly price from the locked table; web/mobile/AI use the ADR-003 numeric
-   anchors; the AI ladder range is composed from the tier setup prices. */
 const SAAS_ENTRY_PRICE = PRICING_SUMMARY.productEngineering.find(
   (item) => item.category === 'Management SaaS'
 )?.price;
 
-const SOFTWARE_LADDER_PRICE = `Web from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB · Mobile from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB · SaaS from ${SAAS_ENTRY_PRICE}`;
+const TRUST_ROW_WEB = `Web from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB`;
+const TRUST_ROW_MOBILE = `Mobile from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB`;
+const TRUST_ROW_SAAS = `SaaS from ${SAAS_ENTRY_PRICE}`;
 
-const AI_LADDER_PRICE = `from ${PRICING_SUMMARY.automationTiers
-  .map((tier) => tier.setupPrice.replace(/^from /, '').replace(/ ETB$/, ''))
-  .join(' / ')} ETB`;
-
-const PRICE_FROM_ANCHOR = (anchor) => `from ${anchor.toLocaleString()} ETB`;
-
-/* B42a (TECH-25): locked topology-apparatus callouts for the Home hero. */
+/* A19 (TECH-43): software-first apparatus callouts — locked facts only. */
 const HOME_APPARATUS_CALLOUTS = [
-  'AUDIT · 15,000 ETB · FIXED',
-  'DELIVERY · 5 BUSINESS DAYS',
-  'CREDIT · 100% TOWARD BUILD',
-  'KICKOFF · 40%',
-  'BUNDLE · WEB+AI · 10% OFF',
+  'WEB · FROM 20,000 ETB',
+  'MOBILE · FROM 40,000 ETB',
+  'SAAS · FROM 3,500 ETB / MO',
+  'MILESTONES · 40/30/30',
+  'SLA · 1 BUSINESS DAY',
 ];
 
-const OPERATION_SIGNALS = [
-  {
-    title: 'Manual re-entry is everywhere',
-    text: 'The same order is typed into three disconnected tools.',
-    icon: 'refresh',
-  },
-  {
-    title: 'Approvals depend on one person',
-    text: 'Work stops when the owner is away.',
-    icon: 'shield',
-  },
-  {
-    title: 'Customer response speed is too slow',
-    text: 'Leads wait; quoting is trapped in docs.',
-    icon: 'lightning',
-  },
-  {
-    title: 'The next build is not clearly scoped',
-    text: 'Teams need software but not which build.',
-    icon: 'search',
-  },
+/* Key-path maps for the i18n content (TECH-48): every string resolves via
+   useLanguage().t('home.<path>', <EN fallback>); AM/OM mirrors live in
+   translations.js (NB-09 native-review flag). */
+const TRUST_FACT_KEYS = [
+  { title: 'home.trust.facts.0.title', text: 'home.trust.facts.0.text' },
+  { title: 'home.trust.facts.1.title', text: 'home.trust.facts.1.text' },
+  { title: 'home.trust.facts.2.title', text: 'home.trust.facts.2.text' },
+  { title: 'home.trust.facts.3.title', text: 'home.trust.facts.3.text' },
+  { title: 'home.trust.facts.4.title', text: 'home.trust.facts.4.text' },
+  { title: 'home.trust.facts.5.title', text: 'home.trust.facts.5.text' },
 ];
 
-/* TECH-36 (S-1): software tracks (web → mobile → SaaS) render before AI on
-   every track surface; AI stays the named second track. */
-const IMPLEMENTATION_TRACKS = [
-  {
-    title: 'Web systems',
-    price: PRICE_FROM_ANCHOR(QUOTE_ANCHORS.web[0]),
-    text: 'Sites, portals, quote flows, and internal tools for a real commercial process.',
-    icon: 'globe',
-    to: '/web-development',
-  },
-  {
-    title: 'Mobile products',
-    price: PRICE_FROM_ANCHOR(QUOTE_ANCHORS.mobile[0]),
-    text: 'Field, approval, and customer-facing apps that move with the team.',
-    icon: 'mobile',
-    to: '/mobile-development',
-  },
-  {
-    title: 'SaaS platforms',
-    price: `from ${SAAS_ENTRY_PRICE}`,
-    text: 'Live subscription systems for schools, clinics, and real estate operators.',
-    icon: 'cloud',
-    to: '/saas-solutions',
-  },
-  {
-    title: 'AI automation systems',
-    price: PRICE_FROM_ANCHOR(QUOTE_ANCHORS.ai[0]),
-    text: 'Custom agents, document workflows, browser automation, and governed systems.',
-    icon: 'settings',
-    to: '/services',
-  },
+const SIGNAL_KEYS = [
+  { title: 'home.trust.signals.0.title', text: 'home.trust.signals.0.text', icon: 'refresh' },
+  { title: 'home.trust.signals.1.title', text: 'home.trust.signals.1.text', icon: 'shield' },
+  { title: 'home.trust.signals.2.title', text: 'home.trust.signals.2.text', icon: 'lightning' },
+  { title: 'home.trust.signals.3.title', text: 'home.trust.signals.3.text', icon: 'search' },
 ];
 
-const AUDIT_REASONS = [
-  {
-    title: 'Prevents the wrong build',
-    text: 'Software works when tied to the real problem.',
-    icon: 'search',
-  },
-  {
-    title: 'Keeps pricing credible',
-    text: 'Quotes need knowing what to build and leave out.',
-    icon: 'chart',
-  },
-  {
-    title: 'Gives everyone one shared view',
-    text: 'Owner, founder, and team share one map.',
-    icon: 'book',
-  },
-  {
-    title: 'Turns vague interest into a decision',
-    text: 'Build now, stage it, or stop early.',
-    icon: 'idea',
-  },
+const WHAT_WE_BUILD_KEYS = [
+  { title: 'home.wwb.items.0.title', text: 'home.wwb.items.0.text', icon: 'office' },
+  { title: 'home.wwb.items.1.title', text: 'home.wwb.items.1.text', icon: 'globe' },
+  { title: 'home.wwb.items.2.title', text: 'home.wwb.items.2.text', icon: 'chat' },
+  { title: 'home.wwb.items.3.title', text: 'home.wwb.items.3.text', icon: 'card' },
+  { title: 'home.wwb.items.4.title', text: 'home.wwb.items.4.text', icon: 'globe' },
+  { title: 'home.wwb.items.5.title', text: 'home.wwb.items.5.text', icon: 'mobile' },
+  { title: 'home.wwb.items.6.title', text: 'home.wwb.items.6.text', icon: 'cloud' },
+  { title: 'home.wwb.items.7.title', text: 'home.wwb.items.7.text', icon: 'building' },
+  { title: 'home.wwb.items.8.title', text: 'home.wwb.items.8.text', icon: 'settings' },
+  { title: 'home.wwb.items.9.title', text: 'home.wwb.items.9.text', icon: 'spark' },
 ];
 
-/* TECH-37 (S-3): exactly 4 rows — Audit → Software development → AI
-   automation → Support. Both build rows render through the same ladder card
-   treatment (equal weight); prices come from the locked data sources. */
-const OFFER_LADDER = [
-  {
-    stage: 'Start here',
-    title: 'Workflow Audit',
-    price: PRICING_SUMMARY.workflowAudit.price,
-    detail: '5-day delivery',
-    note: 'We map the current process and define the right build path.',
-  },
-  {
-    stage: 'Software development',
-    title: 'Software development',
-    price: SOFTWARE_LADDER_PRICE,
-    detail: 'Sites, portals, dashboards, apps, and SaaS platforms',
-    note: 'Web, mobile, and SaaS scoped from the live ETB table.',
-  },
-  {
-    stage: 'AI automation',
-    title: 'AI automation',
-    price: AI_LADDER_PRICE,
-    detail: 'Custom agentic systems',
-    note: 'Scope rises with integration depth, compliance needs, and how much runs without supervision.',
-  },
-  {
-    stage: 'Keep it stable',
-    title: 'Support and maintenance',
-    price: 'AI support 10,000 – 25,000 ETB / month / Web maintenance 8,000 – 20,000 ETB / year',
-    detail: 'After scope is defined',
-    note: 'Quoted from the live ETB table with written commitments.',
-  },
+const CUSTOM_SOFTWARE_ROW_KEYS = [
+  'home.customSoftware.rows.0',
+  'home.customSoftware.rows.1',
+  'home.customSoftware.rows.2',
+  'home.customSoftware.rows.3',
+  'home.customSoftware.rows.4',
 ];
 
-const WHAT_WE_NEED = [
-  'A walkthrough of the current workflow.',
-  'Access to the tools and exports that show how it runs today.',
-  'The process owner and the person who feels the pain.',
-  'Deadlines, compliance, or commercial targets that change scope.',
+const WEB_MOBILE_WEB_ROW_KEYS = [
+  'home.webMobile.webRows.0',
+  'home.webMobile.webRows.1',
+  'home.webMobile.webRows.2',
+  'home.webMobile.webRows.3',
 ];
+
+const WEB_MOBILE_MOBILE_ROW_KEYS = [
+  'home.webMobile.mobileRows.0',
+  'home.webMobile.mobileRows.1',
+  'home.webMobile.mobileRows.2',
+  'home.webMobile.mobileRows.3',
+];
+
+const BUSINESS_SYSTEMS_ROW_KEYS = [
+  'home.businessSystems.rows.0',
+  'home.businessSystems.rows.1',
+  'home.businessSystems.rows.2',
+  'home.businessSystems.rows.3',
+  'home.businessSystems.rows.4',
+  'home.businessSystems.rows.5',
+  'home.businessSystems.rows.6',
+  'home.businessSystems.rows.7',
+];
+
+const SAAS_ROW_KEYS = [
+  'home.saas.rows.0',
+  'home.saas.rows.1',
+  'home.saas.rows.2',
+  'home.saas.rows.3',
+];
+
+const TRANSFORMATION_PAIR_KEYS = [
+  { from: 'home.ai.pairs.0.from', to: 'home.ai.pairs.0.to' },
+  { from: 'home.ai.pairs.1.from', to: 'home.ai.pairs.1.to' },
+  { from: 'home.ai.pairs.2.from', to: 'home.ai.pairs.2.to' },
+  { from: 'home.ai.pairs.3.from', to: 'home.ai.pairs.3.to' },
+  { from: 'home.ai.pairs.4.from', to: 'home.ai.pairs.4.to' },
+  { from: 'home.ai.pairs.5.from', to: 'home.ai.pairs.5.to' },
+];
+
+const PROCESS_STEP_KEYS = [
+  { title: 'home.process.steps.0.title', text: 'home.process.steps.0.text' },
+  { title: 'home.process.steps.1.title', text: 'home.process.steps.1.text' },
+  { title: 'home.process.steps.2.title', text: 'home.process.steps.2.text' },
+  { title: 'home.process.steps.3.title', text: 'home.process.steps.3.text' },
+  { title: 'home.process.steps.4.title', text: 'home.process.steps.4.text' },
+];
+
+const WHY_NOVATECH_KEYS = [
+  { title: 'home.why.rows.0.title', text: 'home.why.rows.0.text' },
+  { title: 'home.why.rows.1.title', text: 'home.why.rows.1.text' },
+  { title: 'home.why.rows.2.title', text: 'home.why.rows.2.text' },
+  { title: 'home.why.rows.3.title', text: 'home.why.rows.3.text' },
+  { title: 'home.why.rows.4.title', text: 'home.why.rows.4.text' },
+];
+
+const INDUSTRY_KEYS = [
+  { title: 'home.industries.items.0.title', text: 'home.industries.items.0.text' },
+  { title: 'home.industries.items.1.title', text: 'home.industries.items.1.text' },
+  { title: 'home.industries.items.2.title', text: 'home.industries.items.2.text' },
+  { title: 'home.industries.items.3.title', text: 'home.industries.items.3.text' },
+  { title: 'home.industries.items.4.title', text: 'home.industries.items.4.text' },
+  { title: 'home.industries.items.5.title', text: 'home.industries.items.5.text' },
+  { title: 'home.industries.items.6.title', text: 'home.industries.items.6.text' },
+  { title: 'home.industries.items.7.title', text: 'home.industries.items.7.text' },
+];
+
+const TRUST_FACT_ICONS = ['card', 'chart', 'clock', 'shield', 'lightning', 'pin'];
 
 export default function Home() {
-  const [contactForm, setContactForm] = useState(INITIAL_CONTACT_FORM);
-  const [contactStatus, setContactStatus] = useState('idle');
-
-  const handleContactChange = (event) => {
-    const { name, value } = event.target;
-    setContactForm((current) => ({
-      ...current,
-      [name]: value,
-    }));
-
-    if (contactStatus !== 'idle') {
-      setContactStatus('idle');
-    }
-  };
-
-  const handleContactSubmit = async (event) => {
-    event.preventDefault();
-    setContactStatus('sending');
-    trackContactFormAttempt('home_contact_form');
-
-    submitLeadIntake({
-      type: 'contact_form',
-      source: 'home_contact_form',
-      channel: 'contact_form',
-      routePath: '/',
-      lead: contactForm,
-      context: { delivery: 'durable_mirror' },
-      consent: {
-        type: 'contact_form_mirror',
-        capturedAt: new Date().toISOString(),
-        copy: 'Durable mirror of the homepage contact form submission.',
-      },
-    }).catch(() => {
-      // Mirror failures must not block the visitor.
-    });
-
-    const submission = await submitContactInquiry(contactForm);
-
-    if (submission.ok) {
-      setContactStatus('sent');
-      setContactForm(INITIAL_CONTACT_FORM);
-      queueLeadFollowups({
-        source: 'home_contact_form',
-        channel: 'contact_form',
-        routePath: '/',
-        lead: submission.payload,
-      });
-      trackContactFormOutcome('submitted', 'home_contact_form');
-      return;
-    }
-
-    if (['unconfigured', 'request-failed', 'timeout', 'network-error'].includes(submission.type)) {
-      queueLeadFollowups({
-        source: 'home_contact_form_fallback',
-        channel: 'contact_form_mailto',
-        routePath: '/',
-        lead: submission.payload || contactForm,
-      });
-      if (typeof window !== 'undefined') {
-        window.location.assign(buildProjectInquiryMailto(submission.payload || contactForm));
-      }
-      setContactStatus('fallback');
-      setContactForm(INITIAL_CONTACT_FORM);
-      trackContactFormOutcome('fallback_mailto', 'home_contact_form', submission.type);
-      return;
-    }
-
-    setContactStatus('error');
-    trackContactFormOutcome('failed', 'home_contact_form', submission.type);
-  };
+  const { t } = useLanguage();
 
   return (
     <>
+      {/* 01 — HERO (R-2) */}
       <section className="hero ai-home-hero redesign-home-hero" id="hero" aria-labelledby="home-hero-title">
         <div className="container marquee-hero-grid">
           <div className="hero-copy">
-            {/* M-1 (TECH-33): one choreographed hero reveal — eyebrow →
-                headline → subcopy → CTA row → trust row → facts panel, each
-                150ms apart, all settling ≤ 1.2s. EN headline per-word stagger;
-                AM/OM one block via :lang overrides. */}
             <HeroChoreo>
-              <div className="eyebrow">01 · ENTRY</div>
+              <div className="eyebrow">{t('home.hero.eyebrow', '01 · SOFTWARE')}</div>
 
               <HeroChoreoHeadline id="home-hero-title">
-                <em className="verb">fix</em>&nbsp;the workflow before you commission the build.
+                {t('home.hero.titleBefore', 'software ')}
+                <em className="verb">{t('home.hero.titleVerb', 'built')}</em>
+                {t('home.hero.titleAfter', ' around your business.')}
               </HeroChoreoHeadline>
 
-              {/* TECH-37 (A2): software-first hero subcopy, <=2 sentences. */}
+              {/* R-2 subcopy — software first, AI named second. */}
               <p>
-                Software systems — web, mobile, and SaaS — with AI automation where it solves a real
-                bottleneck. Start with one paid first step: the Workflow Audit.
+                {t(
+                  'home.hero.subcopy',
+                  'NovaTech builds custom software, web platforms, mobile applications, SaaS products, and business systems for organizations in Ethiopia and beyond — with AI automation available where it creates real business value.'
+                )}
               </p>
 
-              <div className="hero-actions">
-                <Link className="btn btn-primary btn-lg" to="/workflow-audit">
-                  Book Workflow Audit
+              {/* R-6 (TECH-46): Start a Project primary → Home intake form;
+                  Discuss Your Software Idea secondary; Explore AI tertiary. */}
+              <div className="hero-actions" aria-label="Start a project">
+                <Link className="btn btn-primary btn-lg" to="/#project-intake">
+                  {t('home.hero.ctaPrimary', 'Start a Project')}
                 </Link>
-                <Link className="btn btn-secondary btn-lg" to="/pricing">
-                  View Live Pricing
+                <Link className="btn btn-secondary btn-lg" to="/book-discovery-call">
+                  {t('home.hero.ctaSecondary', 'Discuss Your Software Idea')}
+                </Link>
+                <Link className="btn btn-dark btn-sm" to="#ai-automation">
+                  {t('home.hero.ctaTertiary', 'Explore AI & Automation')}
                 </Link>
               </div>
 
-              <div className="hero-trust-row" aria-label="Workflow audit terms">
-                <span className="trust-pill">15,000 ETB fixed</span>
-                <span className="trust-pill">Delivered in 5 business days</span>
-                <span className="trust-pill">100% credited toward implementation</span>
-              </div>
-
-              <div className="hero-facts editorial-facts-panel" aria-label="Common workflow problems we audit first">
-                <div className="hero-facts-label">What usually brings teams to us</div>
-                <div className="editorial-note">The audit blueprint lands in 5 business days.</div>
-                <ol className="hero-facts-list">
-                  {OPERATION_SIGNALS.map((item, index) => (
-                    <li key={item.title} className="hero-fact-row">
-                      <span className="hero-fact-number" aria-hidden="true">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <div className="hero-fact-body">
-                        <span className="hero-fact-title">{item.title}</span>
-                        <span className="hero-fact-text">{item.text}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
+              {/* R-2/A20 trust row — locked anchors only (identical across languages). */}
+              <div className="hero-trust-row" aria-label={t('home.hero.trustLabel', 'Software anchors from the live ETB table')}>
+                <span className="trust-pill">{TRUST_ROW_WEB}</span>
+                <span className="trust-pill">{TRUST_ROW_MOBILE}</span>
+                <span className="trust-pill">{TRUST_ROW_SAAS}</span>
               </div>
             </HeroChoreo>
           </div>
@@ -305,50 +197,99 @@ export default function Home() {
             <Apparatus
               type="topology"
               callouts={HOME_APPARATUS_CALLOUTS}
-              label="Workflow audit apparatus: fixed audit, delivery in 5 business days, credit 100% toward build, kickoff 40%, bundle web plus AI 10 percent off"
+              label="Software apparatus: web from 20,000 ETB, mobile from 40,000 ETB, SaaS from 3,500 ETB per month, milestones 40/30/30, response within 1 business day"
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="AUDIT · 15,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
+      <MeterStrip labelLeft="WEB · FROM 20,000 ETB" labelRight="MOBILE · FROM 40,000 ETB" />
 
-      {/* M-5 (TECH-33): exactly ONE marquee on the site — below the hero, after
-          the meter strip (never duplicating its position). Content is locked
-          P-1 figures/discount strings only (G-5). */}
+      {/* M-5 (TECH-33): exactly ONE marquee — locked P-1 figures only (G-5),
+          software-first ordering (R-5). */}
       <MarqueeStrip
         items={[
-          'AUDIT 15,000 ETB',
           'WEB FROM 20,000 ETB',
           'MOBILE FROM 40,000 ETB',
-          'AI FROM 40,000 ETB',
+          'SAAS FROM 3,500 ETB / MO',
+          'AUDIT 15,000 ETB',
           '3 MONTHS FREE MAINTENANCE',
           'SAVE 2 MONTHS ANNUAL',
         ]}
       />
 
-      <section className="section" id="why-audit-first">
+      {/* 02 — TRUST / CAPABILITIES (R-3 item 2, locked facts only) */}
+      <section className="section" id="trust">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="02 · WHY AUDIT"
-              title="Software only helps when it fixes the real friction."
-              subtitle="We find where work is delayed, duplicated, or left to chance before selling anything."
+              eyebrow={t('home.trust.eyebrow', '02 · TRUST')}
+              title={t('home.trust.title', 'Software-first, priced in the open.')}
+              subtitle={t('home.trust.subtitle', 'Published ETB prices, milestone billing, and written commitments — no invented metrics.')}
               align="left"
             />
           </ScrollReveal>
 
-          <div className="editorial-card-grid">
-            {AUDIT_REASONS.map((item) => (
-              <ScrollReveal key={item.title}>
+          <div className="editorial-card-grid what-we-build-grid">
+            {TRUST_FACT_KEYS.map((keys, index) => (
+              <ScrollReveal key={keys.title}>
                 <article className="editorial-card glass-card">
                   <div className="editorial-card-top">
                     <span className="ai-preview-icon" aria-hidden="true">
-                      <IconGlyph name={item.icon} size={18} />
+                      <IconGlyph name={TRUST_FACT_ICONS[index]} size={18} />
                     </span>
-                    <h3>{item.title}</h3>
+                    <h3>{t(keys.title, '')}</h3>
                   </div>
-                  <p>{item.text}</p>
+                  <p>{t(keys.text, '')}</p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal delay={0.1}>
+            <div className="hero-facts editorial-facts-panel" aria-label={t('home.trust.signalsLabel', 'Signs your business is ready for software')}>
+              <div className="hero-facts-label">{t('home.trust.signalsLabel', 'Signs your business is ready for software')}</div>
+              <ol className="hero-facts-list">
+                {SIGNAL_KEYS.map((keys, index) => (
+                  <li key={keys.title} className="hero-fact-row">
+                    <span className="hero-fact-number" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div className="hero-fact-body">
+                      <span className="hero-fact-title">{t(keys.title, '')}</span>
+                      <span className="hero-fact-text">{t(keys.text, '')}</span>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* 03 — WHAT WE BUILD (R-4, the main section) */}
+      <section className="section" id="what-we-build">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow={t('home.wwb.eyebrow', '03 · WHAT WE BUILD')}
+              title={t('home.wwb.title', 'Software for the way your business actually runs.')}
+              subtitle={t('home.wwb.subtitle', 'Ten real-world categories — each one replaces manual work with a working system.')}
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="what-we-build-grid">
+            {WHAT_WE_BUILD_KEYS.map((keys, index) => (
+              <ScrollReveal key={keys.title}>
+                <article className="editorial-card glass-card what-we-build-item">
+                  <span className="receipt-row__numeral" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="what-we-build-item__body">
+                    <h3>{t(keys.title, '')}</h3>
+                    <p>{t(keys.text, '')}</p>
+                  </div>
                 </article>
               </ScrollReveal>
             ))}
@@ -356,221 +297,416 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" id="audit-deliverables">
+      {/* 04 — CUSTOM SOFTWARE DEVELOPMENT (R-5 track 1) */}
+      <section className="section" id="custom-software">
         <div className="container editorial-two-column">
           <ScrollReveal>
             <div className="editorial-panel glass-card">
               <SectionHeader
-                eyebrow="03 · DELIVERABLES"
-                title="A practical blueprint, not a vague discovery summary."
-                subtitle={PRICING_SUMMARY.workflowAudit.description}
+                eyebrow={t('home.customSoftware.eyebrow', '04 · CUSTOM SOFTWARE')}
+                title={t('home.customSoftware.title', 'Business software, built around your operations.')}
+                subtitle={t('home.customSoftware.subtitle', 'Enterprise systems, internal platforms, and workflow management — scoped from the live ETB table.')}
                 align="left"
               />
-
-              <ul className="editorial-checklist">
-                {PRICING_SUMMARY.workflowAudit.outputs.map((item) => (
-                  <li key={item}>
-                    <IconGlyph name="check" size={14} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
-            <div className="editorial-panel glass-strong">
-              <p className="editorial-kicker">What we need</p>
-              <h3>A short list of inputs.</h3>
+            <div className="editorial-panel glass-card">
               <ul className="editorial-checklist">
-                {WHAT_WE_NEED.map((item) => (
+                {CUSTOM_SOFTWARE_ROW_KEYS.map((keyPath) => (
+                  <li key={keyPath}>
+                    <IconGlyph name="check" size={14} />
+                    <span>{t(keyPath, '')}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link className="editorial-inline-link" to="/services">
+                {t('home.customSoftware.link', 'Explore Custom Software Development')}
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* 05 — WEB & MOBILE DEVELOPMENT (R-5 tracks 2–3) */}
+      <section className="section" id="web-mobile">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow={t('home.webMobile.eyebrow', '05 · WEB & MOBILE')}
+              title={t('home.webMobile.title', 'Web and mobile products your customers actually use.')}
+              subtitle={t('home.webMobile.subtitle', 'Business websites, web apps, portals, dashboards, e-commerce, and native mobile apps — from fixed ETB anchors.')}
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="editorial-two-column">
+            <ScrollReveal>
+              <div className="editorial-panel glass-card">
+                <p className="editorial-kicker">{t('home.webMobile.webKicker', 'Web')}</p>
+                <h3>{t('home.webMobile.webPrice', 'Web from 20,000 ETB')}</h3>
+                <ul className="editorial-checklist">
+                  {WEB_MOBILE_WEB_ROW_KEYS.map((keyPath) => (
+                    <li key={keyPath}>
+                      <IconGlyph name="check" size={14} />
+                      <span>{t(keyPath, '')}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="editorial-inline-link" to="/web-development">
+                  {t('home.webMobile.webLink', 'Open Web Development')}
+                </Link>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.1}>
+              <div className="editorial-panel glass-card">
+                <p className="editorial-kicker">{t('home.webMobile.mobileKicker', 'Mobile')}</p>
+                <h3>{t('home.webMobile.mobilePrice', 'Mobile from 40,000 ETB')}</h3>
+                <ul className="editorial-checklist">
+                  {WEB_MOBILE_MOBILE_ROW_KEYS.map((keyPath) => (
+                    <li key={keyPath}>
+                      <IconGlyph name="check" size={14} />
+                      <span>{t(keyPath, '')}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link className="editorial-inline-link" to="/mobile-development">
+                  {t('home.webMobile.mobileLink', 'Open Mobile Development')}
+                </Link>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 06 — BUSINESS SYSTEMS (R-5 track 5) */}
+      <section className="section" id="business-systems">
+        <div className="container editorial-two-column">
+          <ScrollReveal>
+            <div className="editorial-panel glass-card">
+              <SectionHeader
+                eyebrow={t('home.businessSystems.eyebrow', '06 · BUSINESS SYSTEMS')}
+                title={t('home.businessSystems.title', 'The systems behind daily operations.')}
+                subtitle={t('home.businessSystems.subtitle', 'Inventory, CRM, HR, finance, logistics, school, retail, and industry-specific systems — built as working software, not spreadsheets.')}
+                align="left"
+              />
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1}>
+            <div className="editorial-panel glass-card">
+              <ul className="editorial-checklist">
+                {BUSINESS_SYSTEMS_ROW_KEYS.map((keyPath) => (
+                  <li key={keyPath}>
+                    <IconGlyph name="check" size={14} />
+                    <span>{t(keyPath, '')}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link className="editorial-inline-link" to="/services">
+                {t('home.businessSystems.link', 'Explore Business Systems')}
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* 07 — SAAS & PRODUCT ENGINEERING (R-5 track 4) */}
+      <section className="section" id="saas-product">
+        <div className="container editorial-two-column">
+          <ScrollReveal>
+            <div className="editorial-panel glass-card">
+              <SectionHeader
+                eyebrow={t('home.saas.eyebrow', '07 · SAAS & PRODUCT')}
+                title={t('home.saas.title', 'Subscription software and product engineering.')}
+                subtitle={t('home.saas.subtitle', 'SaaS platforms, MVPs, and startup products with billing, onboarding, and multi-tenant architecture built in.')}
+                align="left"
+              />
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1}>
+            <div className="editorial-panel glass-card">
+              <ul className="editorial-checklist">
+                {SAAS_ROW_KEYS.map((keyPath) => (
+                  <li key={keyPath}>
+                    <IconGlyph name="check" size={14} />
+                    <span>{t(keyPath, '')}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link className="editorial-inline-link" to="/saas-solutions">
+                {t('home.saas.link', 'Open SaaS Solutions')}
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* 08 — AI & AUTOMATION (R-12) — after the software story is established */}
+      <section className="section" id="ai-automation">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow={t('home.ai.eyebrow', '08 · AI & AUTOMATION')}
+              title={t('home.ai.title', 'Add intelligence to your software.')}
+              subtitle={t('home.ai.subtitle', 'Make your software smarter. Add intelligent automation where it actually saves time.')}
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="transformation-pairs">
+            {TRANSFORMATION_PAIR_KEYS.map((keys) => (
+              <ScrollReveal key={keys.from}>
+                <article className="editorial-card glass-card transformation-pair">
+                  <span>{t(keys.from, '')}</span>
+                  <span className="transformation-pair__arrow" aria-hidden="true">→</span>
+                  <strong>{t(keys.to, '')}</strong>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal delay={0.1}>
+            <div className="editorial-note-panel">
+              <strong>{t('home.ai.noteStrong', 'Turn existing business workflows into intelligent systems.')}</strong>{' '}
+              {t('home.ai.note', 'Integrate AI into the software your business already depends on.')}
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.12}>
+            <div className="cta-actions">
+              <Link className="btn btn-primary btn-lg" to="/services">
+                {t('home.ai.cta', 'Explore AI & Automation')}
+              </Link>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* 09 — PROCESS (R-9) — band-1 dark (A5) */}
+      <section className="section band-dark band-1" id="process">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow={t('home.process.eyebrow', '09 · PROCESS')}
+              title={t('home.process.title', 'Five steps from first call to running software.')}
+              subtitle={t('home.process.subtitle', 'Clear commercial terms and delivery expectations before a build starts.')}
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="editorial-step-grid">
+            {PROCESS_STEP_KEYS.map((keys, index) => (
+              <ScrollReveal key={keys.title}>
+                <article className="editorial-step-card glass-card">
+                  <div className="methodology-step-top">
+                    <span className="methodology-step-number">0{index + 1}</span>
+                  </div>
+                  <h3>{t(keys.title, '')}</h3>
+                  <p>{t(keys.text, '')}</p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10 — SELECTED WORK / CASE STUDIES (R-10) */}
+      <section className="section" id="selected-work">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow={t('home.selectedWork.eyebrow', '10 · SELECTED WORK')}
+              title={t('home.selectedWork.title', 'Real products, designed and developed by NovaTech.')}
+              subtitle={t('home.selectedWork.subtitle', 'Verifiable builds — no invented client claims.')}
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="what-we-build-grid">
+            <ScrollReveal>
+              <CaseStudyCard
+                captionKey="home.caseStudies.stealthOverlay.caption"
+                captionFallback="LIVE PRODUCT · STEALTH OVERLAY"
+                titleKey="home.caseStudies.stealthOverlay.title"
+                titleFallback="Stealth Overlay"
+                descriptionKey="home.caseStudies.stealthOverlay.description"
+                descriptionFallback="AI interview assistant for coding interviews — real-time DSA guidance and problem-solving support during technical interview practice."
+                categoryKey="home.caseStudies.stealthOverlay.category"
+                categoryFallback="AI-powered web application"
+                altKey="home.caseStudies.stealthOverlay.alt"
+                altFallback="Stealth Overlay — live product homepage screenshot"
+                imageUrl="/case-studies/stealth-overlay.webp"
+                href="https://www.stealthoverlay.com/"
+              />
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.1}>
+              <CaseStudyCard
+                captionKey="home.caseStudies.rhobotAcademy.caption"
+                captionFallback="LIVE PRODUCT · RHOBOT ACADEMY"
+                titleKey="home.caseStudies.rhobotAcademy.title"
+                titleFallback="Rhobot Academy"
+                descriptionKey="home.caseStudies.rhobotAcademy.description"
+                descriptionFallback="Amharic-language forex trading course platform — curriculum, student accounts, free registration, instructor-led content."
+                categoryKey="home.caseStudies.rhobotAcademy.category"
+                categoryFallback="Learning platform / LMS"
+                altKey="home.caseStudies.rhobotAcademy.alt"
+                altFallback="Rhobot Academy — live product homepage screenshot"
+                imageUrl="/case-studies/rhobot-academy.webp"
+                href="https://rhobotcapital.com/"
+              />
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 11 — WHY NOVATECH (R-3 item 11, derived differentiators) */}
+      <section className="section" id="why-novatech">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow={t('home.why.eyebrow', '11 · WHY NOVATECH')}
+              title={t('home.why.title', 'The reasons are on the pricing page.')}
+              subtitle={t('home.why.subtitle', 'Published prices, milestone billing, written commitments, and a response SLA.')}
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="editorial-card-grid receipt-stack">
+            {WHY_NOVATECH_KEYS.map((keys, index) => (
+              <ScrollReveal key={keys.title}>
+                <article className="editorial-card editorial-track-card">
+                  <span className="receipt-row__numeral" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="home-track-card__body">
+                    <h3>{t(keys.title, '')}</h3>
+                    <p>{t(keys.text, '')}</p>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 12 — INDUSTRIES / BUSINESS USE CASES (R-11) */}
+      <section className="section" id="industries">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow={t('home.industries.eyebrow', '12 · INDUSTRIES')}
+              title={t('home.industries.title', 'Systems for the realities of local businesses.')}
+              subtitle={t('home.industries.subtitle', 'We understand the realities of local businesses and build software around how they actually work.')}
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="what-we-build-grid">
+            {INDUSTRY_KEYS.map((keys, index) => (
+              <ScrollReveal key={keys.title}>
+                <article className="editorial-card glass-card what-we-build-item">
+                  <span className="receipt-row__numeral" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="what-we-build-item__body">
+                    <h3>{t(keys.title, '')}</h3>
+                    <p>{t(keys.text, '')}</p>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 13 — WORKFLOW AUDIT / DIGITAL TRANSFORMATION (R-8) — demoted, unchanged terms */}
+      <section className="section" id="workflow-audit">
+        <div className="container editorial-two-column">
+          <ScrollReveal>
+            <article className="editorial-panel glass-card audit-card">
+              <div className="eyebrow">{t('home.audit.eyebrow', '13 · AUDIT')}</div>
+              <h2>{t('home.audit.title', 'Workflow Audit')}</h2>
+              <p className="editorial-price-tag editorial-hero-price">
+                {/* M-4 (A11): the audit figure counts 0 → 15,000 ETB once (locked). */}
+                <PriceCounter value={PRICING_SUMMARY.workflowAudit.price} />
+              </p>
+              <div className="audit-terms-row" aria-label="Workflow audit terms">
+                <span className="trust-pill">{t('home.audit.termsDay', '5 business days')}</span>
+                <span className="trust-pill">{t('home.audit.termsCredit', '100% credited toward the build')}</span>
+              </div>
+              <p>{t('home.audit.description', PRICING_SUMMARY.workflowAudit.description)}</p>
+              <div className="editorial-note-panel">
+                <strong>Guarantee:</strong> {t('home.audit.guarantee', "If the audit doesn't produce a usable blueprint, you don't pay.")}
+              </div>
+              <div className="cta-actions">
+                <Link className="btn btn-secondary btn-lg" to="/workflow-audit">
+                  {t('home.audit.ctaBook', 'Book Workflow Audit')}
+                </Link>
+                <Link className="btn btn-dark btn-lg" to="/pricing">
+                  {t('home.audit.ctaViewPricing', 'View Live Pricing')}
+                </Link>
+              </div>
+            </article>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1}>
+            <div className="editorial-panel glass-card">
+              <p className="editorial-kicker">{t('home.audit.sideKicker', 'Smart first step')}</p>
+              <h3>{t('home.audit.sideTitle', 'Unsure which build you need?')}</h3>
+              <p>
+                {t('home.audit.sideText', 'The audit maps the current process and defines the right build path — the fee is 100% credited toward the build that follows.')}
+              </p>
+              <ul className="editorial-checklist">
+                {PRICING_SUMMARY.workflowAudit.outputs.slice(0, 4).map((item) => (
                   <li key={item}>
                     <IconGlyph name="check" size={14} />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-              <p className="editorial-note">
-                Know the build? Use the instant quote tool. Unsure? Start with the audit.
-              </p>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-      <section className="section band-dark band-1" id="implementation-tracks">
+      {/* 14 — FINAL CTA + PROJECT INTAKE (R-7) — band-2 dark (A5) */}
+      <section className="section band-dark band-2" id="project-intake">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="04 · TRACKS"
-              title="We build what the audit proves you need."
-              subtitle="The audit leads into AI, web, mobile, or a combination."
+              eyebrow={t('home.finalCta.eyebrow', '14 · START A PROJECT')}
+              title={t('home.finalCta.title', 'Tell us what you want to build.')}
+              subtitle={t('home.finalCta.subtitle', 'Your project request was designed to reach us with scope and budget context — we respond within 1 business day.')}
               align="left"
             />
           </ScrollReveal>
 
-          {/* B43 (TECH-26): implementation tracks as ruled receipt rows with real
-              DOM mono numerals 01–03 and mono tabular prices (locked figures). */}
-          <div className="editorial-card-grid editorial-card-grid-dark receipt-stack">
-            {IMPLEMENTATION_TRACKS.map((item, index) => (
-              <ScrollReveal key={item.title}>
-                <article className="editorial-card editorial-track-card home-track-card">
-                  <span className="receipt-row__numeral" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <div className="home-track-card__body">
-                    <p className="editorial-price-tag">{item.price}</p>
-                    <h3>{item.title}</h3>
-                    <p>{item.text}</p>
-                    <Link className="editorial-inline-link" to={item.to}>
-                      Explore this track
-                    </Link>
-                  </div>
-                </article>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section" id="offer-ladder">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              eyebrow="05 · LADDER"
-              title="The commercial path is simple on purpose."
-              subtitle="One paid first step, then the right tier, then support."
-              align="left"
-            />
-          </ScrollReveal>
-
-          <div className="offer-ladder">
-            {OFFER_LADDER.map((item) => (
-              <ScrollReveal key={item.title}>
-                <article className="offer-ladder-row">
-                  <div className="offer-ladder-stage">{item.stage}</div>
-                  <div className="offer-ladder-main">
-                    <h3>{item.title}</h3>
-                    <p>{item.note}</p>
-                  </div>
-                  <div className="offer-ladder-price">
-                    {/* M-4 (TECH-33): single figures count 0 → value once on
-                        viewport entry; ranges/multi-figure strings render static
-                        (resolution A4). Lands exactly on the locked figure (G-5). */}
-                    <strong><PriceCounter value={item.price} /></strong>
-                    <span>{item.detail}</span>
-                  </div>
-                </article>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section ai-contact-section" id="contact">
-        <div className="container">
-          <ScrollReveal>
-            <SectionHeader
-              eyebrow="06 · CONTACT"
-              title="Tell us where work breaks."
-              subtitle="We will tell you whether the audit or a scoped build comes first."
-              align="left"
-            />
-          </ScrollReveal>
-
-          <div className="contact-grid">
-            <ScrollReveal>
-              <div className="contact-info-card glass-card editorial-contact-card">
-                <p className="editorial-kicker">Direct contact</p>
-                <h3>Prefer to speak first?</h3>
-                <p>Message us, book the audit, or reach out directly.</p>
-                <ul className="editorial-contact-list">
-                  <li>
-                    <a href={`mailto:${SITE_CONTACT.email}`} onClick={() => trackContactChannelClick('email', 'home_contact_card')}>
-                      {SITE_CONTACT.email}
-                    </a>
-                  </li>
-                  <li>
-                    <a href={SITE_CONTACT.phoneHref} onClick={() => trackContactChannelClick('phone', 'home_contact_card')}>
-                      {SITE_CONTACT.phoneDisplay}
-                    </a>
-                  </li>
-                  <li>
-                    <Link to="/workflow-audit">Review the Workflow Audit</Link>
-                  </li>
-                </ul>
+          <div className="editorial-two-column">
+            <ScrollReveal static>
+              <div className="contact-form-card glass-card intake-form">
+                <h3>{t('home.finalCta.formTitle', 'Project intake')}</h3>
+                <ProjectIntakeForm />
               </div>
             </ScrollReveal>
 
-            {/* TECH-29 (D2): the contact form is a form surface — it renders
-                stable immediately so submit controls settle before the user
-                (or the E2E click) reaches them. The rest of the marketing
-                page keeps B47 calm motion. */}
             <ScrollReveal static>
-              <div className="contact-form-card glass-card">
-                <h3>Send us a message</h3>
-                <form className="contact-form" onSubmit={handleContactSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="contact-name">Full Name</label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      name="name"
-                      value={contactForm.name}
-                      onChange={handleContactChange}
-                      placeholder="Sara Tesfaye"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="contact-email">Email Address</label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      name="email"
-                      value={contactForm.email}
-                      onChange={handleContactChange}
-                      placeholder="sara@example.com"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="contact-message">What is breaking?</label>
-                    <textarea
-                      id="contact-message"
-                      name="message"
-                      rows={5}
-                      value={contactForm.message}
-                      onChange={handleContactChange}
-                      placeholder="Manual approvals, invoice re-entry, quoting delays, portal updates, customer follow-up, or the product build you are trying to scope."
-                      required
-                    />
-                  </div>
-
-                  <button type="submit" className="btn btn-primary btn-lg" disabled={contactStatus === 'sending'}>
-                    {contactStatus === 'sending' ? 'Sending...' : 'Send Message'}
-                  </button>
-
-                  {contactStatus === 'sent' ? (
-                    <p className="form-feedback sent" role="status" aria-live="polite">
-                      Thanks. Your message was sent successfully and our team will respond within 24 hours.
-                    </p>
-                  ) : null}
-
-                  {contactStatus === 'fallback' ? (
-                    <p className="form-feedback sent" role="status" aria-live="polite">
-                      Your message opened in your email client because the contact endpoint is unavailable right now.
-                    </p>
-                  ) : null}
-
-                  {contactStatus === 'error' ? (
-                    <p className="form-feedback error" role="status" aria-live="polite">
-                      We could not send your message. Please try again or contact us directly.
-                    </p>
-                  ) : null}
-                </form>
+              <div className="editorial-panel glass-card">
+                <p className="editorial-kicker">{t('home.finalCta.quoteKicker', 'Prefer a number now?')}</p>
+                <h3>{t('home.finalCta.quoteTitle', 'Use the instant quote tool.')}</h3>
+                <p>
+                  {t('home.finalCta.quoteText', 'A directional ETB estimate in minutes, without a call.')}
+                </p>
+                <div className="cta-actions">
+                  <Link className="btn btn-primary btn-lg" to="/instant-quote">
+                    {t('home.finalCta.quoteCta', 'Instant Quote Tool')}
+                  </Link>
+                </div>
+                <ProjectIntakeChatLinks />
               </div>
             </ScrollReveal>
           </div>

@@ -9,18 +9,17 @@ const LANGUAGE_ALTERNATES = [
 const SEO_BY_ROUTE = {
   '/': {
     en: {
-      title: 'NovaTech | Workflow Audit and Digital Systems',
-      // TECH-35/41 (S-1): software-first enumeration; AI named as the second,
-      // bottleneck-scoped track. Same word budget as the pre-phase-10 string.
-      description: 'Start with a Workflow Audit, then scope web, mobile, or SaaS build — AI automation where it solves a real bottleneck.',
+      // TECH-50 (R-1): the home title leads with software; AI is named second.
+      title: 'NovaTech | Custom Software, Web, Mobile, SaaS & AI Automation',
+      description: 'NovaTech builds custom software, web platforms, mobile applications, SaaS products, and business systems in Ethiopia and beyond — with AI automation where it creates real business value.',
     },
     am: {
-      title: 'NovaTech - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source while scaling software delivery. NovaTech deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
+      title: 'NovaTech - ብጁ ሶፍትዌር፣ ዌብ፣ ሞባይል፣ SaaS እና AI',
+      description: 'NovaTech ብጁ ሶፍትዌር፣ የዌብ መድረኮች፣ የሞባይል መተግበሪያዎች እና የSaaS ምርቶችን ይገነባል — AI አውቶሜሽን እውነተኛ እሴት በሚፈጥርበት ቦታ።',
     },
     om: {
-      title: 'NovaTech - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source while scaling software delivery. NovaTech deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
+      title: 'NovaTech - Sofiitweerii Dhuunfaa, Web, Mobile, SaaS fi AI',
+      description: 'NovaTech sofiitweerii dhuunfaa, platform web, appii moobaayilaa fi oomisha SaaS ijaara — AI automation bakka gatii dhugaa uumuutti.',
     },
   },
   '/404': {
@@ -38,18 +37,18 @@ const SEO_BY_ROUTE = {
     },
   },
   '/services': {
-    // TECH-41 (A2): /services SEO title re-cut software-first.
+    // TECH-50 (R-5): software lanes lead; AI is the named specialist track.
     en: {
-      title: 'Services | NovaTech',
-      description: 'See the web, mobile, and live-priced SaaS lanes NovaTech builds — plus AI automation scoped to a real bottleneck — after the Workflow Audit clarifies the right path.',
+      title: 'Custom Software, Web, Mobile & SaaS Services | NovaTech',
+      description: 'Custom software, web, mobile, SaaS, and business system development from NovaTech — plus AI automation scoped to a real bottleneck.',
     },
     am: {
-      title: 'አገልግሎቶች | NovaTech',
-      description: 'የዌብ፣ ሞባይል እና SaaS የሶፍትዌር መስመሮችን እንዲሁም እውነተኛ ችግርን የሚፈታ AI አውቶሜሽንን ይመልከቱ — ከWorkflow Audit በኋላ ትክክለኛውን መንገድ ያብራራል።',
+      title: 'ብጁ ሶፍትዌር፣ ዌብ፣ ሞባይል እና SaaS አገልግሎቶች | NovaTech',
+      description: 'ብጁ ሶፍትዌር፣ ዌብ፣ ሞባይል፣ SaaS እና የንግድ ስርዓት ልማት ከNovaTech — እንዲሁም እውነተኛ ችግርን የሚፈታ AI አውቶሜሽን።',
     },
     om: {
-      title: 'Tajaajiloota | NovaTech',
-      description: 'Karaalee software web, mobile fi SaaS gatii argisiisan ilaali — waliin automation AI rakkoo dhugaa furu — erga Workflow Audit karaa sirrii ifa goonee booda.',
+      title: 'Tajaajila Sofiitweerii Dhuunfaa, Web, Mobile fi SaaS | NovaTech',
+      description: 'Ijjaarsa sofiitweerii dhuunfaa, web, mobile, SaaS fi sirna daldalaa NovaTech irraa — waliin AI automation rakkoo dhugaa furu.',
     },
   },
   '/pricing': {
@@ -70,7 +69,8 @@ const SEO_BY_ROUTE = {
   '/workflow-audit': {
     en: {
       title: 'Workflow Audit | NovaTech',
-      description: 'Book a workflow audit to map bottlenecks, estimate recoverable capacity, and receive an implementation-ready automation blueprint.',
+      // TECH-50: the audit is the smart first step toward the right build.
+      description: 'Book a workflow audit to map your process, clarify the right build, and receive an implementation-ready blueprint — credited toward the build.',
     },
     am: {
       title: 'Workflow Audit | NovaTech',
@@ -197,8 +197,9 @@ const SEO_BY_ROUTE = {
 
 const SERVICE_SCHEMA_BY_ROUTE = {
   '/services': {
-    name: 'AI Automation and Agentic Systems',
-    serviceType: 'AI automation consultancy',
+    // TECH-50 (R-5): the /services schema name leads with software.
+    name: 'Custom Software, Web, Mobile, SaaS and AI Automation Services',
+    serviceType: 'Software development and AI automation consultancy',
   },
   '/workflow-audit': {
     name: 'Workflow Automation Audit',
@@ -508,7 +509,7 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   ensurePropertyMeta('og:description', selected.description);
   ensurePropertyMeta('og:url', canonicalUrl);
   ensurePropertyMeta('og:image', OG_IMAGE_URL);
-  ensurePropertyMeta('og:image:alt', 'NovaTech automation and product engineering preview');
+  ensurePropertyMeta('og:image:alt', 'NovaTech custom software, web, mobile, SaaS and AI automation preview');
   ensurePropertyMeta('og:type', 'website');
   ensurePropertyMeta('og:site_name', 'NovaTech');
   ensurePropertyMeta('og:locale', language === 'am' ? 'am_ET' : language === 'om' ? 'om_ET' : 'en_US');

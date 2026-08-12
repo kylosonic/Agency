@@ -52,6 +52,44 @@ async function dismissLeadModalIfOpen(page) {
 }
 
 /**
+ * Phase 11 (R-7): the two case-study screenshots (public/case-studies/*.webp,
+ * `loading="lazy"`) begin loading when the page scrolls near the intake form
+ * (#project-intake sits just below them). A lazy image load that lands between
+ * scroll-into-view and the submit click can shift layout and swallow the click,
+ * so the submit handler never runs. Make the load deterministic: bring the
+ * #selected-work section into view (the browser then MUST schedule the lazy
+ * loads), wait until every image has settled (load or error), and only then
+ * click submit.
+ */
+async function waitForCaseStudyImagerySettled(page) {
+  await page.locator('#selected-work').scrollIntoViewIfNeeded();
+  await page.locator('.case-study-card img').evaluateAll((imgs) =>
+    Promise.all(
+      imgs.map((img) =>
+        img.complete
+          ? Promise.resolve()
+          : new Promise((resolve) => {
+              img.addEventListener('load', resolve, { once: true });
+              img.addEventListener('error', resolve, { once: true });
+            })
+      )
+    )
+  );
+}
+
+/**
+ * Phase 11 (R-7): stable intake submit — bring the button into view, let the
+ * lazy case-study imagery above the form settle, then click. Used by every
+ * test that must land the submit event deterministically (never force-click).
+ */
+async function clickIntakeSubmit(page, form) {
+  const submit = form.getByRole('button', { name: 'Start a Project' });
+  await submit.scrollIntoViewIfNeeded();
+  await waitForCaseStudyImagerySettled(page);
+  await submit.click();
+}
+
+/**
  * TECH-22 (B40): the two-register system renders ALL prose lowercase via CSS
  * (text-transform: lowercase on body). `innerText()` reflects the RENDERED
  * case, so case-sensitive text assertions against sentence-case source copy
@@ -199,7 +237,7 @@ test.describe('Live site responsive smoke', () => {
     }
   }
 
-  test('mobile nav works and the site defaults dark on home page', async ({ page }) => {
+  test('mobile nav works and the site defaults light on home page', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await installColorProbe(page);
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
@@ -217,16 +255,16 @@ test.describe('Live site responsive smoke', () => {
     await expect(page.locator('.mobile-nav.open')).toBeHidden();
 
     await expect(page.locator('.dark-mode-toggle')).toHaveCount(0);
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 
-    // B39 — the canvas is dark cool-violet (oklch(13% 0.014 265)-family), not pure black.
+    // R-16 — the canvas is warm light paper (oklch(96.5% 0.012 88)-family).
     const bodyBackground = await page.locator('body').evaluate((element) => {
       const color = window.getComputedStyle(element).backgroundColor;
       const probe = window.__probeColor(color);
-      return { color, dark: probe.decisive && !probe.light, black: probe.black };
+      return { color, light: probe.decisive && probe.light, black: probe.black };
     });
-    expect(bodyBackground.dark, `body background must be dark, got ${bodyBackground.color}`).toBe(true);
-    expect(bodyBackground.black, `body background must not be pure black, got ${bodyBackground.color}`).toBe(false);
+    expect(bodyBackground.light, `body background must be light, got ${bodyBackground.color}`).toBe(true);
+    expect(bodyBackground.black, `body background must not be black, got ${bodyBackground.color}`).toBe(false);
   });
 
   test('additional services table scrolls inside wrapper on small screens without page overflow', async ({ page }) => {
@@ -294,7 +332,7 @@ test.describe('Live site responsive smoke', () => {
     await expect.poll(async () => page.title()).not.toBe(titleBefore);
   });
 
-  test('home contact form submits and shows success feedback', async ({ page }) => {
+  test('home project intake form submits and shows success feedback', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
     await page.route('https://formsubmit.co/**', async (route) => {
@@ -308,12 +346,18 @@ test.describe('Live site responsive smoke', () => {
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
 
-    await page.locator('#contact-name').fill('Playwright Contact Tester');
-    await page.locator('#contact-email').fill('playwright-contact@example.com');
-    await page.locator('#contact-message').fill('Please contact us with implementation options and timeline.');
-    await page.getByRole('button', { name: 'Send Message' }).click();
+    const form = page.locator('#project-intake form');
+    await form.locator('#project-intake-name').fill('Playwright Contact Tester');
+    await form.locator('#project-intake-email').fill('playwright-contact@example.com');
+    await form.locator('#project-intake-phone').fill('+251 911 000 003');
+    await form.locator('#project-intake-need').selectOption('Website');
+    await form.locator('#project-intake-message').fill('Please contact us with implementation options and timeline.');
+    await clickIntakeSubmit(page, form);
 
-    await expect(page.getByText('Thanks. Your message was sent successfully and our team will respond within 24 hours.')).toBeVisible();
+    await expect(
+      form.getByText(/your project request was received/i),
+      'the intake confirmation must render (R-7)'
+    ).toBeVisible();
   });
 });
 
@@ -386,7 +430,7 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     await expect(page.getByText('Download the current ETB pricing sheet')).toBeVisible();
   });
 
-  test('homepage hero is typography-led with real-facts strip', async ({ page }) => {
+  test('homepage hero is software-first typography with locked anchors (R-2)', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await installColorProbe(page);
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
@@ -397,34 +441,25 @@ test.describe('Phase 1 — proof strip and ETB-only pricing', () => {
     await expect(page.locator('#impact-calculator')).toHaveCount(0);
 
     await expect(page.locator('.hero-copy')).toBeVisible();
-    await expect(page.locator('.hero-facts')).toBeVisible();
-    await expect(page.locator('.hero-facts')).toContainText('5 business days');
 
-    // B43/B40 — hero facts render as ruled receipt rows: no boxed panel chrome,
-    // hairline rules, mono UPPERCASE label. The Phase 7 editorial panel surface dies.
-    const factsReceipt = await page.locator('.hero-facts').evaluate((element) => {
-      const style = window.getComputedStyle(element);
-      const label = element.querySelector('.hero-facts-label');
-      const labelStyle = label ? window.getComputedStyle(label) : null;
-      const firstRow = element.querySelector('.hero-fact-row');
-      const rowStyle = firstRow ? window.getComputedStyle(firstRow) : null;
-      const background = window.__probeColor(style.backgroundColor);
-      return {
-        borderRadius: style.borderRadius,
-        lightBackground: background.decisive && background.light,
-        labelFont: labelStyle ? labelStyle.fontFamily : '',
-        labelTransform: labelStyle ? labelStyle.textTransform : '',
-        rowRule: rowStyle ? rowStyle.borderBottomWidth : null,
-      };
-    });
-    expect(factsReceipt.borderRadius, 'hero facts must be a ruled receipt, not a boxed panel (B43)').toBe('0px');
-    expect(factsReceipt.lightBackground, 'hero facts must not sit on a light panel surface (B39)').toBe(false);
-    expect(factsReceipt.labelFont, 'hero facts label must render in JetBrains Mono').toContain('JetBrains Mono');
-    expect(factsReceipt.labelTransform, 'hero facts label must be UPPERCASE (mono register, B40)').toBe('uppercase');
-    expect(factsReceipt.rowRule, 'hero fact rows must be separated by hairline rules (B43)').toBe('1px');
+    // R-2 — the hero H1 is the software-first headline (B40 lowercases prose).
+    const h1Text = normalizeProse(await page.locator('section#hero h1').innerText());
+    expect(h1Text, 'hero headline must lead with software (R-2)').toContain('software built around your business');
 
-    const trustRowText = await page.locator('.hero-trust-row').innerText();
-    expect(trustRowText, 'trust row must not mention USD').not.toContain('USD');
+    // R-2 — subcopy names software first; AI is the named second capability.
+    const subcopy = normalizeProse(await page.locator('section#hero p').first().innerText());
+    expect(subcopy, 'hero subcopy must lead with software builds').toContain('builds custom software');
+    expect(subcopy, 'hero subcopy must name AI as the second capability').toContain('ai automation');
+
+    // R-2/A20 — trust row shows the software-first anchors (locked figures only).
+    const trustRowText = normalizeProse(await page.locator('.hero-trust-row').innerText());
+    expect(trustRowText, 'trust row must carry the web anchor').toContain('web from 20,000 etb');
+    expect(trustRowText, 'trust row must carry the mobile anchor').toContain('mobile from 40,000 etb');
+    expect(trustRowText, 'trust row must carry the SaaS anchor').toContain('saas from 3,500 etb / month');
+    expect(trustRowText, 'trust row must not mention USD').not.toContain('usd');
+
+    // R-19 — the audit pills no longer occupy the hero trust row.
+    expect(trustRowText, 'audit terms must not sit in the hero trust row').not.toContain('15,000 etb');
 
     const bodyText = await page.locator('main').innerText();
     expect(bodyText, 'homepage must not render dollar signs').not.toContain('$');
@@ -597,9 +632,16 @@ test.describe('Phase 9 — copy trim gate (TECH-32)', () => {
    *   outputs), which must not be cut. The editorial baseline (215 words) was
    *   extracted from the PRE-TRIM source (git HEAD 7eab150): hero p (24) +
    *   audit panel p (32) + subtitles (20/26/18) + AI scopes (34/30/31).
+   *
+   * A12 re-baseline (TECH-49, phase-9 precedent): the 15-section software-first
+   * Home (R-3) replaced the trimmed audit-first Home, so the old 616 ceiling
+   * died with the rebuild. New constant measured 2026-08-12 from the Phase-11
+   * EN build (`main` innerText, marquee excluded — the existing G-5 locked-data
+   * exemption): 999 words. The gate now guards against regressions above the
+   * measured trimmed build; QA re-verifies at Gate C.
    */
   const BASELINE_WORDS = {
-    '/': 948,
+    '/': 999,
   };
   const PRICING_EDITORIAL_BASELINE_WORDS = 215;
   // Contract C-1/C-2 repeat targets: each message at most twice per page.
@@ -614,7 +656,7 @@ test.describe('Phase 9 — copy trim gate (TECH-32)', () => {
     'coming soon',
   ];
 
-  test('/ rendered word count is at least 35% below the pre-trim baseline', async ({ page }) => {
+  test('/ rendered word count stays at or below the measured Phase-11 baseline (A12)', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
@@ -623,17 +665,18 @@ test.describe('Phase 9 — copy trim gate (TECH-32)', () => {
     // repeat P-1 price/discount strings that already exist on the page. It
     // was added AFTER the pre-trim baseline was captured, so it is excluded
     // from the measurement — the same locked-data exemption the C-2 ruling
-    // applies to /pricing. Everything else on Home keeps the >= 35% cut.
+    // applies to /pricing. Everything else on Home counts against the
+    // measured Phase-11 ceiling (A12).
     const text = await page.locator('main').evaluate((main) => {
       const clone = main.cloneNode(true);
       clone.querySelectorAll('.marquee-strip').forEach((node) => node.remove());
       return String(clone.innerText).toLowerCase().replace(/\s+/g, ' ').trim();
     });
     const words = text.split(' ').filter((token) => token.length > 0).length;
-    const limit = Math.floor(BASELINE_WORDS['/'] * 0.65);
+    const limit = BASELINE_WORDS['/'];
     expect(
       words,
-      `/ must cut at least 35% of rendered words (baseline ${BASELINE_WORDS['/']} -> limit ${limit}, got ${words})`
+      `/ must stay within the measured Phase-11 word ceiling (baseline ${BASELINE_WORDS['/']} -> limit ${limit}, got ${words})`
     ).toBeLessThanOrEqual(limit);
   });
 
@@ -778,25 +821,26 @@ test.describe('Phase 9 — editorial motion gate (TECH-33)', () => {
     expect(trackState.dupDisplay, 'marquee duplicate group must hide under reduced motion').toBe('none');
   });
 
-  test('M4 — the audit price counter lands exactly on the locked figure', async ({ page }) => {
+  test('M4 — the audit price counter lands exactly on the locked figure (A11)', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
 
-    const counter = page.locator('.offer-ladder-row').first().locator('.offer-ladder-price strong .price-counter');
-    await expect(counter, 'the offer ladder first row must carry a price counter').toHaveCount(1);
+    // A11: the ladder is gone — the single audit counter lives at section 13.
+    const counter = page.locator('#workflow-audit .price-counter');
+    await expect(counter, 'the section-13 audit card must carry a price counter').toHaveCount(1);
     await counter.scrollIntoViewIfNeeded();
     // Auto-retries until the count-up settles — must land exactly on 15,000 ETB.
     await expect(counter, 'the counter must land exactly on the locked audit figure').toHaveText('15,000 ETB');
   });
 
-  test('M4 — reduced motion renders the price statically at the locked figure', async ({ page }) => {
+  test('M4 — reduced motion renders the price statically at the locked figure (A11)', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
 
-    const counter = page.locator('.offer-ladder-row').first().locator('.offer-ladder-price strong .price-counter');
+    const counter = page.locator('#workflow-audit .price-counter');
     await expect(counter).toHaveCount(1);
     await counter.scrollIntoViewIfNeeded();
     await expect(counter, 'reduced motion must render the final figure with no count-up').toHaveText('15,000 ETB');
@@ -883,9 +927,11 @@ test.describe('Phase 9 — contact section spacing (owner-reported regression)',
   // padding (content flush against card hairlines; input borders merged with
   // card borders) and the mobile media queries padded a dead class
   // (.contact-info-item) so the info card was never padded at any viewport.
+  // TECH-45 (A6): the old #contact section is gone — the final-CTA section 14
+  // (intake card + chat panel) carries the same padding contract.
   const MIN_CARD_PADDING_PX = 15; // 0.95rem base floor on the smallest breakpoint
 
-  test('contact cards carry interior padding on desktop and mobile', async ({ page }) => {
+  test('intake cards carry interior padding on desktop and mobile', async ({ page }) => {
     for (const viewport of [
       { name: 'desktop', width: 1440, height: 900 },
       { name: 'mobile', width: 390, height: 844 },
@@ -894,20 +940,22 @@ test.describe('Phase 9 — contact section spacing (owner-reported regression)',
       await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
       await dismissLeadModalIfOpen(page);
 
-      const paddings = await page.locator('.contact-info-card, .contact-form-card').evaluateAll((cards) =>
-        cards.map((card) => {
-          const style = window.getComputedStyle(card);
-          return {
-            cls: String(card.className),
-            top: parseFloat(style.paddingTop) || 0,
-            left: parseFloat(style.paddingLeft) || 0,
-            right: parseFloat(style.paddingRight) || 0,
-            bottom: parseFloat(style.paddingBottom) || 0,
-          };
-        })
-      );
+      const paddings = await page
+        .locator('#project-intake .contact-form-card, #project-intake .editorial-panel.glass-card')
+        .evaluateAll((cards) =>
+          cards.map((card) => {
+            const style = window.getComputedStyle(card);
+            return {
+              cls: String(card.className),
+              top: parseFloat(style.paddingTop) || 0,
+              left: parseFloat(style.paddingLeft) || 0,
+              right: parseFloat(style.paddingRight) || 0,
+              bottom: parseFloat(style.paddingBottom) || 0,
+            };
+          })
+        );
 
-      expect(paddings.length, `${viewport.name}: both contact cards must render`).toBe(2);
+      expect(paddings.length, `${viewport.name}: both intake cards must render`).toBe(2);
       for (const card of paddings) {
         for (const edge of ['top', 'left', 'right', 'bottom']) {
           expect(
@@ -917,18 +965,6 @@ test.describe('Phase 9 — contact section spacing (owner-reported regression)',
         }
       }
     }
-  });
-
-  test('offer-ladder price and detail lines keep a visible gap', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
-    await dismissLeadModalIfOpen(page);
-
-    const gap = await page.locator('.offer-ladder-price').first().evaluate((element) => {
-      const style = window.getComputedStyle(element);
-      return parseFloat(style.rowGap) || parseFloat(style.gap) || 0;
-    });
-    expect(gap, `offer-ladder price gap must stay >= 0.3rem (got ${gap}px)`).toBeGreaterThanOrEqual(4);
   });
 });
 
@@ -951,7 +987,7 @@ test.describe('Analytics smoke assertions', () => {
     await expectAnalyticsEvent(page, 'instant_quote_outcome');
   });
 
-  test('tracks contact form attempt/outcome and contact channel clicks', async ({ page }) => {
+  test('tracks intake form attempt/outcome and contact channel clicks', async ({ page }) => {
     await seedDataLayer(page);
     await page.setViewportSize({ width: 390, height: 844 });
 
@@ -966,17 +1002,17 @@ test.describe('Analytics smoke assertions', () => {
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
 
-    await page.locator('#contact-name').fill('Analytics Contact Tester');
-    await page.locator('#contact-email').fill('analytics-contact@example.com');
-    await page.locator('#contact-message').fill('Analytics smoke test contact form submission.');
-    await page.getByRole('button', { name: 'Send Message' }).click();
+    const form = page.locator('#project-intake form');
+    await form.locator('#project-intake-name').fill('Analytics Contact Tester');
+    await form.locator('#project-intake-email').fill('analytics-contact@example.com');
+    await form.locator('#project-intake-phone').fill('+251 911 000 004');
+    await form.locator('#project-intake-need').selectOption('SaaS product');
+    await form.locator('#project-intake-message').fill('Analytics smoke test intake submission.');
+    await clickIntakeSubmit(page, form);
 
-    await expect(page.getByText('Thanks. Your message was sent successfully and our team will respond within 24 hours.')).toBeVisible();
-    await expectAnalyticsEvent(page, 'contact_form_attempt');
+    await expect(form.getByText(/your project request was received/i)).toBeVisible();
+    await expectAnalyticsEventWithSource(page, 'contact_form_attempt', 'project_intake');
     await expectAnalyticsEvent(page, 'contact_form_outcome');
-
-    await page.locator('.contact-info-card a[href^="mailto:"]').first().click();
-    await expectAnalyticsEventWithSource(page, 'contact_channel_clicked', 'home_contact_card');
 
     await page.locator('.footer-links a[href^="mailto:"]').first().click();
     await expectAnalyticsEventWithSource(page, 'contact_channel_clicked', 'footer');
@@ -1097,26 +1133,11 @@ test.describe('Phase 2 — wizard/pricing unification (TECH-04)', () => {
   });
 });
 
-test.describe('Phase 2 — audit-first hierarchy', () => {
-  test('home, pricing, and workflow audit pages foreground the Workflow Audit first', async ({ page }) => {
-    const routesToCheck = ['/', '/pricing', '/workflow-audit'];
-
-    for (const route of routesToCheck) {
-      await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
-      await dismissLeadModalIfOpen(page);
-
-      const pageText = normalizeProse(await page.locator('main').innerText());
-      // Phase 8 (B41/B43) rewrote the audit pitch: home and pricing still carry
-      // the literal "Workflow Audit" phrase, while the audit page itself leads
-      // with the verb-first line "audit the workflow before the build."
-      // Accept both — the invariant is audit-first framing on all three routes.
-      const auditFirst = pageText.includes('workflow audit') || pageText.includes('audit the workflow');
-      expect(auditFirst, `${route} must foreground the workflow audit`).toBe(true);
-      expect(pageText, `${route} must not promote the stale pricing guide`).not.toContain('pricing guide');
-    }
-  });
-
+test.describe('Phase 2 — audit-first hierarchy (superseded by R-3, TECH-49)', () => {
+  // The Phase-2 audit-first Home assertion was deleted in TECH-49: the R-3
+  // section-order gate (Phase 11 describe) supersedes it — Home now leads
+  // with the software story and carries the audit at section 13. The audit
+  // page and pricing-page audit terms are still covered by their own tests.
   test('workflow audit page states the fixed 15k fee, 5-business-day delivery, and credit terms', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/workflow-audit`, { waitUntil: 'networkidle' });
@@ -1141,92 +1162,105 @@ test.describe('Phase 2 — audit-first hierarchy', () => {
   });
 });
 
-test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
-  test('N1 — every matrix route defaults dark with no dark-mode toggle', async ({ page }) => {
+test.describe('Phase 8 — light-first visual system (TECH-22 re-baselined, TECH-42)', () => {
+  test('N1 — every matrix route defaults light with no dark-mode toggle', async ({ page }) => {
     await installColorProbe(page);
     for (const route of routes) {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
 
-      await expect(page.locator('html'), `${route} must default to the dark theme`).toHaveAttribute('data-theme', 'dark');
+      await expect(page.locator('html'), `${route} must default to the light theme`).toHaveAttribute('data-theme', 'light');
       await expect(page.locator('.dark-mode-toggle'), `${route} must have no dark-mode toggle`).toHaveCount(0);
 
       const bodyBackground = await page.locator('body').evaluate((element) => {
         const color = window.getComputedStyle(element).backgroundColor;
         const probe = window.__probeColor(color);
-        return { color, dark: probe.decisive && !probe.light, black: probe.black };
+        return { color, light: probe.decisive && probe.light, black: probe.black };
       });
       expect(
-        bodyBackground.dark,
-        `${route} body background must be dark cool-violet (oklch(13% 0.014 265)-family), got ${bodyBackground.color}`
+        bodyBackground.light,
+        `${route} body background must be light warm paper (oklch(96.5% 0.012 88)-family), got ${bodyBackground.color}`
       ).toBe(true);
-      expect(bodyBackground.black, `${route} body background must not be pure black, got ${bodyBackground.color}`).toBe(false);
+      expect(bodyBackground.black, `${route} body background must not be black, got ${bodyBackground.color}`).toBe(false);
     }
   });
 
-  test('N2 — no light-paper sections anywhere; the brass final-CTA band closes the page', async ({ page }) => {
+  test('N2 — light-first canvas with exactly two dark bands (band-1 process, band-2 final CTA)', async ({ page }) => {
     await installColorProbe(page);
     const bandRoutes = [...routes, '/services', '/workflow-audit'];
-    const marketingRoutes = ['/', '/services', '/workflow-audit', '/web-development', '/mobile-development', '/saas-solutions', '/additional-services'];
 
     for (const route of bandRoutes) {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
       await dismissLeadModalIfOpen(page);
 
-      // B39 — dark from edge to edge: every main section must sit on the dark canvas
-      // family (paper/paper-2/paper-3). Any light surface is a Phase 7 leftover.
-      const lightSections = await page.evaluate(() => {
-        const surfaceOf = (element) => {
+      // R-16 — the canvas is light; the only dark surfaces are .band-dark sections.
+      // Map to plain data inside the browser — DOM nodes cannot be serialized
+      // out of page.evaluate (classList is undefined once back in Node).
+      const darkSections = await page.evaluate(() => {
+        const surfaceIsDark = (element) => {
           let node = element;
           while (node && node !== document.documentElement) {
             const probe = window.__probeColor(window.getComputedStyle(node).backgroundColor);
             if (probe.decisive) {
-              return probe.light;
+              return !probe.light;
             }
             node = node.parentElement;
           }
-          return window.__probeColor(window.getComputedStyle(document.documentElement).backgroundColor).light;
+          return false;
         };
 
         return Array.from(document.querySelectorAll('main section'))
-          .filter((section) => surfaceOf(section))
-          .map((section) => section.id || section.className || section.tagName);
+          .map((section) => ({
+            id: section.id,
+            className: section.className,
+            dark: surfaceIsDark(section),
+          }))
+          .filter((section) => section.dark);
       });
-      expect(lightSections, `${route} must have no light-paper sections (B39)`).toEqual([]);
-
-      // The page closes on a dark band (brass final-CTA band on marketing pages).
-      // App.jsx wraps every route in .page-transition, so sections are never
-      // direct children of main — use the descendant selector. Most sections
-      // (incl. the closing contact/CTA bands) sit transparent on the dark
-      // canvas — only .band-dark paints paper-2 — so B39 is evaluated on the
-      // effective surface, exactly like the light-sections walk above.
-      const finalBand = await page.locator('main section').last().evaluate((section) => {
-        const surfaceOf = (element) => {
-          let node = element;
-          while (node && node !== document.documentElement) {
-            const probe = window.__probeColor(window.getComputedStyle(node).backgroundColor);
-            if (probe.decisive) {
-              return probe;
-            }
-            node = node.parentElement;
-          }
-          return window.__probeColor(window.getComputedStyle(document.documentElement).backgroundColor);
-        };
-        const probe = surfaceOf(section);
-        return {
-          className: section.className || section.id,
-          dark: probe.decisive && !probe.light,
-        };
-      });
-      expect(finalBand.dark, `${route}: the final band (${finalBand.className}) must be dark (B39)`).toBe(true);
-
-      if (marketingRoutes.includes(route)) {
-        await expect(
-          page.locator('main section').last().locator('.btn-primary').first(),
-          `${route}: the final band must carry a brass CTA`
-        ).toBeVisible();
+      for (const section of darkSections) {
+        expect(
+          section.className.includes('band-dark'),
+          `${route}: dark section ${section.id || section.className} must be a .band-dark band`
+        ).toBe(true);
       }
+
+      // R-16/A5 — Home carries exactly two dark bands, the last main section
+      // being the dark final-CTA band (#project-intake).
+      if (route === '/') {
+        expect(darkSections.length, 'home must render exactly two dark bands (A5)').toBe(2);
+        const finalSection = await page.locator('main section').last().evaluate((section) => ({
+          id: section.id || section.className,
+          dark: section.classList.contains('band-dark'),
+        }));
+        expect(finalSection.id, 'home must close on the final-CTA band (#project-intake)').toBe('project-intake');
+        expect(finalSection.dark, 'the final-CTA band must be a dark band (band-2)').toBe(true);
+      }
+    }
+
+    // R-6/N2 (Phase 11 re-baseline): the FINAL CTA surface on each marketing
+    // page carries the primary CTA. Phase 11 moved the closing CTA out of the
+    // dark band-1 sections into the light .page-closing-card — the R-6
+    // hierarchy (exact "Start a Project" label + href) is enforced by the C1
+    // gate; this loop keeps the structural check that the final CTA surface
+    // (Home's dark #project-intake band or the closing card) carries a
+    // .btn-primary.
+    const finalCtaSelectors = [
+      { route: '/', selector: '#project-intake' },
+      { route: '/services', selector: '.page-closing-card' },
+      { route: '/web-development', selector: '.page-closing-card' },
+      { route: '/mobile-development', selector: '.page-closing-card' },
+      { route: '/saas-solutions', selector: '.page-closing-card' },
+      { route: '/additional-services', selector: '.page-closing-card' },
+    ];
+    for (const { route, selector } of finalCtaSelectors) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+      await expect(
+        page.locator(selector).locator('.btn-primary').first(),
+        `${route}: the final CTA must carry a primary CTA`
+      ).toBeVisible();
     }
   });
 
@@ -1243,8 +1277,9 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
     await expect(navLinks.getByRole('link', { name: 'Contact', exact: true })).toBeVisible();
 
     const cta = page.locator('.navbar-cta');
-    await expect(cta, 'nav CTA must be labeled "Book Workflow Audit"').toHaveText('Book Workflow Audit');
-    await expect(cta, 'nav CTA must lead to Workflow Audit').toHaveAttribute('href', '/workflow-audit');
+    // A7 (TECH-46): nav CTA → Start a Project → Home intake form.
+    await expect(cta, 'nav CTA must be labeled "Start a Project"').toHaveText('Start a Project');
+    await expect(cta, 'nav CTA must lead to the Home intake form').toHaveAttribute('href', '/#project-intake');
 
     await navLinks.getByRole('button', { name: 'Services', exact: true }).click();
     const dropdown = page.locator('.navbar-services-menu');
@@ -1258,7 +1293,7 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
     await expect(page.locator('.navbar-mobile-actions .language-switcher-select')).toBeVisible();
   });
 
-  test('N4 — zero imagery: no img elements and no url() background images', async ({ page }) => {
+  test('N4 — imagery limited to the two case-study cards on home (R-16 exception)', async ({ page }) => {
     const imageryRoutes = [...routes, '/services', '/workflow-audit'];
 
     for (const route of imageryRoutes) {
@@ -1273,8 +1308,28 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
         return { imgCount, urlBackgroundCount: urlBackgrounds.length };
       });
 
-      expect(imagery.imgCount, `${route} must render no img elements`).toBe(0);
+      // R-16: the only imagery anywhere is the two case-study screenshots on Home.
+      const expectedImages = route === '/' ? 2 : 0;
+      expect(
+        imagery.imgCount,
+        `${route} must render exactly ${expectedImages} img elements (R-16 exception)`
+      ).toBe(expectedImages);
       expect(imagery.urlBackgroundCount, `${route} must render no url() background images`).toBe(0);
+
+      if (route === '/') {
+        const caseStudyImages = await page.locator('.case-study-card img').evaluateAll((images) =>
+          images.map((img) => ({
+            loading: img.getAttribute('loading'),
+            src: img.getAttribute('src'),
+            hasAlt: Boolean(img.getAttribute('alt')),
+          }))
+        );
+        for (const image of caseStudyImages) {
+          expect(image.loading, 'case-study screenshots must load lazily (R-10)').toBe('lazy');
+          expect(image.src, 'case-study screenshots must come from the public assets').toContain('/case-studies/');
+          expect(image.hasAlt, 'case-study screenshots must carry alt text (R-10)').toBe(true);
+        }
+      }
     }
   });
 
@@ -1298,21 +1353,21 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
     expect(pricingFont, '.editorial-price-tag must render in JetBrains Mono').toContain('JetBrains Mono');
   });
 
-  test('N6 — the single molten-brass accent drives every primary CTA', async ({ page }) => {
+  test('N6 — the single deep forest-green accent drives every primary CTA', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
 
-    // design.md exports: --color-accent: oklch(76% 0.17 50). The phase-7 dual-mode
-    // gold/bronze pair is gone — one molten-brass accent drives the system (B39).
+    // R-16 — one forest accent drives the system: --color-accent:
+    // oklch(35% 0.09 152). No violet, no brass, no generic blue.
     const accentToken = await page.evaluate(() => {
       const root = window.getComputedStyle(document.documentElement);
       return (root.getPropertyValue('--color-accent') || root.getPropertyValue('--accent')).trim();
     });
     expect(
       normalizeOklchToken(accentToken),
-      'the accent token must be the molten-brass oklch value'
-    ).toBe(normalizeOklchToken('oklch(76% 0.17 50)'));
+      'the accent token must be the deep forest-green oklch value'
+    ).toBe(normalizeOklchToken('oklch(35% 0.09 152)'));
 
     const primaryButton = await page.locator('.btn-primary').first().evaluate((element) => {
       const style = window.getComputedStyle(element);
@@ -1320,7 +1375,7 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
     });
     expect(
       primaryButton.backgroundColor,
-      `primary CTA must be filled with brass (oklch), got ${primaryButton.backgroundColor}`
+      `primary CTA must be filled with forest green (oklch), got ${primaryButton.backgroundColor}`
     ).toContain('oklch');
   });
 
@@ -1394,42 +1449,162 @@ test.describe('Phase 8 — Lumen Night visual system (TECH-22)', () => {
       await expect(hero.locator('p'), `${route} hero must contain exactly one supporting line`).toHaveCount(1);
 
       if (route === '/') {
-        await expect(hero.locator('.hero-facts'), 'home hero must include the real-facts strip').toBeVisible();
+        // R-2 — the home hero CTA row leads with Start a Project (TECH-46).
+        await expect(
+          hero.getByRole('link', { name: 'Start a Project', exact: true }),
+          'home hero must lead with Start a Project (R-6)'
+        ).toBeVisible();
       }
     }
   });
 });
 
-test.describe('Phase 8 — Lumen Night contract (TECH-22, NEW)', () => {
-  test('N1 — dark canvas and the molten-brass accent are present on every matrix route', async ({ page }) => {
+test.describe('Phase 8 — light-first contract (TECH-22 re-baselined, TECH-42, NEW)', () => {
+  test('N1 — light canvas and the forest-green accent are present on every matrix route', async ({ page }) => {
     await installColorProbe(page);
     for (const route of routes) {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
       await dismissLeadModalIfOpen(page);
 
-      // B39 — dark cool-violet canvas (oklch(13% 0.014 265)-family), never pure black.
+      // R-16 — warm light paper canvas (oklch(96.5% 0.012 88)-family), never pure white.
       const canvas = await page.locator('body').evaluate((element) => {
         const color = window.getComputedStyle(element).backgroundColor;
         const probe = window.__probeColor(color);
-        return { color, dark: probe.decisive && !probe.light, black: probe.black };
+        return { color, light: probe.decisive && probe.light, white: probe.light && color.includes('255, 255, 255') };
       });
-      expect(canvas.dark, `${route} canvas must be dark (oklch(13% 0.014 265)-family), got ${canvas.color}`).toBe(true);
-      expect(canvas.black, `${route} canvas must not be pure black, got ${canvas.color}`).toBe(false);
+      expect(canvas.light, `${route} canvas must be light (oklch(96.5% 0.012 88)-family), got ${canvas.color}`).toBe(true);
 
-      // index.html — theme-color flips from the light #fafaf9 to the dark #14141c.
+      // index.html — theme-color flips from the dark #14141c to the light paper #f7f4ec.
       const themeColor = await page.locator('meta[name="theme-color"]').getAttribute('content');
-      expect(themeColor, `${route} must set the dark theme-color`).toBe('#14141c');
+      expect(themeColor, `${route} must set the light theme-color`).toBe('#f7f4ec');
 
-      // design.md — one molten-brass accent token drives the whole system.
+      // R-16 — one deep forest-green accent token drives the whole system.
       const accentToken = await page.evaluate(() => {
         const root = window.getComputedStyle(document.documentElement);
         return (root.getPropertyValue('--color-accent') || root.getPropertyValue('--accent')).trim();
       });
       expect(
         normalizeOklchToken(accentToken),
-        `${route} must expose the molten-brass accent token (B39/design.md)`
-      ).toBe(normalizeOklchToken('oklch(76% 0.17 50)'));
+        `${route} must expose the forest-green accent token (R-16)`
+      ).toBe(normalizeOklchToken('oklch(35% 0.09 152)'));
+    }
+  });
+
+  test('N1b — no violet or brass surfaces render on any matrix route (R-16)', async ({ page }) => {
+    await installColorProbe(page);
+    for (const route of routes) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      const foreignHues = await page.evaluate(() => {
+        const colorToHue = (color) => {
+          const value = (color || '').trim();
+          const nums = value.match(/-?\d+(\.\d+)?/g)?.map(Number) ?? [];
+          if (nums.length < 3) {
+            return null;
+          }
+          let r;
+          let g;
+          let b;
+          if (/^oklch/i.test(value)) {
+            // Phase 11 (NB-51): getComputedStyle serialises oklch() as
+            // oklch(L C H [/ A]) — the first three numbers are LIGHTNESS,
+            // CHROMA, HUE, not RGB. Convert OKLCH → OKLab → linear sRGB
+            // (Björn Ottosson) so the hue math below matches rgb() input.
+            const [L, C, H] = nums;
+            // Near-neutral surfaces must never be hue-classified: the warm
+            // paper (oklch(96.5% 0.012 88)) converts to HSL hue ≈ 42° and the
+            // warm near-black ink (oklch(23% 0.015 90)) to hue ≈ 41° at high
+            // RELATIVE saturation — both would false-positive as brass.
+            // Absolute OKLCH chroma is the correct neutral detector; a real
+            // violet/brass surface needs C ≥ 0.1.
+            if (C < 0.05) {
+              return null;
+            }
+            const a = C * Math.cos((H * Math.PI) / 180);
+            const bChroma = C * Math.sin((H * Math.PI) / 180);
+            const lPrime = L + 0.3963377774 * a + 0.2158037573 * bChroma;
+            const mPrime = L - 0.1055613458 * a - 0.0638541728 * bChroma;
+            const sPrime = L - 0.0894841775 * a - 1.291485548 * bChroma;
+            const l = lPrime ** 3;
+            const m = mPrime ** 3;
+            const s = sPrime ** 3;
+            r = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
+            g = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
+            b = -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s;
+          } else {
+            [r, g, b] = nums;
+            if (r > 1 || g > 1 || b > 1) {
+              r /= 255;
+              g /= 255;
+              b /= 255;
+            }
+            // Non-OKLCH inputs (rgb() and color(srgb ...) — the latter is how
+            // color-mix() backgrounds serialize, e.g. services-table headers):
+            // exclude pale warm neutrals by relative saturation — they convert
+            // to HSL hue ≈ 43° at < 5% saturation, which is not brass. (Dark
+            // OKLCH neutrals are handled by the chroma guard above; relative
+            // saturation alone would misread them as saturated.)
+            const sMax = Math.max(r, g, b);
+            const sMin = Math.min(r, g, b);
+            if (sMax - sMin > 0 && (sMax - sMin) / sMax < 0.15) {
+              return null;
+            }
+          }
+          r = Math.min(1, Math.max(0, r));
+          g = Math.min(1, Math.max(0, g));
+          b = Math.min(1, Math.max(0, b));
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+          const delta = max - min;
+          if (delta === 0) {
+            return null;
+          }
+          let hue = 0;
+          if (max === r) {
+            hue = ((g - b) / delta) % 6;
+          } else if (max === g) {
+            hue = (b - r) / delta + 2;
+          } else {
+            hue = (r - g) / delta + 4;
+          }
+          hue *= 60;
+          if (hue < 0) {
+            hue += 360;
+          }
+          return hue;
+        };
+
+        const isViolet = (hue) => hue !== null && hue >= 240 && hue <= 300;
+        const isBrass = (hue) => hue !== null && hue >= 35 && hue <= 65;
+
+        const offenders = [];
+        const walk = (element) => {
+          const style = window.getComputedStyle(element);
+          const bg = style.backgroundColor;
+          const probe = window.__probeColor(bg);
+          const alpha = (bg || '').match(/-?\d+(\.\d+)?/g)?.map(Number)?.[3] ?? 1;
+          if (probe.decisive && alpha > 0.35) {
+            const hue = colorToHue(bg);
+            if (isViolet(hue) || isBrass(hue)) {
+              offenders.push({
+                tag: element.tagName.toLowerCase(),
+                cls: String(element.className || '').slice(0, 60),
+                color: bg,
+                hue: Math.round(hue),
+              });
+            }
+          }
+          Array.from(element.children).forEach(walk);
+        };
+
+        walk(document.body);
+        return offenders.slice(0, 8);
+      });
+
+      expect(foreignHues, `${route} must render no violet or brass surfaces (R-16)`).toEqual([]);
     }
   });
 
@@ -1504,7 +1679,8 @@ test.describe('Phase 8 — Lumen Night contract (TECH-22, NEW)', () => {
 
   test('N4 — the meter strip sits under each marketing hero with real end-labels', async ({ page }) => {
     const meters = [
-      { route: '/', left: 'AUDIT · 15,000 ETB · FIXED', right: 'DELIVERY · 5 BUSINESS DAYS' },
+      // R-19 (TECH-45): Home meter labels re-cut software-first.
+      { route: '/', left: 'WEB · FROM 20,000 ETB', right: 'MOBILE · FROM 40,000 ETB' },
       // TECH-36 (A2): the Services meter leads with the software anchor.
       { route: '/services', left: 'WEB · FROM 20,000 ETB', right: 'MILESTONES · 40/30/30' },
       { route: '/workflow-audit', left: 'AUDIT · 15,000 ETB · FIXED', right: 'DELIVERY · 5 BUSINESS DAYS' },
@@ -1704,28 +1880,33 @@ test.describe('Phase 10 — software prominence & booking (TECH-35..41)', () => 
    * landed in TECH-41 per the phase-10 plan (assertions land per ticket).
    */
 
-  test('S1 — software tracks render before AI on home, services, and the wizard', async ({ page }) => {
+  test('S1 — software tracks render before AI on home, services, and the wizard (R-5)', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
 
-    // Home ladder: Software development row before the AI automation row.
+    // Home: the software story sections precede the AI section (R-3 order).
     await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
-    const ladderTitles = await page.locator('.offer-ladder-row h3').allTextContents();
-    const softwareIndex = ladderTitles.findIndex((title) => title.includes('Software development'));
-    const aiIndex = ladderTitles.findIndex((title) => title.includes('AI automation'));
-    expect(softwareIndex, 'home ladder must render the software row').toBeGreaterThanOrEqual(0);
-    expect(aiIndex, 'home ladder must render the AI row').toBeGreaterThanOrEqual(0);
-    expect(softwareIndex, 'home ladder: software must precede AI (S-1)').toBeLessThan(aiIndex);
+    const homeIds = await page.locator('main section[id]').evaluateAll((sections) =>
+      sections.map((section) => section.id)
+    );
+    for (const softwareSection of ['custom-software', 'web-mobile', 'business-systems', 'saas-product']) {
+      expect(
+        homeIds.indexOf(softwareSection),
+        `home must render #${softwareSection} before #ai-automation (S-1/R-5)`
+      ).toBeLessThan(homeIds.indexOf('ai-automation'));
+    }
 
-    // Services delivery tracks: Web before AI automation.
+    // Services delivery tracks: Custom Software leads, AI & Automation last (R-5).
     await page.goto(`${BASE_URL}/services`, { waitUntil: 'networkidle' });
     await dismissLeadModalIfOpen(page);
     const trackTitles = await page.locator('.service-track-card h3').allTextContents();
-    const webIndex = trackTitles.findIndex((title) => title.includes('Web systems'));
-    const aiTrackIndex = trackTitles.findIndex((title) => title.includes('AI automation'));
-    expect(webIndex, 'services must render the web track').toBeGreaterThanOrEqual(0);
+    expect(trackTitles, 'services must render exactly six tracks (R-5)').toHaveLength(6);
+    const customIndex = trackTitles.findIndex((title) => title.includes('Custom Software Development'));
+    const aiTrackIndex = trackTitles.findIndex((title) => title.includes('AI & Automation'));
+    expect(customIndex, 'services must render the custom software track').toBeGreaterThanOrEqual(0);
     expect(aiTrackIndex, 'services must render the AI track').toBeGreaterThanOrEqual(0);
-    expect(webIndex, 'services: web must precede AI (S-1)').toBeLessThan(aiTrackIndex);
+    expect(customIndex, 'services: custom software must precede AI (S-1/R-5)').toBeLessThan(aiTrackIndex);
+    expect(aiTrackIndex, 'services: AI must be the final track (R-5)').toBe(trackTitles.length - 1);
 
     // Instant-quote selector: first software option before the first AI option.
     await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
@@ -1872,15 +2053,20 @@ test.describe('Phase 10 — software prominence & booking (TECH-35..41)', () => 
     expect(telegramHref, 'Telegram link must use the t.me direct channel').toContain('t.me/NovaTechET');
   });
 
-  test('C1 — every marketing hero leads with Book Workflow Audit', async ({ page }) => {
-    // Per-page primary anchor: Home and Pricing carry the CTA in the hero;
-    // the Services hero has no CTA row, so its primary is the closing card
-    // (C-1: "or an equivalent path that lands on it"). The nav CTA is the
-    // constant cross-page /workflow-audit anchor.
+  test('C1 — every marketing hero leads with Start a Project (R-6)', async ({ page }) => {
+    // R-6: "Start a Project" is the primary CTA on every marketing hero/final
+    // CTA, linking to the Home intake form (/#project-intake) from non-Home
+    // pages. The nav CTA is the constant cross-page anchor. Exception: the
+    // Workflow Audit page keeps "Book Workflow Audit" as its own primary.
     const primaries = [
       { route: '/', selector: 'section#hero' },
       { route: '/pricing', selector: 'section.page-hero' },
       { route: '/services', selector: '.page-closing-card' },
+      { route: '/web-development', selector: '.page-closing-card' },
+      { route: '/mobile-development', selector: '.page-closing-card' },
+      { route: '/saas-solutions', selector: '.page-closing-card' },
+      { route: '/additional-services', selector: '.page-closing-card' },
+      { route: '/industries/real-estate', selector: '.industry-actions' },
     ];
 
     for (const { route, selector } of primaries) {
@@ -1891,12 +2077,499 @@ test.describe('Phase 10 — software prominence & booking (TECH-35..41)', () => 
       const primary = page
         .locator(selector)
         .first()
-        .getByRole('link', { name: 'Book Workflow Audit', exact: true })
+        .getByRole('link', { name: 'Start a Project', exact: true })
         .first();
-      await expect(primary, `${route} must lead with Book Workflow Audit (C-1)`).toBeVisible();
-      await expect(primary, `${route} primary must land on the audit`).toHaveAttribute('href', '/workflow-audit');
+      await expect(primary, `${route} must lead with Start a Project (R-6)`).toBeVisible();
 
-      await expect(page.locator('.navbar-cta'), `${route} nav CTA must anchor the audit`).toHaveAttribute('href', '/workflow-audit');
+      const expectedHref = route === '/' ? '/#project-intake' : '/#project-intake';
+      await expect(primary, `${route} primary must land on the Home intake form`).toHaveAttribute('href', expectedHref);
+
+      await expect(page.locator('.navbar-cta'), `${route} nav CTA must anchor the intake form`).toHaveAttribute('href', '/#project-intake');
     }
+
+    // R-6 exception: the Workflow Audit page keeps its own primary.
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/workflow-audit`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    const auditPrimary = page
+      .locator('.page-closing-card')
+      .getByRole('link', { name: 'Book Workflow Audit', exact: true });
+    await expect(auditPrimary, '/workflow-audit must keep Book Workflow Audit primary (R-6 exception)').toBeVisible();
+    await expect(auditPrimary).toHaveAttribute('href', '#booking');
+  });
+
+  test('R6 — home hero CTA hierarchy: Start a Project → Discuss → Explore AI (TECH-46)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const hero = page.locator('section#hero');
+    const ctaLinks = hero.locator('.hero-actions a');
+
+    await expect(ctaLinks, 'the hero CTA row must render three actions').toHaveCount(3);
+    const ctaLabels = await ctaLinks.allTextContents();
+    expect(normalizeProse(ctaLabels[0]), 'primary must be Start a Project').toContain('start a project');
+    expect(normalizeProse(ctaLabels[1]), 'secondary must be Discuss Your Software Idea').toContain('discuss your software idea');
+    expect(normalizeProse(ctaLabels[2]), 'tertiary must be Explore AI & Automation').toContain('explore ai & automation');
+
+    await expect(hero.getByRole('link', { name: 'Start a Project', exact: true })).toHaveAttribute('href', '/#project-intake');
+    await expect(hero.getByRole('link', { name: 'Discuss Your Software Idea', exact: true })).toHaveAttribute('href', '/book-discovery-call');
+    // React Router resolves the relative hash to the canonical "/#ai-automation"
+    // (same anchor as "/#project-intake" above — path "/" + hash).
+    await expect(hero.getByRole('link', { name: 'Explore AI & Automation', exact: true })).toHaveAttribute('href', '/#ai-automation');
+
+    // The anchor exists on Home (R3 risk mitigation): clicking the primary
+    // scrolls to the intake form.
+    await hero.getByRole('link', { name: 'Start a Project', exact: true }).click();
+    await expect(page.locator('#project-intake')).toBeVisible();
+    await expect(page.locator('#project-intake .intake-form')).toBeVisible();
+  });
+
+  test('R7 — the intake form submits and confirms with the 1-business-day line (TECH-46)', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.route('https://formsubmit.co/**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true }),
+      });
+    });
+
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const form = page.locator('#project-intake form');
+    await expect(form, 'the intake form must render inside #project-intake (R-7)').toBeVisible();
+
+    await form.locator('#project-intake-name').fill('Playwright Intake Tester');
+    await form.locator('#project-intake-email').fill('intake-tester@example.com');
+    await form.locator('#project-intake-phone').fill('+251 911 000 000');
+    await form.locator('#project-intake-company').fill('QA Labs');
+    await form.locator('#project-intake-need').selectOption('Web application');
+    await form.locator('#project-intake-budget').selectOption('40k - 100k');
+    await form.locator('#project-intake-message').fill('We need a customer portal for order tracking.');
+    await clickIntakeSubmit(page, form);
+
+    const confirmation = form.locator('[role="status"]');
+    await expect(confirmation, 'the intake confirmation must render').toBeVisible();
+    const confirmationText = normalizeProse(await confirmation.innerText());
+    expect(confirmationText, 'confirmation must state the request was received (R-7)').toContain('project request was received');
+    expect(confirmationText, 'confirmation must promise a 1-business-day response (R-7)').toContain('1 business day');
+  });
+
+  test('R7 — "Not sure yet" selections are valid and submit (no dead ends)', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.route('https://formsubmit.co/**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true }),
+      });
+    });
+
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const form = page.locator('#project-intake form');
+    await form.locator('#project-intake-name').fill('Unsure Tester');
+    await form.locator('#project-intake-email').fill('unsure-tester@example.com');
+    await form.locator('#project-intake-phone').fill('+251 911 000 001');
+    await form.locator('#project-intake-need').selectOption('Not sure yet');
+    await form.locator('#project-intake-budget').selectOption('Not sure');
+    await form.locator('#project-intake-message').fill('We know we need software but not which build.');
+    await clickIntakeSubmit(page, form);
+
+    const confirmation = form.locator('[role="status"]');
+    await expect(confirmation, 'unsure selections must still submit (R-7 edge)').toBeVisible();
+    expect(normalizeProse(await confirmation.innerText()), 'confirmation must carry the response promise').toContain('1 business day');
+  });
+
+  test('R7 — endpoint failure triggers the mailto fallback feedback (never silently vanishes)', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    await page.route('https://formsubmit.co/**', async (route) => {
+      await route.fulfill({ status: 500, contentType: 'application/json', body: '{}' });
+    });
+
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const form = page.locator('#project-intake form');
+    await form.locator('#project-intake-name').fill('Fallback Tester');
+    await form.locator('#project-intake-email').fill('fallback-tester@example.com');
+    await form.locator('#project-intake-phone').fill('+251 911 000 002');
+    await form.locator('#project-intake-need').selectOption('Mobile app');
+    await form.locator('#project-intake-message').fill('We need a field app for deliveries.');
+    await clickIntakeSubmit(page, form);
+
+    // The mailto fallback must surface visible feedback (R-7 failure outcome).
+    await expect(
+      form.getByText(/opened in your email client/i),
+      'fallback feedback must render when the endpoint fails'
+    ).toBeVisible({ timeout: 15000 });
+  });
+});
+
+test.describe('Phase 11 — software-first redesign (TECH-43..49)', () => {
+  // R-3: the exact 15-section order (footer unnumbered per A2).
+  const HOME_SECTION_IDS = [
+    'hero',
+    'trust',
+    'what-we-build',
+    'custom-software',
+    'web-mobile',
+    'business-systems',
+    'saas-product',
+    'ai-automation',
+    'process',
+    'selected-work',
+    'why-novatech',
+    'industries',
+    'workflow-audit',
+    'project-intake',
+  ];
+
+  test('R3 — home renders the 15 sections in the exact software-first order', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const sectionIds = await page.locator('main section[id]').evaluateAll((sections) =>
+      sections.map((section) => section.id)
+    );
+    expect(sectionIds, 'home must render the R-3 section ids in order').toEqual(HOME_SECTION_IDS);
+
+    // AI (section 8) must appear after the software story (sections 3–7).
+    expect(sectionIds.indexOf('ai-automation'), 'AI must follow the software story (R-1)')
+      .toBeGreaterThan(sectionIds.indexOf('what-we-build'));
+
+    // The footer follows the final-CTA section (R-3 item 15).
+    const footerAfter = await page.evaluate(() => {
+      const intake = document.getElementById('project-intake');
+      const footer = document.querySelector('footer.footer');
+      if (!intake || !footer) {
+        return false;
+      }
+      return (intake.compareDocumentPosition(footer) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+    });
+    expect(footerAfter, 'footer must follow the final CTA section').toBe(true);
+  });
+
+  test('R4 — What We Build renders 10 business-framed categories, one line each', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const items = page.locator('#what-we-build .what-we-build-item');
+    await expect(items, 'What We Build must render 10 categories (R-4)').toHaveCount(10);
+
+    const itemTexts = await items.evaluateAll((cards) =>
+      cards.map((card) => String(card.innerText).toLowerCase().replace(/\s+/g, ' ').trim())
+    );
+    expect(itemTexts[0], 'the first category is Business Management Systems').toContain('business management systems');
+    expect(itemTexts[9], 'the final category is AI-Powered Software').toContain('ai-powered software');
+
+    // Single-line at 1440x900 (copy-trim): every category line fits one row.
+    const overflowLines = await items.evaluateAll((cards) =>
+      cards.map((card) => {
+        const body = card.querySelector('.what-we-build-item__body p');
+        if (!body) {
+          return true;
+        }
+        return body.scrollHeight > body.clientHeight + 2;
+      })
+    );
+    expect(overflowLines, 'every What We Build line must fit on one row at 1440px').toEqual(
+      Array(10).fill(false)
+    );
+
+    // No tech-stack leads (R-14) and no specialization claims (R-4 edge).
+    const allText = normalizeProse(await page.locator('#what-we-build').innerText());
+    for (const forbidden of ['react', 'node', 'wordpress', 'laravel', 'trusted by', 'clients']) {
+      expect(allText, `What We Build must not lead with "${forbidden}"`).not.toContain(forbidden);
+    }
+  });
+
+  test('R12 — AI section renders the title and all six transformation pairs (TECH-44)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const aiSection = page.locator('#ai-automation');
+    await expect(aiSection, 'the AI section must render after the software story').toBeVisible();
+
+    const sectionText = normalizeProse(await aiSection.innerText());
+    expect(sectionText, 'AI section title must be "Add intelligence to your software." (R-12)')
+      .toContain('add intelligence to your software');
+
+    const pairs = aiSection.locator('.transformation-pair');
+    await expect(pairs, 'the AI section must render six transformation pairs (R-12)').toHaveCount(6);
+    const pairTexts = normalizeProse(await aiSection.locator('.transformation-pairs').innerText());
+    expect(pairTexts, 'pair 1: Software → AI assistant').toContain('software');
+    expect(pairTexts, 'pair 1: Software → AI assistant').toContain('ai assistant');
+    expect(pairTexts, 'pair 6: Reporting → Intelligent analysis').toContain('reporting');
+    expect(pairTexts, 'pair 6: Reporting → Intelligent analysis').toContain('intelligent analysis');
+
+    await expect(
+      aiSection.getByRole('link', { name: 'Explore AI & Automation', exact: true }),
+      'the AI section CTA must lead to the AI service track (R-12)'
+    ).toHaveAttribute('href', '/services');
+  });
+
+  test('R9 — process section renders five steps with the audit labeled optional (TECH-44)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const steps = page.locator('#process .editorial-step-card');
+    await expect(steps, 'the process section must render five steps (R-9)').toHaveCount(5);
+
+    const stepTitles = await steps.locator('h3').allTextContents();
+    expect(stepTitles[0], 'step 01 must be Discovery').toContain('Discovery');
+    expect(stepTitles[1], 'step 02 must be the optional Workflow Audit').toContain('Workflow Audit (optional)');
+    expect(stepTitles[2], 'step 03 must be the scoped proposal').toContain('Scoped proposal');
+    expect(stepTitles[3], 'step 04 must be Build').toContain('Build');
+    expect(stepTitles[4], 'step 05 must be Support & maintenance').toContain('Support & maintenance');
+
+    const processText = normalizeProse(await page.locator('#process').innerText());
+    for (const lockedFact of ['15,000 etb', '40/30/30', '40 support hours']) {
+      expect(processText, `process step must carry the locked fact "${lockedFact}"`).toContain(lockedFact);
+    }
+  });
+
+  test('R11 — industries renders eight local-reality categories with no specialization claims (TECH-44)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const industries = page.locator('#industries .what-we-build-item');
+    await expect(industries, 'industries must render eight categories (R-11)').toHaveCount(8);
+
+    const sectionText = normalizeProse(await page.locator('#industries').innerText());
+    expect(sectionText, 'industries must carry the local-reality anchoring line (R-11)')
+      .toContain('we understand the realities of local businesses');
+    for (const category of ['inventory & stock control', 'customer management / crm', 'school management', 'procurement']) {
+      expect(sectionText, `industries must render the ${category} category`).toContain(category);
+    }
+
+    // Truth rule: no specialization claims, no "trusted by", no industry stats.
+    for (const forbidden of ['trusted by', 'leading provider', 'top ', ' clients']) {
+      expect(sectionText, `industries must not claim "${forbidden}"`).not.toContain(forbidden);
+    }
+  });
+
+  test('R19/R8 — the offer ladder is gone; section 13 carries the audit terms, guarantee, and View Live Pricing (TECH-45)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    // R-19 — the 4-row offer ladder no longer exists on Home.
+    await expect(page.locator('.offer-ladder'), 'the offer ladder must be removed from Home (R-19)').toHaveCount(0);
+
+    // R-19 — meter labels are re-cut software-first.
+    const meterText = (await page.locator('.meter-strip').innerText()).toUpperCase();
+    expect(meterText, 'meter left label must be the web anchor').toContain('WEB · FROM 20,000 ETB');
+    expect(meterText, 'meter right label must be the mobile anchor').toContain('MOBILE · FROM 40,000 ETB');
+
+    // R-8 — section 13 renders the locked audit terms + guarantee + View Live Pricing.
+    const auditCard = page.locator('#workflow-audit .audit-card');
+    await expect(auditCard, 'section 13 must render the audit card').toBeVisible();
+    // The PriceCounter count-up only starts once the counter enters the
+    // viewport; a mid-animation read captures "0 etb". Scroll it in and let
+    // toHaveText auto-retry until it lands on the locked figure.
+    const counter = auditCard.locator('.price-counter');
+    await counter.scrollIntoViewIfNeeded();
+    await expect(counter, 'the audit counter must settle on the locked figure').toHaveText('15,000 ETB');
+    const auditText = normalizeProse(await auditCard.innerText());
+    expect(auditText, 'audit card must carry the locked 15,000 ETB figure').toContain('15,000 etb');
+    expect(auditText, 'audit card must carry the 5 business days term').toContain('5 business days');
+    expect(auditText, 'audit card must carry the 100% credit term').toContain('100% credited');
+    expect(auditText, 'audit card must carry the guarantee line (C-3)').toContain('usable blueprint');
+
+    const viewPricing = auditCard.getByRole('link', { name: 'View Live Pricing', exact: true });
+    await expect(viewPricing, 'audit card must link to /pricing (R-8)').toHaveAttribute('href', '/pricing');
+
+    // The audit CTA is secondary on Home (R-6 exception applies to the audit page).
+    await expect(
+      auditCard.getByRole('link', { name: 'Book Workflow Audit', exact: true }),
+      'audit CTA must lead to the audit page'
+    ).toHaveAttribute('href', '/workflow-audit');
+  });
+
+  test('R10 — case-study cards render locked copy, live links, and trilingual alt (TECH-47)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const cards = page.locator('.case-study-card');
+    await expect(cards, 'the Selected Work section must render two case-study cards (R-10)').toHaveCount(2);
+
+    const sectionText = normalizeProse(await page.locator('#selected-work').innerText());
+    expect(sectionText, 'Stealth Overlay copy must render').toContain('stealth overlay');
+    expect(sectionText, 'Stealth Overlay description must render (R-10)').toContain('coding interviews');
+    expect(sectionText, 'Rhobot Academy copy must render').toContain('rhobot academy');
+    expect(sectionText, 'Rhobot Academy description must render (R-10)').toContain('amharic-language forex trading');
+    expect(sectionText, 'claim level must be "Designed and developed by NovaTech"').toContain('designed and developed by novatech');
+
+    // Live links open in a new tab (R-10).
+    const stealthLink = page.locator('.case-study-card a[href="https://www.stealthoverlay.com/"]').first();
+    await expect(stealthLink, 'Stealth Overlay must link to the live product').toBeVisible();
+    await expect(stealthLink).toHaveAttribute('target', '_blank');
+    const rhobotLink = page.locator('.case-study-card a[href="https://rhobotcapital.com/"]').first();
+    await expect(rhobotLink, 'Rhobot Academy must link to the live product').toBeVisible();
+    await expect(rhobotLink).toHaveAttribute('target', '_blank');
+
+    // Truth gate (R-10): zero client business claims on the cards.
+    for (const forbidden of ['4,000+ students', '4,000 students', 'six-figure', 'exness']) {
+      expect(sectionText, `case-study cards must not claim "${forbidden}"`).not.toContain(forbidden);
+    }
+
+    // Screenshot alt text resolves in all three languages (R-17).
+    for (const lang of ['am', 'om']) {
+      // The mobile language switcher is only visible at the 390px viewport —
+      // mirror the R17 test's viewport (the card copy above ran at 1440x900).
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+      await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption(lang);
+      await expect.poll(async () => page.getAttribute('html', 'lang')).toBe(lang);
+
+      const alts = await page.locator('.case-study-card img').evaluateAll((images) =>
+        images.map((img) => img.getAttribute('alt') ?? '')
+      );
+      expect(alts.length, `${lang}: both screenshots must render alt text`).toBe(2);
+      for (const alt of alts) {
+        expect(alt.trim().length, `${lang}: alt text must not be empty`).toBeGreaterThan(0);
+        expect(alt, `${lang}: alt text must not leak EN-only fallback markers`).not.toContain('undefined');
+      }
+    }
+  });
+
+  test('R17 — the home page renders in Amharic and Afaan Oromo without clipping, prices identical (TECH-48)', async ({ page }) => {
+    const SECTIONS = [
+      { id: 'hero', expectedEn: 'software built around your business' },
+      { id: 'what-we-build', expectedEn: 'software for the way your business actually runs' },
+      { id: 'ai-automation', expectedEn: 'add intelligence to your software' },
+      { id: 'process', expectedEn: 'five steps from first call to running software' },
+      { id: 'industries', expectedEn: 'systems for the realities of local businesses' },
+    ];
+
+    for (const lang of ['en', 'am', 'om']) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      if (lang !== 'en') {
+        await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption(lang);
+        await expect.poll(async () => page.getAttribute('html', 'lang')).toBe(lang);
+      }
+
+      // Sections render with translated content (not empty, not raw key paths).
+      for (const { id } of SECTIONS) {
+        const section = page.locator(`#${id}`);
+        await expect(section, `${lang}: #${id} must render`).toBeVisible();
+        const text = (await section.innerText()).trim();
+        expect(text.length, `${lang}: #${id} must render translated content`).toBeGreaterThan(20);
+        expect(text, `${lang}: #${id} must not leak raw i18n keys`).not.toContain('home.');
+      }
+
+      // Intake form labels resolve in the active language.
+      const needLabel = await page.locator('label[for="project-intake-need"]').innerText();
+      expect(needLabel.trim().length, `${lang}: the need field label must resolve`).toBeGreaterThan(0);
+      await page.locator('#project-intake-need').selectOption('Not sure yet');
+      const needOptionText = await page.locator('#project-intake-need option:checked').innerText();
+      expect(needOptionText.trim().length, `${lang}: the "Not sure yet" option label must resolve`).toBeGreaterThan(0);
+
+      // Prices identical across languages (R-17): the three trust anchors and
+      // the audit figure must render byte-identical in every language.
+      const trustRow = normalizeProse(await page.locator('.hero-trust-row').innerText());
+      expect(trustRow, `${lang}: trust anchors must carry the web anchor`).toContain('web from 20,000 etb');
+      expect(trustRow, `${lang}: trust anchors must carry the mobile anchor`).toContain('mobile from 40,000 etb');
+      expect(trustRow, `${lang}: trust anchors must carry the SaaS anchor`).toContain('saas from 3,500 etb / month');
+      // The audit counter count-up starts on viewport entry — scroll it in
+      // and wait for it to settle before the byte-identical read. Read the
+      // DOM text (textContent): the B40 body rule renders "etb" lowercase via
+      // text-transform, and toHaveText/textContent compare pre-transform DOM
+      // text ("15,000 ETB") — identical across languages either way.
+      const auditCounter = page.locator('#workflow-audit .price-counter');
+      await auditCounter.scrollIntoViewIfNeeded();
+      await expect(auditCounter, `${lang}: the audit figure must be identical`).toHaveText('15,000 ETB');
+      const auditPrice = ((await auditCounter.textContent()) ?? '').trim();
+      expect(auditPrice, `${lang}: the audit figure must be identical`).toBe('15,000 ETB');
+
+      // No horizontal clipping at 390px (Ethiopic line-height probe).
+      const overflowPx = await page.evaluate(() => {
+        const doc = document.documentElement;
+        return Math.max(0, doc.scrollWidth - window.innerWidth);
+      });
+      expect(overflowPx, `${lang}: home must not clip horizontally at 390px`).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test('TECH-49 — brand and truth grep gates over src/, tests/, and public/ text sources', () => {
+    const walkFiles = (dir, files = []) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = join(dir, entry.name);
+        if (entry.isDirectory()) {
+          walkFiles(full, files);
+        } else if (/\.(js|jsx|mjs|html|svg|txt|xml)$/.test(entry.name)) {
+          // Self-reference exemption: this spec file intentionally names the
+          // forbidden legacy brand ("NovaTech AI") in its own assertion
+          // strings and messages. Excluding it by filename keeps the brand
+          // and truth grep gates meaningful — src/, public/, and every other
+          // test file are still scanned in full.
+          if (entry.name === 'live-site.spec.js') {
+            continue;
+          }
+          files.push(full);
+        }
+      }
+      return files;
+    };
+
+    const sources = [
+      ...walkFiles(fileURLToPath(new URL('../src/', import.meta.url))).map((file) => readFileSync(file, 'utf8')),
+      ...walkFiles(fileURLToPath(new URL('../tests/', import.meta.url))).map((file) => readFileSync(file, 'utf8')),
+      ...walkFiles(fileURLToPath(new URL('../public/', import.meta.url))).map((file) => readFileSync(file, 'utf8')),
+    ];
+    const countOf = (needle) => sources.reduce((sum, content) => sum + content.split(needle).length - 1, 0);
+
+    // Brand gate (R-15): zero "NovaTech AI" in rendered sources (the owner-side
+    // PDF binary is exempt per S-4 precedent; og-image.png regenerated in
+    // TECH-50 and covered by the rendered meta/OG gate below).
+    expect(countOf('NovaTech AI'), 'no "NovaTech AI" may remain in src/, tests/, or public/ text sources').toBe(0);
+
+    // Truth gate (R-18): zero client business claims anywhere in sources.
+    for (const claim of ['4,000+ students', '4,000 students', 'six-figure', 'Exness', 'trusted by']) {
+      expect(countOf(claim), `no "${claim}" claim may remain in sources`).toBe(0);
+    }
+  });
+
+  test('TECH-50 — document title and rendered meta lead with software; OG image cache-busted', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    // R-1/R-15 — the home title leads with software and carries the NovaTech brand.
+    const title = await page.title();
+    expect(title, 'home title must lead with software (R-1)').toMatch(/custom software/i);
+    expect(title, 'home title must carry the NovaTech brand (R-15)').toContain('NovaTech');
+    expect(title, 'home title must not carry the legacy brand').not.toContain('NovaTech AI');
+
+    // Rendered meta description leads with software.
+    const description = await page.locator('meta[name="description"]').getAttribute('content');
+    expect(description, 'meta description must lead with software (R-1)').toMatch(/custom software/i);
+
+    // OG title/image reflect the software-first brand + cache-bust (A15).
+    const ogTitle = await page.locator('meta[property="og:title"]').getAttribute('content');
+    expect(ogTitle, 'og:title must lead with software').toMatch(/custom software/i);
+    const ogImage = await page.locator('meta[property="og:image"]').getAttribute('content');
+    expect(ogImage, 'og:image must carry the regenerated cache-bust (A15)').toContain('og-image.png?v=20260812');
+
+    // /services title leads with the software lanes (R-5).
+    await page.goto(`${BASE_URL}/services`, { waitUntil: 'networkidle' });
+    const servicesTitle = await page.title();
+    expect(servicesTitle, '/services title must lead with software lanes').toMatch(/custom software/i);
   });
 });

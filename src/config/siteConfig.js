@@ -14,7 +14,7 @@ function toTelephoneHref(displayNumber) {
 }
 
 export const SITE_URL = normalizeSiteUrl(getEnvValue(import.meta.env.VITE_SITE_URL, DEFAULT_SITE_URL));
-export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20260512`;
+export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20260812`;
 export const PRICING_GUIDE_ASSET_PATH = '/NovaTechAI_2026_Service_Menu_and_Pricing_Guide.pdf';
 
 // Owner decision (2026-08-07): use nahomgwmichael@gmail.com as the contact email

@@ -160,18 +160,20 @@ export default function SaasSolutionsPage() {
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Choose the direct path</p>
             <div className="eyebrow">04 · FIRST STEP</div>
-            <h2>Pick a plan or book a call to scope the setup.</h2>
+            <h2>Pick a plan or start a project to scope the setup.</h2>
             <p>
               Both pages come from the same ETB table — what you see is what gets quoted.
             </p>
             <div className="cta-actions">
-              {/* TECH-40 (A4): closing panel primary -> Book Workflow Audit;
-                  SaaS card CTAs keep the discovery-call destination. */}
-              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-                Book Workflow Audit
+              {/* R-6 (TECH-46): Start a Project primary → Home intake form. */}
+              <Link to="/#project-intake" className="btn btn-primary btn-lg">
+                Start a Project
               </Link>
               <Link to="/pricing" className="btn btn-secondary btn-lg">
                 Review Full Pricing
+              </Link>
+              <Link to="/book-discovery-call" className="btn btn-dark btn-sm">
+                Discuss Your Software Idea
               </Link>
             </div>
           </div>

@@ -138,14 +138,15 @@ export default function AdditionalServicesPage() {
             <div className="eyebrow">04 · FIRST STEP</div>
             <h2>If it supports a real workflow or launch, we can scope it.</h2>
             <p>
-              Attached to a larger operational problem? Start with the Workflow Audit first.
+              Start a project with scope and budget context — we respond within 1 business day.
             </p>
             <div className="cta-actions">
-              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-                Book Workflow Audit
+              {/* R-6 (TECH-46): Start a Project primary → Home intake form. */}
+              <Link to="/#project-intake" className="btn btn-primary btn-lg">
+                Start a Project
               </Link>
               <Link to="/book-discovery-call" className="btn btn-secondary btn-lg">
-                Book Discovery Call
+                Discuss Your Software Idea
               </Link>
             </div>
           </div>

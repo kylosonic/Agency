@@ -52,16 +52,16 @@ export default function Pricing({ onDownloadClick }) {
               <span className="page-hero-chip">SaaS: live monthly pricing</span>
             </div>
             <div className="hero-actions pricing-hero-actions">
-              <Link className="btn btn-primary btn-lg" to="/workflow-audit">
-                Book Workflow Audit
+              {/* R-6 (TECH-46): Start a Project primary on every marketing hero. */}
+              <Link className="btn btn-primary btn-lg" to="/#project-intake">
+                Start a Project
               </Link>
-              <button
-                type="button"
-                className="btn btn-secondary btn-lg"
-                onClick={() => onDownloadClick?.('pricing_page_download_sheet', { variant: 'download_sheet' })}
-              >
-                Download Current Pricing Sheet
-              </button>
+              <Link className="btn btn-secondary btn-lg" to="/book-discovery-call">
+                Discuss Your Software Idea
+              </Link>
+              <Link className="btn btn-dark btn-sm" to="/services">
+                Explore AI &amp; Automation
+              </Link>
             </div>
           </HeroChoreo>
         </div>
@@ -103,6 +103,16 @@ export default function Pricing({ onDownloadClick }) {
               </p>
               <div className="editorial-note-panel">
                 <strong>Timeline:</strong> delivered within 5 business days.
+              </div>
+              <div className="cta-actions">
+                {/* TECH-46: the sheet download stays available next to the audit card. */}
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => onDownloadClick?.('pricing_page_download_sheet', { variant: 'download_sheet' })}
+                >
+                  Download Current Pricing Sheet
+                </button>
               </div>
             </article>
           </ScrollReveal>
@@ -300,13 +310,14 @@ export default function Pricing({ onDownloadClick }) {
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Recommended first move</p>
             <div className="eyebrow">06 · NEXT</div>
-            <h2>Clarifying scope? Book the Workflow Audit.</h2>
+            <h2>Clear on scope? Start the project.</h2>
             <p>
-              Know the direction? Use instant quote; otherwise the audit sets the path.
+              Know the direction? Use instant quote; otherwise start a project and we scope it.
             </p>
             <div className="cta-actions">
-              <Link to="/workflow-audit" className="btn btn-primary btn-lg">
-                Book Workflow Audit
+              {/* R-6 (TECH-46): Start a Project primary → Home intake form. */}
+              <Link to="/#project-intake" className="btn btn-primary btn-lg">
+                Start a Project
               </Link>
               <Link to="/instant-quote" className="btn btn-secondary btn-lg">
                 Start Instant Quote

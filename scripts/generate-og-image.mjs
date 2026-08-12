@@ -26,11 +26,11 @@ const html = `
         width: 1200px;
         height: 630px;
         font-family: "Segoe UI", "Trebuchet MS", sans-serif;
-        color: #f5f7fb;
+        color: #26241f;
         background:
-          radial-gradient(circle at 82% 18%, rgba(43, 188, 231, 0.26), transparent 38%),
-          radial-gradient(circle at 16% 84%, rgba(90, 176, 255, 0.3), transparent 42%),
-          linear-gradient(138deg, #071226 0%, #0c1f3b 42%, #0f2a4f 100%);
+          radial-gradient(circle at 82% 18%, rgba(36, 81, 58, 0.14), transparent 38%),
+          radial-gradient(circle at 16% 84%, rgba(36, 81, 58, 0.18), transparent 42%),
+          linear-gradient(138deg, #f7f4ec 0%, #efe9dc 42%, #e8e0cf 100%);
         position: relative;
         overflow: hidden;
       }
@@ -49,8 +49,8 @@ const html = `
         position: absolute;
         inset: 0;
         background-image:
-          linear-gradient(rgba(129, 182, 255, 0.11) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(129, 182, 255, 0.11) 1px, transparent 1px);
+          linear-gradient(rgba(38, 36, 31, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(38, 36, 31, 0.08) 1px, transparent 1px);
         background-size: 42px 42px;
         opacity: 0.25;
         mask-image: linear-gradient(160deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2));
@@ -67,8 +67,8 @@ const html = `
         width: 22px;
         height: 22px;
         border-radius: 999px;
-        background: linear-gradient(145deg, #29d5ff, #5f9dff);
-        box-shadow: 0 0 0 7px rgba(107, 181, 255, 0.2);
+        background: linear-gradient(145deg, #2f6b4a, #1d4430);
+        box-shadow: 0 0 0 7px rgba(36, 81, 58, 0.16);
       }
 
       .brand-name {
@@ -93,7 +93,7 @@ const html = `
         margin-top: 22px;
         font-size: 31px;
         line-height: 1.25;
-        color: #cfe2ff;
+        color: #57534e;
         max-width: 1000px;
       }
 
@@ -106,11 +106,11 @@ const html = `
       .pill {
         font-size: 24px;
         font-weight: 600;
-        color: #def0ff;
-        border: 1px solid rgba(164, 210, 255, 0.32);
+        color: #1d4430;
+        border: 1px solid rgba(36, 81, 58, 0.32);
         border-radius: 999px;
         padding: 12px 20px;
-        background: rgba(11, 30, 58, 0.68);
+        background: rgba(255, 255, 255, 0.62);
         backdrop-filter: blur(4px);
       }
     </style>
@@ -120,16 +120,17 @@ const html = `
     <div class="frame">
       <div class="brand">
         <div class="dot"></div>
-        <div class="brand-name">NovaTech AI</div>
+        <div class="brand-name">NovaTech</div>
       </div>
       <section class="headline">
-        <h1 class="title">Agentic Workflows That Ship Real Outcomes</h1>
-        <p class="subtitle">AI-first automation, with active delivery across web platforms, mobile products, and SaaS systems.</p>
+        <h1 class="title">Software built around your business.</h1>
+        <p class="subtitle">Custom software, web, mobile, and SaaS — with AI automation where it creates real business value.</p>
       </section>
       <div class="pill-row">
-        <span class="pill">AI Automation</span>
+        <span class="pill">Custom Software</span>
         <span class="pill">Web + Mobile</span>
         <span class="pill">SaaS Delivery</span>
+        <span class="pill">AI Automation</span>
       </div>
     </div>
   </body>
