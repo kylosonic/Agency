@@ -13,7 +13,7 @@ export default function PolicyPage() {
             commercial terms, plainly <em className="verb">stated</em>.
           </h1>
           <p>
-            This page exists to remove ambiguity before a project starts: how payment works, when ownership transfers, what is available now, and what is still future-facing.
+            How payment works, when ownership transfers, what is available now, and what is still future-facing.
           </p>
           <div className="page-hero-meta" aria-label="Policy highlights">
             <span className="page-hero-chip">40 / 30 / 30 milestone billing</span>
@@ -75,7 +75,7 @@ export default function PolicyPage() {
               <SectionHeader
                 eyebrow="03 · PAYMENT METHODS"
                 title="Bank transfer is the only live payment method today."
-                subtitle="We would rather state the current truth clearly than imply payment capabilities we do not have yet."
+                subtitle="We state the current truth rather than imply capabilities we do not have."
                 align="left"
               />
 
@@ -107,19 +107,19 @@ export default function PolicyPage() {
             <article className="editorial-panel glass-card">
               <p className="editorial-kicker">SaaS policy</p>
               <div className="eyebrow">04 · SAAS</div>
-              <h2>SaaS is waitlist only until a real product exists.</h2>
+              <h2>SaaS pricing is published; billing follows each plan.</h2>
               <ul className="editorial-checklist compact">
                 <li>
                   <IconGlyph name="check" size={14} />
-                  <span>No SaaS setup, monthly, or annual pricing is published today.</span>
+                  <span>Setup, monthly, and annual prices are published on the pricing page for each live plan.</span>
                 </li>
                 <li>
                   <IconGlyph name="check" size={14} />
-                  <span>No one is billed for a product that is still in development.</span>
+                  <span>Annual billing covers 10 months for the price of 12 — a "Save 2 months" plan.</span>
                 </li>
                 <li>
                   <IconGlyph name="check" size={14} />
-                  <span>When a product is real, its terms will be published before payment is ever requested.</span>
+                  <span>Hosting, backups, monitoring, and support terms are included in the monthly subscription and stated in the proposal.</span>
                 </li>
               </ul>
             </article>

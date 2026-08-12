@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
@@ -7,28 +8,28 @@ import IconGlyph from '../components/IconGlyph';
 
 /* B42a (TECH-25): locked filament-apparatus callouts for the Services hero. */
 const SERVICES_APPARATUS_CALLOUTS = [
-  'AUTOMATION · FROM 250,000 ETB',
-  'WEB · FROM 45,000 ETB',
-  'MOBILE · FROM 200,000 ETB',
+  'AUTOMATION · FROM 40,000 ETB',
+  'WEB · FROM 20,000 ETB',
+  'MOBILE · FROM 40,000 ETB',
   'MILESTONES · 40/30/30',
 ];
 
 const AUTOMATION_LANES = [
   {
     title: 'Back-office automation',
-    text: 'Invoice intake, approvals, reconciliations, portal updates, and internal handoffs where repetitive admin work keeps dragging on margin.',
+    text: 'Invoice intake, approvals, reconciliations, and internal handoffs where repetitive admin work drags on margin.',
     examples: ['Invoice and document processing', 'Approval routing', 'Browser portal automation'],
     icon: 'settings',
   },
   {
     title: 'Knowledge and operations systems',
-    text: 'Internal assistants, reporting layers, and governed access to process knowledge when the business depends on tribal knowledge and disconnected files.',
+    text: 'Internal assistants and governed access to process knowledge when the business runs on tribal knowledge and disconnected files.',
     examples: ['Knowledge assistants with citations', 'Operational dashboards', 'Internal search and retrieval'],
     icon: 'book',
   },
   {
     title: 'Customer and revenue workflows',
-    text: 'Lead routing, quoting, support triage, order handling, and service delivery flows where response speed directly affects revenue or trust.',
+    text: 'Lead routing, quoting, support triage, and order handling where response speed affects revenue.',
     examples: ['Quote and proposal automation', 'Support triage', 'Sales order execution'],
     icon: 'lightning',
   },
@@ -37,17 +38,17 @@ const AUTOMATION_LANES = [
 const DELIVERY_STEPS = [
   {
     title: 'Audit the current process',
-    text: 'We start with the workflow, the people involved, the systems in play, and the commercial cost of delay or rework.',
+    text: 'We start with the workflow, the people, the systems, and the cost of delay.',
     icon: 'search',
   },
   {
     title: 'Build the right operating layer',
-    text: 'That can mean automation, a web system, a mobile product, or a combination of them. We do not force the same answer onto every team.',
+    text: 'Automation, a web system, a mobile product, or a combination — not the same answer for every team.',
     icon: 'idea',
   },
   {
     title: 'Stabilize and support it',
-    text: 'We define what needs monitoring, who owns the workflow, and whether ongoing support belongs in a monthly retainer or not.',
+    text: 'We define what needs monitoring, who owns the workflow, and whether support is needed.',
     icon: 'shield',
   },
 ];
@@ -55,26 +56,26 @@ const DELIVERY_STEPS = [
 const DELIVERY_TRACKS = [
   {
     title: 'AI automation engagements',
-    price: 'from 250,000 ETB',
-    text: 'For teams ready to replace repeated manual work with custom agents, integrations, and governed operating logic.',
+    price: 'from 40,000 ETB',
+    text: 'For teams ready to replace repeated manual work with custom agents and governed operating logic.',
     to: '/pricing',
   },
   {
     title: 'Web systems',
-    price: 'from 45,000 ETB',
-    text: 'For commercial sites, portals, dashboards, and quote flows that need to support a real operational process.',
+    price: 'from 20,000 ETB',
+    text: 'For commercial sites, portals, dashboards, and quote flows that support a real process.',
     to: '/web-development',
   },
   {
     title: 'Mobile products',
-    price: 'from 200,000 ETB',
-    text: 'For field teams, approvals, customer flows, and operations that need a mobile operating layer.',
+    price: 'from 40,000 ETB',
+    text: 'For field teams, approvals, and customer flows that need a mobile operating layer.',
     to: '/mobile-development',
   },
   {
-    title: 'SaaS waitlist',
-    price: 'Waitlist only',
-    text: 'We are not presenting live SaaS pricing for products that do not exist yet. Interest is collected honestly through a waitlist only.',
+    title: 'SaaS platforms',
+    price: 'from 3,500 ETB / month',
+    text: 'Live subscription systems for schools, clinics, and real estate operators — setup plus monthly billing.',
     to: '/saas-solutions',
   },
 ];
@@ -85,32 +86,36 @@ export default function Services() {
       <section className="page-hero ai-services-hero" aria-labelledby="services-hero-title">
         <div className="container marquee-hero-grid">
           <div className="page-hero-content">
-            <div className="eyebrow">01 · OFFER</div>
-            <h1 id="services-hero-title">
-              what we actually <em className="verb">build</em>&nbsp;after the Workflow Audit.
-            </h1>
-            <p>
-              NovaTech is not selling abstract AI transformation. We build specific operating systems for teams that
-              need work to move faster, more accurately, and with less dependence on one overloaded person.
-            </p>
-            <div className="page-hero-meta" aria-label="Service delivery priorities">
-              <span className="page-hero-chip">Audit first</span>
-              <span className="page-hero-chip">AI automation when it solves a real bottleneck</span>
-              <span className="page-hero-chip">Web and mobile when an interface layer is needed</span>
-            </div>
+            {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
+                subcopy → meta chips, 150ms apart, ≤ 1.2s total. */}
+            <HeroChoreo>
+              <div className="eyebrow">01 · OFFER</div>
+              <HeroChoreoHeadline id="services-hero-title">
+                what we actually <em className="verb">build</em>&nbsp;after the Workflow Audit.
+              </HeroChoreoHeadline>
+              <p>
+                We build specific operating systems for teams that need work to move faster, with less
+                dependence on one person.
+              </p>
+              <div className="page-hero-meta" aria-label="Service delivery priorities">
+                <span className="page-hero-chip">Audit first</span>
+                <span className="page-hero-chip">AI automation when it solves a real bottleneck</span>
+                <span className="page-hero-chip">Web and mobile when an interface layer is needed</span>
+              </div>
+            </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
             <Apparatus
               type="filament"
               callouts={SERVICES_APPARATUS_CALLOUTS}
-              label="Filament apparatus: automation from 250,000 ETB, web from 45,000 ETB, mobile from 200,000 ETB, milestones 40/30/30"
+              label="Filament apparatus: automation from 40,000 ETB, web from 20,000 ETB, mobile from 40,000 ETB, milestones 40/30/30"
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="AUTOMATION · FROM 250,000 ETB" labelRight="MILESTONES · 40/30/30" />
+      <MeterStrip labelLeft="AUTOMATION · FROM 40,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
       <section className="section" id="service-lanes">
         <div className="container">
@@ -118,7 +123,7 @@ export default function Services() {
             <SectionHeader
               eyebrow="02 · LANES"
               title="Three kinds of work come up most often."
-              subtitle="Not because they are trendy, but because these are the places where time, accuracy, and commercial trust usually break first."
+              subtitle="These are where time, accuracy, and commercial trust usually break first."
               align="left"
             />
           </ScrollReveal>
@@ -154,7 +159,7 @@ export default function Services() {
             <SectionHeader
               eyebrow="03 · MODEL"
               title="The point is clarity first, implementation second."
-              subtitle="We keep the process intentionally narrow so scope, commercial terms, and delivery expectations are explicit before a build starts."
+              subtitle="Scope, commercial terms, and delivery expectations are explicit before a build starts."
               align="left"
             />
           </ScrollReveal>
@@ -184,7 +189,7 @@ export default function Services() {
             <SectionHeader
               eyebrow="04 · TRACKS"
               title="The audit tells us which lane the project belongs in."
-              subtitle="This is the whole ladder: a paid audit, the right implementation path, then support only where it is actually needed."
+              subtitle="A paid audit, the right implementation path, then support where needed."
               align="left"
             />
           </ScrollReveal>
@@ -213,7 +218,7 @@ export default function Services() {
 
           <ScrollReveal delay={0.12}>
             <div className="editorial-note-panel">
-              <strong>What we do not do:</strong> placeholder pilots, invented proof, inflated AI claims, or price tables that drift away from the live offer.
+              <strong>What we do not do:</strong> placeholder demos, invented proof, or price tables that drift from the live offer.
             </div>
           </ScrollReveal>
         </div>
@@ -225,7 +230,7 @@ export default function Services() {
             <div className="eyebrow">05 · FIRST STEP</div>
             <h2>If the bottleneck is real, the Workflow Audit is where we begin.</h2>
             <p>
-              It gives both sides a clean commercial decision: build now, sequence later, or avoid building the wrong thing.
+              It gives both sides a clean decision: build now, stage later, or avoid the wrong build.
             </p>
             <div className="cta-actions">
               <Link to="/workflow-audit" className="btn btn-primary btn-lg">

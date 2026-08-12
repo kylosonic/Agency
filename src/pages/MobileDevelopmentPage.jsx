@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
@@ -9,7 +10,7 @@ import { getMobilePackages } from '../services/pricingData';
 
 /* B42a (TECH-25): locked filament-apparatus callouts for the Mobile hero. */
 const MOBILE_APPARATUS_CALLOUTS = [
-  'MOBILE · 200,000 / 400,000 ETB',
+  'MOBILE · FROM 40,000 ETB',
   'MILESTONES · 40/30/30',
   'RESPONSE · 1 BUSINESS DAY',
 ];
@@ -17,15 +18,15 @@ const MOBILE_APPARATUS_CALLOUTS = [
 const MOBILE_CONTEXT = [
   {
     title: 'Mobile only makes sense when the work itself is mobile',
-    text: 'Field operations, approvals, collections, logistics, and customer action flows are usually the places where a mobile layer actually changes outcomes.',
+    text: 'Field operations, approvals, collections, logistics, and customer action flows are where a mobile layer changes outcomes.',
   },
   {
     title: 'The app is never the whole system',
-    text: 'The question is not just which screens to build. It is what data, payment, approval, and reporting logic must sit behind the app to make it reliable.',
+    text: 'The question is what data, payment, approval, and reporting logic must sit behind the app to make it reliable.',
   },
   {
     title: 'We scope around operational reality',
-    text: 'If a lightweight web layer is enough, we say that. If the team really needs offline behavior, maps, payments, or field workflows, we build for that instead.',
+    text: 'If a lightweight web layer is enough, we say that. If offline behavior or field workflows are needed, we build for that.',
   },
 ];
 
@@ -53,31 +54,36 @@ export default function MobileDevelopmentPage() {
       <section className="page-hero">
         <div className="container marquee-hero-grid">
           <div className="page-hero-content">
-            <div className="eyebrow">01 · MOBILE</div>
-            <h1>
-              mobile products for teams that <em className="verb">work</em>&nbsp;in motion.
-            </h1>
-            <p>
-              We build mobile apps for field teams, approvals, customer actions, and operational workflows that need to move beyond desktop or chat-based coordination.
-            </p>
-            <div className="page-hero-meta" aria-label="Mobile delivery highlights">
-              <span className="page-hero-chip">Mobile from 200,000 ETB</span>
-              <span className="page-hero-chip">Cross-platform delivery</span>
-              <span className="page-hero-chip">Payments, maps, and field operations supported</span>
-            </div>
+            {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
+                subcopy → meta chips, 150ms apart, ≤ 1.2s total. */}
+            <HeroChoreo>
+              <div className="eyebrow">01 · MOBILE</div>
+              <HeroChoreoHeadline>
+                mobile products for teams that <em className="verb">work</em>&nbsp;in motion.
+              </HeroChoreoHeadline>
+              <p>
+                Mobile apps for field teams, approvals, and customer actions that need to move beyond
+                desktop or chat-based coordination.
+              </p>
+              <div className="page-hero-meta" aria-label="Mobile delivery highlights">
+                <span className="page-hero-chip">Mobile from 40,000 ETB</span>
+                <span className="page-hero-chip">Cross-platform delivery</span>
+                <span className="page-hero-chip">Payments, maps, and field operations supported</span>
+              </div>
+            </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
             <Apparatus
               type="filament"
               callouts={MOBILE_APPARATUS_CALLOUTS}
-              label="Filament apparatus: mobile from 200,000 or 400,000 ETB, milestones 40/30/30, response within 1 business day"
+              label="Filament apparatus: mobile from 40,000 ETB, milestones 40/30/30, response within 1 business day"
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="MOBILE · FROM 200,000 ETB" labelRight="MILESTONES · 40/30/30" />
+      <MeterStrip labelLeft="MOBILE · FROM 40,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
       <section className="section">
         <div className="container editorial-card-grid">
@@ -97,8 +103,8 @@ export default function MobileDevelopmentPage() {
           <ScrollReveal>
             <SectionHeader
               eyebrow="02 · PACKAGE ANCHORS"
-              title="Two mobile tiers, scoped from the live ETB table."
-              subtitle="The difference between them is not decoration. It is the operational depth behind the app: users, payments, maps, admin logic, and integrations."
+              title="Three mobile tiers, scoped from the live ETB table."
+              subtitle="The difference is operational depth: users, payments, maps, admin logic, and integrations."
               align="left"
             />
           </ScrollReveal>
@@ -139,7 +145,7 @@ export default function MobileDevelopmentPage() {
             <div className="eyebrow">03 · FIRST STEP</div>
             <h2>If the app depends on a messy workflow underneath, start with the audit.</h2>
             <p>
-              Mobile builds go better when the process, integrations, and data flow are clear first. That is exactly what the Workflow Audit is for.
+              Mobile builds go better when the process and data flow are clear first. That is the audit's job.
             </p>
             <div className="cta-actions">
               <Link to="/workflow-audit" className="btn btn-primary btn-lg">

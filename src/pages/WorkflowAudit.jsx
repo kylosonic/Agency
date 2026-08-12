@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
@@ -10,30 +11,30 @@ const WORKFLOW_AUDIT = getPricingGuideSummary().workflowAudit;
 
 /* B42a (TECH-25): locked indicator-dial callouts for the audit hero. */
 const AUDIT_APPARATUS_CALLOUTS = [
-  'AUDIT · 85,000 ETB · FIXED',
+  'AUDIT · 15,000 ETB · FIXED',
   'DELIVERY · 5 BUSINESS DAYS',
   'CREDIT · 100% TOWARD BUILD',
 ];
 
 const FIT_SIGNALS = [
   'A process depends on manual re-entry, spreadsheet stitching, or brittle portal work.',
-  'The team knows it needs software, but not whether the right move is AI automation, web, mobile, or all three.',
-  'Leads, approvals, orders, or support requests are delayed because no one owns the workflow end to end.',
-  'A founder or operator is still acting as the system glue between tools, teams, and customers.',
+  'The team needs software but not whether the move is AI, web, mobile, or all three.',
+  'Leads, approvals, orders, or support requests are delayed because no one owns the workflow.',
+  'A founder or operator is still the system glue between tools, teams, and customers.',
 ];
 
 const FIVE_DAY_FLOW = [
   {
     title: 'Current-state walkthrough',
-    text: 'We review the live workflow, stakeholders, tools, handoffs, and the commercial cost of delay or rework.',
+    text: 'We review the live workflow, stakeholders, tools, handoffs, and the cost of delay.',
   },
   {
     title: 'Risk and opportunity map',
-    text: 'We identify where automation is worth it, where interface work is required, and what should not be built yet.',
+    text: 'We identify where automation pays, where interface work is needed, and what not to build yet.',
   },
   {
     title: 'Implementation blueprint',
-    text: 'You receive the recommended path, price anchors, scope drivers, and the fastest credible way to move next.',
+    text: 'You receive the recommended path, price anchors, scope drivers, and the fastest next move.',
   },
 ];
 
@@ -43,19 +44,23 @@ export default function WorkflowAudit() {
       <section className="page-hero ai-audit-hero">
         <div className="container marquee-hero-grid">
           <div className="page-hero-content">
-            <div className="eyebrow">01 · ENTRY</div>
-            <h1>
-              <em className="verb">audit</em>&nbsp;the workflow before the build.
-            </h1>
-            <p>
-              This is the first engagement we want most teams to buy. It gives you a clear operating map,
-              a scoped implementation path, and a commercial decision based on what is actually broken.
-            </p>
-            <div className="page-hero-meta" aria-label="Workflow audit details">
-              <span className="page-hero-chip">Fixed fee {WORKFLOW_AUDIT.price}</span>
-              <span className="page-hero-chip">Delivered in 5 business days</span>
-              <span className="page-hero-chip">Full fee credited toward implementation</span>
-            </div>
+            {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
+                subcopy → meta chips, 150ms apart, ≤ 1.2s total. */}
+            <HeroChoreo>
+              <div className="eyebrow">01 · ENTRY</div>
+              <HeroChoreoHeadline>
+                <em className="verb">audit</em>&nbsp;the workflow before the build.
+              </HeroChoreoHeadline>
+              <p>
+                The first engagement we want most teams to buy: a clear operating map, a scoped
+                implementation path, and a decision based on what is actually broken.
+              </p>
+              <div className="page-hero-meta" aria-label="Workflow audit details">
+                <span className="page-hero-chip">Fixed fee {WORKFLOW_AUDIT.price}</span>
+                <span className="page-hero-chip">Delivered in 5 business days</span>
+                <span className="page-hero-chip">100% credited toward implementation</span>
+              </div>
+            </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
@@ -68,7 +73,7 @@ export default function WorkflowAudit() {
         </div>
       </section>
 
-      <MeterStrip labelLeft="AUDIT · 85,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
+      <MeterStrip labelLeft="AUDIT · 15,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
 
       <section className="section ai-audit-section">
         <div className="container editorial-two-column">
@@ -115,7 +120,7 @@ export default function WorkflowAudit() {
             <SectionHeader
               eyebrow="03 · TIMELINE"
               title="What happens between kickoff and the blueprint."
-              subtitle="We keep the audit short, structured, and commercial. The goal is clarity, not theater."
+              subtitle="Short, structured, and commercial. Clarity, not theater."
               align="left"
             />
           </ScrollReveal>
@@ -146,7 +151,7 @@ export default function WorkflowAudit() {
             <div className="eyebrow">04 · FIRST STEP</div>
             <h2>Use the audit when you want the right answer before the expensive answer.</h2>
             <p>
-              If you already know the implementation lane, you can still use the instant quote tool. If you do not, the audit saves time, money, and avoidable rework.
+              Know the lane? Use the instant quote tool. Otherwise the audit saves time and rework.
             </p>
             <div className="cta-actions">
               <Link to="/book-discovery-call" className="btn btn-primary btn-lg">

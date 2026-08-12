@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
@@ -9,7 +10,7 @@ import { getWebPackages } from '../services/pricingData';
 
 /* B42a (TECH-25): locked filament-apparatus callouts for the Web hero. */
 const WEB_APPARATUS_CALLOUTS = [
-  'WEB · 45,000 / 150,000 / 250,000 ETB',
+  'WEB · FROM 20,000 ETB',
   'MILESTONES · 40/30/30',
   'RESPONSE · 1 BUSINESS DAY',
 ];
@@ -17,15 +18,15 @@ const WEB_APPARATUS_CALLOUTS = [
 const WEB_CONTEXT = [
   {
     title: 'A better site is usually part of a bigger fix',
-    text: 'The website often needs to support quoting, intake, content operations, or customer handoff. That is why we still recommend the Workflow Audit when the operational picture is unclear.',
+    text: 'The site often needs to support quoting, intake, content operations, or customer handoff. That is why we recommend the Workflow Audit when the picture is unclear.',
   },
   {
     title: 'The build should serve a real commercial motion',
-    text: 'A premium site should help a founder sell, help a team respond faster, or help customers complete the next step without confusion.',
+    text: 'A premium site helps a founder sell, a team respond faster, or customers complete the next step.',
   },
   {
     title: 'We do not pad scope with surface polish alone',
-    text: 'If a five-page site solves the need, we say that. If the business really needs a portal, dashboard, or intake system, we scope that instead.',
+    text: 'If five pages solve the need, we say that. If a portal or dashboard is needed, we scope that instead.',
   },
 ];
 
@@ -53,32 +54,36 @@ export default function WebDevelopmentPage() {
       <section className="page-hero">
         <div className="container marquee-hero-grid">
           <div className="page-hero-content">
-            <div className="eyebrow">01 · WEB</div>
-            <h1>
-              web systems that help the business <em className="verb">move</em>,&nbsp;not just look presentable.
-            </h1>
-            <p>
-              We build websites, portals, and dashboard layers when the business needs a clearer commercial path,
-              better intake, or a cleaner operating surface around the workflow.
-            </p>
-            <div className="page-hero-meta" aria-label="Web delivery highlights">
-              <span className="page-hero-chip">Web from 45,000 ETB</span>
-              <span className="page-hero-chip">Portal and dashboard capable</span>
-              <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
-            </div>
+            {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
+                subcopy → meta chips, 150ms apart, ≤ 1.2s total. */}
+            <HeroChoreo>
+              <div className="eyebrow">01 · WEB</div>
+              <HeroChoreoHeadline>
+                web systems that help the business <em className="verb">move</em>,&nbsp;not just look presentable.
+              </HeroChoreoHeadline>
+              <p>
+                Websites, portals, and dashboards when the business needs a clearer commercial path,
+                better intake, or a cleaner operating surface.
+              </p>
+              <div className="page-hero-meta" aria-label="Web delivery highlights">
+                <span className="page-hero-chip">Web from 20,000 ETB</span>
+                <span className="page-hero-chip">Portal and dashboard capable</span>
+                <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
+              </div>
+            </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
             <Apparatus
               type="filament"
               callouts={WEB_APPARATUS_CALLOUTS}
-              label="Filament apparatus: web from 45,000, 150,000, or 250,000 ETB, milestones 40/30/30, response within 1 business day"
+              label="Filament apparatus: web from 20,000 ETB, milestones 40/30/30, response within 1 business day"
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="WEB · FROM 45,000 ETB" labelRight="MILESTONES · 40/30/30" />
+      <MeterStrip labelLeft="WEB · FROM 20,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
       <section className="section">
         <div className="container editorial-card-grid">
@@ -99,7 +104,7 @@ export default function WebDevelopmentPage() {
             <SectionHeader
               eyebrow="02 · PACKAGE ANCHORS"
               title="The web pricing ladder is straightforward."
-              subtitle="Choose the size of build that fits the actual business need. If the answer is still fuzzy, go back one step and start with the Workflow Audit."
+              subtitle="Choose the size that fits the business need. Unsure? Start with the Workflow Audit."
               align="left"
             />
           </ScrollReveal>
@@ -140,7 +145,7 @@ export default function WebDevelopmentPage() {
             <div className="eyebrow">03 · FIRST STEP</div>
             <h2>Book the Workflow Audit if the website is tied to a bigger operational issue.</h2>
             <p>
-              If you already know the exact web scope, use the instant quote tool. If the site is part of a larger quoting, intake, or internal workflow problem, the audit is the better starting point.
+              Know the exact scope? Use the instant quote tool. Part of a bigger workflow? Start with the audit.
             </p>
             <div className="cta-actions">
               <Link to="/workflow-audit" className="btn btn-primary btn-lg">

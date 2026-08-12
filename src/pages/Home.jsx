@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
+import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
+import MarqueeStrip from '../components/MarqueeStrip';
+import PriceCounter from '../components/PriceCounter';
 import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
@@ -26,32 +29,32 @@ const PRICING_SUMMARY = getPricingGuideSummary();
 
 /* B42a (TECH-25): locked topology-apparatus callouts for the Home hero. */
 const HOME_APPARATUS_CALLOUTS = [
-  'AUDIT · 85,000 ETB · FIXED',
+  'AUDIT · 15,000 ETB · FIXED',
   'DELIVERY · 5 BUSINESS DAYS',
   'CREDIT · 100% TOWARD BUILD',
   'KICKOFF · 40%',
-  'PILOT · 15–20% OFF',
+  'BUNDLE · WEB+AI · 10% OFF',
 ];
 
 const OPERATION_SIGNALS = [
   {
     title: 'Manual re-entry is everywhere',
-    text: 'The same order, invoice, or update gets typed into three tools because nothing talks to anything else.',
+    text: 'The same order is typed into three disconnected tools.',
     icon: 'refresh',
   },
   {
     title: 'Approvals depend on one person',
-    text: 'Work stops when a founder, accountant, or operations lead is away from their inbox for a few hours.',
+    text: 'Work stops when the owner is away.',
     icon: 'shield',
   },
   {
     title: 'Customer response speed is too slow',
-    text: 'Leads wait, support queues grow, and quoting stays trapped inside ad hoc documents and chats.',
+    text: 'Leads wait; quoting is trapped in docs.',
     icon: 'lightning',
   },
   {
     title: 'The next build is not clearly scoped',
-    text: 'Teams know they need software, but not whether the real fix is AI automation, a web system, or a mobile flow.',
+    text: 'Teams need software but not which build.',
     icon: 'search',
   },
 ];
@@ -59,22 +62,22 @@ const OPERATION_SIGNALS = [
 const IMPLEMENTATION_TRACKS = [
   {
     title: 'AI automation systems',
-    price: 'from 250,000 ETB',
-    text: 'Custom agents, document workflows, browser automation, and governed operating systems once the workflow is clear.',
+    price: 'from 40,000 ETB',
+    text: 'Custom agents, document workflows, browser automation, and governed systems.',
     icon: 'settings',
     to: '/services',
   },
   {
     title: 'Web systems',
-    price: 'from 45,000 ETB',
-    text: 'Sites, portals, quote flows, dashboards, and internal tools that support a real commercial or operational process.',
+    price: 'from 20,000 ETB',
+    text: 'Sites, portals, quote flows, and internal tools for a real commercial process.',
     icon: 'globe',
     to: '/web-development',
   },
   {
     title: 'Mobile products',
-    price: 'from 200,000 ETB',
-    text: 'Field, approval, logistics, and customer-facing apps when the work needs to move with the team.',
+    price: 'from 40,000 ETB',
+    text: 'Field, approval, and customer-facing apps that move with the team.',
     icon: 'mobile',
     to: '/mobile-development',
   },
@@ -82,23 +85,23 @@ const IMPLEMENTATION_TRACKS = [
 
 const AUDIT_REASONS = [
   {
-    title: 'It prevents the wrong build',
-    text: 'A website, app, or automation layer only works when it is tied to the real operational problem instead of the loudest request in the room.',
+    title: 'Prevents the wrong build',
+    text: 'Software works when tied to the real problem.',
     icon: 'search',
   },
   {
-    title: 'It keeps pricing credible',
-    text: 'We can quote from a real ETB anchor once we know what must be built and what can be left out.',
+    title: 'Keeps pricing credible',
+    text: 'Quotes need knowing what to build and leave out.',
     icon: 'chart',
   },
   {
-    title: 'It gives the team one shared view',
-    text: 'The process owner, the founder, and the delivery team all leave with the same map instead of different assumptions.',
+    title: 'Gives everyone one shared view',
+    text: 'Owner, founder, and team share one map.',
     icon: 'book',
   },
   {
-    title: 'It turns vague interest into a decision',
-    text: 'Build now, stage the work, or stop before money goes into the wrong system. The audit is designed to make that call clearly.',
+    title: 'Turns vague interest into a decision',
+    text: 'Build now, stage it, or stop early.',
     icon: 'idea',
   },
 ];
@@ -108,37 +111,37 @@ const OFFER_LADDER = [
     stage: 'Start here',
     title: 'Workflow Audit',
     price: PRICING_SUMMARY.workflowAudit.price,
-    detail: 'Delivered in 5 business days',
-    note: 'We map the current process, surface the real blockers, and define the right implementation path before any build is sold.',
+    detail: '5-day delivery',
+    note: 'We map the current process and define the right build path.',
   },
   {
     stage: 'Then build the fix',
     title: 'AI automation',
-    price: 'from 250,000 / 750,000 / 1,500,000+ ETB',
+    price: 'from 40,000 / 100,000 / 200,000+ ETB',
     detail: 'Custom agentic systems',
-    note: 'Scope rises with integration depth, compliance requirements, and how much of the operation needs to run without manual supervision.',
+    note: 'Scope rises with integration depth, compliance needs, and how much runs without supervision.',
   },
   {
     stage: 'Add the interface layer',
     title: 'Web and mobile delivery',
-    price: 'Web from 45,000 ETB / Mobile from 200,000 ETB',
+    price: 'Web from 20,000 ETB / Mobile from 40,000 ETB',
     detail: 'Sites, portals, dashboards, and apps',
-    note: 'Used when the workflow also needs a customer-facing, field, or internal operating surface.',
+    note: 'Used when the workflow needs a customer-facing, field, or internal surface.',
   },
   {
     stage: 'Keep it stable',
     title: 'Support and maintenance',
-    price: 'AI support 30,000 to 70,000 ETB / month / Web maintenance 5,000 to 15,000 ETB / month',
-    detail: 'Only after scope is defined',
-    note: 'Retainers are quoted from the live ETB table with written commitments instead of vague support promises.',
+    price: 'AI support 10,000 – 25,000 ETB / month / Web maintenance 8,000 – 20,000 ETB / year',
+    detail: 'After scope is defined',
+    note: 'Quoted from the live ETB table with written commitments.',
   },
 ];
 
 const WHAT_WE_NEED = [
-  'A walkthrough of the current workflow and where work stalls.',
-  'Access to the tools, exports, or screenshots that show how the process actually runs today.',
-  'The person who owns the process and the person who feels the pain when it breaks.',
-  'Any deadlines, compliance constraints, or commercial targets that change the scope.',
+  'A walkthrough of the current workflow.',
+  'Access to the tools and exports that show how it runs today.',
+  'The process owner and the person who feels the pain.',
+  'Deadlines, compliance, or commercial targets that change scope.',
 ];
 
 export default function Home() {
@@ -218,20 +221,20 @@ export default function Home() {
       <section className="hero ai-home-hero redesign-home-hero" id="hero" aria-labelledby="home-hero-title">
         <div className="container marquee-hero-grid">
           <div className="hero-copy">
-            <ScrollReveal delay={0.08}>
+            {/* M-1 (TECH-33): one choreographed hero reveal — eyebrow →
+                headline → subcopy → CTA row → trust row → facts panel, each
+                150ms apart, all settling ≤ 1.2s. EN headline per-word stagger;
+                AM/OM one block via :lang overrides. */}
+            <HeroChoreo>
               <div className="eyebrow">01 · ENTRY</div>
-            </ScrollReveal>
 
-            <h1 id="home-hero-title">
-              <em className="verb">fix</em>&nbsp;the workflow before you commission the build.
-            </h1>
+              <HeroChoreoHeadline id="home-hero-title">
+                <em className="verb">fix</em>&nbsp;the workflow before you commission the build.
+              </HeroChoreoHeadline>
 
-            <ScrollReveal delay={0.16}>
               <p>
-                Founder-led digital systems for Ethiopian operators. NovaTech starts with one paid first step:
-                the Workflow Audit. It is a fixed 85,000 ETB engagement delivered in 5 business days. You leave
-                with a clear map of the bottlenecks, the right implementation path, and the audit fee is credited
-                if we build the system.
+                Founder-led digital systems for Ethiopian operators, starting with one paid first step: the
+                Workflow Audit.
               </p>
 
               <div className="hero-actions">
@@ -244,13 +247,11 @@ export default function Home() {
               </div>
 
               <div className="hero-trust-row" aria-label="Workflow audit terms">
-                <span className="trust-pill">85,000 ETB fixed</span>
+                <span className="trust-pill">15,000 ETB fixed</span>
                 <span className="trust-pill">Delivered in 5 business days</span>
-                <span className="trust-pill">Fee credited toward implementation</span>
+                <span className="trust-pill">100% credited toward implementation</span>
               </div>
-            </ScrollReveal>
 
-            <ScrollReveal delay={0.18}>
               <div className="hero-facts editorial-facts-panel" aria-label="Common workflow problems we audit first">
                 <div className="hero-facts-label">What usually brings teams to us</div>
                 <div className="editorial-note">The audit blueprint lands in 5 business days.</div>
@@ -268,28 +269,42 @@ export default function Home() {
                   ))}
                 </ol>
               </div>
-            </ScrollReveal>
+            </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
             <Apparatus
               type="topology"
               callouts={HOME_APPARATUS_CALLOUTS}
-              label="Workflow audit apparatus: fixed audit, delivery in 5 business days, credit 100% toward build, kickoff 40%, pilot 15 to 20 percent off"
+              label="Workflow audit apparatus: fixed audit, delivery in 5 business days, credit 100% toward build, kickoff 40%, bundle web plus AI 10 percent off"
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="AUDIT · 85,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
+      <MeterStrip labelLeft="AUDIT · 15,000 ETB · FIXED" labelRight="DELIVERY · 5 BUSINESS DAYS" />
+
+      {/* M-5 (TECH-33): exactly ONE marquee on the site — below the hero, after
+          the meter strip (never duplicating its position). Content is locked
+          P-1 figures/discount strings only (G-5). */}
+      <MarqueeStrip
+        items={[
+          'AUDIT 15,000 ETB',
+          'WEB FROM 20,000 ETB',
+          'MOBILE FROM 40,000 ETB',
+          'AI FROM 40,000 ETB',
+          '3 MONTHS FREE MAINTENANCE',
+          'SAVE 2 MONTHS ANNUAL',
+        ]}
+      />
 
       <section className="section" id="why-audit-first">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
               eyebrow="02 · WHY AUDIT"
-              title="A premium site or automation stack is only useful when it fixes the real point of friction."
-              subtitle="We do not start by selling a generic package. We start by understanding where work is delayed, duplicated, or left to chance."
+              title="Software only helps when it fixes the real friction."
+              subtitle="We find where work is delayed, duplicated, or left to chance before selling anything."
               align="left"
             />
           </ScrollReveal>
@@ -336,8 +351,8 @@ export default function Home() {
 
           <ScrollReveal delay={0.1}>
             <div className="editorial-panel glass-strong">
-              <p className="editorial-kicker">What we need from you</p>
-              <h3>A short list of inputs. That is all.</h3>
+              <p className="editorial-kicker">What we need</p>
+              <h3>A short list of inputs.</h3>
               <ul className="editorial-checklist">
                 {WHAT_WE_NEED.map((item) => (
                   <li key={item}>
@@ -347,8 +362,7 @@ export default function Home() {
                 ))}
               </ul>
               <p className="editorial-note">
-                If you already know the build direction, you can use the instant quote tool. If the scope still feels
-                fuzzy, start with the audit and we will define it properly.
+                Know the build? Use the instant quote tool. Unsure? Start with the audit.
               </p>
             </div>
           </ScrollReveal>
@@ -360,8 +374,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               eyebrow="04 · TRACKS"
-              title="We build the system the audit proves you actually need."
-              subtitle="The audit can lead into AI automation, a web operating layer, a mobile product, or a combination of them. SaaS stays waitlist-only until a real product exists."
+              title="We build what the audit proves you need."
+              subtitle="The audit leads into AI, web, mobile, or a combination."
               align="left"
             />
           </ScrollReveal>
@@ -396,7 +410,7 @@ export default function Home() {
             <SectionHeader
               eyebrow="05 · LADDER"
               title="The commercial path is simple on purpose."
-              subtitle="One paid first step. Then the right implementation tier. Then the right level of support. No fake urgency, no hidden currency logic, and no live SaaS pricing where no live product exists."
+              subtitle="One paid first step, then the right tier, then support."
               align="left"
             />
           </ScrollReveal>
@@ -411,19 +425,16 @@ export default function Home() {
                     <p>{item.note}</p>
                   </div>
                   <div className="offer-ladder-price">
-                    <strong>{item.price}</strong>
+                    {/* M-4 (TECH-33): single figures count 0 → value once on
+                        viewport entry; ranges/multi-figure strings render static
+                        (resolution A4). Lands exactly on the locked figure (G-5). */}
+                    <strong><PriceCounter value={item.price} /></strong>
                     <span>{item.detail}</span>
                   </div>
                 </article>
               </ScrollReveal>
             ))}
           </div>
-
-          <ScrollReveal delay={0.12}>
-            <div className="editorial-note-panel">
-              <strong>SaaS note:</strong> SaaS is waitlist only. We do not present it like a live paid offer until a real product exists and a truthful price can be published.
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 
@@ -432,8 +443,8 @@ export default function Home() {
           <ScrollReveal>
             <SectionHeader
               eyebrow="06 · CONTACT"
-              title="Tell us where work breaks today."
-              subtitle="If the bottleneck is obvious, we will tell you whether the Workflow Audit is the right first step or whether you already have enough clarity to scope a build."
+              title="Tell us where work breaks."
+              subtitle="We will tell you whether the audit or a scoped build comes first."
               align="left"
             />
           </ScrollReveal>
@@ -443,9 +454,7 @@ export default function Home() {
               <div className="contact-info-card glass-card editorial-contact-card">
                 <p className="editorial-kicker">Direct contact</p>
                 <h3>Prefer to speak first?</h3>
-                <p>
-                  Use the contact form, book the Workflow Audit, or reach us directly if you already know the process that is slowing the business down.
-                </p>
+                <p>Message us, book the audit, or reach out directly.</p>
                 <ul className="editorial-contact-list">
                   <li>
                     <a href={`mailto:${SITE_CONTACT.email}`} onClick={() => trackContactChannelClick('email', 'home_contact_card')}>

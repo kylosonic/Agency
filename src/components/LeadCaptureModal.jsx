@@ -21,7 +21,7 @@ const FOCUSABLE_SELECTOR = [
 const VARIANT_CONTENT = {
     pricing_guide: {
         title: 'Get the current ETB pricing sheet',
-        subtitle: 'Leave your details and we will open the latest NovaTech pricing sheet built from the same ETB table used on the live site, including the SaaS waitlist policy.',
+        subtitle: 'Leave your details and we will open the latest NovaTech pricing sheet built from the same ETB table used on the live site.',
         submitLabel: 'Download Pricing Sheet',
         successTitle: 'Pricing sheet ready',
         successSubtitle: 'Your current ETB pricing sheet is open in a new tab. You can reopen it below.',

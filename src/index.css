@@ -366,7 +366,7 @@ h2 {
 .fade-up,
 .stagger-children > * {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(20px);
 }
 
 .fade-in {
@@ -400,14 +400,165 @@ h2 {
   transition-delay: 300ms;
 }
 
-.staggered-text {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.25em;
+/* ══ TECH-33 · editorial motion (M-1, M-4, M-5) ═══════════════════════
+   M-1 hero choreography: phases start PHASE_GAP apart (150ms inline
+   `--choreo-delay`), run PHASE_DUR (400ms) — fade-and-rise translateY 20px
+   → 0, opacity 0 → 1, calm cubic-bezier. Total ≤ 1.2s for every hero;
+   nothing loops (G-3); transform/opacity only (G-4). Reduced-motion and
+   :lang(am)/:lang(om) overrides below + in the global freeze list. */
+.hero-choreo__item {
+  opacity: 0;
+  animation: hero-choreo-rise var(--choreo-dur, 400ms) var(--ease-out) both;
+  animation-delay: var(--choreo-delay, 0ms);
 }
 
-.staggered-text-word {
+/* EN headlines: the block itself stays static; the words carry the reveal. */
+.hero-choreo-headline {
+  opacity: 1;
+  animation: none;
+}
+
+.hero-choreo-word {
   display: inline-block;
+  opacity: 0;
+  animation: hero-word-rise 300ms var(--ease-out) both;
+  animation-delay: calc(var(--choreo-delay, 0ms) + var(--word-index, 0) * 60ms);
+}
+
+/* AM/OM (M-1 edge case): headline reveals as ONE BLOCK — no per-word split,
+   no per-word stagger (Ethiopic glyph integrity, B30). */
+:lang(am) .hero-choreo-headline,
+:lang(om) .hero-choreo-headline {
+  opacity: 0;
+  animation: hero-choreo-rise var(--choreo-dur, 400ms) var(--ease-out) both;
+  animation-delay: var(--choreo-delay, 0ms);
+}
+
+:lang(am) .hero-choreo-word,
+:lang(om) .hero-choreo-word {
+  opacity: 1;
+  animation: none;
+}
+
+@keyframes hero-choreo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* M-4 (TECH-33): the price counter inherits the parent figure typography
+   (mono, receipt register); this class guarantees tabular numerals so the
+   count-up never jitters column widths (no decimal jitter). */
+.price-counter {
+  font-variant-numeric: tabular-nums;
+}
+
+/* M-5 (TECH-33): one slow marquee per page (G-2). Track duplicates its
+   content (two groups) and loops translateX -50% — a seamless loop. The
+   duration is derived in JS from the measured track width (≤ 20 px/s) and
+   exposed as `--marquee-duration` for the E2E speed gate. Pause on hover. */
+.marquee-strip {
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-rule);
+  background: var(--color-paper-2);
+}
+
+.marquee-strip__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 30s) linear infinite;
+}
+
+.marquee-strip__group {
+  display: flex;
+  align-items: center;
+}
+
+.marquee-strip__item {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-ink-3);
+  padding: 0.55rem 1.4rem;
+  border-right: 1px solid var(--color-rule);
+}
+
+.marquee-strip:hover .marquee-strip__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* M-3 (TECH-33): link underline sweep on the editorial inline-link register,
+   using the existing verb-underline pattern — 220ms (150–250ms window),
+   `:focus-visible` parity, transform-only (G-4). */
+.editorial-inline-link {
+  position: relative;
+}
+
+.editorial-inline-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-fast);
+}
+
+.editorial-inline-link:hover::after,
+.editorial-inline-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* M-3 (TECH-33): touch devices must not keep hover states after a tap —
+   the lifts are disabled where there is no hover capability (color/border
+   tints stay; nothing sticks in a raised transform). */
+@media (hover: none) {
+  .glass-card:hover,
+  .glass-strong:hover,
+  .service-card:hover,
+  .saas-card:hover,
+  .contact-info-item:hover,
+  .editorial-track-card:hover,
+  .pricing-tier-editorial-card:hover,
+  .service-lane-card:hover,
+  .offer-ladder-row:hover,
+  .btn:hover {
+    transform: none !important;
+  }
 }
 
 /* TECH-27 (B46): flat hairline bar pinned to the top — no floating pill, no
@@ -1016,6 +1167,12 @@ h1 .verb::after {
   outline-offset: 2px;
 }
 
+/* M-3 (TECH-33): keyboard focus gets the same lift as hover — buttons lift
+   2px like their hover state (parity), cards/links rely on the shared ring. */
+.btn:focus-visible {
+  transform: translateY(-2px);
+}
+
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1024,166 +1181,9 @@ h1 .verb::after {
 }
 
 /* Asymmetric emphasis: recommended middle package spans 5, flankers 4 / 3 */
-.pricing-grid > :nth-child(1) {
-  grid-column: span 4;
-}
-
-.pricing-grid > :nth-child(2) {
-  grid-column: span 5;
-}
-
-.pricing-grid > :nth-child(3) {
-  grid-column: span 3;
-}
-
-.pricing-grid > div {
-  display: flex;
-}
-
-.pricing-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  position: relative;
-  padding: 1.3rem;
-}
-
-.pricing-card.recommended {
-  /* Raised emphasis: paper-3 + strong hairline, brass border kept via rule-2.
-     No drop shadow, no darkened accent (B44 — hairline cards don't shadow). */
-  background: var(--color-paper-3);
-  border-color: var(--color-rule-2);
-  color: var(--color-ink);
-}
-
-.pricing-badge {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  color: var(--color-btn-ink);
-  background: var(--color-accent);
-  padding: 0.34rem 0.9rem;
-  border-radius: var(--radius-card);
-}
-
-.pricing-card-header {
-  margin-bottom: 0.25rem;
-}
-
-.pricing-card-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 13px;
-  background: var(--color-paper-3);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.72rem;
-}
-
-.pricing-card-icon-svg {
-  color: var(--color-accent);
-}
-
-.pricing-card h3 {
-  font-size: 1.05rem;
-  margin-bottom: 0.25rem;
-}
-
-.pricing-card .subtitle {
-  font-size: 0.82rem;
-  color: var(--color-ink-3);
-}
-
-.pricing-card.recommended .subtitle,
-.pricing-card.recommended .pricing-features li,
-.pricing-card.recommended .pricing-amount .currency,
-.pricing-card.recommended .pricing-amount .period,
-.pricing-card.recommended .pricing-timeline {
-  color: color-mix(in srgb, var(--color-ink), transparent 22%);
-}
-
-
-.pricing-card.recommended .pricing-card-icon {
-  background: var(--color-paper-emit);
-}
-
-.pricing-card.recommended .pricing-card-icon-svg,
-.pricing-card.recommended .pricing-timeline-icon {
-  color: color-mix(in srgb, var(--color-ink), transparent 16%);
-}
-
-.pricing-amount {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  font-size: 1.9rem;
-  margin: 0.35rem 0;
-}
-
-.pricing-amount .currency {
-  font-size: 0.88rem;
-  color: var(--color-ink-2);
-}
-
-.pricing-amount .period {
-  font-size: 0.8rem;
-  color: var(--color-ink-3);
-}
-
-.pricing-timeline {
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: var(--color-ink-2);
-  background: var(--color-paper-3);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-card);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.34rem;
-  padding: 0.3rem 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.pricing-timeline-icon {
-  color: var(--color-accent);
-}
-
-.pricing-features {
-  display: grid;
-  gap: 0.38rem;
-  margin-bottom: 1rem;
-  flex: 1;
-}
-
-.pricing-features li {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.45rem;
-  font-size: 0.86rem;
-  color: var(--color-ink-2);
-}
-
-.check {
-  color: var(--accent);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1px;
-}
-
-.pricing-card .btn {
-  width: 100%;
-}
-
+/* TECH-33 (R10): `.pricing-grid` / `.pricing-card*` / `.pricing-*` / `.check`
+   blocks deleted — PricingCard + InteractivePricing are dead (zero importers,
+   verified 2026-08-11); the live rate sheets use the receipt register. */
 .saas-card {
   margin-bottom: 1rem;
 }
@@ -2158,7 +2158,6 @@ h1 .verb::after {
    Bordered surface tier for live cards; dead classes (hero-stat, about-card,
    portfolio-card, testimonial-card, feature-card, process-step, addon-card) dropped. */
 .service-card,
-.pricing-card,
 .saas-card,
 .policy-section,
 .contact-form-card,
@@ -2170,7 +2169,6 @@ h1 .verb::after {
 }
 
 .service-card:hover,
-.pricing-card:hover,
 .saas-card:hover,
 .contact-info-item:hover {
   transform: translateY(-4px);
@@ -2178,7 +2176,6 @@ h1 .verb::after {
 }
 
 .service-card,
-.pricing-card,
 .saas-card {
   padding: 1.2rem;
 }
@@ -2204,144 +2201,9 @@ h1 .verb::after {
   line-height: 1.4;
 }
 
-.roi-section {
-  padding-top: 0;
-}
-
-.roi-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 1rem;
-  align-items: start;
-}
-
-.roi-card {
-  border-radius: var(--radius-card);
-  border: 1px solid var(--color-rule);
-  background: var(--color-paper-2);
-  padding: 1.15rem;
-}
-
-.roi-input-card h2 {
-  font-size: 1.2rem;
-  margin-bottom: 0.32rem;
-}
-
-.roi-input-card p {
-  color: var(--color-ink-2);
-  margin-bottom: 0.8rem;
-}
-
-.roi-input-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.6rem;
-}
-
-.roi-input-grid label {
-  display: grid;
-  gap: 0.32rem;
-  color: var(--color-ink-2);
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.roi-input-grid input {
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-input);
-  background: var(--color-paper-2);
-  color: var(--color-ink);
-  padding: 0.56rem 0.66rem;
-}
-
-.roi-output-card h3 {
-  font-size: 1.02rem;
-  margin-bottom: 0.65rem;
-}
-
-.roi-output-card ul {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.roi-output-card li {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.7rem;
-  border-bottom: 1px dashed var(--color-rule);
-  padding-bottom: 0.35rem;
-  color: var(--color-ink-2);
-  font-size: 0.84rem;
-}
-
-.roi-output-card li strong {
-  color: var(--color-ink);
-}
-
-.roi-highlight.positive strong {
-  color: var(--color-accent);
-}
-
-.roi-highlight.negative strong {
-  color: #ef4444;
-}
-
-.faq-section {
-  padding-top: 0;
-}
-
-.faq-title {
-  font-size: 1.85rem;
-  margin-bottom: 0.35rem;
-}
-
-.faq-subtitle {
-  color: var(--color-ink-2);
-  max-width: 700px;
-  margin-bottom: 0.82rem;
-}
-
-.faq-list {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.faq-item {
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-card);
-  background: var(--color-paper-2);
-  overflow: hidden;
-}
-
-.faq-question {
-  width: 100%;
-  padding: 0.78rem 0.88rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.8rem;
-  color: var(--color-ink);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.faq-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-accent);
-}
-
-.faq-answer {
-  padding: 0 0.88rem 0.82rem;
-}
-
-.faq-answer p {
-  color: var(--color-ink-2);
-  font-size: 0.88rem;
-  line-height: 1.6;
-}
-
+/* TECH-33 (R10): `.roi-*` (RoiEstimator) and `.faq-*` (FaqAccordion) blocks
+   deleted — both components are dead (zero importers, verified 2026-08-11);
+   `serviceFaqs` data removed from contentData.js with them. */
 .quote-wizard-section {
   padding-top: 0;
 }
@@ -2646,67 +2508,6 @@ h1 .verb::after {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.44rem;
-}
-
-/* ── Pilot offer (B10) — emphasized card, brass top rule, divide-y list ── */
-.pilot-offer-card {
-  border-radius: var(--radius-card);
-  border-top: 1px solid var(--color-accent);
-  background: var(--color-paper-2);
-  padding: clamp(1.4rem, 4vw, 2.2rem);
-  display: grid;
-  gap: 0.85rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.pilot-offer-kicker {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  color: var(--accent);
-}
-
-.pilot-offer-discount {
-  color: var(--accent);
-  font-weight: 800;
-}
-
-.pilot-offer-list {
-  display: grid;
-}
-
-.pilot-offer-list li {
-  border-top: 1px solid var(--color-rule);
-  padding: 0.62rem 0;
-  color: var(--color-ink-2);
-  font-size: 0.9rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-.pilot-offer-list li::before {
-  content: '';
-  flex: 0 0 auto;
-  width: 6px;
-  height: 6px;
-  margin-top: 0.5rem;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
-.pilot-offer-actions {
-  margin-top: 0.35rem;
-}
-
-.pilot-offer-fine-print {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  color: var(--color-ink-3);
-  line-height: 1.6;
 }
 
 .editorial-card-grid {
@@ -3028,7 +2829,6 @@ h1 .verb::after {
   }
 
   .editorial-two-column,
-  .roi-grid,
   .discovery-grid,
   .industry-grid {
     grid-template-columns: 1fr;
@@ -3163,7 +2963,6 @@ h1 .verb::after {
   }
 
   .service-card,
-  .pricing-card,
   .saas-card,
   .contact-form-card,
   .contact-info-item,
@@ -3174,7 +2973,6 @@ h1 .verb::after {
   }
 
   .service-card h3,
-  .pricing-card h3,
   .saas-card-header h3,
   .policy-section h3,
   .contact-form-card h3 {
@@ -3182,7 +2980,6 @@ h1 .verb::after {
   }
 
   .service-card p,
-  .pricing-features li,
   .saas-card-description,
   .policy-intro,
   .policy-note,
@@ -3415,7 +3212,6 @@ h1 .verb::after {
   }
 
   .service-card,
-  .pricing-card,
   .saas-card,
   .contact-form-card,
   .contact-info-item,
@@ -4705,16 +4501,14 @@ h1 .verb::after {
 
   .methodology-timeline,
   .ai-pricing-tier-grid,
-  .ai-interface-pricing-grid,
-  .pricing-grid {
+  .ai-interface-pricing-grid {
     grid-template-columns: 1fr;
   }
 
   /* Span resets — every asymmetric grid collapses to single column */
   .ai-pricing-tier-grid > :nth-child(n),
   .ai-interface-pricing-grid > :nth-child(n),
-  .ai-interface-pricing-grid > :only-child,
-  .pricing-grid > :nth-child(n) {
+  .ai-interface-pricing-grid > :only-child {
     grid-column: auto;
   }
 
@@ -4764,11 +4558,6 @@ h1 .verb::after {
   font-variant-numeric: tabular-nums;
 }
 
-
-.pricing-scenario-controls input[type="range"] {
-  width: 100%;
-  accent-color: var(--accent);
-}
 
 .ai-service-objective-board {
   margin-top: 0.72rem;
@@ -4863,113 +4652,7 @@ h1 .verb::after {
   font-size: 0.8rem;
 }
 
-.pricing-scenario-planner {
-  margin-top: 0.74rem;
-  border-radius: var(--radius-card);
-  padding: clamp(0.95rem, 3vw, 1.45rem);
-  display: grid;
-  gap: 0.86rem;
-}
-
-.pricing-scenario-header h3 {
-  font-size: 1.24rem;
-  margin-bottom: 0.24rem;
-}
-
-.pricing-scenario-header p {
-  color: var(--color-ink-2);
-  max-width: 74ch;
-}
-
-.pricing-scenario-controls {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem;
-}
-
-.pricing-scenario-controls label {
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-card);
-  background: color-mix(in srgb, var(--color-paper-2), transparent 5%);
-  padding: 0.7rem;
-  display: grid;
-  gap: 0.42rem;
-}
-
-.pricing-scenario-controls span {
-  color: var(--color-ink-3);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  font-weight: 700;
-}
-
-.pricing-scenario-controls strong {
-  font-family: var(--font-display);
-  font-size: 0.96rem;
-}
-
-.pricing-scenario-output {
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-card);
-  padding: 0.84rem;
-  background: color-mix(in srgb, var(--color-paper-2), transparent 4%);
-  display: grid;
-  gap: 0.6rem;
-}
-
-.pricing-scenario-tier {
-  display: inline-flex;
-  width: fit-content;
-  border-radius: var(--radius-card);
-  border: 1px solid color-mix(in srgb, var(--accent), var(--accent) 42%);
-  background: color-mix(in srgb, var(--color-paper-emit), transparent 55%);
-  padding: 0.36rem 0.66rem;
-  font-size: 0.79rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.pricing-scenario-values {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.55rem;
-}
-
-.pricing-scenario-values article {
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-input);
-  padding: 0.58rem;
-  display: grid;
-  gap: 0.24rem;
-}
-
-.pricing-scenario-values span {
-  color: var(--color-ink-3);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
-  font-weight: 700;
-}
-
-.pricing-scenario-values strong {
-  font-family: var(--font-display);
-  font-size: 0.92rem;
-}
-
-@media (max-width: 1200px) {
-  .pricing-scenario-values {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 1024px) {
-  .pricing-scenario-controls {
-    grid-template-columns: 1fr;
-  }
-
   .ai-service-objective-flow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4979,14 +4662,7 @@ h1 .verb::after {
   }
 }
 
-@media (max-width: 860px) {
-  .pricing-scenario-values {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 640px) {
-  .pricing-scenario-planner,
   .ai-service-objective-board {
     padding: 0.9rem;
   }
@@ -5000,7 +4676,9 @@ h1 .verb::after {
   }
 }
 
-/* ── Route Loader (Suspense fallback) ── */
+/* ── Route Loader (Suspense fallback) — M-6 (TECH-34): motionless text only.
+   The spinner ring (`.route-loader-ring`) was removed — route swaps must
+   never show an overlay spinner; the fallback is a static mono label. */
 .route-loader {
   width: 100%;
   min-height: 60vh;
@@ -5008,15 +4686,6 @@ h1 .verb::after {
   display: grid;
   place-items: center;
   gap: var(--space-2xs);
-}
-
-.route-loader-ring {
-  width: 34px;
-  height: 34px;
-  border-radius: var(--radius-card);
-  border: 1px solid var(--color-rule-2);
-  background: var(--color-paper-emit);
-  animation: loader-pulse 1.4s ease-in-out infinite;
 }
 
 .route-loader-text {
@@ -5167,26 +4836,63 @@ h1 .verb::after {
 
   /* Animation-bearing surfaces go fully inert — no transition, no
      animation. Final states are enforced by the per-component freezes
-     below (verb underline scaleX(1), apparatus wash opacity 1) and by
-     the .visible rules (fade-up / stagger-children -> opacity 1). */
+     below (verb underline scaleX(1), apparatus wash opacity 1, hero
+     choreography + marquee opacity 1) and by the .visible rules
+     (fade-up / stagger-children -> opacity 1). TECH-33 (M-1/M-4/M-5):
+     the hero choreography phases/words, the marquee strip/track, and the
+     price counter join the freeze list. The route-loader-ring is gone
+     (M-6: no overlay spinner). */
   .verb::after,
   .apparatus,
   .apparatus__wash,
   .skeleton,
   .route-loader,
-  .route-loader-ring,
   .section-loader,
   .fade-up,
   .fade-in,
   .stagger-children > *,
-  .staggered-text-word,
   .scroll-to-top-btn,
   .floating-cta-btn,
   .live-chat-toggle,
   .modal-slide-panel,
-  .modal-backdrop-blur {
+  .modal-backdrop-blur,
+  .hero-choreo__item,
+  .hero-choreo-word,
+  .marquee-strip,
+  .marquee-strip__track,
+  .price-counter {
     transition: none !important;
     animation: none !important;
+  }
+
+  /* M-1 (G-1): the choreography's base state hides phases/words before
+     their delay — reduced-motion forces full opacity, no transform. */
+  .hero-choreo__item,
+  .hero-choreo-word,
+  .hero-choreo-headline {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* M-3 (G-1): reduced-motion users get color-only hover feedback —
+     lifts are killed; border/background tints still apply instantly. */
+  .glass-card:hover,
+  .glass-strong:hover,
+  .service-card:hover,
+  .saas-card:hover,
+  .contact-info-item:hover,
+  .editorial-track-card:hover,
+  .pricing-tier-editorial-card:hover,
+  .service-lane-card:hover,
+  .offer-ladder-row:hover,
+  .btn:hover {
+    transform: none !important;
+  }
+
+  /* M-5 (G-1): the marquee renders as a static single line — the
+     duplicated seamless-loop group is hidden. */
+  .marquee-strip__group[aria-hidden="true"] {
+    display: none;
   }
 }
 
@@ -5365,91 +5071,8 @@ h1 .verb::after {
   color: var(--color-ink-3);
 }
 
-/* Pilot offer (Pricing / WorkflowAudit band-1) */
-.band-dark .pilot-offer-kicker {
-  color: var(--accent);
-}
-
-.band-dark .pilot-offer-discount {
-  color: var(--accent);
-}
-
-.band-dark .pilot-offer-card {
-  background: var(--color-paper-3);
-}
-
-.band-dark .pilot-offer-list li {
-  color: var(--color-ink-3);
-  border-top-color: var(--color-rule-2);
-}
-
-.band-dark .pilot-offer-fine-print {
-  color: var(--color-ink-3);
-}
-
-/* ROI estimator (product pages band-1) */
-.band-dark .roi-card {
-  background: var(--color-paper-3);
-  border-color: var(--color-rule-2);
-}
-
-.band-dark .roi-card h2,
-.band-dark .roi-output-card h3 {
-  color: var(--color-ink);
-}
-
-.band-dark .roi-card p {
-  color: var(--color-ink-3);
-}
-
-.band-dark .roi-input-grid label {
-  color: var(--color-ink-3);
-}
-
-.band-dark .roi-input-grid input {
-  background: var(--color-paper-2);
-  border-color: var(--color-rule-2);
-  color: var(--color-ink);
-}
-
-.band-dark .roi-output-card li {
-  color: var(--color-ink-3);
-  border-bottom-color: var(--color-rule-2);
-}
-
-.band-dark .roi-output-card li strong {
-  color: var(--color-ink);
-}
-
-.band-dark .roi-highlight.positive strong {
-  color: var(--accent);
-}
-
-/* FAQ accordion (AdditionalServices band-1) */
-.band-dark .faq-title {
-  color: var(--color-ink);
-}
-
-.band-dark .faq-subtitle {
-  color: var(--color-ink-3);
-}
-
-.band-dark .faq-item {
-  background: var(--color-paper-3);
-  border-color: var(--color-rule-2);
-}
-
-.band-dark .faq-question {
-  color: var(--color-ink);
-}
-
-.band-dark .faq-icon {
-  color: var(--accent);
-}
-
-.band-dark .faq-answer p {
-  color: var(--color-ink-3);
-}
+/* TECH-33 (R10): `.band-dark .roi-*` (RoiEstimator) and `.band-dark .faq-*`
+   (FaqAccordion) blocks deleted with their components (zero importers). */
 
 /* Home methodology (band-1) */
 .band-dark .methodology-timeline {
@@ -6030,14 +5653,6 @@ h1 .verb::after {
   border-bottom: 1px solid var(--color-rule);
 }
 
-/* ── PilotOfferSection → paper-2 hairline surface (B44 lock-in) ── */
-.pilot-offer-card {
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-card);
-  background: var(--color-paper-2);
-  box-shadow: inset 0 0 24px var(--color-paper-emit);
-}
-
 /* Receipt rows collapse to one column on narrow viewports */
 @media (max-width: 1080px) {
   .receipt-row {
@@ -6106,7 +5721,6 @@ h1 .verb::after {
 :lang(am) .verb,
 :lang(am) .page-hero-chip,
 :lang(am) .hero-facts-label,
-:lang(am) .pilot-offer-kicker,
 :lang(am) .language-switcher-label,
 :lang(am) .pricing-badge,
 :lang(am) .saas-card-header .tag,
@@ -6123,8 +5737,6 @@ h1 .verb::after {
 :lang(am) .ai-pricing-values span,
 :lang(am) .ai-pricing-card-kicker,
 :lang(am) .ai-service-objective-kicker,
-:lang(am) .pricing-scenario-controls span,
-:lang(am) .pricing-scenario-values span,
 :lang(am) .route-loader-text,
 :lang(am) .offer-ladder-stage,
 :lang(am) .editorial-kicker,
