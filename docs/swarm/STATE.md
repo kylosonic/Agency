@@ -4,17 +4,20 @@
 
 ## Current phase
 
-**IMPLEMENTING → VERIFYING — Phase 11** Software-First Brand Redesign & Build-Intake Conversion
-(NB-44…NB-52). Gates A–E ✅ (Gate B: 123/123 E2E ×4 runs; Gate C: QA APPROVED; Gate D: Security
-APPROVED WITH FINDINGS; Gate E: Integration APPROVED). Gate F (Commit) ⏳ pending; UAT ⏳ pending
-(owner). Contract: `docs/behaviors/software-first-redesign.md` (R-1…R-19). Branch:
-`software-first-redesign` (created 2026-08-12 from main @ `536c6ab`; carries the uncommitted
-contract + ledger + ADR-005 + STATE updates — owner-confirmed contract + ledger). Production
-current at `536c6ab` (Phase 10) until Phase 11 releases.
+**RELEASED & DEPLOYED — Phase 11** Software-First Brand Redesign & Build-Intake Conversion
+(NB-44…NB-52). Gates A–F ✅ (Gate B: 123/123 E2E ×4 runs; Gate C: QA APPROVED; Gate D: Security
+APPROVED WITH FINDINGS; Gate E: Integration APPROVED; Gate F: commit `84a8799`). UAT ✅ owner
+approval 2026-08-12. Release ✅ merge `6f274df` → main (pushed `f5ecc65..6f274df`), Vercel
+deployment `dpl_DPLkkmAoCCPuKNgjVp6A5FjK8P76` READY on https://novatech23.vercel.app (12 s build;
+11/11 routes HTTP 200; content greps green: hero H1 "software built around your business.",
+"Start a Project", "project request was received", 15,000 ETB, 3,500 ETB / month, og-image
+cache-bust `og-image.png?v=20260812`, zero "NovaTech AI"). Contract:
+`docs/behaviors/software-first-redesign.md` (R-1…R-19). Rollback if ever needed:
+`git revert -m 1 6f274df` → push → Vercel auto-redeploy.
 
 **DEPLOYED — Phase 10** Software Prominence & Booking Conversion (NB-41…43). Gate A ✅ `385d682` — `docs/plans/phase10-software-prominence-booking.md` (TECH-35…41, strictly linear DAG 35→41; ambiguities A1–A11 resolved and recorded in plan §13; ladder row count corrected to 4 per owner enumeration). Gate B (Implement) ✅. Gate C (QA) ✅ APPROVED (110/110). Gate D (Security) ✅ APPROVED. Gate E (Integration) ✅ APPROVED. Gate F (Commit) ✅ commits `2a0eee0` / `b0512b8` / `c44a987`. Release ✅ merge `536c6ab` → main, Vercel `dpl_CidZtfrKcmugT5uABhYAHLKxGe1v` READY on https://novatech23.vercel.app. UAT ✅ owner approval 2026-08-12. Contracts: `docs/behaviors/software-development-prominence.md` (S-1…S-4, C-1…C-4). Branch: `software-prominence-booking` (merged to main as `536c6ab`, pushed `5f1f8ab..536c6ab`).
 
-Prior phase-9 + contact-fix context remains in force below; production current at `536c6ab` (Phase 10) — prior `5f1f8ab` / `8b40acf` deployed.
+Prior phase-9 + contact-fix context remains in force below; production current at `6f274df` (Phase 11) — prior `536c6ab` / `8b40acf` / `5f1f8ab` deployed.
 
 **DEPLOYED** — Phase 9 released to production (merge `026f751` → main, Vercel deployment
 `dpl_FLTFcNYBAhYgVjskgjU8TvGk2NAU` READY, https://novatech23.vercel.app — 5/5 routes HTTP 200,
@@ -82,10 +85,10 @@ READY on https://novatech23.vercel.app.
 
 ## Feature branch
 
-`software-first-redesign` (Phase 11 batch — created 2026-08-12 from main @ `536c6ab`; carries
-the uncommitted contract files `docs/behaviors/software-first-redesign.md` +
-`docs/behaviors/pending-behaviors.md`; do not create another)
+No active feature branch — Phase 11 batch `software-first-redesign` merged to main as `6f274df`
+(2026-08-12; do not create another).
 
+Merged: `software-first-redesign` (Phase 11 batch — merged to main as `6f274df` 2026-08-12; do not create another)
 Merged: `software-prominence-booking` (Phase 10 batch — merged to main as `536c6ab` 2026-08-12; do not create another)
 
 Historical: `pricing-revert-and-motion` (Phase 9 batch — do not create another)
@@ -140,7 +143,7 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 | TECH-40 | CTAs + auto-capture | ✅ DEPLOYED (536c6ab) |
 | TECH-41 | Support paths + E2E + i18n | ✅ DEPLOYED (536c6ab) |
 
-### Phase 11 (NB-44…52) — IMPLEMENTED (Gates A–E ✅; Gate F commit + UAT pending)
+### Phase 11 (NB-44…52) — DEPLOYED (6f274df, 2026-08-12)
 
 Titles per plan `docs/plans/phase11-software-first-redesign.md`; execution was strictly linear
 DAG 42→43→44→45→46→47→48→49→50 (no parallel slices). Capture script landed as
@@ -148,15 +151,15 @@ DAG 42→43→44→45→46→47→48→49→50 (no parallel slices). Capture scr
 
 | Ticket | Status |
 |---|---|
-| TECH-42 | ✅ IMPLEMENTED (pending commit) — palette token swap + visual E2E re-baseline |
-| TECH-43 | ✅ IMPLEMENTED (pending commit) — hero/trust/What We Build + 15-section skeleton |
-| TECH-44 | ✅ IMPLEMENTED (pending commit) — service sections + AI + Process + Why + Industries |
-| TECH-45 | ✅ IMPLEMENTED (pending commit) — audit §13 + pricing redistribution + meter/marquee |
-| TECH-46 | ✅ IMPLEMENTED (pending commit) — CTA system site-wide + project-intake form |
-| TECH-47 | ✅ IMPLEMENTED (pending commit) — case studies + screenshot pipeline |
-| TECH-48 | ✅ IMPLEMENTED (pending commit) — i18n EN/AM/OM parity |
-| TECH-49 | ✅ IMPLEMENTED (pending commit) — E2E new gates + full regression + greps |
-| TECH-50 | ✅ IMPLEMENTED (pending commit) — SEO re-cut + OG regeneration + brand close-out |
+| TECH-42 | ✅ DEPLOYED (6f274df) — palette token swap + visual E2E re-baseline |
+| TECH-43 | ✅ DEPLOYED (6f274df) — hero/trust/What We Build + 15-section skeleton |
+| TECH-44 | ✅ DEPLOYED (6f274df) — service sections + AI + Process + Why + Industries |
+| TECH-45 | ✅ DEPLOYED (6f274df) — audit §13 + pricing redistribution + meter/marquee |
+| TECH-46 | ✅ DEPLOYED (6f274df) — CTA system site-wide + project-intake form |
+| TECH-47 | ✅ DEPLOYED (6f274df) — case studies + screenshot pipeline |
+| TECH-48 | ✅ DEPLOYED (6f274df) — i18n EN/AM/OM parity |
+| TECH-49 | ✅ DEPLOYED (6f274df) — E2E new gates + full regression + greps |
+| TECH-50 | ✅ DEPLOYED (6f274df) — SEO re-cut + OG regeneration + brand close-out |
 
 ## TECH-32 build resolution (@architect, 2026-08-11)
 
@@ -219,7 +222,7 @@ DAG 42→43→44→45→46→47→48→49→50 (no parallel slices). Capture scr
 - UAT: ✅ human approval received 2026-08-12
 - Release: ✅ DEPLOYED — merge `536c6ab` → main (pushed `5f1f8ab..536c6ab`), Vercel `dpl_CidZtfrKcmugT5uABhYAHLKxGe1v` READY, https://novatech23.vercel.app (12 s build; 7/7 routes 200)
 
-## Phase 11 gates (NB-44…52)
+## Phase 11 gates (NB-44…52) — ✅ ALL PASSED (released `6f274df`)
 
 - Gate A (Blueprint): ✅ — `docs/plans/phase11-software-first-redesign.md` (TECH-42…TECH-50,
   strictly linear DAG 42→50; governed by R-1…R-19)
@@ -239,10 +242,13 @@ DAG 42→43→44→45→46→47→48→49→50 (no parallel slices). Capture scr
 - Gate E (Integration): ✅ APPROVED — build/contracts/tests/placeholders/branch hygiene verified;
   capture script renamed to `scripts/capture-case-studies.mjs` per plan; ADR-005 created
   (CTA supersession + palette change + imagery exception recorded).
-- Gate F (Commit): ⏳ pending — batch commits atomically after all gates (AGENTS.md §5)
-- UAT: ⏳ pending (owner)
-- Release: ⏳ pending — rollback if ever needed: `git revert -m 1 <merge>` → push → Vercel
-  auto-redeploy (phase-9/10 precedent)
+- Gate F (Commit): ✅ — commit `84a8799` (2026-08-12; feature branch merged as `6f274df` with
+  clean working tree)
+- UAT: ✅ owner approval received 2026-08-12
+- Release: ✅ DEPLOYED — merge `6f274df` → main (pushed `f5ecc65..6f274df`), Vercel
+  `dpl_DPLkkmAoCCPuKNgjVp6A5FjK8P76` READY on https://novatech23.vercel.app (12 s build; 11/11
+  routes HTTP 200; content greps green). Rollback if ever needed: `git revert -m 1 6f274df` →
+  push → Vercel auto-redeploy.
 
 ## Phase 10 release (2026-08-12)
 
@@ -260,6 +266,27 @@ https://novatech23.vercel.app (12 s build).
   2026-08-12.
 - **Tickets** — TECH-35…41 ✅ DEPLOYED (536c6ab).
 - **Rollback if ever needed** — `git revert -m 1 536c6ab` → push → Vercel auto-redeploy.
+
+## Phase 11 release (2026-08-12)
+
+Phase 11 (NB-44…52) released to production: merge `6f274df` → main
+(`release(phase11): software-first redesign, light-first palette, project intake conversion —
+TECH-42..50, E2E 123/123, QA+SECURITY APPROVED, UAT approved (NB-44..52)`), pushed
+`f5ecc65..6f274df` (parents 84a8799 feature + f5ecc65 prior main). Vercel deployment
+`dpl_DPLkkmAoCCPuKNgjVp6A5FjK8P76` READY on https://novatech23.vercel.app (12 s build).
+
+- **Live health** — 11/11 routes HTTP 200 (/, /services, /pricing, /web-development,
+  /mobile-development, /saas-solutions, /additional-services, /instant-quote,
+  /book-discovery-call, /workflow-audit, /policy); content greps: "software built around your
+  business." (hero H1, lowercase per B40 two-register system — CSS lowercases prose; E2E asserts
+  rendered H1), "Start a Project", "project request was received", "15,000 ETB",
+  "3,500 ETB / month"; og:image cache-bust `og-image.png?v=20260812` present; zero "NovaTech AI"
+  in deployed index.html or bundle.
+- **Gates** — Gate A ✅ plan; Gate B ✅ 123/123 E2E ×4 runs; Gate C QA APPROVED; Gate D SECURITY
+  APPROVED WITH FINDINGS (risks j–l); Gate E ✅; Gate F ✅ commit `84a8799`; UAT ✅ owner approval
+  2026-08-12; Release ✅ merge `6f274df`.
+- **Tickets** — TECH-42…50 ✅ DEPLOYED (6f274df).
+- **Rollback if ever needed** — `git revert -m 1 6f274df` → push → Vercel auto-redeploy.
 
 ## Phase 10 leftover flag (@scribe, 2026-08-12)
 
@@ -325,7 +352,8 @@ Acceptance gate per `docs/behaviors/pricing-revert-and-motion.md` §5:
   prices identical across languages (i18n gate passed).**
 - (j) **react-router 7.13.1 high advisories** — GHSA-49rj-9fvp-4h2h, GHSA-8646-j5j9-6r62 (Gate D
   findings). Not exploitable in this static declarative deploy (no SSR, no untrusted route
-  params executed); follow-up bump to ^7.18.2 recommended in a future batch.
+  params executed); bump to ^7.18.2 — **now actionable: next-batch candidate** (Phase 11
+  follow-up, not part of this batch).
 - (k) **Dev-tree advisories** — vite/postcss etc. routine dependency hygiene; no runtime
   exposure in the static build; handled with the next dependency pass.
 - (l) **`api/leads.js` + `api/mailing-list.js` untracked** — both default to
@@ -357,8 +385,8 @@ merge/deploy approval:
 
 ## Behavior ledger
 
-- NB-44..NB-52 → [IMPLEMENTED — awaiting UAT/commit] (2026-08-12, Phase 11 Gates A–E ✅) — rows
-  live in `docs/behaviors/pending-behaviors.md` (carried uncommitted on branch
-  `software-first-redesign`; owner-confirmed contract + ledger; not [DEPLOYED] — release not done).
+- NB-44..NB-52 → [IMPLEMENTED] + [DEPLOYED] (2026-08-12, merge 6f274df) — rows live in
+  `docs/behaviors/pending-behaviors.md`; Phase 11 gates A–F + UAT + Release all ✅ (owner UAT
+  approval 2026-08-12; deployed Vercel `dpl_DPLkkmAoCCPuKNgjVp6A5FjK8P76`).
 - NB-36..NB-40 → [IMPLEMENTED] + [DEPLOYED] (2026-08-12, merge 026f751) — plan §11 DoD
   completion; ledger rows updated in `docs/behaviors/pending-behaviors.md`.
