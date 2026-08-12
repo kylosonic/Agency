@@ -4,16 +4,19 @@
 
 ## Current phase
 
-**UAT — awaiting human approval** (no merge/deploy without it). Gate A (Blueprint) ✅ complete
-(`docs/plans/phase9-pricing-revert-motion.md`, TECH-30..TECH-34, strictly linear DAG
-30→31→32→33→34 — shared files bar parallelism). Ambiguities A1–A7 + remote-endpoint decision
-resolved by @architect under the locked contract (recorded below). Gate B (Implement) ✅ complete
-(TECH-30..34 implemented; build clean; `npx eslint src/ tests/ scripts/` exit 0; full E2E 101/101
-passed twice — architect run + independent QA run). Gate C (QA) ✅ APPROVED (all 7 acceptance
-gates independently verified, evidence in QA report). Gate D (Security) ✅ APPROVED (6/6 checks,
-zero findings above Info). Gate E (Integration) ✅ APPROVED (build/contracts/tests/placeholders/
-branch hygiene verified). Gate F (Commit) ✅ complete — atomic commit `715b2b4` created
-2026-08-12, working tree clean.
+**DEPLOYED** — Phase 9 released to production (merge `026f751` → main, Vercel deployment
+`dpl_FLTFcNYBAhYgVjskgjU8TvGk2NAU` READY, https://novatech23.vercel.app — 5/5 routes HTTP 200,
+content greps verified: 15,000 ETB present / 85,000 absent / waitlist absent / SaaS 3,500 present;
+deployed chunk hashes byte-identical to the merged build). Rollback if ever needed:
+`git revert -m 1 026f751` → push → Vercel auto-redeploys.
+
+Batch gate history: Gate A (Blueprint) ✅ (TECH-30..TECH-34, strictly linear DAG 30→31→32→33→34;
+ambiguities A1–A7 + remote-endpoint decision resolved by @architect under the locked contract),
+Gate B (Implement) ✅ (build clean; `npx eslint src/ tests/ scripts/` exit 0; full E2E 101/101
+passed twice — architect run + independent QA run), Gate C (QA) ✅ APPROVED (7/7 acceptance gates),
+Gate D (Security) ✅ APPROVED (6/6 checks, zero findings above Info), Gate E (Integration) ✅ APPROVED,
+Gate F (Commit) ✅ (atomic commit `715b2b4`, 2026-08-12, working tree clean), UAT ✅ (human approval
+2026-08-12).
 
 Prior batch context: Phase 8 Lumen Night is **DEPLOYED** to production (merge `cf159b1` →
 `main`, Vercel deployment `dpl_7VrzQkABk3TEHAqhMEJapJ5TPKK3` READY,
@@ -56,11 +59,11 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 
 | Ticket | Title | Status |
 |---|---|---|
-| TECH-30 | Pricing table swap + wizard anchors + PDF (slice 1, NB-36) | ✅ COMMITTED (715b2b4) |
-| TECH-31 | Discount program + pilot removal (slice 2, NB-37) | ✅ COMMITTED (715b2b4) |
-| TECH-32 | Copy trim + i18n (slice 3, NB-38) | ✅ COMMITTED (715b2b4) |
-| TECH-33 | Editorial motion system (slice 4, NB-39) | ✅ COMMITTED (715b2b4) |
-| TECH-34 | Page transitions (slice 5, NB-40) | ✅ COMMITTED (715b2b4) |
+| TECH-30 | Pricing table swap + wizard anchors + PDF (slice 1, NB-36) | ✅ DEPLOYED (026f751) |
+| TECH-31 | Discount program + pilot removal (slice 2, NB-37) | ✅ DEPLOYED (026f751) |
+| TECH-32 | Copy trim + i18n (slice 3, NB-38) | ✅ DEPLOYED (026f751) |
+| TECH-33 | Editorial motion system (slice 4, NB-39) | ✅ DEPLOYED (026f751) |
+| TECH-34 | Page transitions (slice 5, NB-40) | ✅ DEPLOYED (026f751) |
 
 ## TECH-32 build resolution (@architect, 2026-08-11)
 
@@ -109,7 +112,8 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 - Gate D (Security): ✅ SECURITY APPROVED — 6/6 checks, zero findings above Info
 - Gate E (Integration): ✅ APPROVED — build/contracts/tests/placeholders/branch hygiene verified
 - Gate F (Commit): ✅ complete — commit 715b2b4, working tree clean
-- UAT: ⏳ PENDING — human approval required before merge/deploy
+- UAT: ✅ human approval received 2026-08-12
+- Release: ✅ DEPLOYED — 026f751, dpl_FLTFcNYBAhYgVjskgjU8TvGk2NAU, health checks 5/5 + content greps green (2026-08-12)
 
 ## Pending verification evidence
 
@@ -132,13 +136,24 @@ Acceptance gate per `docs/behaviors/pricing-revert-and-motion.md` §5:
 
 - None this batch. Retry counters all at 0.
 
+## Batch boundary note (@devops)
+
+- `origin/main` contained an out-of-band commit `e00e30b` ("m", importing `.opencode/skills/*`
+  assets + source touches) that was upstream **before** the phase-9 release. Verified as an
+  ancestor of the feature branch (`pricing-revert-and-motion`) via merge-base; now contained in
+  `main`'s history. **Not** part of the phase-9 contract — documented for batch-boundary
+  accounting.
+
 ## Unresolved risks
 
 - (a) **ADR contradiction** — ADR-001's figures are superseded by the locked table; an ADR
   amendment (ADR-003 or amendment to ADR-001) is required so docs and code do not contradict.
 - (b) **Remote pricing endpoint** — `VITE_PRICING_DATA_ENDPOINT` could serve stale figures;
   must be updated or removed (contract P-1 marks a stale endpoint a release blocker).
-- (c) **PDF pricing guide** — needs regeneration + human diff (NB-12 / owner action OA-7).
+- (c) **PDF pricing guide** — STILL STALE at
+  `public/NovaTechAI_2026_Service_Menu_and_Pricing_Guide.pdf`; owner action OA-7 / NB-12 pending:
+  regenerate from locked P-1 figures + human diff, then re-verify the lead-capture download
+  surface.
 - (d) **E2E re-baseline** — existing Playwright suite asserts old figures; must be
   re-baselined with @qa before the E2E gate can pass.
 - (e) **i18n parity** — trimmed English copy must be mirrored in AM/OM (re-cut, no orphaned
@@ -163,5 +178,10 @@ merge/deploy approval:
   identical.
 - PDF pricing guide: stale artifact at `public/NovaTechAI_2026_Service_Menu_and_Pricing_Guide.pdf`
   — regenerate + human diff (owner action OA-7 / NB-12) BEFORE the download surface is re-enabled.
-- Rollback if needed: `git revert -m 1 715b2b4` → push → Vercel auto-redeploy (merge has not
-  happened yet; merge will be `git merge pricing-revert-and-motion` after UAT approval).
+- Rollback if needed: `git revert -m 1 026f751` → push → Vercel auto-redeploy (merge `026f751`
+  landed 2026-08-12; branch fully contained in `main`).
+
+## Behavior ledger
+
+- NB-36..NB-40 → [IMPLEMENTED] + [DEPLOYED] (2026-08-12, merge 026f751) — plan §11 DoD
+  completion; ledger rows updated in `docs/behaviors/pending-behaviors.md`.
