@@ -1,5 +1,8 @@
 # NovaTech Agency — Domain Context & Glossary
 
+> SUPERSEDED (2026-08-12, ADR-004): AI-forward positioning/framing superseded by software-first prominence + brand rename to "NovaTech" (docs/behaviors/software-development-prominence.md). Locked prices/figures remain in force per ADR-003.
+> Figures in the glossary below (85,000 / 250k / 750k / 1.5M / 45k / 200k / 400k / 30–70k / 5–15k) are SUPERSEDED by the phase-9 locked table (ADR-003); the glossary body is intentionally untouched — scribe content refresh is a separate owner-approved task.
+
 > Source of truth for domain language. Maintained by @scribe / @architect. Behaviors live in
 > `docs/behaviors/`, decisions in `docs/adr/`, pending work in `docs/behaviors/pending-behaviors.md`.
 
