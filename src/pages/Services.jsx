@@ -6,12 +6,14 @@ import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
 
-/* B42a (TECH-25): locked filament-apparatus callouts for the Services hero. */
+/* B42a (TECH-25) + TECH-36 (S-1): locked filament-apparatus callouts for the
+   Services hero — software callouts lead (WEB → MOBILE → SAAS), automation is
+   the second track. */
 const SERVICES_APPARATUS_CALLOUTS = [
-  'AUTOMATION · FROM 40,000 ETB',
   'WEB · FROM 20,000 ETB',
   'MOBILE · FROM 40,000 ETB',
-  'MILESTONES · 40/30/30',
+  'SAAS · FROM 3,500 ETB / MO',
+  'AUTOMATION · FROM 40,000 ETB',
 ];
 
 const AUTOMATION_LANES = [
@@ -55,12 +57,6 @@ const DELIVERY_STEPS = [
 
 const DELIVERY_TRACKS = [
   {
-    title: 'AI automation engagements',
-    price: 'from 40,000 ETB',
-    text: 'For teams ready to replace repeated manual work with custom agents and governed operating logic.',
-    to: '/pricing',
-  },
-  {
     title: 'Web systems',
     price: 'from 20,000 ETB',
     text: 'For commercial sites, portals, dashboards, and quote flows that support a real process.',
@@ -77,6 +73,12 @@ const DELIVERY_TRACKS = [
     price: 'from 3,500 ETB / month',
     text: 'Live subscription systems for schools, clinics, and real estate operators — setup plus monthly billing.',
     to: '/saas-solutions',
+  },
+  {
+    title: 'AI automation engagements',
+    price: 'from 40,000 ETB',
+    text: 'For teams ready to replace repeated manual work with custom agents and governed operating logic.',
+    to: '/pricing',
   },
 ];
 
@@ -99,8 +101,9 @@ export default function Services() {
               </p>
               <div className="page-hero-meta" aria-label="Service delivery priorities">
                 <span className="page-hero-chip">Audit first</span>
+                {/* TECH-36 (A2): exact locked chip — software and AI as parallel tracks. */}
+                <span className="page-hero-chip">Software builds and AI automation — scoped to the bottleneck</span>
                 <span className="page-hero-chip">AI automation when it solves a real bottleneck</span>
-                <span className="page-hero-chip">Web and mobile when an interface layer is needed</span>
               </div>
             </HeroChoreo>
           </div>
@@ -109,13 +112,14 @@ export default function Services() {
             <Apparatus
               type="filament"
               callouts={SERVICES_APPARATUS_CALLOUTS}
-              label="Filament apparatus: automation from 40,000 ETB, web from 20,000 ETB, mobile from 40,000 ETB, milestones 40/30/30"
+              label="Filament apparatus: web from 20,000 ETB, mobile from 40,000 ETB, SaaS from 3,500 ETB per month, automation from 40,000 ETB"
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="AUTOMATION · FROM 40,000 ETB" labelRight="MILESTONES · 40/30/30" />
+      {/* TECH-36 (A2): meter leads with the software anchor. */}
+      <MeterStrip labelLeft="WEB · FROM 20,000 ETB" labelRight="MILESTONES · 40/30/30" />
 
       <section className="section" id="service-lanes">
         <div className="container">

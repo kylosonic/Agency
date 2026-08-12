@@ -8,7 +8,7 @@ export const LANGUAGE_LABELS = {
 
 const en = {
   brand: {
-    name: 'NovaTech AI',
+    name: 'NovaTech',
   },
   nav: {
     home: 'Home',
@@ -60,11 +60,12 @@ const en = {
     location: 'Location',
   },
   actions: {
-    pricingGuide: 'AI Pricing Guide',
-    downloadPricingGuide: 'Download AI Pricing Guide',
-    downloadFullPricingGuide: 'Download Full AI Pricing Guide',
-    bookDiscoveryCall: 'Book Workflow Audit Call',
-    startQuote: 'Start Automation Brief',
+    // TECH-35 (S-4): "AI Pricing Guide" → "Pricing Guide" (brand-neutral).
+    pricingGuide: 'Pricing Guide',
+    downloadPricingGuide: 'Download Pricing Guide',
+    downloadFullPricingGuide: 'Download Full Pricing Guide',
+    // TECH-36 (A2): BandCta secondary label → "Start Instant Quote".
+    startQuote: 'Start Instant Quote',
     switchLanguage: 'Switch language',
     exploreServices: 'Explore AI Solutions',
     openChat: 'Chat with us',
@@ -76,10 +77,11 @@ const en = {
     viewPackages: 'View Scope',
   },
   footer: {
-    description: 'AI-first automation consultancy with equal focus on custom agentic workflows and full-scale web, mobile, and SaaS product engineering.',
+    // TECH-35 (S-4): software-first phrasing; brand framing no longer names AI.
+    description: 'Software-first consultancy delivering web, mobile, and SaaS products, with AI automation where it solves a real bottleneck.',
     company: 'Company',
     connect: 'Connect',
-    rights: '© 2026 NovaTech AI Systems. All rights reserved.',
+    rights: '© 2026 NovaTech Systems. All rights reserved.',
     links: {
       aiSolutionsHeading: 'AI Solutions',
       aiSolutions: 'AI Solutions',
@@ -103,18 +105,20 @@ const en = {
     close: 'Close AI operations chat',
     unavailable: 'Chat is unavailable.',
     prompts: {
-      home: 'Hi NovaTech AI, I want to identify manual bottlenecks we can automate with custom agents.',
-      services: 'Hi NovaTech AI, I want to discuss which AI solution stack fits our current operations.',
-      workflowAudit: 'Hi NovaTech AI, I want to schedule a workflow audit and review required systems access.',
-      pricing: 'Hi NovaTech AI, I need help selecting the right automation tier and monthly support model.',
-      web: 'Hi NovaTech AI, we need a web interface layer for our internal AI workflows and dashboards.',
-      mobile: 'Hi NovaTech AI, we need a mobile interface for AI-powered field operations and approvals.',
-      saas: 'Hi NovaTech AI, I want to discuss orchestration and deployment patterns for our SaaS operations.',
-      additional: 'Hi NovaTech AI, I need scoped engineering support around integrations and automation reliability.',
-      instantQuote: 'Hi NovaTech AI, I am completing the automation brief and need help validating scope and budget.',
-      bookCall: 'Hi NovaTech AI, I want support selecting the best workflow audit slot and agenda.',
-      policy: 'Hi NovaTech AI, I have a question about deployment, security, and operating policy terms.',
-      default: 'Hi NovaTech AI, I want to discuss replacing manual workflows with custom agentic systems.',
+      home: 'Hi NovaTech, I want to identify manual bottlenecks we can automate with custom agents.',
+      services: 'Hi NovaTech, I want to discuss which AI solution stack fits our current operations.',
+      workflowAudit: 'Hi NovaTech, I want to schedule a workflow audit and review required systems access.',
+      pricing: 'Hi NovaTech, I need help selecting the right automation tier and monthly support model.',
+      // TECH-36 (S-2): web named as a first-class surface, not a layer of AI.
+      web: 'Hi NovaTech, we need a web surface for our internal AI workflows and dashboards.',
+      // TECH-36 (S-2): mobile named for its own work, not as an AI shell.
+      mobile: 'Hi NovaTech, we need a mobile app for field operations and approvals.',
+      saas: 'Hi NovaTech, I want to discuss orchestration and deployment patterns for our SaaS operations.',
+      additional: 'Hi NovaTech, I need scoped engineering support around integrations and automation reliability.',
+      instantQuote: 'Hi NovaTech, I am completing the automation brief and need help validating scope and budget.',
+      bookCall: 'Hi NovaTech, I want support selecting the best workflow audit slot and agenda.',
+      policy: 'Hi NovaTech, I have a question about deployment, security, and operating policy terms.',
+      default: 'Hi NovaTech, I want to discuss replacing manual workflows with custom agentic systems.',
     },
   },
   leadCapture: {
@@ -130,11 +134,11 @@ const en = {
       submitting: 'Submitting...',
     },
     pricing_guide: {
-      title: 'Get the current NovaTechAI ETB pricing sheet',
-      subtitle: 'Download the current NovaTechAI pricing sheet built from the same ETB table used on the live site.',
+      title: 'Get the current NovaTech ETB pricing sheet',
+      subtitle: 'Download the current NovaTech pricing sheet built from the same ETB table used on the live site.',
       submitLabel: 'Download Pricing Sheet',
       successTitle: 'Pricing sheet ready',
-      successSubtitle: 'Your current NovaTechAI ETB pricing sheet is open in a new tab. You can also reopen it below.',
+      successSubtitle: 'Your current NovaTech ETB pricing sheet is open in a new tab. You can also reopen it below.',
       successPrimaryLabel: 'Open Pricing Sheet Again',
     },
     quote_offer: {
@@ -176,6 +180,32 @@ const en = {
     },
   },
 };
+
+// NATIVE-REVIEW FLAG (NB-09): TECH-39/40/41 added the following NEW strings.
+// They are hardcoded EN in the page components (matching the audit-page
+// pattern — pages are hardcoded EN; nav/footer/modal use i18n), so they have
+// no i18n keys and no AM/OM mirrors yet. Native review + translation required
+// before launch:
+//   - AuditBookingForm: "Slot held for 48 hours" / "Your invoice and bank
+//     transfer (CBE Birr) details arrive by email. Telebirr when activated."
+//     / "Human confirmation within 1 business day." / "If the audit doesn't
+//     produce a usable blueprint, you don't pay." / "No payment step on this
+//     page — the invoice arrives by email with bank transfer details." /
+//     "We could not save your booking. Please verify your email and try
+//     again." / "Book Workflow Audit" (submit) / "Booking..." / field labels
+//     Full Name / Email Address / Phone / Company (optional)
+//   - WorkflowAudit #booking: "Book the audit in one step." / "Hold your slot
+//     now. Pay by bank transfer after the invoice arrives by email." /
+//     "Workflow Audit booking"
+//   - SupportPathLinks: "Not ready to book yet?" / "One-tap chat with your
+//     scope pre-filled." / "Pick the build scope and budget band; the message
+//     opens ready to send." / Scope / Budget band / Note (optional) /
+//     "What is the bottleneck you want to solve?" / WhatsApp / Telegram /
+//     "Book a free Discovery Call" / prefilled message "I need a [web /
+//     mobile / SaaS] build · budget: [band] · [optional note]"
+//   - PolicyPage: "Audit guarantee: if the workflow audit doesn't produce a
+//     usable blueprint, you don't pay."
+// All existing i18n keys retain EN/AM/OM parity.
 
 const amOverrides = {
   nav: {
@@ -222,7 +252,6 @@ const amOverrides = {
     pricingGuide: 'የዋጋ መመሪያ',
     downloadPricingGuide: 'የዋጋ መመሪያ አውርድ',
     downloadFullPricingGuide: 'ሙሉ የዋጋ መመሪያ አውርድ',
-    bookDiscoveryCall: 'የግኝት ጥሪ ያስይዙ',
     startQuote: 'ፈጣን ዋጋ ጀምር',
     switchLanguage: 'ቋንቋ ቀይር',
     exploreServices: 'አገልግሎቶችን ያስሱ',
@@ -296,7 +325,6 @@ const omOverrides = {
     pricingGuide: 'Qajeelfama Gatii',
     downloadPricingGuide: 'Qajeelfama Gatii Buusi',
     downloadFullPricingGuide: 'Qajeelfama Gatii Guutuu Buusi',
-    bookDiscoveryCall: 'Bilbila Marii Qabadhu',
     startQuote: 'Qorannoo Gatii Jalqabi',
     switchLanguage: 'Afaan jijjiiri',
     exploreServices: 'Tajaajiloota ilaali',
@@ -352,11 +380,11 @@ const amContentOverrides = {
       submitting: 'በመላክ ላይ...',
     },
     pricing_guide: {
-      title: 'የአሁኑን NovaTechAI ETB የዋጋ ሉህ ያግኙ',
-      subtitle: 'በላይቭ ሳይቱ ላይ ከሚጠቀመው ተመሳሳይ ETB ሰንጠረዥ የተሰራውን የአሁኑን NovaTechAI የዋጋ ሉህ ያውርዱ።',
+      title: 'የአሁኑን NovaTech ETB የዋጋ ሉህ ያግኙ',
+      subtitle: 'በላይቭ ሳይቱ ላይ ከሚጠቀመው ተመሳሳይ ETB ሰንጠረዥ የተሰራውን የአሁኑን NovaTech የዋጋ ሉህ ያውርዱ።',
       submitLabel: 'የዋጋ ሉህ አውርድ',
       successTitle: 'የዋጋ ሉህ ዝግጁ ነው',
-      successSubtitle: 'የአሁኑ NovaTechAI ETB የዋጋ ሉህ በአዲስ ታብ ተከፍቷል። ከታች ደግሞ እንደገና መክፈት ይችላሉ።',
+      successSubtitle: 'የአሁኑ NovaTech ETB የዋጋ ሉህ በአዲስ ታብ ተከፍቷል። ከታች ደግሞ እንደገና መክፈት ይችላሉ።',
       successPrimaryLabel: 'የዋጋ ሉህን እንደገና ክፈት',
     },
     quote_offer: {
@@ -426,11 +454,11 @@ const omContentOverrides = {
       submitting: 'Ergaa jira...',
     },
     pricing_guide: {
-      title: 'Current NovaTechAI ETB pricing sheet argadhaa',
-      subtitle: 'Pricing sheet ammee NovaTechAI kan ETB table wal fakkaataa marsariitii irratti fayyadamu irraa ijaarame buufadhaa.',
+      title: 'Current NovaTech ETB pricing sheet argadhaa',
+      subtitle: 'Pricing sheet ammee NovaTech kan ETB table wal fakkaataa marsariitii irratti fayyadamu irraa ijaarame buufadhaa.',
       submitLabel: 'Pricing Sheet Buusi',
       successTitle: 'Pricing sheet qophaa’eera',
-      successSubtitle: 'Current NovaTechAI ETB pricing sheet kee tab haaraa keessatti banameera. Asii gaditti irra deebitee banuu dandeessa.',
+      successSubtitle: 'Current NovaTech ETB pricing sheet kee tab haaraa keessatti banameera. Asii gaditti irra deebitee banuu dandeessa.',
       successPrimaryLabel: 'Pricing Sheet Irra Deebi’ii Bani',
     },
     quote_offer: {
@@ -486,8 +514,9 @@ const amFinalOverrides = {
     bookCall: 'Workflow Audit Call',
   },
   footer: {
-    description: 'AI-first አውቶሜሽን ኮንሰልታንሲ፣ በብጁ ኤጀንቲክ ዎርክፍሎዎች እና በዌብ፣ ሞባይል እና SaaS የሶፍትዌር ልማት ላይ እኩል ትኩረት ያደርጋል።',
-    rights: '© 2026 NovaTech AI Systems. መብቶች ሁሉ የተጠበቁ ናቸው።',
+    // TECH-35 (S-4): software-first mirror of the EN footer description.
+    description: 'በሶፍትዌር ልማት ላይ ያተኮረ አማካሪ — ዌብ፣ ሞባይል እና SaaS ምርቶችን፣ እንዲሁም እውነተኛ ችግርን የሚፈታ AI አውቶሜሽንን ያቀርባል።',
+    rights: '© 2026 NovaTech Systems. መብቶች ሁሉ የተጠበቁ ናቸው።',
     links: {
       aiSolutionsHeading: 'AI መፍትሄዎች',
       aiSolutions: 'AI መፍትሄዎች',
@@ -508,18 +537,18 @@ const amFinalOverrides = {
     open: 'የAI ኦፕሬሽንስ ቻት ክፈት',
     close: 'የAI ኦፕሬሽንስ ቻት ዝጋ',
     prompts: {
-      home: 'ሰላም NovaTech AI፣ በቡድናችን ውስጥ ያሉ የእጅ ስራ ቦታዎችን በብጁ AI ኤጀንቶች ለመቀየር መወያየት እፈልጋለሁ።',
-      services: 'ሰላም NovaTech AI፣ ከAI መፍትሄዎቻችሁ ውስጥ ለኦፕሬሽኖቻችን የሚስማማውን ስታክ ለመምረጥ እገዛ እፈልጋለሁ።',
-      workflowAudit: 'ሰላም NovaTech AI፣ Workflow Audit ለማስያዝ እና የሚፈለጉ የስርዓት መዳረሻዎችን ለመወያየት እፈልጋለሁ።',
-      pricing: 'ሰላም NovaTech AI፣ ትክክለኛውን የAutomation Tier እና ወርሃዊ የድጋፍ ሞዴል ለመምረጥ እገዛ እፈልጋለሁ።',
-      web: 'ሰላም NovaTech AI፣ የAI ዎርክፍሎዎቻችንን ለማሳየት የዌብ ኢንተርፌስ ሽፋን እንፈልጋለን።',
-      mobile: 'ሰላም NovaTech AI፣ ለAI-ተመራ የመስክ ኦፕሬሽኖች የሞባይል ኢንተርፌስ እንፈልጋለን።',
-      saas: 'ሰላም NovaTech AI፣ ለSaaS ኦፕሬሽኖቻችን ኦርኬስትሬሽን እና ዲፕሎይመንት ስርዓት ላይ መወያየት እፈልጋለሁ።',
-      additional: 'ሰላም NovaTech AI፣ በIntegration እና የAutomation Reliability ዙሪያ የኢንጂነሪንግ ድጋፍ እፈልጋለሁ።',
-      instantQuote: 'ሰላም NovaTech AI፣ Automation Brief እሞላለሁ እና ስኮፕ/በጀት ለማረጋገጥ እገዛ እፈልጋለሁ።',
-      bookCall: 'ሰላም NovaTech AI፣ ተስማሚ የWorkflow Audit ጊዜ እና አጀንዳ ለመምረጥ እገዛ እፈልጋለሁ።',
-      policy: 'ሰላም NovaTech AI፣ ስለ ዲፕሎይመንት፣ ደህንነት እና ኦፕሬሽን ፖሊሲ ጥያቄ አለኝ።',
-      default: 'ሰላም NovaTech AI፣ የእጅ ዎርክፍሎዎችን በብጁ ኤጀንቲክ ስርዓቶች ለመቀየር መወያየት እፈልጋለሁ።',
+      home: 'ሰላም NovaTech፣ በቡድናችን ውስጥ ያሉ የእጅ ስራ ቦታዎችን በብጁ AI ኤጀንቶች ለመቀየር መወያየት እፈልጋለሁ።',
+      services: 'ሰላም NovaTech፣ ከAI መፍትሄዎቻችሁ ውስጥ ለኦፕሬሽኖቻችን የሚስማማውን ስታክ ለመምረጥ እገዛ እፈልጋለሁ።',
+      workflowAudit: 'ሰላም NovaTech፣ Workflow Audit ለማስያዝ እና የሚፈለጉ የስርዓት መዳረሻዎችን ለመወያየት እፈልጋለሁ።',
+      pricing: 'ሰላም NovaTech፣ ትክክለኛውን የAutomation Tier እና ወርሃዊ የድጋፍ ሞዴል ለመምረጥ እገዛ እፈልጋለሁ።',
+      web: 'ሰላም NovaTech፣ የAI ዎርክፍሎዎቻችንን ለማሳየት የዌብ መፍትሄ እንፈልጋለን።',
+      mobile: 'ሰላም NovaTech፣ ለመስክ ኦፕሬሽኖች እና ማረጋገጫዎች የሞባይል መተግበሪያ እንፈልጋለን።',
+      saas: 'ሰላም NovaTech፣ ለSaaS ኦፕሬሽኖቻችን ኦርኬስትሬሽን እና ዲፕሎይመንት ስርዓት ላይ መወያየት እፈልጋለሁ።',
+      additional: 'ሰላም NovaTech፣ በIntegration እና የAutomation Reliability ዙሪያ የኢንጂነሪንግ ድጋፍ እፈልጋለሁ።',
+      instantQuote: 'ሰላም NovaTech፣ Automation Brief እሞላለሁ እና ስኮፕ/በጀት ለማረጋገጥ እገዛ እፈልጋለሁ።',
+      bookCall: 'ሰላም NovaTech፣ ተስማሚ የWorkflow Audit ጊዜ እና አጀንዳ ለመምረጥ እገዛ እፈልጋለሁ።',
+      policy: 'ሰላም NovaTech፣ ስለ ዲፕሎይመንት፣ ደህንነት እና ኦፕሬሽን ፖሊሲ ጥያቄ አለኝ።',
+      default: 'ሰላም NovaTech፣ የእጅ ዎርክፍሎዎችን በብጁ ኤጀንቲክ ስርዓቶች ለመቀየር መወያየት እፈልጋለሁ።',
     },
   },
   leadCapture: {
@@ -556,8 +585,9 @@ const omFinalOverrides = {
     whatsapp: 'Waatsaappii',
   },
   footer: {
-    description: 'AI-first automation consultancy kan agentic workflows dhuunfaa fi web, mobile, SaaS software engineering irratti xiyyeeffannoo walqixa qabu.',
-    rights: '© 2026 NovaTech AI Systems. Mirgi hundi eegameera.',
+    // TECH-35 (S-4): software-first mirror of the EN footer description.
+    description: 'Konsaltantii xiyyeeffannoo jalqabaa software — oomisha web, mobile fi SaaS, waliin automation AI kan rakkoo dhugaa furu.',
+    rights: '© 2026 NovaTech Systems. Mirgi hundi eegameera.',
     links: {
       aiSolutionsHeading: 'Furmaata AI',
       aiSolutions: 'Furmaata AI',
@@ -578,18 +608,18 @@ const omFinalOverrides = {
     open: 'AI operations chat bani',
     close: 'AI operations chat cufi',
     prompts: {
-      home: 'Akkam NovaTech AI, hojii harkaan hojjetamu keessaa bottlenecks agentoota AI dhuunfaatiin jijjiiruuf marii barbaada.',
-      services: 'Akkam NovaTech AI, furmaata AI keessaa stack hojii keenyaaf sirrii ta e filachuuf gargaarsa barbaada.',
-      workflowAudit: 'Akkam NovaTech AI, workflow audit qopheessuuf fi system access barbaachisu irratti marii barbaada.',
-      pricing: 'Akkam NovaTech AI, automation tier sirrii fi monthly support model filachuuf gargaarsa barbaada.',
-      web: 'Akkam NovaTech AI, workflows AI keenyaaf interfeesii web (dashboard) ijaaruu barbaanna.',
-      mobile: 'Akkam NovaTech AI, hojii field AI-poweredf interfeesii moobaayilaa barbaanna.',
-      saas: 'Akkam NovaTech AI, orchestration fi deployment pattern SaaS operations keenyaaf marii barbaada.',
-      additional: 'Akkam NovaTech AI, integrations fi automation reliability irratti engineering support barbaada.',
-      instantQuote: 'Akkam NovaTech AI, automation brief guutaa jira; scope fi budget mirkaneessuuf gargaarsa barbaada.',
-      bookCall: 'Akkam NovaTech AI, yeroo workflow audit call fi agenda filachuuf gargaarsa barbaada.',
-      policy: 'Akkam NovaTech AI, deployment, security fi seera operations irratti gaaffii qaba.',
-      default: 'Akkam NovaTech AI, workflows harkaan hojjetaman gara agentic systems dhuunfaatti jijjiiruuf marii barbaada.',
+      home: 'Akkam NovaTech, hojii harkaan hojjetamu keessaa bottlenecks agentoota AI dhuunfaatiin jijjiiruuf marii barbaada.',
+      services: 'Akkam NovaTech, furmaata AI keessaa stack hojii keenyaaf sirrii ta e filachuuf gargaarsa barbaada.',
+      workflowAudit: 'Akkam NovaTech, workflow audit qopheessuuf fi system access barbaachisu irratti marii barbaada.',
+      pricing: 'Akkam NovaTech, automation tier sirrii fi monthly support model filachuuf gargaarsa barbaada.',
+      web: 'Akkam NovaTech, workflows AI keenyaaf fi dashboardiif furmaata web ijaaruu barbaanna.',
+      mobile: 'Akkam NovaTech, hojii bakkaa fi ragaa mirkaneessuuf appii moobaayilaa barbaanna.',
+      saas: 'Akkam NovaTech, orchestration fi deployment pattern SaaS operations keenyaaf marii barbaada.',
+      additional: 'Akkam NovaTech, integrations fi automation reliability irratti engineering support barbaada.',
+      instantQuote: 'Akkam NovaTech, automation brief guutaa jira; scope fi budget mirkaneessuuf gargaarsa barbaada.',
+      bookCall: 'Akkam NovaTech, yeroo workflow audit call fi agenda filachuuf gargaarsa barbaada.',
+      policy: 'Akkam NovaTech, deployment, security fi seera operations irratti gaaffii qaba.',
+      default: 'Akkam NovaTech, workflows harkaan hojjetaman gara agentic systems dhuunfaatti jijjiiruuf marii barbaada.',
     },
   },
   discovery: {

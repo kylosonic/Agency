@@ -67,6 +67,15 @@ export default function PolicyPage() {
                   <strong>Ownership:</strong> after final payment, the client owns the custom design assets, source code, and intellectual property produced for the project.
                 </span>
               </div>
+
+              {/* TECH-40 (C-3): one guarantee line in the audit terms — legal
+                  surface addition only; payment lines untouched (A1). */}
+              <div className="policy-note">
+                <span className="icon" aria-hidden="true"><IconGlyph name="check" size={14} /></span>
+                <span>
+                  <strong>Audit guarantee:</strong> if the workflow audit doesn&apos;t produce a usable blueprint, you don&apos;t pay.
+                </span>
+              </div>
             </article>
           </ScrollReveal>
 

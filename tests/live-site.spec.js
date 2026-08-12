@@ -14,7 +14,9 @@
  * ================================================================
  */
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { test, expect } from '@playwright/test';
 import { deriveEstimateBand, ENTRY_OFFER_FLOOR, QUOTE_BUDGET_BANDS } from '../src/services/pricingData';
 import { quoteWizardOptions } from '../src/config/contentData';
@@ -1503,7 +1505,8 @@ test.describe('Phase 8 — Lumen Night contract (TECH-22, NEW)', () => {
   test('N4 — the meter strip sits under each marketing hero with real end-labels', async ({ page }) => {
     const meters = [
       { route: '/', left: 'AUDIT · 15,000 ETB · FIXED', right: 'DELIVERY · 5 BUSINESS DAYS' },
-      { route: '/services', left: 'AUTOMATION · FROM 40,000 ETB', right: 'MILESTONES · 40/30/30' },
+      // TECH-36 (A2): the Services meter leads with the software anchor.
+      { route: '/services', left: 'WEB · FROM 20,000 ETB', right: 'MILESTONES · 40/30/30' },
       { route: '/workflow-audit', left: 'AUDIT · 15,000 ETB · FIXED', right: 'DELIVERY · 5 BUSINESS DAYS' },
       { route: '/web-development', left: 'WEB · FROM 20,000 ETB', right: 'MILESTONES · 40/30/30' },
       { route: '/mobile-development', left: 'MOBILE · FROM 40,000 ETB', right: 'MILESTONES · 40/30/30' },
@@ -1555,7 +1558,10 @@ test.describe('Phase 8 — Lumen Night contract (TECH-22, NEW)', () => {
     const rowCount = await rows.count();
     expect(rowCount, 'the pricing page must render rate rows').toBeGreaterThanOrEqual(3);
 
-    const receipt = await rows.first().evaluate((row) => {
+    // TECH-38 (A8): BUILDS now leads AUTOMATION, so the first matched row is a
+    // build track card without a receipt label. The B43 mono-UPPERCASE-label
+    // contract lives on the AI tier rows ("Setup") — query them explicitly.
+    const receipt = await page.locator('.pricing-tier-editorial-card').first().evaluate((row) => {
       const style = window.getComputedStyle(row);
       const labelCount = Array.from(row.querySelectorAll('*')).filter((node) => {
         const nodeStyle = window.getComputedStyle(node);
@@ -1687,5 +1693,210 @@ test.describe('Phase 8 — Lumen Night contract (TECH-22, NEW)', () => {
       }).map((element) => element.className || element.tagName);
     });
     expect(activeAnimations, 'no animation classes may be active under reduced motion (B47)').toEqual([]);
+  });
+});
+
+test.describe('Phase 10 — software prominence & booking (TECH-35..41)', () => {
+  /**
+   * TECH-41 gates (software-development-prominence.md §5): ordering (S-1),
+   * forbidden strings (S-2/S-4), brand (S-4), booking (C-2/A1/A6), guarantee
+   * (C-3), support paths (C-4/A7), and CTA hierarchy (C-1). The brand E2E
+   * landed in TECH-41 per the phase-10 plan (assertions land per ticket).
+   */
+
+  test('S1 — software tracks render before AI on home, services, and the wizard', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+
+    // Home ladder: Software development row before the AI automation row.
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    const ladderTitles = await page.locator('.offer-ladder-row h3').allTextContents();
+    const softwareIndex = ladderTitles.findIndex((title) => title.includes('Software development'));
+    const aiIndex = ladderTitles.findIndex((title) => title.includes('AI automation'));
+    expect(softwareIndex, 'home ladder must render the software row').toBeGreaterThanOrEqual(0);
+    expect(aiIndex, 'home ladder must render the AI row').toBeGreaterThanOrEqual(0);
+    expect(softwareIndex, 'home ladder: software must precede AI (S-1)').toBeLessThan(aiIndex);
+
+    // Services delivery tracks: Web before AI automation.
+    await page.goto(`${BASE_URL}/services`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    const trackTitles = await page.locator('.service-track-card h3').allTextContents();
+    const webIndex = trackTitles.findIndex((title) => title.includes('Web systems'));
+    const aiTrackIndex = trackTitles.findIndex((title) => title.includes('AI automation'));
+    expect(webIndex, 'services must render the web track').toBeGreaterThanOrEqual(0);
+    expect(aiTrackIndex, 'services must render the AI track').toBeGreaterThanOrEqual(0);
+    expect(webIndex, 'services: web must precede AI (S-1)').toBeLessThan(aiTrackIndex);
+
+    // Instant-quote selector: first software option before the first AI option.
+    await page.goto(`${BASE_URL}/instant-quote`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    const optionLabels = await page.locator('.quote-option span').allTextContents();
+    const firstSoftware = optionLabels.findIndex((label) => label.includes('Web system'));
+    const firstAi = optionLabels.findIndex((label) => label.includes('AI automation'));
+    expect(firstSoftware, 'wizard must render a software option').toBeGreaterThanOrEqual(0);
+    expect(firstAi, 'wizard must render an AI option').toBeGreaterThanOrEqual(0);
+    expect(firstSoftware, 'wizard: software must precede AI (S-1)').toBeLessThan(firstAi);
+  });
+
+  test('S2/S4 — forbidden brand and subordination strings are absent from source and rendered pages', async ({ page }) => {
+    // Source sweep (src/ + index.html): the owner-side PDF path constant is the
+    // only permitted legacy-brand token (plan §6.2, R6).
+    const walkFiles = (dir, files = []) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = join(dir, entry.name);
+        if (entry.isDirectory()) {
+          walkFiles(full, files);
+        } else if (/\.(js|jsx|mjs|html)$/.test(entry.name)) {
+          files.push(full);
+        }
+      }
+      return files;
+    };
+
+    const sources = [
+      ...walkFiles(fileURLToPath(new URL('../src/', import.meta.url))).map((file) => readFileSync(file, 'utf8')),
+      readFileSync(new URL('../index.html', import.meta.url), 'utf8'),
+    ];
+    const countOf = (needle) => sources.reduce((sum, content) => sum + content.split(needle).length - 1, 0);
+
+    expect(countOf('NovaTech AI'), 'no "NovaTech AI" may remain in src/ or index.html').toBe(0);
+    expect(countOf('NovaTechAI'), 'only the exempt PDF path constant may carry "NovaTechAI"').toBe(1);
+    expect(countOf('interface layer'), 'no "interface layer" subordination may remain in src/ or index.html').toBe(0);
+    expect(countOf('Add the interface layer'), 'no "Add the interface layer" stage may remain').toBe(0);
+
+    const pdfLine = sources.find((content) => content.includes('NovaTechAI'));
+    expect(pdfLine, 'the remaining "NovaTechAI" token must be PRICING_GUIDE_ASSET_PATH').toContain('PRICING_GUIDE_ASSET_PATH');
+
+    // Rendered check in all three languages (S-4).
+    for (const lang of ['en', 'am', 'om']) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+      if (lang !== 'en') {
+        await page.locator('.navbar-mobile-actions .language-switcher-select').selectOption(lang);
+        await expect.poll(async () => page.getAttribute('html', 'lang')).toBe(lang);
+      }
+      await dismissLeadModalIfOpen(page);
+      const bodyText = (await page.locator('body').innerText()).toLowerCase();
+      expect(bodyText, `${lang}: rendered page must not carry the legacy brand`).not.toContain('novatech ai');
+      expect(bodyText, `${lang}: rendered page must not subordinate software to AI`).not.toContain('interface layer');
+    }
+  });
+
+  test('S4 — the brand renders as NovaTech in the nav wordmark and document title', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    await expect(
+      page.locator('.navbar .navbar-logo span:not(.brand-mark)'),
+      'nav wordmark must read NovaTech'
+    ).toHaveText('NovaTech');
+
+    const title = await page.title();
+    expect(title, 'document title must carry the NovaTech brand').toContain('NovaTech');
+    expect(title, 'document title must not carry the legacy brand').not.toContain('NovaTech AI');
+  });
+
+  test('C2/A1/C3 — audit booking flow confirms with the 48h hold copy and no checkout', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.route('https://formsubmit.co/**', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true }),
+      });
+    });
+
+    await page.goto(`${BASE_URL}/workflow-audit`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    await page.locator('#booking').scrollIntoViewIfNeeded();
+    await expect(page.locator('#booking .contact-form'), 'the booking form must render inside #booking').toBeVisible();
+
+    await page.locator('#audit-booking-name').fill('Booking Tester');
+    await page.locator('#audit-booking-email').fill('booking-tester@example.com');
+    await page.locator('#audit-booking-phone').fill('+251 911 000 000');
+    await page.locator('#audit-booking-company').fill('QA Labs');
+    await page.locator('#booking').getByRole('button', { name: 'Book Workflow Audit' }).click();
+
+    const confirmation = page.locator('#booking [role="status"]');
+    await expect(confirmation, 'the booking confirmation must render').toBeVisible();
+    const confirmationText = normalizeProse(await confirmation.innerText());
+    expect(confirmationText, 'confirmation must hold the slot for 48 hours (C-2)').toContain('48');
+    expect(confirmationText, 'confirmation must mention the invoice (C-2)').toContain('invoice');
+    expect(confirmationText, 'confirmation must state bank transfer as the active method (A1)').toContain('bank transfer');
+    expect(confirmationText, 'confirmation must not claim live Telebirr (A1)').toContain('telebirr when activated');
+    expect(confirmationText, 'confirmation must promise human confirmation within 1 business day (C-2)').toContain('1 business day');
+    expect(confirmationText, 'confirmation must carry the guarantee line (C-3)').toContain('usable blueprint');
+
+    // No payment/checkout UI anywhere in the flow (C-2 acceptance 3).
+    await expect(page.locator('input[type="payment"]'), 'no payment inputs may render').toHaveCount(0);
+    await expect(page.locator('.checkout'), 'no checkout UI may render').toHaveCount(0);
+    const pageText = normalizeProse(await page.locator('body').innerText());
+    expect(pageText, 'no pay-online claim may render').not.toContain('pay online');
+  });
+
+  test('C3 — the guarantee line renders on the audit page and policy audit terms', async ({ page }) => {
+    for (const route of ['/workflow-audit', '/policy']) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+      const bodyText = normalizeProse(await page.locator('main').innerText());
+      expect(bodyText, `${route} must carry the audit guarantee (C-3)`).toContain('usable blueprint');
+    }
+  });
+
+  test('C4/A7 — support paths prefill scope and budget into WhatsApp and Telegram links', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/workflow-audit`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+    await page.locator('#booking').scrollIntoViewIfNeeded();
+
+    await expect(
+      page.locator('#booking').getByRole('link', { name: 'Book a free Discovery Call', exact: true }),
+      'the free Discovery Call support path must be present (C-4)'
+    ).toHaveAttribute('href', '/book-discovery-call');
+
+    await page.locator('#booking').getByLabel('Scope').selectOption('web');
+    await page.locator('#booking').getByLabel('Budget band').selectOption('15k - 40k');
+
+    const whatsapp = page.locator('#booking').getByRole('link', { name: 'WhatsApp', exact: true });
+    const whatsappHref = await whatsapp.getAttribute('href');
+    expect(whatsappHref, 'WhatsApp link must use the wa.me channel').toContain('wa.me');
+    const decodedWhatsapp = decodeURIComponent(String(whatsappHref).replace(/\+/g, ' '));
+    expect(decodedWhatsapp, 'WhatsApp link must carry the selected scope').toContain('I need a web build');
+    expect(decodedWhatsapp, 'WhatsApp link must carry the selected budget band').toContain('budget: 15k - 40k');
+
+    const telegram = page.locator('#booking').getByRole('link', { name: 'Telegram', exact: true });
+    const telegramHref = await telegram.getAttribute('href');
+    expect(telegramHref, 'Telegram link must use the t.me direct channel').toContain('t.me/NovaTechET');
+  });
+
+  test('C1 — every marketing hero leads with Book Workflow Audit', async ({ page }) => {
+    // Per-page primary anchor: Home and Pricing carry the CTA in the hero;
+    // the Services hero has no CTA row, so its primary is the closing card
+    // (C-1: "or an equivalent path that lands on it"). The nav CTA is the
+    // constant cross-page /workflow-audit anchor.
+    const primaries = [
+      { route: '/', selector: 'section#hero' },
+      { route: '/pricing', selector: 'section.page-hero' },
+      { route: '/services', selector: '.page-closing-card' },
+    ];
+
+    for (const { route, selector } of primaries) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      const primary = page
+        .locator(selector)
+        .first()
+        .getByRole('link', { name: 'Book Workflow Audit', exact: true })
+        .first();
+      await expect(primary, `${route} must lead with Book Workflow Audit (C-1)`).toBeVisible();
+      await expect(primary, `${route} primary must land on the audit`).toHaveAttribute('href', '/workflow-audit');
+
+      await expect(page.locator('.navbar-cta'), `${route} nav CTA must anchor the audit`).toHaveAttribute('href', '/workflow-audit');
+    }
   });
 });

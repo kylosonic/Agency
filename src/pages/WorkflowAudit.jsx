@@ -5,6 +5,8 @@ import SectionHeader from '../components/SectionHeader';
 import Apparatus from '../components/Apparatus';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
+import AuditBookingForm from '../components/AuditBookingForm';
+import SupportPathLinks from '../components/SupportPathLinks';
 import { getPricingGuideSummary } from '../services/pricingData';
 
 const WORKFLOW_AUDIT = getPricingGuideSummary().workflowAudit;
@@ -30,7 +32,8 @@ const FIVE_DAY_FLOW = [
   },
   {
     title: 'Risk and opportunity map',
-    text: 'We identify where automation pays, where interface work is needed, and what not to build yet.',
+    // TECH-36 (A10): web/mobile named as first-class surfaces, not a layer of AI.
+    text: 'We identify where automation pays, where a web or mobile surface is needed, and what not to build yet.',
   },
   {
     title: 'Implementation blueprint',
@@ -144,19 +147,55 @@ export default function WorkflowAudit() {
         </div>
       </section>
 
+      {/* TECH-39 (NB-43 / C-2, C-3, A1, A6): the booking section hosts the
+          audit form + confirmation, then the supporting paths (C-4). Sits
+          BEFORE the closing band so the brass final-CTA band stays the last
+          main section (N2). */}
+      <section className="section" id="booking">
+        <div className="container">
+          <ScrollReveal>
+            <SectionHeader
+              eyebrow="04 · BOOK"
+              title="Book the audit in one step."
+              subtitle="Hold your slot now. Pay by bank transfer after the invoice arrives by email."
+              align="left"
+            />
+          </ScrollReveal>
+
+          <div className="editorial-two-column">
+            {/* M-2 (TECH-29): the booking form is a form surface — it renders
+                stable immediately so submit controls settle before the user
+                (or the E2E click) reaches them. */}
+            <ScrollReveal static>
+              <div className="contact-form-card glass-card">
+                <h3>Workflow Audit booking</h3>
+                <AuditBookingForm />
+              </div>
+            </ScrollReveal>
+
+            {/* M-2: the support-path selects are interactive surfaces too. */}
+            <ScrollReveal static>
+              <SupportPathLinks />
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
       <section className="section-sm">
         <div className="container">
           <div className="page-closing-card glass-strong">
             <p className="editorial-kicker">Book the first session</p>
-            <div className="eyebrow">04 · FIRST STEP</div>
+            <div className="eyebrow">05 · FIRST STEP</div>
             <h2>Use the audit when you want the right answer before the expensive answer.</h2>
             <p>
               Know the lane? Use the instant quote tool. Otherwise the audit saves time and rework.
             </p>
             <div className="cta-actions">
-              <Link to="/book-discovery-call" className="btn btn-primary btn-lg">
-                Book Audit Session
-              </Link>
+              {/* TECH-40 (C-1): primary CTA anchors to the in-page #booking
+                  section (was "Book Audit Session" -> /book-discovery-call). */}
+              <a href="#booking" className="btn btn-primary btn-lg">
+                Book Workflow Audit
+              </a>
               <Link to="/pricing" className="btn btn-secondary btn-lg">
                 Review Pricing
               </Link>

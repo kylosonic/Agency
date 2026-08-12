@@ -9,113 +9,117 @@ const LANGUAGE_ALTERNATES = [
 const SEO_BY_ROUTE = {
   '/': {
     en: {
-      title: 'NovaTech AI | Workflow Audit and Digital Systems',
-      description: 'Start with a Workflow Audit, then scope the right AI automation, web, or mobile build from a live ETB pricing table.',
+      title: 'NovaTech | Workflow Audit and Digital Systems',
+      // TECH-35/41 (S-1): software-first enumeration; AI named as the second,
+      // bottleneck-scoped track. Same word budget as the pre-phase-10 string.
+      description: 'Start with a Workflow Audit, then scope web, mobile, or SaaS build — AI automation where it solves a real bottleneck.',
     },
     am: {
-      title: 'NovaTech AI - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source while scaling software delivery. NovaTech AI deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
+      title: 'NovaTech - Agentic Workflow Consultancy',
+      description: 'Stop manual work at the source while scaling software delivery. NovaTech deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
     },
     om: {
-      title: 'NovaTech AI - Agentic Workflow Consultancy',
-      description: 'Stop manual work at the source while scaling software delivery. NovaTech AI deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
+      title: 'NovaTech - Agentic Workflow Consultancy',
+      description: 'Stop manual work at the source while scaling software delivery. NovaTech deploys autonomous agents and builds web, mobile, and SaaS products with equal execution focus.',
     },
   },
   '/404': {
     en: {
-      title: '404 - Page Not Found | NovaTech AI',
-      description: 'The page you requested does not exist. Explore NovaTech AI workflow automation and product engineering services.',
+      title: '404 - Page Not Found | NovaTech',
+      description: 'The page you requested does not exist. Explore NovaTech workflow automation and product engineering services.',
     },
     am: {
-      title: '404 - Page Not Found | NovaTech AI',
-      description: 'The page you requested does not exist. Explore NovaTech AI workflow automation and product engineering services.',
+      title: '404 - Page Not Found | NovaTech',
+      description: 'The page you requested does not exist. Explore NovaTech workflow automation and product engineering services.',
     },
     om: {
-      title: '404 - Page Not Found | NovaTech AI',
-      description: 'The page you requested does not exist. Explore NovaTech AI workflow automation and product engineering services.',
+      title: '404 - Page Not Found | NovaTech',
+      description: 'The page you requested does not exist. Explore NovaTech workflow automation and product engineering services.',
     },
   },
   '/services': {
+    // TECH-41 (A2): /services SEO title re-cut software-first.
     en: {
-      title: 'AI Solutions | NovaTech AI',
-      description: 'See the automation, web, mobile, and live-priced SaaS lanes NovaTech builds after the Workflow Audit clarifies the right path.',
+      title: 'Services | NovaTech',
+      description: 'See the web, mobile, and live-priced SaaS lanes NovaTech builds — plus AI automation scoped to a real bottleneck — after the Workflow Audit clarifies the right path.',
     },
     am: {
-      title: 'AI Solutions | NovaTech AI',
-      description: 'ብጁ ኤጀንቲክ ሲስተሞችን እና ከእነሱ ጋር እኩል የሆነ የዌብ፣ ሞባይል እና SaaS የምርት ኢንጂነሪንግ አቅርቦትን ያስሱ።',
+      title: 'አገልግሎቶች | NovaTech',
+      description: 'የዌብ፣ ሞባይል እና SaaS የሶፍትዌር መስመሮችን እንዲሁም እውነተኛ ችግርን የሚፈታ AI አውቶሜሽንን ይመልከቱ — ከWorkflow Audit በኋላ ትክክለኛውን መንገድ ያብራራል።',
     },
     om: {
-      title: 'AI Solutions | NovaTech AI',
-      description: 'Sirna agentic dhuunfaa fi geessii engineering oomisha web, mobile fi SaaS qixa tokkoon ilaali.',
+      title: 'Tajaajiloota | NovaTech',
+      description: 'Karaalee software web, mobile fi SaaS gatii argisiisan ilaali — waliin automation AI rakkoo dhugaa furu — erga Workflow Audit karaa sirrii ifa goonee booda.',
     },
   },
   '/pricing': {
     en: {
-      title: 'Pricing | NovaTech AI',
-      description: 'Review the live ETB pricing table for the Workflow Audit, AI automation, web systems, mobile products, and support bands.',
+      title: 'Pricing | NovaTech',
+      // TECH-41 (S-1): software-first enumeration — web, mobile, SaaS, then AI.
+      description: 'Review the live ETB pricing table for the Workflow Audit, web systems, mobile, SaaS, AI automation, and support bands.',
     },
     am: {
-      title: 'Pricing | NovaTech AI',
+      title: 'Pricing | NovaTech',
       description: 'Review pricing for workflow audits, AI automation tiers, and co-equal web/mobile/SaaS product engineering engagements.',
     },
     om: {
-      title: 'Pricing | NovaTech AI',
+      title: 'Pricing | NovaTech',
       description: 'Review pricing for workflow audits, AI automation tiers, and co-equal web/mobile/SaaS product engineering engagements.',
     },
   },
   '/workflow-audit': {
     en: {
-      title: 'Workflow Audit | NovaTech AI',
+      title: 'Workflow Audit | NovaTech',
       description: 'Book a workflow audit to map bottlenecks, estimate recoverable capacity, and receive an implementation-ready automation blueprint.',
     },
     am: {
-      title: 'Workflow Audit | NovaTech AI',
+      title: 'Workflow Audit | NovaTech',
       description: 'Book a workflow audit to map bottlenecks, estimate recoverable capacity, and receive an implementation-ready automation blueprint.',
     },
     om: {
-      title: 'Workflow Audit | NovaTech AI',
+      title: 'Workflow Audit | NovaTech',
       description: 'Book a workflow audit to map bottlenecks, estimate recoverable capacity, and receive an implementation-ready automation blueprint.',
     },
   },
   '/web-development': {
     en: {
-      title: 'Web Development | NovaTech AI',
+      title: 'Web Development | NovaTech',
       description: 'Web systems, portals, and dashboard layers quoted from live ETB package anchors and scoped around real commercial needs.',
     },
     am: {
-      title: 'የዌብ ልማት | NovaTech AI',
+      title: 'የዌብ ልማት | NovaTech',
       description: 'ቅየራ-ተኮር የመረጃ አደረጃጀት፣ የSEO እና አናሊቲክስ መሠረት እና ሳምንታዊ የስፕሪንት ግምገማ ያላቸው ዌብሳይቶች፣ ፖርታሎች እና ዳሽቦርዶች — አብዛኛውን ጊዜ በ3 እስከ 8 ሳምንት የሚደርሱ።',
     },
     om: {
-      title: 'Web Development | NovaTech AI',
+      title: 'Web Development | NovaTech',
       description: "Websaayitii, portalii fi dashboard kan IA conversion irratti xiyyeeffate, bu'uura SEO fi analytics fi gamaaggama sprint torbeetuma qaban — baay'inaan torban 3 hanga 8 keessatti.",
     },
   },
   '/mobile-development': {
     en: {
-      title: 'Mobile App Development | NovaTech AI',
+      title: 'Mobile App Development | NovaTech',
       description: 'Mobile products for field operations, approvals, payments, and customer workflows, scoped from the live ETB table.',
     },
     am: {
-      title: 'ሞባይል መተግበሪያ ልማት | NovaTech AI',
+      title: 'ሞባይል መተግበሪያ ልማት | NovaTech',
       description: 'ከአካባቢ ክፍያ ውህደት ጋር ከፍተኛ አፈፃፀም ያላቸው ሞባይል መተግበሪያዎች።',
     },
     om: {
-      title: 'Mobile App Development | NovaTech AI',
+      title: 'Mobile App Development | NovaTech',
       description: 'Appii mobile cross-platform kan hojii gaarii fi kaffaltii naannoo wajjin hojjetan.',
     },
   },
   '/saas-solutions': {
     en: {
-      title: 'SaaS Product Engineering | NovaTech AI',
+      title: 'SaaS Product Engineering | NovaTech',
       description: 'Live SaaS pricing for school, clinic, and real estate systems: setup fee, monthly subscription, and an annual plan that saves two months.',
     },
     am: {
-      title: 'የSaaS ምርት እንጂነሪንግ | NovaTech AI',
+      title: 'የSaaS ምርት እንጂነሪንግ | NovaTech',
       description: 'ለትምህርት ቤቶች፣ ሆስፒታሎች እና ሪል እስቴት የSaaS ስርዓቶችን ያስጀምሩ።',
     },
     om: {
-      title: 'SaaS Product Engineering | NovaTech AI',
+      title: 'SaaS Product Engineering | NovaTech',
       description: 'Mana barumsaa, hospitaala fi real estatef sirna SaaS tajaajilamaa diriirsi.',
     },
   },
@@ -362,7 +366,7 @@ function buildOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'NovaTech AI',
+    name: 'NovaTech',
     url: SITE_URL,
     logo: `${SITE_URL}/favicon.svg`,
     email: `mailto:${SITE_CONTACT.email}`,
@@ -390,12 +394,12 @@ function buildWebsiteSchema(localeTag) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'NovaTech AI',
+    name: 'NovaTech',
     url: SITE_URL,
     inLanguage: localeTag,
     publisher: {
       '@type': 'Organization',
-      name: 'NovaTech AI',
+      name: 'NovaTech',
       url: SITE_URL,
     },
   };
@@ -411,7 +415,7 @@ function buildWebPageSchema({ title, description, canonicalUrl, localeTag }) {
     inLanguage: localeTag,
     isPartOf: {
       '@type': 'WebSite',
-      name: 'NovaTech AI',
+      name: 'NovaTech',
       url: SITE_URL,
     },
     primaryImageOfPage: {
@@ -455,7 +459,7 @@ function buildServiceSchema(pathname, description, localeTag, canonicalUrl) {
     inLanguage: localeTag,
     provider: {
       '@type': 'Organization',
-      name: 'NovaTech AI',
+      name: 'NovaTech',
       url: SITE_URL,
     },
   };
@@ -504,9 +508,9 @@ export function setDocumentMetadata({ pathname, language = 'en' }) {
   ensurePropertyMeta('og:description', selected.description);
   ensurePropertyMeta('og:url', canonicalUrl);
   ensurePropertyMeta('og:image', OG_IMAGE_URL);
-  ensurePropertyMeta('og:image:alt', 'NovaTech AI automation and product engineering preview');
+  ensurePropertyMeta('og:image:alt', 'NovaTech automation and product engineering preview');
   ensurePropertyMeta('og:type', 'website');
-  ensurePropertyMeta('og:site_name', 'NovaTech AI');
+  ensurePropertyMeta('og:site_name', 'NovaTech');
   ensurePropertyMeta('og:locale', language === 'am' ? 'am_ET' : language === 'om' ? 'om_ET' : 'en_US');
   ensureMeta('twitter:card', 'summary_large_image');
   ensureMeta('twitter:title', selected.title);

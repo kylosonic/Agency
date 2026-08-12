@@ -168,7 +168,7 @@ export default function Navbar() {
         <div className="container navbar-inner">
           <Link to="/" className="navbar-logo">
             <LogoMark />
-            <span>{t('brand.name', 'NovaTech AI')}</span>
+            <span>{t('brand.name', 'NovaTech')}</span>
           </Link>
 
           <div className="navbar-desktop">
