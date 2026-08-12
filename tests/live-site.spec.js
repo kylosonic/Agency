@@ -875,6 +875,61 @@ test.describe('Phase 9 — page transitions gate (TECH-34)', () => {
   });
 });
 
+test.describe('Phase 9 — contact section spacing (owner-reported regression)', () => {
+  // Owner: "no padding around the sections and lines are overlapping".
+  // Root cause: .contact-form-card / .contact-info-card had zero interior
+  // padding (content flush against card hairlines; input borders merged with
+  // card borders) and the mobile media queries padded a dead class
+  // (.contact-info-item) so the info card was never padded at any viewport.
+  const MIN_CARD_PADDING_PX = 15; // 0.95rem base floor on the smallest breakpoint
+
+  test('contact cards carry interior padding on desktop and mobile', async ({ page }) => {
+    for (const viewport of [
+      { name: 'desktop', width: 1440, height: 900 },
+      { name: 'mobile', width: 390, height: 844 },
+    ]) {
+      await page.setViewportSize({ width: viewport.width, height: viewport.height });
+      await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+      await dismissLeadModalIfOpen(page);
+
+      const paddings = await page.locator('.contact-info-card, .contact-form-card').evaluateAll((cards) =>
+        cards.map((card) => {
+          const style = window.getComputedStyle(card);
+          return {
+            cls: String(card.className),
+            top: parseFloat(style.paddingTop) || 0,
+            left: parseFloat(style.paddingLeft) || 0,
+            right: parseFloat(style.paddingRight) || 0,
+            bottom: parseFloat(style.paddingBottom) || 0,
+          };
+        })
+      );
+
+      expect(paddings.length, `${viewport.name}: both contact cards must render`).toBe(2);
+      for (const card of paddings) {
+        for (const edge of ['top', 'left', 'right', 'bottom']) {
+          expect(
+            card[edge],
+            `${viewport.name}: ${card.cls} must keep ${edge} padding >= ${MIN_CARD_PADDING_PX}px (got ${card[edge]}px)`
+          ).toBeGreaterThanOrEqual(MIN_CARD_PADDING_PX);
+        }
+      }
+    }
+  });
+
+  test('offer-ladder price and detail lines keep a visible gap', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'networkidle' });
+    await dismissLeadModalIfOpen(page);
+
+    const gap = await page.locator('.offer-ladder-price').first().evaluate((element) => {
+      const style = window.getComputedStyle(element);
+      return parseFloat(style.rowGap) || parseFloat(style.gap) || 0;
+    });
+    expect(gap, `offer-ladder price gap must stay >= 0.3rem (got ${gap}px)`).toBeGreaterThanOrEqual(4);
+  });
+});
+
 test.describe('Analytics smoke assertions', () => {
   test('tracks page views and instant-quote submission events', async ({ page }) => {
     await seedDataLayer(page);

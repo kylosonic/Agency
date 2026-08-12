@@ -1505,6 +1505,10 @@ h1 .verb::after {
   height: 100%;
   border: 1px solid var(--color-rule);
   background: var(--color-paper-2);
+  /* Interior breathing room — matches sibling cards (.service-card,
+     .saas-card use 1.2rem). Without this, content sits flush against the
+     card hairlines and input borders merge with card borders. */
+  padding: 1.2rem;
 }
 
 .contact-form-card h3 {
@@ -2742,7 +2746,9 @@ h1 .verb::after {
 .offer-ladder-price {
   text-align: right;
   display: grid;
-  gap: 0.18rem;
+  /* 0.3rem keeps the price and its detail line visibly separate when the
+     detail wraps on mobile (0.18rem read as overlapping lines). */
+  gap: 0.3rem;
 }
 
 .offer-ladder-price strong {
@@ -2965,7 +2971,7 @@ h1 .verb::after {
   .service-card,
   .saas-card,
   .contact-form-card,
-  .contact-info-item,
+  .contact-info-card,
   .policy-section,
   .micro-proof-card,
   .milestone-card {
@@ -3214,7 +3220,7 @@ h1 .verb::after {
   .service-card,
   .saas-card,
   .contact-form-card,
-  .contact-info-item,
+  .contact-info-card,
   .policy-section,
   .micro-proof-card,
   .milestone-card {
