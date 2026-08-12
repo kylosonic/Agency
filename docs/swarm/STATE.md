@@ -4,9 +4,9 @@
 
 ## Current phase
 
-**IMPLEMENTING — Phase 10** Software Prominence & Booking Conversion (NB-41…43). Gate A ✅ — `docs/plans/phase10-software-prominence-booking.md` (TECH-35…41, strictly linear DAG 35→41; ambiguities A1–A11 resolved and recorded in plan §13; ladder row count corrected to 4 per owner enumeration). Gate B (Implement) IN PROGRESS. Contracts: `docs/behaviors/software-development-prominence.md` (S-1…S-4, C-1…C-4). Branch: `software-prominence-booking` (commit `385d682` Gate A docs, pushed).
+**DEPLOYED — Phase 10** Software Prominence & Booking Conversion (NB-41…43). Gate A ✅ `385d682` — `docs/plans/phase10-software-prominence-booking.md` (TECH-35…41, strictly linear DAG 35→41; ambiguities A1–A11 resolved and recorded in plan §13; ladder row count corrected to 4 per owner enumeration). Gate B (Implement) ✅. Gate C (QA) ✅ APPROVED (110/110). Gate D (Security) ✅ APPROVED. Gate E (Integration) ✅ APPROVED. Gate F (Commit) ✅ commits `2a0eee0` / `b0512b8` / `c44a987`. Release ✅ merge `536c6ab` → main, Vercel `dpl_CidZtfrKcmugT5uABhYAHLKxGe1v` READY on https://novatech23.vercel.app. UAT ✅ owner approval 2026-08-12. Contracts: `docs/behaviors/software-development-prominence.md` (S-1…S-4, C-1…C-4). Branch: `software-prominence-booking` (merged to main as `536c6ab`, pushed `5f1f8ab..536c6ab`).
 
-Prior phase-9 + contact-fix context remains in force below; production current at `5f1f8ab` / `8b40acf` deployed.
+Prior phase-9 + contact-fix context remains in force below; production current at `536c6ab` (Phase 10) — prior `5f1f8ab` / `8b40acf` deployed.
 
 **DEPLOYED** — Phase 9 released to production (merge `026f751` → main, Vercel deployment
 `dpl_FLTFcNYBAhYgVjskgjU8TvGk2NAU` READY, https://novatech23.vercel.app — 5/5 routes HTTP 200,
@@ -52,7 +52,7 @@ READY on https://novatech23.vercel.app.
 
 ## Feature branch
 
-`software-prominence-booking` (Phase 10 batch — do not create another)
+`software-prominence-booking` (Phase 10 batch — merged to main as `536c6ab` 2026-08-12; do not create another)
 
 Historical: `pricing-revert-and-motion` (Phase 9 batch — do not create another)
 
@@ -94,17 +94,17 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 | TECH-33 | Editorial motion system (slice 4, NB-39) | ✅ DEPLOYED (026f751) |
 | TECH-34 | Page transitions (slice 5, NB-40) | ✅ DEPLOYED (026f751) |
 
-### Phase 10 (NB-41…43) — Gate B in progress
+### Phase 10 (NB-41…43) — DEPLOYED (536c6ab, 2026-08-12)
 
 | Ticket | Title | Status |
 |---|---|---|
-| TECH-35 | Brand sweep | ⏳ PENDING — Gate B in progress |
-| TECH-36 | Ordering/copy | ⏳ PENDING — Gate B in progress |
-| TECH-37 | Ladder/hero | ⏳ PENDING — Gate B in progress |
-| TECH-38 | Pricing swap | ⏳ PENDING — Gate B in progress |
-| TECH-39 | Booking form | ⏳ PENDING — Gate B in progress |
-| TECH-40 | CTAs + auto-capture | ⏳ PENDING — Gate B in progress |
-| TECH-41 | Support paths + E2E + i18n | ⏳ PENDING — Gate B in progress |
+| TECH-35 | Brand sweep | ✅ DEPLOYED (536c6ab) |
+| TECH-36 | Ordering/copy | ✅ DEPLOYED (536c6ab) |
+| TECH-37 | Ladder/hero | ✅ DEPLOYED (536c6ab) |
+| TECH-38 | Pricing swap | ✅ DEPLOYED (536c6ab) |
+| TECH-39 | Booking form | ✅ DEPLOYED (536c6ab) |
+| TECH-40 | CTAs + auto-capture | ✅ DEPLOYED (536c6ab) |
+| TECH-41 | Support paths + E2E + i18n | ✅ DEPLOYED (536c6ab) |
 
 ## TECH-32 build resolution (@architect, 2026-08-11)
 
@@ -159,12 +159,30 @@ ticket work should read figures from `pricing-revert-and-motion.md` §1.
 ## Phase 10 gates (NB-41…43)
 
 - Gate A (Blueprint): ✅ `385d682` (Gate A docs, pushed) — `docs/plans/phase10-software-prominence-booking.md`
-- Gate B (Implement): 🔄 IN PROGRESS
-- Gate C (QA): ⏳ PENDING
-- Gate D (Security): ⏳ PENDING
-- Gate E (Integration): ⏳ PENDING
-- Gate F (Commit): ⏳ PENDING
-- UAT: ⏳ PENDING
+- Gate B (Implement): ✅ complete
+- Gate C (QA): ✅ QA APPROVED — 110/110
+- Gate D (Security): ✅ SECURITY APPROVED
+- Gate E (Integration): ✅ APPROVED
+- Gate F (Commit): ✅ complete — commits `2a0eee0` / `b0512b8` / `c44a987`
+- UAT: ✅ human approval received 2026-08-12
+- Release: ✅ DEPLOYED — merge `536c6ab` → main (pushed `5f1f8ab..536c6ab`), Vercel `dpl_CidZtfrKcmugT5uABhYAHLKxGe1v` READY, https://novatech23.vercel.app (12 s build; 7/7 routes 200)
+
+## Phase 10 release (2026-08-12)
+
+Phase 10 (NB-41…43) released to production: merge `536c6ab` → main
+(`release(phase10): software-first prominence, NovaTech brand, audit booking conversion`),
+pushed `5f1f8ab..536c6ab`. Vercel deployment `dpl_CidZtfrKcmugT5uABhYAHLKxGe1v` READY on
+https://novatech23.vercel.app (12 s build).
+
+- **Live health** — 7/7 routes HTTP 200; ladder stages START HERE → SOFTWARE DEVELOPMENT (1) →
+  AI AUTOMATION (2) → KEEP IT STABLE; no "NovaTech AI" / "interface layer" rendered; #booking
+  inputs + guarantee on /workflow-audit + /policy; /services meter "WEB · FROM 20,000 ETB";
+  /pricing BUILDS before AUTOMATION; no 390 px overflow.
+- **Gates** — Gate A `385d682`; Gate B ✅; Gate C QA APPROVED 110/110; Gate D SECURITY
+  APPROVED; Gate E ✅; Gate F ✅ commits `2a0eee0` / `b0512b8` / `c44a987`; UAT ✅ owner approval
+  2026-08-12.
+- **Tickets** — TECH-35…41 ✅ DEPLOYED (536c6ab).
+- **Rollback if ever needed** — `git revert -m 1 536c6ab` → push → Vercel auto-redeploy.
 
 ## Phase 10 leftover flag (@scribe, 2026-08-12)
 
