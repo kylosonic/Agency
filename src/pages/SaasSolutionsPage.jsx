@@ -3,16 +3,15 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
-import Apparatus from '../components/Apparatus';
+import BrutalPriceBoard from '../components/BrutalPriceBoard';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
 import { getSaasPackages } from '../services/pricingData';
 
-/* B42a (TECH-25): locked filament-apparatus callouts for the SaaS hero. */
-const SAAS_APPARATUS_CALLOUTS = [
-  'SAAS · FROM 3,500 ETB / MO',
-  'ANNUAL · SAVE 2 MONTHS',
-  'RESPONSE · 1 BUSINESS DAY',
+const SAAS_PRICE_ROWS = [
+  { label: 'Ready-made SaaS', price: 'from 4,500 ETB / mo' },
+  { label: 'Implementation', price: '40,000 – 60,000 ETB' },
+  { label: 'Custom SaaS build', price: 'from 180,000 ETB' },
 ];
 
 export default function SaasSolutionsPage() {
@@ -58,16 +57,16 @@ export default function SaasSolutionsPage() {
           </div>
 
           <div className="marquee-hero-side">
-            <Apparatus
-              type="filament"
-              callouts={SAAS_APPARATUS_CALLOUTS}
-              label="Filament apparatus: SaaS from 3,500 ETB per month, annual plan saves 2 months, response within 1 business day"
+            <BrutalPriceBoard
+              title="SaaS rate sheet"
+              rows={SAAS_PRICE_ROWS}
+              note="Annual plans bill 10 months. Custom builds add product architecture, billing, and multi-tenancy."
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="SAAS · FROM 3,500 ETB / MO" labelRight="ANNUAL · SAVE 2 MONTHS" />
+      <MeterStrip labelLeft="READY-MADE SAAS · FROM 4,500 ETB / MO" labelRight="CUSTOM SAAS · FROM 180,000 ETB" />
 
       <section className="section">
         <div className="container">
@@ -146,9 +145,10 @@ export default function SaasSolutionsPage() {
           <ScrollReveal delay={0.1}>
             <article className="editorial-panel glass-strong">
               <p className="editorial-kicker">If you need a custom system now</p>
-              <h3>Start with a Workflow Audit or scope a custom build.</h3>
+              <h3>Start with a scoped software build.</h3>
               <p>
-                Fits one of these products? We scope the setup directly. More specific? The Workflow Audit is the right first step.
+                Fits one of these products? We scope the setup directly. Need something different? We
+                scope a custom SaaS build around your product and operating model.
               </p>
             </article>
           </ScrollReveal>

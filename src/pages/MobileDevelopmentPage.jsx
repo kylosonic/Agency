@@ -3,16 +3,15 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
-import Apparatus from '../components/Apparatus';
+import BrutalPriceBoard from '../components/BrutalPriceBoard';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
-import { getMobilePackages } from '../services/pricingData';
+import { getMobilePackages, QUOTE_ANCHORS } from '../services/pricingData';
 
-/* B42a (TECH-25): locked filament-apparatus callouts for the Mobile hero. */
-const MOBILE_APPARATUS_CALLOUTS = [
-  'MOBILE · FROM 40,000 ETB',
-  'MILESTONES · 40/30/30',
-  'RESPONSE · 1 BUSINESS DAY',
+const MOBILE_PRICE_ROWS = [
+  { label: 'Mobile MVP', price: `from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB` },
+  { label: 'Business app', price: '150,000 – 300,000 ETB' },
+  { label: 'Enterprise platform', price: 'from 350,000 ETB' },
 ];
 
 const MOBILE_CONTEXT = [
@@ -66,7 +65,7 @@ export default function MobileDevelopmentPage() {
                 desktop or chat-based coordination.
               </p>
               <div className="page-hero-meta" aria-label="Mobile delivery highlights">
-                <span className="page-hero-chip">Mobile from 40,000 ETB</span>
+                <span className="page-hero-chip">Mobile from {QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB</span>
                 <span className="page-hero-chip">Cross-platform delivery</span>
                 <span className="page-hero-chip">Payments, maps, and field operations supported</span>
               </div>
@@ -74,16 +73,19 @@ export default function MobileDevelopmentPage() {
           </div>
 
           <div className="marquee-hero-side">
-            <Apparatus
-              type="filament"
-              callouts={MOBILE_APPARATUS_CALLOUTS}
-              label="Filament apparatus: mobile from 40,000 ETB, milestones 40/30/30, response within 1 business day"
+            <BrutalPriceBoard
+              title="Mobile build rates"
+              rows={MOBILE_PRICE_ROWS}
+              note="Cross-platform apps include backend, admin access, QA, and store release support."
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="MOBILE · FROM 40,000 ETB" labelRight="MILESTONES · 40/30/30" />
+      <MeterStrip
+        labelLeft={`MOBILE · FROM ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB`}
+        labelRight="ENTERPRISE · FROM 350,000 ETB"
+      />
 
       <section className="section">
         <div className="container editorial-card-grid">

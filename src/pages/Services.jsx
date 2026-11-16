@@ -2,37 +2,35 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
-import Apparatus from '../components/Apparatus';
+import BrutalPriceBoard from '../components/BrutalPriceBoard';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
+import { QUOTE_ANCHORS } from '../services/pricingData';
 
-/* B42a (TECH-25) + TECH-36 (S-1): locked filament-apparatus callouts for the
-   Services hero — software callouts lead (WEB → MOBILE → SAAS), automation is
-   the second track. */
-const SERVICES_APPARATUS_CALLOUTS = [
-  'WEB · FROM 20,000 ETB',
-  'MOBILE · FROM 40,000 ETB',
-  'SAAS · FROM 3,500 ETB / MO',
-  'AUTOMATION · FROM 40,000 ETB',
+const SERVICES_PRICE_ROWS = [
+  { label: 'Business website', price: `from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB` },
+  { label: 'Mobile product', price: `from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB` },
+  { label: 'Custom software', price: `from ${QUOTE_ANCHORS.custom[0].toLocaleString()} ETB` },
+  { label: 'SaaS product build', price: 'from 180,000 ETB' },
 ];
 
 const AUTOMATION_LANES = [
   {
-    title: 'Back-office automation',
-    text: 'Invoice intake, approvals, reconciliations, and internal handoffs where repetitive admin work drags on margin.',
-    examples: ['Invoice and document processing', 'Approval routing', 'Browser portal automation'],
+    title: 'Application architecture',
+    text: 'We define the data model, services, permissions, and integrations before the interface is built.',
+    examples: ['System architecture', 'Database design', 'API contracts'],
     icon: 'settings',
   },
   {
-    title: 'Knowledge and operations systems',
-    text: 'Internal assistants and governed access to process knowledge when the business runs on tribal knowledge and disconnected files.',
-    examples: ['Knowledge assistants with citations', 'Operational dashboards', 'Internal search and retrieval'],
+    title: 'System integration',
+    text: 'New software connects cleanly to the CRM, ERP, payment, messaging, and internal systems you already use.',
+    examples: ['Payment integrations', 'ERP and CRM sync', 'Legacy API adapters'],
     icon: 'book',
   },
   {
-    title: 'Customer and revenue workflows',
-    text: 'Lead routing, quoting, support triage, and order handling where response speed affects revenue.',
-    examples: ['Quote and proposal automation', 'Support triage', 'Sales order execution'],
+    title: 'Release engineering',
+    text: 'Automated tests, security checks, monitoring, and deployment runbooks make each release repeatable.',
+    examples: ['Automated testing', 'Security review', 'Deployment and monitoring'],
     icon: 'lightning',
   },
 ];
@@ -50,13 +48,12 @@ const DELIVERY_STEPS = [
   },
   {
     title: 'Support and maintain',
-    text: 'Written commitments: 40 support hours a year, next-business-day response.',
+    text: 'A scoped annual support allowance and next-business-day response.',
     icon: 'shield',
   },
 ];
 
-/* TECH-44 (R-5): six tracks — the software builds lead; AI & Automation is
-   the named specialist track. Prices come from the locked table only. */
+/* Six software development tracks. Prices come from the locked table only. */
 const DELIVERY_TRACKS = [
   {
     title: 'Custom Software Development',
@@ -66,19 +63,19 @@ const DELIVERY_TRACKS = [
   },
   {
     title: 'Web Development',
-    price: 'from 20,000 ETB',
+    price: `from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB`,
     text: 'Business websites, web apps, portals, dashboards, e-commerce, and corporate sites.',
     to: '/web-development',
   },
   {
     title: 'Mobile App Development',
-    price: 'from 40,000 ETB',
+    price: `from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB`,
     text: 'Android, iOS, and cross-platform apps for business, customer, and workforce use.',
     to: '/mobile-development',
   },
   {
     title: 'SaaS & Product Development',
-    price: 'from 3,500 ETB / month',
+    price: 'product builds from 180,000 ETB',
     text: 'SaaS platforms, MVPs, and subscription software with billing and onboarding built in.',
     to: '/saas-solutions',
   },
@@ -89,10 +86,10 @@ const DELIVERY_TRACKS = [
     to: '/book-discovery-call',
   },
   {
-    title: 'AI & Automation',
-    price: 'from 40,000 ETB',
-    text: 'AI assistants, agents, document processing, and intelligent automation for existing software.',
-    to: '/pricing',
+    title: 'Platform Modernization',
+    price: '75,000 – 250,000 ETB',
+    text: 'Upgrade legacy applications, dependencies, data models, and deployment without discarding business logic.',
+    to: '/additional-services',
   },
 ];
 
@@ -107,41 +104,43 @@ export default function Services() {
             <HeroChoreo>
               <div className="eyebrow">01 · OFFER</div>
               <HeroChoreoHeadline id="services-hero-title">
-                what we actually <em className="verb">build</em>&nbsp;after the Workflow Audit.
+                custom software, <em className="verb">engineered</em>&nbsp;for real operations.
               </HeroChoreoHeadline>
               <p>
-                We build specific operating systems for teams that need work to move faster, with less
-                dependence on one person.
+                From a focused website to a multi-team business platform, we design, build, integrate,
+                and support production software.
               </p>
               <div className="page-hero-meta" aria-label="Service delivery priorities">
-                {/* TECH-44 (R-5): software tracks first; AI named as the specialist track. */}
                 <span className="page-hero-chip">Custom Software · Web · Mobile · SaaS · Business Systems</span>
-                <span className="page-hero-chip">Software builds and AI automation — scoped to the bottleneck</span>
-                <span className="page-hero-chip">AI automation when it solves a real bottleneck</span>
+                <span className="page-hero-chip">Architecture, integration, testing, and deployment included</span>
+                <span className="page-hero-chip">Fixed ETB anchors where scope is repeatable</span>
               </div>
             </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
-            <Apparatus
-              type="filament"
-              callouts={SERVICES_APPARATUS_CALLOUTS}
-              label="Filament apparatus: web from 20,000 ETB, mobile from 40,000 ETB, SaaS from 3,500 ETB per month, automation from 40,000 ETB"
+            <BrutalPriceBoard
+              title="Start with a number"
+              rows={SERVICES_PRICE_ROWS}
+              note="Blueprint 25,000 ETB, credited to the build. One published table for the full engagement."
             />
           </div>
         </div>
       </section>
 
       {/* TECH-36 (A2): meter leads with the software anchor. */}
-      <MeterStrip labelLeft="WEB · FROM 20,000 ETB" labelRight="MILESTONES · 40/30/30" />
+      <MeterStrip
+        labelLeft={`WEB · FROM ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB`}
+        labelRight={`CUSTOM SOFTWARE · FROM ${QUOTE_ANCHORS.custom[0].toLocaleString()} ETB`}
+      />
 
       <section className="section" id="service-lanes">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              eyebrow="02 · AUTOMATION LANES"
-              title="Where AI automation pays for itself."
-              subtitle="Intelligent automation on top of the software your business already runs."
+              eyebrow="02 · ENGINEERING"
+              title="How we turn requirements into reliable software."
+              subtitle="Architecture, integrations, and release engineering are part of the build."
               align="left"
             />
           </ScrollReveal>
@@ -207,7 +206,7 @@ export default function Services() {
             <SectionHeader
               eyebrow="04 · TRACKS"
               title="Six build lanes, quoted from the live ETB table."
-              subtitle="Software tracks lead; AI automation is the named specialist track."
+              subtitle="Choose the software category that matches what needs to be built."
               align="left"
             />
           </ScrollReveal>
@@ -236,7 +235,7 @@ export default function Services() {
 
           <ScrollReveal delay={0.12}>
             <div className="editorial-note-panel">
-              <strong>What we do not do:</strong> placeholder demos, invented proof, or price tables that drift from the live offer.
+              <strong>Every engagement is software development:</strong> scoped, implemented, tested, documented, and handed over.
             </div>
           </ScrollReveal>
         </div>
@@ -259,7 +258,7 @@ export default function Services() {
                 Discuss Your Software Idea
               </Link>
               <Link to="/pricing" className="btn btn-dark btn-sm">
-                Explore AI &amp; Automation
+                Review Software Pricing
               </Link>
             </div>
           </div>

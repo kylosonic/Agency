@@ -68,12 +68,10 @@ export default function PolicyPage() {
                 </span>
               </div>
 
-              {/* TECH-40 (C-3): one guarantee line in the audit terms — legal
-                  surface addition only; payment lines untouched (A1). */}
               <div className="policy-note">
                 <span className="icon" aria-hidden="true"><IconGlyph name="check" size={14} /></span>
                 <span>
-                  <strong>Audit guarantee:</strong> if the workflow audit doesn&apos;t produce a usable blueprint, you don&apos;t pay.
+                  <strong>Blueprint guarantee:</strong> if the paid software blueprint does not make the build scope clearer, you do not pay for it.
                 </span>
               </div>
             </article>
@@ -168,14 +166,15 @@ export default function PolicyPage() {
             <div className="eyebrow">05 · FIRST STEP</div>
             <h2>Book a call and we will walk through the commercial path with you.</h2>
             <p>
-              If the real question is still what should be built first, go back one step and use the Workflow Audit as the starting point.
+              If the real question is still what should be built first, start a project and we will
+              define the software scope before implementation.
             </p>
             <div className="cta-actions">
               <Link to="/book-discovery-call" className="btn btn-primary btn-lg">
                 Book Discovery Call
               </Link>
-              <Link to="/workflow-audit" className="btn btn-secondary btn-lg">
-                Review Workflow Audit
+              <Link to="/services" className="btn btn-secondary btn-lg">
+                Review Software Services
               </Link>
             </div>
           </div>

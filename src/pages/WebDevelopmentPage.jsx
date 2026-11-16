@@ -3,22 +3,21 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
-import Apparatus from '../components/Apparatus';
+import BrutalPriceBoard from '../components/BrutalPriceBoard';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
-import { getWebPackages } from '../services/pricingData';
+import { getWebPackages, QUOTE_ANCHORS } from '../services/pricingData';
 
-/* B42a (TECH-25): locked filament-apparatus callouts for the Web hero. */
-const WEB_APPARATUS_CALLOUTS = [
-  'WEB · FROM 20,000 ETB',
-  'MILESTONES · 40/30/30',
-  'RESPONSE · 1 BUSINESS DAY',
+const WEB_PRICE_ROWS = [
+  { label: 'Launch website', price: `from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB` },
+  { label: 'Growth website', price: '60,000 – 120,000 ETB' },
+  { label: 'Custom web platform', price: 'from 150,000 ETB' },
 ];
 
 const WEB_CONTEXT = [
   {
     title: 'A better site is usually part of a bigger fix',
-    text: 'The site often needs to support quoting, intake, content operations, or customer handoff. That is why we recommend the Workflow Audit when the picture is unclear.',
+    text: 'The site often needs to support quoting, intake, content operations, or customer handoff. We define that surrounding software scope before the build.',
   },
   {
     title: 'The build should serve a real commercial motion',
@@ -66,24 +65,27 @@ export default function WebDevelopmentPage() {
                 better intake, or a cleaner operating surface.
               </p>
               <div className="page-hero-meta" aria-label="Web delivery highlights">
-                <span className="page-hero-chip">Web from 20,000 ETB</span>
+                <span className="page-hero-chip">Web from {QUOTE_ANCHORS.web[0].toLocaleString()} ETB</span>
                 <span className="page-hero-chip">Portal and dashboard capable</span>
-                <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
+                <span className="page-hero-chip">Architecture and integration planning included</span>
               </div>
             </HeroChoreo>
           </div>
 
           <div className="marquee-hero-side">
-            <Apparatus
-              type="filament"
-              callouts={WEB_APPARATUS_CALLOUTS}
-              label="Filament apparatus: web from 20,000 ETB, milestones 40/30/30, response within 1 business day"
+            <BrutalPriceBoard
+              title="Web build rates"
+              rows={WEB_PRICE_ROWS}
+              note="Scope, design, development, QA, deployment, and handover are included."
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="WEB · FROM 20,000 ETB" labelRight="MILESTONES · 40/30/30" />
+      <MeterStrip
+        labelLeft={`WEB · FROM ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB`}
+        labelRight="PLATFORMS · FROM 150,000 ETB"
+      />
 
       <section className="section">
         <div className="container editorial-card-grid">
@@ -104,7 +106,7 @@ export default function WebDevelopmentPage() {
             <SectionHeader
               eyebrow="02 · PACKAGE ANCHORS"
               title="The web pricing ladder is straightforward."
-              subtitle="Choose the size that fits the business need. Unsure? Start with the Workflow Audit."
+              subtitle="Choose the size that fits the business need. Unsure? Start a project and we will scope it."
               align="left"
             />
           </ScrollReveal>

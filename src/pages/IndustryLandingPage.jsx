@@ -35,7 +35,7 @@ export default function IndustryLandingPage() {
           <p>{content.hero}</p>
           <div className="page-hero-meta" aria-label="Industry playbook details">
             <span className="page-hero-chip">Sector-specific workflow notes</span>
-            <span className="page-hero-chip">Audit-first commercial path</span>
+            <span className="page-hero-chip">Software-development delivery path</span>
             <span className="page-hero-chip">Live ETB pricing sits on the pricing page</span>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function IndustryLandingPage() {
             </article>
 
             <article className="industry-card glass-card">
-              <h3>What the audit usually clarifies</h3>
+              <h3>What the software build usually includes</h3>
               <ul>
                 {content.solutions.map((solution) => (
                   <li key={solution}>{solution}</li>

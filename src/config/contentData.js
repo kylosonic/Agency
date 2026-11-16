@@ -1,3 +1,5 @@
+import { QUOTE_BUDGET_BANDS } from '../services/pricingData';
+
 export const industryLandingContent = {
   education: {
     title: 'Education Digital Systems',
@@ -34,11 +36,11 @@ export const quoteWizardOptions = {
     'Web Development',
     'Mobile App Development',
     'SaaS Platform',
-    'AI Invoice Processing',
-    'Engineering Knowledge Assistant',
-    'Sales Order Automation',
+    'Custom Business Software',
+    'Platform Modernization',
+    'API and System Integration',
   ],
-  budgetRanges: ['15k - 40k', '40k - 100k', '100k - 250k', '250k+'],
+  budgetRanges: QUOTE_BUDGET_BANDS,
   timelineRanges: ['2-4 weeks', '1-2 months', '2-4 months', 'Flexible timeline'],
   integrations: [
     'Telebirr',
@@ -57,9 +59,9 @@ export const liveChatPromptsByRoute = {
   '/web-development': 'Hi NovaTech, I need help choosing the right web development package for my business.',
   '/mobile-development': 'Hi NovaTech, I am planning a mobile app and want a delivery estimate.',
   '/saas-solutions': 'Hi NovaTech, I want to discuss SaaS options for my organization.',
-  '/additional-services': 'Hi NovaTech, I need a custom quote for additional services and add-ons.',
-  '/instant-quote': 'Hi NovaTech, I am completing the quote wizard and need help validating scope and budget.',
+  '/additional-services': 'Hi NovaTech, I need a custom quote for engineering support and integration work.',
+  '/instant-quote': 'Hi NovaTech, I am completing the quote wizard and need help validating software scope and budget.',
   '/book-discovery-call': 'Hi NovaTech, I want help choosing the best discovery call slot and agenda.',
   '/policy': 'Hi NovaTech, I have a question about your payment and operational policy.',
-  default: 'Hi NovaTech, I want to talk to your team about a digital project.',
+  default: 'Hi NovaTech, I want to talk to your team about a software project.',
 };

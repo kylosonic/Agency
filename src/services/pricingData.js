@@ -3,23 +3,10 @@
  *
  * STATIC PRICING DATA — ETB ONLY (ADR-001, ADR-003)
  *
- * The locked pricing table lives here as the single source of truth
- * (docs/behaviors/pricing-revert-and-motion.md §1, P-1):
- *   - Workflow Audit: fixed 15,000 ETB (credited toward implementation)
- *   - AI automation tiers: from 40,000 / 100,000 / 200,000+ ETB
- *   - Monthly AI support band: 10,000 - 25,000 ETB / month
- *   - Web: from 20,000 / 50,000 - 80,000 / 150,000+ ETB
- *   - Mobile: 40,000 - 60,000 / 80,000 - 150,000 / 200,000+ ETB
- *   - SaaS: real monthly prices + setup + annual ("Save 2 months")
- *   - Maintenance: 8,000 - 20,000 ETB / year (annual, with commitment)
- *   - Add-ons: original annual/one-time bands
- *
- * SUPERSEDED FIGURES (historical note only — do not re-apply): the August
- * 2026 inflation era quoted audit 85,000 ETB; AI from 250,000 / 750,000 /
- * 1,500,000+ ETB; AI support 30,000 - 70,000 ETB / month; web from 45,000 /
- * 150,000 / 250,000 ETB; mobile from 200,000 / 400,000 ETB; maintenance
- * 5,000 - 15,000 ETB / month; SaaS waitlist only. Replaced 2026-08-11 by
- * owner confirmation (Scenario B / trim).
+ * The locked pricing table lives here as the single source of truth. The
+ * 2026-11-16 revision aligns published anchors with current Ethiopian market
+ * evidence. Source URLs and the reasoning are recorded in
+ * docs/research/ethiopia-software-pricing-2026.md.
  *
  * The remote pricing override mechanism (VITE_PRICING_DATA_ENDPOINT) has been
  * REMOVED per Gate A decision — a stale remote payload could resurrect old
@@ -34,34 +21,73 @@
  * one-time wizard band.
  */
 export const QUOTE_ANCHORS = {
-  web: [20000, 50000, 150000],
-  mobile: [40000, 80000, 150000, 200000],
-  ai: [40000, 100000, 200000],
-  saas: null,
+  web: [30000, 60000, 150000],
+  mobile: [60000, 150000, 350000],
+  custom: [100000, 250000, 600000],
+  saas: [180000],
 };
 
 /**
- * The Workflow Audit entry offer: the hard floor below which no
+ * The software blueprint entry offer: the hard floor below which no
  * wizard estimate may quote.
  */
-export const ENTRY_OFFER_FLOOR = 15000;
+export const ENTRY_OFFER_FLOOR = 25000;
+
+export const PRICING_RESEARCH_DATE = '2026-11-16';
+
+/**
+ * Public, customer-visible market evidence used to set the published anchors.
+ * These are reference points, not claims about a competitor's final quote.
+ */
+export const MARKET_SOURCES = [
+  {
+    name: 'PrimeTech PLC — website packages',
+    url: 'https://primetechplc.com/pricing/website-design-development-package',
+    evidence: '30,000 / 46,000 / 100,000 ETB website packages, excluding VAT',
+  },
+  {
+    name: 'Creative Web Ethiopia — website pricing',
+    url: 'https://www.creativewebet.com/website-design-price-in-ethiopia/',
+    evidence: '25,000 landing page; 45,000 business site; 60,000 corporate; 120,000 e-commerce',
+  },
+  {
+    name: 'Ampol Technologies — mobile app development',
+    url: 'https://ampoltechethiopia.com/services/mobile-app-development',
+    evidence: '60,000–250,000 ETB cross-platform; 100,000–500,000 ETB native apps',
+  },
+  {
+    name: 'HahuCloud — Ethiopian hosting',
+    url: 'https://www.hahucloud.com/',
+    evidence: '6,500–9,800 ETB annual hosting reference',
+  },
+  {
+    name: 'Techno Bros — Ethiopian hosting',
+    url: 'https://technobros.net/',
+    evidence: '11,500–30,000 ETB annual hosting reference',
+  },
+  {
+    name: 'National Bank of Ethiopia — exchange rates',
+    url: 'https://nbe.gov.et/exchange/',
+    evidence: 'Currency reference for converting international benchmarks to ETB',
+  },
+];
 
 /** Budget bands offered by the wizard, aligned to the locked table tiers (A2). */
-export const QUOTE_BUDGET_BANDS = ['15k - 40k', '40k - 100k', '100k - 250k', '250k+'];
+export const QUOTE_BUDGET_BANDS = ['25k - 60k', '60k - 150k', '150k - 350k', '350k+'];
 
 const BUDGET_BAND_TIER_INDEX = {
-  '15k - 40k': 0,
-  '40k - 100k': 1,
-  '100k - 250k': 2,
-  '250k+': 3,
+  '25k - 60k': 0,
+  '60k - 150k': 1,
+  '150k - 350k': 2,
+  '350k+': 3,
 };
 
 const SERVICE_TO_FAMILY = {
   'Web Development': 'web',
   'Mobile App Development': 'mobile',
-  'AI Invoice Processing': 'ai',
-  'Engineering Knowledge Assistant': 'ai',
-  'Sales Order Automation': 'ai',
+  'Custom Business Software': 'custom',
+  'Platform Modernization': 'custom',
+  'API and System Integration': 'custom',
   'SaaS Platform': 'saas',
 };
 
@@ -72,7 +98,7 @@ const SERVICE_TO_FAMILY = {
  */
 export function deriveEstimateBand(formState) {
   const family = SERVICE_TO_FAMILY[formState?.serviceType];
-  if (!family || family === 'saas') {
+  if (!family) {
     return null;
   }
 
@@ -89,112 +115,115 @@ export function deriveEstimateBand(formState) {
 const WEB_PACKAGES = [
     {
         icon: 'rocket',
-        title: 'Digital Presence',
+        title: 'Launch Website',
         subtitle: 'Starter',
-        price: 'from 20,000 ETB',
-        timeline: '2-3 Weeks Delivery',
-        idealFor: 'Founders, personal brands, and local startups',
+        price: 'from 30,000 ETB',
+        timeline: '2-4 Weeks Delivery',
+        idealFor: 'New businesses that need a credible site and a clear inquiry path',
         features: [
-            '5-7 core pages',
-            'Responsive design',
+            'Up to 7 core pages',
+            'Custom responsive design',
             'WhatsApp and click-to-call integration',
-            'CMS setup',
-            'Basic SEO',
-            'Maps integration',
-            'Security and speed setup',
-            '3 months free maintenance',
+            'Content management setup',
+            'Technical SEO foundations',
+            'Analytics and maps setup',
+            'Accessibility and performance checks',
+            '30 days of launch support',
         ],
-        ctaText: 'Request Website Estimate',
+        ctaText: 'Scope a Launch Website',
     },
     {
         icon: 'chart',
-        title: 'Growth & Conversion',
+        title: 'Growth Website',
         subtitle: 'Scope-led',
-        price: '50,000 – 80,000 ETB',
-        timeline: '4-5 Weeks Delivery',
-        idealFor: 'Tour operators, real estate, and import/export teams',
+        price: '60,000 – 120,000 ETB',
+        timeline: '4-6 Weeks Delivery',
+        idealFor: 'Teams that need richer content, stronger conversion, and managed sales flows',
         features: [
-            'Everything in Starter',
-            '15 to 20 pages',
-            'Dynamic listings',
-            'Lead funnel setup',
-            'Advanced local SEO',
-            'GA4 and Search Console setup',
-            'Testimonials and social feeds',
+            'Everything in Launch Website',
+            'Up to 20 unique templates',
+            'Dynamic listings or resource library',
+            'Lead pipeline and form automation',
+            'Advanced local SEO and structured data',
+            'GA4, Search Console, and event tracking',
+            'Editor training and documentation',
         ],
-        ctaText: 'Scope Growth Website',
+        ctaText: 'Scope a Growth Website',
     },
     {
         icon: 'building',
-        title: 'Enterprise',
+        title: 'Custom Web Platform',
         subtitle: 'Custom',
         price: '150,000+ ETB',
-        timeline: '6-8 Weeks Delivery',
-        idealFor: 'E-commerce, hotels, and larger organizations',
+        timeline: '8-12 Weeks Delivery',
+        idealFor: 'Portals, dashboards, commerce systems, and multi-role web applications',
         features: [
-            'Custom UI/UX',
-            'Scalable architecture',
-            'Multi-language support',
-            'Advanced filtering',
-            'Payment API integrations',
+            'Discovery and software blueprint',
+            'Custom UI/UX and design system',
+            'Role-based web application',
+            'Payment and business API integrations',
             'CRM and ERP integrations',
-            'Cloud backups',
+            'Security and automated test coverage',
+            'Deployment, monitoring, and handover',
         ],
-        ctaText: 'Plan Enterprise Platform',
+        ctaText: 'Plan a Web Platform',
     },
 ];
 
 const MOBILE_PACKAGES = [
     {
         icon: 'mobile',
-        title: 'Basic Utility App',
+        title: 'Mobile MVP',
         subtitle: 'Starter',
-        price: '40,000 – 60,000 ETB',
-        timeline: '4-6 Weeks Delivery',
-        idealFor: 'Content creators, media brands, and service catalogs',
+        price: 'from 60,000 ETB',
+        timeline: '6-8 Weeks Delivery',
+        idealFor: 'Focused customer, catalogue, booking, or field utility apps',
         features: [
             'Cross-platform (iOS & Android)',
-            'Intuitive UI/UX',
+            'Custom mobile UI/UX',
             'Push notifications',
-            'Offline reading mode',
+            'Account and profile flows',
             'Social login',
             'Basic admin panel',
-            '3-month bug-fix warranty',
+            'Store submission support',
+            '90-day bug-fix warranty',
         ],
-        ctaText: 'Launch Your App',
+        ctaText: 'Scope a Mobile MVP',
     },
     {
         icon: 'lightning',
-        title: 'Business & E-Commerce App',
+        title: 'Business Mobile App',
         subtitle: 'Scope-led',
-        price: '80,000 – 150,000 ETB',
-        timeline: '8-12 Weeks Delivery',
-        idealFor: 'Retail, booking, and food delivery platforms',
+        price: '150,000 – 300,000 ETB',
+        timeline: '10-16 Weeks Delivery',
+        idealFor: 'Retail, booking, delivery, payments, and multi-role operations',
         features: [
-            'User and vendor profiles',
-            'Cart and checkout',
+            'Customer, staff, and vendor roles',
+            'Commerce, booking, or field workflows',
             'Telebirr/Chapa/mobile banking integration',
             'Google Maps integration',
-            'Advanced push notifications',
-            'Super admin dashboard',
+            'Real-time notifications',
+            'Web operations dashboard',
+            'Automated testing and release setup',
         ],
         ctaText: 'Build Your Platform',
     },
     {
         icon: 'building',
-        title: 'Enterprise / FinTech App',
+        title: 'Enterprise Mobile Platform',
         subtitle: 'Mission-Critical',
-        price: '200,000+ ETB',
-        timeline: '12-16 Weeks Delivery',
+        price: '350,000+ ETB',
+        timeline: '16-24 Weeks Delivery',
         idealFor: 'Financial institutions, scale-ups, and regulated operators',
         features: [
             'Everything in Business tier',
-            'Advanced security and encryption',
+            'Security and threat modeling',
             'Biometric authentication',
-            'Complex API and microservices',
+            'Complex API and service architecture',
             'Real-time data synchronization',
             'Compliance and audit readiness',
-            'SLA with 24/7 support',
+            'High-availability deployment',
+            'Written support and response SLA',
         ],
         ctaText: 'Contact for Proposal',
     },
@@ -205,12 +234,12 @@ const SAAS_PACKAGES = [
         icon: 'book',
         title: "School Management System",
         subtitle: "EduTech",
-        setupFee: 25000,
-        monthlyFrom: 3500,
-        price: '3,500 ETB / month',
+        setupFee: 45000,
+        monthlyFrom: 4500,
+        price: '4,500 ETB / month',
         period: '/month',
-        annual: 35000,
-        billingNote: 'Save 2 months',
+        annual: 45000,
+        billingNote: '10 months billed annually',
         features: [
             'Admissions and student records',
             'Timetables',
@@ -226,12 +255,12 @@ const SAAS_PACKAGES = [
         icon: 'hospital',
         title: "Clinic/Hospital ERP",
         subtitle: "HealthTech",
-        setupFee: 35000,
-        monthlyFrom: 5000,
-        price: '5,000 ETB / month',
+        setupFee: 60000,
+        monthlyFrom: 7500,
+        price: '7,500 ETB / month',
         period: '/month',
-        annual: 50000,
-        billingNote: 'Save 2 months',
+        annual: 75000,
+        billingNote: '10 months billed annually',
         recommended: true,
         features: [
             'Electronic health records',
@@ -246,12 +275,12 @@ const SAAS_PACKAGES = [
         icon: 'building',
         title: "Real Estate CRM",
         subtitle: "PropTech",
-        setupFee: 20000,
-        monthlyFrom: 3000,
-        price: '3,000 ETB / month',
+        setupFee: 40000,
+        monthlyFrom: 5500,
+        price: '5,500 ETB / month',
         period: '/month',
-        annual: 30000,
-        billingNote: 'Save 2 months',
+        annual: 55000,
+        billingNote: '10 months billed annually',
         features: [
             'Tenant portals',
             'Lease tracking',
@@ -264,88 +293,85 @@ const SAAS_PACKAGES = [
 ];
 
 const ADDITIONAL_SERVICES = [
-    { service: 'Domain & Cloud Hosting', description: 'Domain, SSL, and high-speed cloud server.', price: '1,500 – 5,000 ETB / year', type: 'Recurring' },
-    { service: 'Cloud Web Hosting', description: 'High-speed cloud server for production sites.', price: '5,000 – 15,000 ETB / year', type: 'Recurring' },
-    { service: 'Web Maintenance', description: 'Security patches, plugin updates, daily backups and minor content changes. Written commitment: 40 support hours per year and next-business-day response on critical issues.', price: '8,000 – 20,000 ETB / year', type: 'Recurring' },
-    { service: 'Logo & Visual Identity', description: 'Logo, typography, colors, and brand guidelines.', price: '5,000 – 15,000 ETB', type: 'One-Time' },
-    { service: 'Professional Copywriting', description: 'Conversion-focused writing in English and Amharic.', price: '3,000 – 10,000 ETB / project', type: 'One-Time' },
-    { service: 'Commercial Photography', description: 'Professional shoots for products, staff, or real estate.', price: '5,000 – 20,000 ETB / session', type: 'One-Time' },
+    { service: 'Domain & Cloud Hosting', description: 'Domain, SSL, cloud hosting, backups, and baseline monitoring.', price: '6,500 – 15,000 ETB / year', type: 'Recurring' },
+    { service: 'Application Maintenance', description: 'Security patches, dependency updates, backups, monitoring, and a written support allowance.', price: '18,000 – 60,000 ETB / year', type: 'Recurring' },
+    { service: 'API & System Integration', description: 'Connect payments, CRM, ERP, messaging, and internal APIs with tested data flows.', price: '30,000 – 100,000 ETB', type: 'One-Time' },
+    { service: 'Application Modernization', description: 'Upgrade legacy code, dependencies, deployment, data models, and test coverage.', price: '75,000 – 250,000 ETB', type: 'One-Time' },
+    { service: 'QA & Security Review', description: 'Automated tests, dependency and secret checks, threat review, and release hardening.', price: '25,000 – 80,000 ETB', type: 'One-Time' },
+    { service: 'Custom SaaS Product Build', description: 'Product architecture, billing, onboarding, multi-tenancy, and launch-ready delivery.', price: 'from 180,000 ETB', type: 'One-Time' },
 ];
 
 const FEATURED_ADDONS = [
-    { icon: 'globe', title: 'Domain & Cloud Hosting', description: 'Domain, SSL, and high-speed cloud server.', price: '1,500 – 5,000 ETB / year' },
-    { icon: 'palette', title: 'Logo & Visual Identity', description: 'Logo, typography, color palette, and brand guideline starter kit.', price: '5,000 – 15,000 ETB' },
-    { icon: 'camera', title: 'Commercial Photography', description: 'On-location commercial shoots for products, teams, or properties.', price: '5,000 – 20,000 ETB / session' },
-    { icon: 'wrench', title: 'Web Maintenance', description: 'Security patches, plugin updates, daily backups and minor content changes. Annual plan with a written support commitment.', price: '8,000 – 20,000 ETB / year' },
-    { icon: 'search', title: 'Copywriting Services', description: 'SEO-oriented conversion copy in English and Amharic.', price: '3,000 – 10,000 ETB / project' },
+    { icon: 'globe', title: 'Domain & Cloud Hosting', description: 'Domain, SSL, cloud hosting, backups, and baseline monitoring.', price: '6,500 – 15,000 ETB / year' },
+    { icon: 'wrench', title: 'Application Maintenance', description: 'Security patches, backups, monitoring, and a written annual support allowance.', price: '18,000 – 60,000 ETB / year' },
+    { icon: 'settings', title: 'API & System Integration', description: 'Connect payments, CRM, ERP, messaging, and internal systems with tested data flows.', price: '30,000 – 100,000 ETB' },
+    { icon: 'refresh', title: 'Application Modernization', description: 'Upgrade legacy code, dependencies, deployment, and data models.', price: '75,000 – 250,000 ETB' },
+    { icon: 'shield', title: 'QA & Security Review', description: 'Automated tests, dependency and secret checks, threat review, and release hardening.', price: '25,000 – 80,000 ETB' },
 ];
 
-const AI_IMPLEMENTATION_TIERS = [
+const PRODUCT_ENGINEERING_TIERS = [
     {
-        title: 'Tier 1: Foundational Automation',
+        title: 'Tier 1: Focused Custom Software',
         bestFor: 'Small businesses',
-        timeline: '2-4 weeks',
-        setupPrice: 'from 40,000 ETB',
-        monthlySupport: '10,000 – 25,000 ETB / month',
-        scope: 'Chatbots, lead routing, FAQ assistants, and simple internal automation.',
+        timeline: '6-10 weeks',
+        setupPrice: 'from 100,000 ETB',
+        monthlySupport: '18,000 – 35,000 ETB / year',
+        scope: 'A focused application, internal tool, customer portal, or operational workflow.',
         includes: [
-            'Customer support chatbots',
-            'Lead routing tools',
-            'FAQ assistants',
-            'Basic internal workflow automation',
-            'Integration with up to 3 existing tools',
+            'Requirements and technical discovery',
+            'Custom application',
+            'Admin and reporting screens',
+            'Role-based access',
+            'Up to 3 external integrations',
+            'Automated tests and deployment handover',
         ],
         supportIncludes: [
-            'Hosting and infrastructure management',
-            'Model usage and API costs',
             'Monitoring and alerting',
-            '15 support hours per month',
+            'Security and dependency updates',
+            '20 support hours per year',
             'Next-business-day response commitment',
         ],
     },
     {
-        title: 'Tier 2: Operational Intelligence',
+        title: 'Tier 2: Multi-System Business Platform',
         bestFor: 'Mid-market firms',
-        timeline: '2-4 months',
-        setupPrice: 'from 100,000 ETB',
-        monthlySupport: '10,000 – 25,000 ETB / month',
-        scope: 'Multi-department automation, CRM integration, document generation, and agent handoffs.',
+        timeline: '3-6 months',
+        setupPrice: 'from 250,000 ETB',
+        monthlySupport: '35,000 – 60,000 ETB / year',
+        scope: 'Multi-department business software with CRM, ERP, payment, and reporting integrations.',
         includes: [
-            'Multi-agent systems',
+            'Multi-role software platform',
             'Department workflows',
             'CRM integrations',
-            'Document generation',
             'Custom analytics dashboards',
-            'Agent handoff and escalation paths',
+            'API and data migration',
         ],
         supportIncludes: [
-            'Hosting and infrastructure management',
-            'Model usage and API costs',
             'Monitoring and alerting',
-            '25 support hours per month',
+            'Security and dependency updates',
+            '40 support hours per year',
             'Same-business-day response commitment',
         ],
     },
     {
-        title: 'Tier 3: Enterprise Agentic Systems',
+        title: 'Tier 3: Enterprise Software Platform',
         bestFor: 'Large organizations',
         timeline: '6-12 months',
-        setupPrice: 'from 200,000+ ETB',
-        monthlySupport: '10,000 – 25,000 ETB / month',
-        scope: 'Autonomous workflows, local models, air-gapped deployments, and enterprise governance.',
+        setupPrice: 'from 600,000 ETB',
+        monthlySupport: '15% – 25% of build value / year',
+        scope: 'Mission-critical systems with private deployment, complex integrations, and governance.',
         includes: [
-            'Autonomous workflows',
+            'Enterprise architecture',
             'Private deployment options',
             'Enterprise governance and audit trails',
             'Cross-department orchestration',
             'Data protection and compliance reviews',
-            'Local model deployment where required',
+            'High-availability deployment',
         ],
         supportIncludes: [
-            'Hosting and infrastructure management',
-            'Model usage and API costs',
             'Monitoring and alerting',
-            '40 support hours per month',
+            'Security and dependency updates',
+            'Annual support allowance scoped with the platform',
             '4-hour response commitment for critical issues',
         ],
     },
@@ -354,19 +380,20 @@ const AI_IMPLEMENTATION_TIERS = [
 export const getPricingGuideSummary = () => ({
     geographicPolicy: 'All prices are quoted in Ethiopian Birr (ETB). International engagements are quoted individually.',
     workflowAudit: {
-        title: 'Workflow Audit',
-        kicker: 'Entry Point',
-        price: '15,000 ETB',
-        description: 'Workflow analysis, automation roadmap, system blueprint, and implementation recommendation.',
+        title: 'Software Blueprint',
+        kicker: 'Scoping',
+        price: '25,000 ETB',
+        description: 'Requirements analysis, architecture, integration plan, and an implementation-ready software blueprint.',
         outputs: [
             'Current-state process map',
-            'Priority automation shortlist',
-            'Data-readiness review',
+            'Prioritized software scope',
+            'Application and data architecture',
             'Security and hosting recommendation',
-            'Implementation and retainer estimate',
+            'Implementation plan and estimate',
         ],
     },
-    automationTiers: AI_IMPLEMENTATION_TIERS,
+    productEngineeringTiers: PRODUCT_ENGINEERING_TIERS,
+    automationTiers: PRODUCT_ENGINEERING_TIERS,
     productEngineering: [
         ...WEB_PACKAGES.map((item) => ({
             category: 'Web Development',
@@ -420,36 +447,36 @@ export const getAddonsGrid = async () => {
             id: 'featured-1',
             icon: 'globe',
             title: "Domain & Hosting",
-            price: '1,500 – 5,000 ETB / year',
-            description: 'Domain, SSL certificate, and high-speed cloud server.',
+            price: '6,500 – 15,000 ETB / year',
+            description: 'Domain, SSL certificate, cloud hosting, backups, and baseline monitoring.',
         },
         {
             id: 'featured-2',
-            icon: 'palette',
-            title: "Logo & Brand Identity",
-            price: '5,000 – 15,000 ETB',
-            description: 'Logo, typography, color palette, and brand guideline starter kit.',
+            icon: 'wrench',
+            title: "Application Maintenance",
+            price: '18,000 – 60,000 ETB / year',
+            description: 'Security patches, backups, monitoring, and a written annual support allowance.',
         },
         {
             id: 'featured-3',
-            icon: 'camera',
-            title: "Commercial Photography",
-            price: '5,000 – 20,000 ETB / session',
-            description: 'On-location commercial shoots for products, teams, or properties.',
+            icon: 'settings',
+            title: "API & System Integration",
+            price: '30,000 – 100,000 ETB',
+            description: 'Connect CRMs, ERP, payment, and internal systems with tested data flows.',
         },
         {
             id: 'featured-4',
-            icon: 'wrench',
-            title: "Web Maintenance",
-            price: '8,000 – 20,000 ETB / year',
-            description: 'Security patches, plugin updates, daily backups, and minor content changes. Annual plan with a written support commitment.',
+            icon: 'refresh',
+            title: "Application Modernization",
+            price: '75,000 – 250,000 ETB',
+            description: 'Upgrade legacy code, dependencies, deployment, and data models.',
         },
         {
             id: 'featured-5',
-            icon: 'search',
-            title: "Copywriting Services",
-            price: '3,000 – 10,000 ETB / project',
-            description: 'SEO-oriented conversion copy in English and Amharic.',
+            icon: 'shield',
+            title: "QA & Security Review",
+            price: '25,000 – 80,000 ETB',
+            description: 'Automated tests, dependency and secret checks, threat review, and release hardening.',
         },
     ];
 };

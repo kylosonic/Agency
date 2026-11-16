@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = 'https://novatech.et';
+const DEFAULT_SITE_URL = 'https://novatech.com';
 
 function getEnvValue(value, fallback = '') {
   return (value || fallback).trim();
@@ -14,8 +14,8 @@ function toTelephoneHref(displayNumber) {
 }
 
 export const SITE_URL = normalizeSiteUrl(getEnvValue(import.meta.env.VITE_SITE_URL, DEFAULT_SITE_URL));
-export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20260812`;
-export const PRICING_GUIDE_ASSET_PATH = '/NovaTechAI_2026_Service_Menu_and_Pricing_Guide.pdf';
+export const OG_IMAGE_URL = `${SITE_URL}/og-image.png?v=20261116`;
+export const PRICING_GUIDE_ASSET_PATH = '/NovaTech_2026_Software_Development_Pricing.pdf';
 
 // Owner decision (2026-08-07): use nahomgwmichael@gmail.com as the contact email
 // until the domain mailbox (OA-1) is ready. Replace via VITE_CONTACT_EMAIL when it lands.

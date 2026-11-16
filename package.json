@@ -9,14 +9,14 @@
     "generate:pricing-guide": "node scripts/generate-pricing-guide.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:e2e": "playwright test tests/live-site.spec.js --reporter=line",
+    "test:e2e": "playwright test tests/novatech-brutalist.spec.js --reporter=line",
     "test:e2e:all": "playwright test"
   },
   "dependencies": {
     "framer-motion": "^12.36.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.13.1"
+    "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

@@ -18,7 +18,7 @@ export default function Footer() {
             <div className="container">
                 <div className="footer-statement">
                     <p>
-                        Founder-led digital systems studio for Ethiopian teams that need clearer workflows, sharper commercial surfaces, and builds grounded in real operating constraints.
+                        Software development firm building custom web, mobile, SaaS, and business systems for organizations in Ethiopia and beyond.
                     </p>
                 </div>
 
@@ -31,10 +31,12 @@ export default function Footer() {
                     </div>
 
                     <div>
-                        <h4>{t('footer.links.aiSolutionsHeading', 'AI Solutions')}</h4>
+                        <h4>{t('footer.links.servicesHeading', 'Software Services')}</h4>
                         <ul className="footer-links">
-                            <li><Link to="/services">{t('footer.links.aiSolutions', 'AI Solutions')}</Link></li>
-                            <li><Link to="/workflow-audit">{t('footer.links.workflowAudit', 'Workflow Audit')}</Link></li>
+                            <li><Link to="/services">{t('footer.links.allServices', 'All Software Services')}</Link></li>
+                            <li><Link to="/web-development">{t('nav.dropdownWeb', 'Web Development')}</Link></li>
+                            <li><Link to="/mobile-development">{t('nav.dropdownMobile', 'Mobile App Development')}</Link></li>
+                            <li><Link to="/saas-solutions">{t('nav.dropdownSaas', 'SaaS Development')}</Link></li>
                             <li><Link to="/pricing">{t('footer.links.pricing', 'Pricing')}</Link></li>
                             <li><Link to="/policy">{t('nav.policy', 'Policy')}</Link></li>
                         </ul>

@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import SectionHeader from '../components/SectionHeader';
+import BrutalPriceBoard from '../components/BrutalPriceBoard';
 import { getAdditionalServices, getFeaturedAddons } from '../services/pricingData';
+
+const SUPPORT_PRICE_ROWS = [
+  { label: 'Hosting', price: 'from 6,500 ETB / yr' },
+  { label: 'Maintenance', price: 'from 18,000 ETB / yr' },
+  { label: 'Integration', price: 'from 30,000 ETB' },
+  { label: 'QA & security', price: '25,000 – 80,000 ETB' },
+];
 
 export default function AdditionalServicesPage() {
   const [services, setServices] = useState([]);
@@ -32,23 +40,31 @@ export default function AdditionalServicesPage() {
   return (
     <>
       <section className="page-hero">
-        <div className="container page-hero-content">
-          {/* M-1 (TECH-33): one choreographed reveal — eyebrow → headline →
-              subcopy → meta chips, 150ms apart, ≤ 1.2s total. */}
-          <HeroChoreo>
-            <div className="eyebrow">01 · ADD-ONS</div>
-            <HeroChoreoHeadline>
-              supporting services, <em className="verb">quoted</em>&nbsp;plainly.
-            </HeroChoreoHeadline>
-            <p>
-              Add-ons around the main build: hosting, maintenance, brand work, copy, and launch support.
-            </p>
-            <div className="page-hero-meta" aria-label="Additional services notes">
-              <span className="page-hero-chip">Secondary to the main build</span>
-              <span className="page-hero-chip">Live ETB pricing</span>
-              <span className="page-hero-chip">Annual maintenance plans</span>
-            </div>
-          </HeroChoreo>
+        <div className="container marquee-hero-grid">
+          <div className="page-hero-content">
+            <HeroChoreo>
+              <div className="eyebrow">01 · ADD-ONS</div>
+              <HeroChoreoHeadline>
+                supporting services, <em className="verb">quoted</em>&nbsp;plainly.
+              </HeroChoreoHeadline>
+              <p>
+                Engineering support around the main build: hosting, maintenance, integrations,
+                modernization, QA, and release hardening.
+              </p>
+              <div className="page-hero-meta" aria-label="Additional services notes">
+                <span className="page-hero-chip">Secondary to the main build</span>
+                <span className="page-hero-chip">Live ETB pricing</span>
+                <span className="page-hero-chip">Annual maintenance plans</span>
+              </div>
+            </HeroChoreo>
+          </div>
+          <div className="marquee-hero-side">
+            <BrutalPriceBoard
+              title="Support rates"
+              rows={SUPPORT_PRICE_ROWS}
+              note="Recurring services are annual. One-time engineering work is scoped before it starts."
+            />
+          </div>
         </div>
       </section>
 
@@ -57,8 +73,8 @@ export default function AdditionalServicesPage() {
           <ScrollReveal>
             <SectionHeader
               eyebrow="02 · SERVICE TABLE"
-              title="Use these when they support the real project."
-              subtitle="Live ETB ranges below."
+              title="Technical add-ons that support the software you run."
+              subtitle="Live ETB ranges for integration, maintenance, modernization, and quality engineering."
               align="left"
             />
           </ScrollReveal>

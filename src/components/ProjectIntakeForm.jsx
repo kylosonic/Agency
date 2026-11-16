@@ -45,7 +45,7 @@ const NEED_OPTIONS = [
   'Mobile app',
   'Business system',
   'SaaS product',
-  'AI & automation',
+  'Integration or modernization',
   'Not sure yet',
 ];
 

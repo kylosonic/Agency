@@ -8,9 +8,7 @@ import { queueLeadFollowups } from '../services/leadAutomationService';
 import { submitLeadIntake } from '../services/leadIntakeService';
 import { trackEvent } from '../services/analyticsService';
 
-/* TECH-36 (S-1): software services (web → mobile → SaaS) lead the selector;
-   AI options follow as the second track. Option VALUES are unchanged (wizard
-   quote parity untouched — see tests/live-site.spec.js "Phase 2"). */
+/* Software development scopes available in the directional quote tool. */
 const SERVICE_OPTIONS = [
   {
     value: 'Web Development',
@@ -25,22 +23,22 @@ const SERVICE_OPTIONS = [
   {
     value: 'SaaS Platform',
     label: 'SaaS platform',
-    note: 'Live pricing is published on the pricing page.',
+    note: 'Product builds start at 180,000 ETB; ready-made plans start at 4,500 ETB/month.',
   },
   {
-    value: 'AI Invoice Processing',
-    label: 'AI automation',
-    note: 'Document, process, and back-office workflow automation.',
+    value: 'Custom Business Software',
+    label: 'Custom software',
+    note: 'Internal systems, portals, and operational applications.',
   },
   {
-    value: 'Engineering Knowledge Assistant',
-    label: 'Knowledge assistant',
-    note: 'Internal search, retrieval, and governed business knowledge.',
+    value: 'Platform Modernization',
+    label: 'Modernization',
+    note: 'Legacy upgrades, migrations, and new deployment foundations.',
   },
   {
-    value: 'Sales Order Automation',
-    label: 'Revenue workflow automation',
-    note: 'Lead, quote, order, and fulfillment automation.',
+    value: 'API and System Integration',
+    label: 'System integration',
+    note: 'APIs, CRM, ERP, payments, and internal data flows.',
   },
 ];
 
@@ -162,13 +160,13 @@ export default function InstantQuotePage() {
             <em className="verb">get</em>&nbsp;a working range without a long intake flow.
           </h1>
           <p>
-            Use this when you have a direction and want a fast estimate. Unsure what to build first? Book the
-            Workflow Audit instead.
+            Use this when you have a software direction and want a fast estimate. Unsure what to
+            build first? Start a project and we will scope it with you.
           </p>
           <div className="page-hero-meta" aria-label="Instant quote process notes">
             <span className="page-hero-chip">Directional ETB estimate</span>
-            <span className="page-hero-chip">SaaS priced on the pricing page</span>
-            <span className="page-hero-chip">Workflow Audit recommended when scope is unclear</span>
+            <span className="page-hero-chip">SaaS product builds from 180,000 ETB</span>
+            <span className="page-hero-chip">Software scope and architecture support available</span>
           </div>
         </div>
       </section>
@@ -271,24 +269,24 @@ export default function InstantQuotePage() {
                     <>
                       <p className="editorial-hero-price">{formatCurrency(quoteRange[0])} - {formatCurrency(quoteRange[1])}</p>
                       <p>
-                        A directional estimate from the locked pricing table, floored at 15,000 ETB.
+                        A directional estimate from the published pricing table. Your request
+                        starts at the selected budget band and is refined after scope review.
                       </p>
                     </>
                   ) : (
                     <>
-                      <p className="editorial-hero-price">Live SaaS pricing</p>
-                      <p>
-                        SaaS plans are quoted on the pricing page with setup, monthly, and annual terms.
-                      </p>
+                      <p className="editorial-hero-price">Custom SaaS scope</p>
+                      <p>We will scope product architecture, billing, and launch depth.</p>
                     </>
                   )}
 
                   <div className="editorial-note-panel glass">
-                    <strong>Not sure yet?</strong> The Workflow Audit is the better first step when the direction is still unclear.
+                    <strong>Not sure yet?</strong> Start a project and we will turn the idea into a
+                    practical software scope.
                   </div>
                   <div className="cta-actions quote-side-actions">
-                    <Link className="btn btn-secondary" to="/workflow-audit">
-                      Review Workflow Audit
+                    <Link className="btn btn-secondary" to="/#project-intake">
+                      Talk Through the Scope
                     </Link>
                   </div>
                 </div>
@@ -301,7 +299,7 @@ export default function InstantQuotePage() {
               <p>
                 {submissionStatus === 'fallback'
                   ? 'This estimate was generated and saved locally because the intake endpoint is temporarily unavailable. Please book a discovery call if the request is urgent.'
-                  : 'We will follow up with a written proposal. If the workflow is still fuzzy, we may recommend the Workflow Audit first.'}
+                  : 'We will follow up with a written proposal. If the scope is still unclear, we will define the software blueprint with you.'}
               </p>
               <div className="quote-result-actions">
                 <Link className="btn btn-primary" to="/book-discovery-call">Book Discovery Call</Link>
@@ -320,9 +318,9 @@ export default function InstantQuotePage() {
             </div>
           ) : (
             <div className="quote-result-card glass-card" role="status" aria-live="polite">
-              <h3>Live SaaS pricing is on the pricing page</h3>
+              <h3>Custom SaaS scope</h3>
               <p>
-                Quoted monthly with setup and an annual "Save 2 months" option. See the pricing page for current figures.
+                Product builds start at 180,000 ETB. Ready-made plans start at 4,500 ETB/month.
               </p>
               <div className="quote-result-actions">
                 <Link to="/pricing" className="btn btn-primary">View SaaS Pricing</Link>
