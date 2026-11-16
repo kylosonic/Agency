@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://novatech23.vercel.app/sitemap.xml
+Sitemap: https://novatech.com/sitemap.xml

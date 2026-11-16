@@ -37,9 +37,6 @@ export default function NotFoundPage() {
             <Link to="/web-development" className="btn btn-secondary">
               {t('notFound.exploreServices', 'Explore Services')}
             </Link>
-            <Link to="/workflow-audit" className="btn btn-secondary">
-              {t('actions.bookWorkflowAudit', 'Book Workflow Audit')}
-            </Link>
           </div>
         </div>
       </div>

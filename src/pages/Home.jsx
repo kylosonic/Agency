@@ -4,7 +4,7 @@ import HeroChoreo, { HeroChoreoHeadline } from '../components/HeroChoreo';
 import MarqueeStrip from '../components/MarqueeStrip';
 import PriceCounter from '../components/PriceCounter';
 import SectionHeader from '../components/SectionHeader';
-import Apparatus from '../components/Apparatus';
+import BrutalPriceBoard from '../components/BrutalPriceBoard';
 import MeterStrip from '../components/MeterStrip';
 import IconGlyph from '../components/IconGlyph';
 import CaseStudyCard from '../components/CaseStudyCard';
@@ -25,13 +25,11 @@ const TRUST_ROW_WEB = `Web from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB`;
 const TRUST_ROW_MOBILE = `Mobile from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB`;
 const TRUST_ROW_SAAS = `SaaS from ${SAAS_ENTRY_PRICE}`;
 
-/* A19 (TECH-43): software-first apparatus callouts — locked facts only. */
-const HOME_APPARATUS_CALLOUTS = [
-  'WEB · FROM 20,000 ETB',
-  'MOBILE · FROM 40,000 ETB',
-  'SAAS · FROM 3,500 ETB / MO',
-  'MILESTONES · 40/30/30',
-  'SLA · 1 BUSINESS DAY',
+const HOME_PRICE_ROWS = [
+  { label: 'Business website', price: `from ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB` },
+  { label: 'Mobile product', price: `from ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB` },
+  { label: 'SaaS product build', price: 'from 180,000 ETB' },
+  { label: 'Custom software', price: `from ${QUOTE_ANCHORS.custom[0].toLocaleString()} ETB` },
 ];
 
 /* Key-path maps for the i18n content (TECH-48): every string resolves via
@@ -157,21 +155,21 @@ export default function Home() {
               <div className="eyebrow">{t('home.hero.eyebrow', '01 · SOFTWARE')}</div>
 
               <HeroChoreoHeadline id="home-hero-title">
-                {t('home.hero.titleBefore', 'software ')}
-                <em className="verb">{t('home.hero.titleVerb', 'built')}</em>
-                {t('home.hero.titleAfter', ' around your business.')}
+                {t('home.hero.titleBefore', 'software engineered for ')}
+                <em className="verb">{t('home.hero.titleVerb', 'real')}</em>
+                {t('home.hero.titleAfter', ' work.')}
               </HeroChoreoHeadline>
 
               {/* R-2 subcopy — software first, AI named second. */}
               <p>
                 {t(
                   'home.hero.subcopy',
-                  'NovaTech builds custom software, web platforms, mobile applications, SaaS products, and business systems for organizations in Ethiopia and beyond — with AI automation available where it creates real business value.'
+                  'NovaTech is a software development firm building custom web platforms, mobile applications, SaaS products, integrations, and business systems for organizations in Ethiopia and beyond.'
                 )}
               </p>
 
               {/* R-6 (TECH-46): Start a Project primary → Home intake form;
-                  Discuss Your Software Idea secondary; Explore AI tertiary. */}
+                  Discuss Your Software Idea secondary; view the full service scope. */}
               <div className="hero-actions" aria-label="Start a project">
                 <Link className="btn btn-primary btn-lg" to="/#project-intake">
                   {t('home.hero.ctaPrimary', 'Start a Project')}
@@ -179,8 +177,8 @@ export default function Home() {
                 <Link className="btn btn-secondary btn-lg" to="/book-discovery-call">
                   {t('home.hero.ctaSecondary', 'Discuss Your Software Idea')}
                 </Link>
-                <Link className="btn btn-dark btn-sm" to="#ai-automation">
-                  {t('home.hero.ctaTertiary', 'Explore AI & Automation')}
+                <Link className="btn btn-dark btn-sm" to="#engineering-practice">
+                  {t('home.hero.ctaTertiary', 'View Engineering Services')}
                 </Link>
               </div>
 
@@ -194,27 +192,30 @@ export default function Home() {
           </div>
 
           <div className="marquee-hero-side">
-            <Apparatus
-              type="topology"
-              callouts={HOME_APPARATUS_CALLOUTS}
-              label="Software apparatus: web from 20,000 ETB, mobile from 40,000 ETB, SaaS from 3,500 ETB per month, milestones 40/30/30, response within 1 business day"
+            <BrutalPriceBoard
+              title="Build costs, in the open"
+              rows={HOME_PRICE_ROWS}
+              note="Blueprint 25,000 ETB, credited to the build. Quotes stay on the same published table."
             />
           </div>
         </div>
       </section>
 
-      <MeterStrip labelLeft="WEB · FROM 20,000 ETB" labelRight="MOBILE · FROM 40,000 ETB" />
+      <MeterStrip
+        labelLeft={`WEB · FROM ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB`}
+        labelRight={`MOBILE · FROM ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB`}
+      />
 
       {/* M-5 (TECH-33): exactly ONE marquee — locked P-1 figures only (G-5),
           software-first ordering (R-5). */}
       <MarqueeStrip
         items={[
-          'WEB FROM 20,000 ETB',
-          'MOBILE FROM 40,000 ETB',
-          'SAAS FROM 3,500 ETB / MO',
-          'AUDIT 15,000 ETB',
+          `WEB FROM ${QUOTE_ANCHORS.web[0].toLocaleString()} ETB`,
+          `MOBILE FROM ${QUOTE_ANCHORS.mobile[0].toLocaleString()} ETB`,
+          'SAAS PRODUCT BUILDS FROM 180,000 ETB',
+          `BLUEPRINT ${PRICING_SUMMARY.workflowAudit.price}`,
           '3 MONTHS FREE MAINTENANCE',
-          'SAVE 2 MONTHS ANNUAL',
+          'ANNUAL PLANS · 10 MONTHS',
         ]}
       />
 
@@ -345,7 +346,7 @@ export default function Home() {
             <ScrollReveal>
               <div className="editorial-panel glass-card">
                 <p className="editorial-kicker">{t('home.webMobile.webKicker', 'Web')}</p>
-                <h3>{t('home.webMobile.webPrice', 'Web from 20,000 ETB')}</h3>
+                <h3>{t('home.webMobile.webPrice', TRUST_ROW_WEB)}</h3>
                 <ul className="editorial-checklist">
                   {WEB_MOBILE_WEB_ROW_KEYS.map((keyPath) => (
                     <li key={keyPath}>
@@ -363,7 +364,7 @@ export default function Home() {
             <ScrollReveal delay={0.1}>
               <div className="editorial-panel glass-card">
                 <p className="editorial-kicker">{t('home.webMobile.mobileKicker', 'Mobile')}</p>
-                <h3>{t('home.webMobile.mobilePrice', 'Mobile from 40,000 ETB')}</h3>
+                <h3>{t('home.webMobile.mobilePrice', TRUST_ROW_MOBILE)}</h3>
                 <ul className="editorial-checklist">
                   {WEB_MOBILE_MOBILE_ROW_KEYS.map((keyPath) => (
                     <li key={keyPath}>
@@ -445,14 +446,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 08 — AI & AUTOMATION (R-12) — after the software story is established */}
-      <section className="section" id="ai-automation">
+      {/* 08 — ENGINEERING PRACTICE */}
+      <section className="section" id="engineering-practice">
         <div className="container">
           <ScrollReveal>
             <SectionHeader
-              eyebrow={t('home.ai.eyebrow', '08 · AI & AUTOMATION')}
-              title={t('home.ai.title', 'Add intelligence to your software.')}
-              subtitle={t('home.ai.subtitle', 'Make your software smarter. Add intelligent automation where it actually saves time.')}
+              eyebrow={t('home.ai.eyebrow', '08 · ENGINEERING')}
+              title={t('home.ai.title', 'Built for the day after launch.')}
+              subtitle={t('home.ai.subtitle', 'Architecture, testing, security, deployment, and maintainability are part of the build.')}
               align="left"
             />
           </ScrollReveal>
@@ -471,15 +472,15 @@ export default function Home() {
 
           <ScrollReveal delay={0.1}>
             <div className="editorial-note-panel">
-              <strong>{t('home.ai.noteStrong', 'Turn existing business workflows into intelligent systems.')}</strong>{' '}
-              {t('home.ai.note', 'Integrate AI into the software your business already depends on.')}
+              <strong>{t('home.ai.noteStrong', 'Production software, not a disposable prototype.')}</strong>{' '}
+              {t('home.ai.note', 'You receive the source code, deployment guidance, and an engineering handover.')}
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.12}>
             <div className="cta-actions">
               <Link className="btn btn-primary btn-lg" to="/services">
-                {t('home.ai.cta', 'Explore AI & Automation')}
+                {t('home.ai.cta', 'Explore Software Services')}
               </Link>
             </div>
           </ScrollReveal>
@@ -534,9 +535,9 @@ export default function Home() {
                 titleKey="home.caseStudies.stealthOverlay.title"
                 titleFallback="Stealth Overlay"
                 descriptionKey="home.caseStudies.stealthOverlay.description"
-                descriptionFallback="AI interview assistant for coding interviews — real-time DSA guidance and problem-solving support during technical interview practice."
+                descriptionFallback="Interactive interview practice platform with real-time coding guidance and topic-based learning tools."
                 categoryKey="home.caseStudies.stealthOverlay.category"
-                categoryFallback="AI-powered web application"
+                categoryFallback="Interactive web application"
                 altKey="home.caseStudies.stealthOverlay.alt"
                 altFallback="Stealth Overlay — live product homepage screenshot"
                 imageUrl="/case-studies/stealth-overlay.webp"
@@ -624,28 +625,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 13 — WORKFLOW AUDIT / DIGITAL TRANSFORMATION (R-8) — demoted, unchanged terms */}
-      <section className="section" id="workflow-audit">
+      {/* 13 — SOFTWARE BLUEPRINT */}
+      <section className="section" id="software-blueprint">
         <div className="container editorial-two-column">
           <ScrollReveal>
             <article className="editorial-panel glass-card audit-card">
-              <div className="eyebrow">{t('home.audit.eyebrow', '13 · AUDIT')}</div>
-              <h2>{t('home.audit.title', 'Workflow Audit')}</h2>
+              <div className="eyebrow">{t('home.audit.eyebrow', '13 · BLUEPRINT')}</div>
+              <h2>{t('home.audit.title', 'Software Blueprint')}</h2>
               <p className="editorial-price-tag editorial-hero-price">
-                {/* M-4 (A11): the audit figure counts 0 → 15,000 ETB once (locked). */}
+                {/* The blueprint figure counts once from the published pricing table. */}
                 <PriceCounter value={PRICING_SUMMARY.workflowAudit.price} />
               </p>
-              <div className="audit-terms-row" aria-label="Workflow audit terms">
+              <div className="audit-terms-row" aria-label="Software blueprint terms">
                 <span className="trust-pill">{t('home.audit.termsDay', '5 business days')}</span>
                 <span className="trust-pill">{t('home.audit.termsCredit', '100% credited toward the build')}</span>
               </div>
               <p>{t('home.audit.description', PRICING_SUMMARY.workflowAudit.description)}</p>
               <div className="editorial-note-panel">
-                <strong>Guarantee:</strong> {t('home.audit.guarantee', "If the audit doesn't produce a usable blueprint, you don't pay.")}
+                <strong>Guarantee:</strong> {t('home.audit.guarantee', "If the blueprint doesn't make the build clearer, you don't pay.")}
               </div>
               <div className="cta-actions">
-                <Link className="btn btn-secondary btn-lg" to="/workflow-audit">
-                  {t('home.audit.ctaBook', 'Book Workflow Audit')}
+                <Link className="btn btn-secondary btn-lg" to="/services">
+                  {t('home.audit.ctaBook', 'Explore Software Services')}
                 </Link>
                 <Link className="btn btn-dark btn-lg" to="/pricing">
                   {t('home.audit.ctaViewPricing', 'View Live Pricing')}
@@ -657,9 +658,9 @@ export default function Home() {
           <ScrollReveal delay={0.1}>
             <div className="editorial-panel glass-card">
               <p className="editorial-kicker">{t('home.audit.sideKicker', 'Smart first step')}</p>
-              <h3>{t('home.audit.sideTitle', 'Unsure which build you need?')}</h3>
+              <h3>{t('home.audit.sideTitle', 'Need the technical path defined?')}</h3>
               <p>
-                {t('home.audit.sideText', 'The audit maps the current process and defines the right build path — the fee is 100% credited toward the build that follows.')}
+                {t('home.audit.sideText', 'The blueprint turns requirements into an application architecture, implementation plan, and fixed software quote.')}
               </p>
               <ul className="editorial-checklist">
                 {PRICING_SUMMARY.workflowAudit.outputs.slice(0, 4).map((item) => (

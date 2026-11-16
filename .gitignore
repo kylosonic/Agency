@@ -32,3 +32,10 @@ dist-ssr
 test-results/
 playwright-report/
 
+# Local release and research capture artifacts
+.artifacts/
+.firecrawl/
+deploy/
+*.stdout.log
+*.stderr.log
+

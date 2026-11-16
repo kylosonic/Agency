@@ -67,7 +67,7 @@ function formatSlotForTimezone(slotIso, timezone, locale) {
 
 const CALL_EXPECTATIONS = [
   'We review the workflow, tools, stakeholders, and commercial constraints behind the request.',
-  'We tell you whether the next move is the Workflow Audit, a direct scoped build, or a live SaaS subscription.',
+  'We tell you whether the next move is a direct scoped build, a software blueprint, or a live SaaS subscription.',
   'If the fit is right, we follow with the next commercial step instead of leaving it vague.',
 ];
 
@@ -216,7 +216,7 @@ export default function DiscoveryCallPage() {
             <em className="verb">book</em>&nbsp;a discovery call.
           </h1>
           <p>
-            Use this for a direct conversation before choosing the Workflow Audit or a scoped build.
+            Use this for a direct conversation before choosing a custom software scope or product build.
             We keep the call practical and specific.
           </p>
           <div className="page-hero-meta" aria-label="Booking support details">

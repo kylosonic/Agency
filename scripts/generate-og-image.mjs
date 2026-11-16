@@ -124,13 +124,13 @@ const html = `
       </div>
       <section class="headline">
         <h1 class="title">Software built around your business.</h1>
-        <p class="subtitle">Custom software, web, mobile, and SaaS — with AI automation where it creates real business value.</p>
+        <p class="subtitle">Custom software, web, mobile, SaaS, integration, and modernization for production systems.</p>
       </section>
       <div class="pill-row">
         <span class="pill">Custom Software</span>
         <span class="pill">Web + Mobile</span>
         <span class="pill">SaaS Delivery</span>
-        <span class="pill">AI Automation</span>
+        <span class="pill">Systems Integration</span>
       </div>
     </div>
   </body>

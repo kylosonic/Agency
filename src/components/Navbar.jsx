@@ -16,11 +16,11 @@ const PRIMARY_LINKS = [
 
 // TECH-19 (B34): the single Services dropdown — exactly five destinations.
 const SERVICE_LINKS = [
-  { to: '/web-development', labelKey: 'nav.dropdownWeb', fallback: 'Web' },
-  { to: '/mobile-development', labelKey: 'nav.dropdownMobile', fallback: 'Mobile' },
-  { to: '/saas-solutions', labelKey: 'nav.dropdownSaas', fallback: 'SaaS' },
-  { to: '/services', labelKey: 'nav.aiAutomation', fallback: 'AI Automation' },
-  { to: '/workflow-audit', labelKey: 'nav.workflowAudit', fallback: 'Workflow Audit' },
+  { to: '/services', labelKey: 'nav.allServices', fallback: 'All Software Services' },
+  { to: '/web-development', labelKey: 'nav.dropdownWeb', fallback: 'Web Development' },
+  { to: '/mobile-development', labelKey: 'nav.dropdownMobile', fallback: 'Mobile App Development' },
+  { to: '/saas-solutions', labelKey: 'nav.dropdownSaas', fallback: 'SaaS Development' },
+  { to: '/additional-services', labelKey: 'nav.engineeringSupport', fallback: 'Engineering Support' },
 ];
 
 export default function Navbar() {
@@ -117,7 +117,7 @@ export default function Navbar() {
   }));
 
   const servicesLabel = t('nav.services', 'Services');
-  const servicesMenuLabel = t('nav.exploreMenu', 'Explore services and proof');
+  const servicesMenuLabel = t('nav.exploreMenu', 'Explore software development services');
 
   const canUseHoverMenu = () => (
     typeof window !== 'undefined'

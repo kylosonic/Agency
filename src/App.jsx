@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -48,7 +48,6 @@ function lazyWithRetry(importer, retries = 2, delayMs = 250) {
 const Home = lazyWithRetry(() => import('./pages/Home'));
 const Services = lazyWithRetry(() => import('./pages/Services'));
 const Pricing = lazyWithRetry(() => import('./pages/Pricing'));
-const WorkflowAudit = lazyWithRetry(() => import('./pages/WorkflowAudit'));
 const WebDevelopmentPage = lazyWithRetry(() => import('./pages/WebDevelopmentPage'));
 const MobileDevelopmentPage = lazyWithRetry(() => import('./pages/MobileDevelopmentPage'));
 const SaasSolutionsPage = lazyWithRetry(() => import('./pages/SaasSolutionsPage'));
@@ -409,7 +408,7 @@ function AppContent() {
                   <Route path="/" element={<Home />} />
                   <Route path="/services" element={<Services />} />
                   <Route path="/pricing" element={<Pricing onDownloadClick={openLeadCapture} />} />
-                  <Route path="/workflow-audit" element={<WorkflowAudit />} />
+                  <Route path="/workflow-audit" element={<Navigate to="/services" replace />} />
                   <Route path="/web-development" element={<WebDevelopmentPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/mobile-development" element={<MobileDevelopmentPage onDownloadClick={openLeadCapture} />} />
                   <Route path="/saas-solutions" element={<SaasSolutionsPage onDownloadClick={openLeadCapture} />} />

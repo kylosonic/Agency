@@ -2,6 +2,60 @@
 
 > Maintained by @scribe / @architect. Updated after every major gate.
 
+## Current batch — Neo-brutalist software-only relaunch (2026-11-16)
+
+**Current phase:** `DEPLOYED` on the Vercel project alias; exact-domain cutover is
+blocked because the owner confirmed they do not control the existing
+`novatech.com` registration.
+
+- Active branch: `software-development-firm`
+- Active tickets: pricing research, neo-brutalist design system, software-only
+  positioning, Yegara release.
+- Completed gates:
+  - Implementation: software-only public offer; `/workflow-audit` redirects to
+    `/services`; neo-brutalist system wired and customer pages updated.
+  - QA: `npm run test:e2e` — 18/18 passed across 9 routes and 320/375/414/
+    768/1440 px checks.
+  - Local checks: `npm run build` passed; `npx eslint src/ tests/ scripts/`
+    passed; `git diff --check` passed for changed content.
+  - Security: `npm audit --json` reports 0 vulnerabilities after upgrading
+    React Router to 7.18.5 and applying non-breaking audit fixes.
+  - Static hosting integration: 9/9 tested routes return HTTP 200 on the Yegara
+    origin with `Host: novatech.com`; SPA fallback, CSS assets, PDF, headers,
+    route refresh, and mobile overflow verified.
+  - Vercel release: preview deployment
+    `dpl_8rYwak7gyTpqANUd1Y6UpPw8cJqH` passed owner UAT and was promoted to
+    production. `https://novatech23.vercel.app/` renders the software-only
+    neo-brutalist site; 11 HTML routes and the pricing PDF return HTTP 200, and
+    `/workflow-audit` redirects in-browser to `/services`.
+- Failed/blocked gate:
+  - Public domain verification remains blocked because the public
+    `novatech.com` A/AAAA response redirects to `novatech.co.uk` and
+    `novatech.com` still uses `hank.ns.cloudflare.com` and
+    `nellie.ns.cloudflare.com`. Yegara “My Domains” contains no registered
+    domain, and DirectAdmin only controls the origin zone via
+    `ns5.private-nameserver.net` / `ns6.private-nameserver.net`. The owner
+    confirmed they do not own or control the registration, so TLD nameserver
+    delegation cannot be changed from the available accounts.
+  - A staged `novatech.com` zone now exists in the new Cloudflare account. Its
+    required nameservers are `finley.ns.cloudflare.com` and
+    `rosalie.ns.cloudflare.com`. The staged zone contains proxied apex and `www`
+    A records pointing to `162.244.93.3`, plus the imported mail records. It
+    remains pending and has no effect on public traffic until the registrar
+    changes delegation.
+- Retry count: implementation 0; QA 1 (test assertion corrected); security 0.
+- Artifacts:
+  - `docs/research/ethiopia-software-pricing-2026.md`
+  - `src/brutalist.css`
+  - `tokens.css`
+  - `public/NovaTech_2026_Software_Development_Pricing.pdf`
+  - `tests/novatech-brutalist.spec.js`
+- Remote rollback: `/domains/novatech.com/public_html-backup-20261116.zip`
+  (17.39 KB) in DirectAdmin.
+- Local release archive: `deploy/novatech-dist-20261116-1045.zip`.
+- Graphify: unavailable in the environment; limitation recorded per AGENTS.md.
+- UAT: ✅ owner approved production promotion on 2026-11-16.
+
 ## Current phase
 
 **RELEASED & DEPLOYED — Phase 11** Software-First Brand Redesign & Build-Intake Conversion

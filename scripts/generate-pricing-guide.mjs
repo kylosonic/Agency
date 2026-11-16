@@ -7,6 +7,8 @@ import {
   getMobilePackages,
   getAdditionalServices,
   getSaasPackages,
+  MARKET_SOURCES,
+  PRICING_RESEARCH_DATE,
 } from '../src/services/pricingData.js';
 
 function escapeHtml(value) {
@@ -34,17 +36,17 @@ function renderPackageCards(packages) {
   `).join('');
 }
 
-function renderAutomationCards(tiers) {
+function renderProductEngineeringCards(tiers) {
   return tiers.map((tier) => `
     <article class="card">
       <p class="eyebrow">${escapeHtml(tier.setupPrice)}</p>
       <h3>${escapeHtml(tier.title)}</h3>
       <p class="meta">${escapeHtml(`${tier.bestFor} / ${tier.timeline}`)}</p>
       <p>${escapeHtml(tier.scope)}</p>
-      <p><strong>Monthly support:</strong> ${escapeHtml(tier.monthlySupport)}</p>
+      <p><strong>Annual support:</strong> ${escapeHtml(tier.monthlySupport)}</p>
       <h4>Setup includes</h4>
       ${renderList(tier.includes)}
-      <h4>Monthly support includes</h4>
+      <h4>Annual support includes</h4>
       ${renderList(tier.supportIncludes)}
     </article>
   `).join('');
@@ -92,7 +94,7 @@ async function main() {
   const mobilePackages = await getMobilePackages();
   const additionalServices = await getAdditionalServices();
   const saasPackages = await getSaasPackages();
-  const outputPath = resolve('public', 'NovaTechAI_2026_Service_Menu_and_Pricing_Guide.pdf');
+  const outputPath = resolve('public', 'NovaTech_2026_Software_Development_Pricing.pdf');
   const generatedAt = new Date().toISOString().slice(0, 10);
 
   const html = `
@@ -268,9 +270,9 @@ async function main() {
           </section>
 
           <section class="section">
-            <p class="eyebrow">AI automation</p>
+            <p class="eyebrow">Extended software builds</p>
             <div class="grid">
-              ${renderAutomationCards(summary.automationTiers)}
+              ${renderProductEngineeringCards(summary.productEngineeringTiers)}
             </div>
           </section>
 
@@ -295,7 +297,18 @@ async function main() {
             <div class="grid three">
               ${renderSaasCards(saasPackages)}
             </div>
-            <p class="small-note">Each SaaS plan is a one-time setup plus a monthly subscription. Annual billing covers 10 months for the price of 12 — "Save 2 months".</p>
+            <p class="small-note">Each SaaS plan is a one-time setup plus a monthly subscription. Annual billing covers 10 months for the price of 12.</p>
+          </section>
+
+          <section class="section">
+            <div class="card">
+              <p class="eyebrow">Research date: ${escapeHtml(PRICING_RESEARCH_DATE)}</p>
+              <h2>Public market sources</h2>
+              <p>These references informed the published ETB anchors. They are not commitments about another provider's final scope or tax treatment.</p>
+              <ul>
+                ${MARKET_SOURCES.map((source) => `<li><strong>${escapeHtml(source.name)}</strong> — ${escapeHtml(source.evidence)}<br />${escapeHtml(source.url)}</li>`).join('')}
+              </ul>
+            </div>
           </section>
 
           <section class="section">
@@ -309,7 +322,7 @@ async function main() {
                 <li>Telebirr, Chapa, and card payments are after-licensing capabilities, not current promises.</li>
               </ul>
             </div>
-            <p class="footer-note">NovaTech AI · Addis Ababa, Ethiopia · This sheet reflects the live ETB table currently published on the site.</p>
+            <p class="footer-note">NovaTech Software Development · Addis Ababa, Ethiopia · This sheet reflects the live ETB table currently published on the site.</p>
           </section>
         </div>
       </body>
@@ -327,7 +340,7 @@ async function main() {
   });
   await browser.close();
 
-  await writeFile(resolve('public', 'NovaTechAI_2026_Service_Menu_and_Pricing_Guide.readme.txt'), `Generated from scripts/generate-pricing-guide.mjs on ${generatedAt}.\n`);
+  await writeFile(resolve('public', 'NovaTech_2026_Software_Development_Pricing.readme.txt'), `Generated from scripts/generate-pricing-guide.mjs on ${generatedAt}.\n`);
   console.log(`Generated pricing guide at ${outputPath}`);
 }
 

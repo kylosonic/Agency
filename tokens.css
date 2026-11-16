@@ -1,0 +1,75 @@
+:root {
+  --color-paper: oklch(96.8% 0.012 92);
+  --color-paper-2: oklch(91.5% 0.018 92);
+  --color-paper-3: oklch(85.5% 0.024 92);
+  --color-ink: oklch(18% 0.025 264);
+  --color-ink-2: oklch(33% 0.026 264);
+  --color-ink-3: oklch(49% 0.022 264);
+  --color-rule: var(--color-ink);
+  --color-rule-2: var(--color-ink);
+  --color-accent: oklch(87% 0.19 95);
+  --color-accent-hover: oklch(91% 0.2 95);
+  --color-accent-ink: var(--color-ink);
+  --color-accent-2: oklch(61% 0.18 252);
+  --color-error: oklch(55% 0.21 27);
+  --color-success: oklch(45% 0.13 151);
+  --color-focus: oklch(63% 0.2 252);
+  --color-glow: oklch(87% 0.19 95 / 0.28);
+  --color-paper-emit: oklch(87% 0.19 95 / 0.14);
+  --rule-blueprint: oklch(18% 0.025 264 / 0.08);
+
+  --font-display: "Bricolage Grotesque", "Noto Sans Ethiopic", sans-serif;
+  --font-body: "IBM Plex Sans", "Noto Sans Ethiopic", sans-serif;
+  --font-mono: "IBM Plex Mono", "Noto Sans Ethiopic", monospace;
+
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5625rem;
+  --text-xl: 1.9531rem;
+  --text-2xl: 2.4414rem;
+  --text-3xl: 3.0518rem;
+  --text-4xl: 3.8147rem;
+  --text-display-s: clamp(2.75rem, 6vw + 1rem, 5rem);
+  --text-display: clamp(3.25rem, 8vw + 1rem, 6rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  --rule-thin: 1px;
+  --rule-medium: 2px;
+  --rule-heavy: 3px;
+  --shadow-hard-sm: 4px 4px 0 var(--color-ink);
+  --shadow-hard: 7px 7px 0 var(--color-ink);
+  --shadow-hard-lg: 11px 11px 0 var(--color-ink);
+  --radius-card: 0;
+  --radius-input: 0;
+  --radius-pill: 0;
+
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+
+  --container-max: 1320px;
+  --container-padding: clamp(1rem, 4vw, 4rem);
+}
